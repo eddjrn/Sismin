@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/t', function(){
   $colores = array("bg-red","bg-orange");
@@ -29,3 +26,7 @@ Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password');
 
 Route::get('/acercade','controlador_acercade@mostrar_acercade');
 Route::get('/perfil','controlador_usuarios@mostrar_perfil');
+
+Route::post('/login','controlador_usuarios@iniciar_sesion');
+Route::get('/logout','controlador_usuarios@cerrar_sesion');
+Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware('sesion');

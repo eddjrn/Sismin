@@ -19,7 +19,8 @@ Inicio de sesión de usuarios
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_in" method="POST">
+            <form id="sign_in" method="POST" route = "{{asset('/login')}}" >
+              {{csrf_field()}}
                 <div class="msg">Inicio de sesión</div>
                 <div class="demo-masked-input">
                 <div class="input-group">
@@ -27,7 +28,7 @@ Inicio de sesión de usuarios
                         <i class="material-icons">person</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control email" name="username" placeholder="Correo electrónico" required autofocus>
+                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required autofocus>
                     </div>
                 </div>
               </div>

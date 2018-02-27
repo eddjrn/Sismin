@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+//use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class controlador_usuarios extends Controller
@@ -43,15 +45,58 @@ class controlador_usuarios extends Controller
       'apellido_paterno' => $request->apellido_paterno,
       'apellido_materno' => $request->apellido_materno,
       'correo_electronico' => $request->correo_electronico,
-      'password' => bcrypt($request->password),
+      'password' => Hash::make($request->password),
       'rubrica' => '01010101'
     ]);
+    $correo = $request->correo_electronico;
+    $pass = $request->password;
+
+
+    if(Auth::attempt([
+      'correo_electronico' => $correo,
+      'password' => $pass])){
+      return redirect()->intended('/');
+      }
+
 
     return redirect('/t');
   }
   public function mostrar_perfil()
   {
     return view('inicio.perfil');
+  }
+
+  public function iniciar_sesion(Request $request){
+    $this->validate($request,[
+      'correo_electronico'=>'required',
+      'password'=>'required'
+    ]);
+
+    $correo = $request->correo_electronico;
+    $pass = $request->password;
+    $guardar = $request->rememberme;
+    //return gettype($guardar);
+    // if($guardar=='on'){
+    //   $guardar=true;
+    //
+    // }
+    // else{
+    //   $guardar=false;
+    // }
+
+    if(Auth::attempt([
+      'correo_electronico' => $correo,
+      'password' => $pass],$guardar)){
+      return redirect()->intended('/');
+      }
+
+      return back();
+    //return $request;
+  }
+
+  public function cerrar_sesion(){
+    Auth::logout();
+    return redirect('/login');
   }
 
 }
