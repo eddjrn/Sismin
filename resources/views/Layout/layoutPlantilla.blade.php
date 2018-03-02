@@ -8,6 +8,10 @@
 
 @stop
 
+@section('header')
+
+@stop
+
 @section('contenido')
 
 @stop

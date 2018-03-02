@@ -5,6 +5,9 @@ Registrar a un nuevo usuario
 @stop
 
 @section('estilos')
+<script src="{{asset('/js/atrament.min.js')}}"></script>
+
+
 @stop
 
 @section('contenido')
@@ -12,7 +15,15 @@ Registrar a un nuevo usuario
     <div class="logo">
         <div class="row">
           <div class="col-xs-6 col-xs-offset-3">
-            <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
+            <imform {
+				z-index: 3;
+				position: fixed;
+				top: 300;
+				left: 100;
+				background: rgba(0, 0, 0, 0.7);
+				padding: 1em;
+				color:white;
+			}g src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
           </div>
         </div>
         <a href="javascript:void(0);"><b>SisMin</b></a>
@@ -94,18 +105,32 @@ Registrar a un nuevo usuario
 
 
 <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h4 class="modal-title" id="defaultModalLabel">Ingresar rúbrica</h4>
+                  <h4 class="modal-title" id="largeModalLabel">Ingresar rúbrica</h4>
               </div>
               <div class="modal-body">
-                  Lor
+                <div class="row">
+                  <canvas id="sketcher" ></canvas>
               </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-link waves-effect">Guardar</button>
-                  <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Cancelar</button>
+
+                <div class="row">
+                  <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05" autocomplete="off">
+                </div>
+              <div class="modal-footer row" >
+                <div class="col-md-4">
+                  <button type="button" id="clear" onclick="event.preventDefault(); atrament.clear();" class="btn btn-block btn-lg bg-pink waves-effect">Borrar</button>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-block btn-lg bg-pink waves-effect">Guardar</button>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                  </div>
               </div>
+
           </div>
       </div>
   </div>
@@ -130,5 +155,14 @@ $(function () {
   //Email
   $demoMaskedInput.find('.email').inputmask({ alias: "email" });
 });
+</script>
+<script>
+  var canvas = document.getElementById('sketcher');
+  var atrament = atrament(canvas, window.innerWidth, window.innerHeight);
+
+  var clearButton = document.getElementById('clear');
+  canvas.addEventListener('dirty', function(e) {
+    clearButton.style.display = atrament.dirty ? 'inline-block' : 'none';
+  });
 </script>
 @stop
