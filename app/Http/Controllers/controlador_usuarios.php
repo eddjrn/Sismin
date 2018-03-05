@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class controlador_usuarios extends Controller
 {
     //
-  public function mostrar_login()
-  {
+  public function mostrar_login(){
     return view('inicio.login');
   }
 
@@ -20,25 +19,31 @@ class controlador_usuarios extends Controller
 
   }
 
-  public function mostrar_registro()
-  {
+  public function mostrar_registro(){
     return view('inicio.registro');
   }
 
-  public function mostrar_recuperar_password()
-  {
+  public function mostrar_recuperar_password(){
     return view('inicio.recuperar_pass');
   }
 
   public function crear(Request $request){
-
-    $this->validate($request,[
+    $validacion = Validator::make($request->all(), [
       'nombre'=>'required|min:3',
       'apellido_paterno'=>'required|min:3',
       'apellido_materno'=>'required|min:3',
-      'correo_electronico'=>'required|min:3|e-mail|unique:usuarios,correo_electronico',
-      'password'=>'required|same:confirm|min:6|max:15'
+      'correo_electronico'=>'required|min:3|email|unique:usuarios,correo_electronico',
+      'password'=>'required|same:confirm|min:6|max:15',
+      'confirm'=>'required',
     ]);
+
+    if($validacion->fails()){
+      return response()->json(['errors' => $validacion->errors()]);
+    }
+
+    // $archivo = $request->formdata->file('firma');
+    // $imagen = Image::make($archivo->getRealPath());
+    //$image2->encode('jpg', 80);
 
     $usuario = \App\usuario::create([
       'nombre'=>$request->nombre,
@@ -46,23 +51,23 @@ class controlador_usuarios extends Controller
       'apellido_materno' => $request->apellido_materno,
       'correo_electronico' => $request->correo_electronico,
       'password' => Hash::make($request->password),
-      'rubrica' => '01010101'
+      'rubrica' => "00",
     ]);
     $correo = $request->correo_electronico;
     $pass = $request->password;
 
-
-    if(Auth::attempt([
-      'correo_electronico' => $correo,
-      'password' => $pass])){
-      return redirect()->intended('/');
-      }
-
-
-    return redirect('/t');
+    if(Auth::attempt(['correo_electronico' => $correo,'password' => $pass])){
+      $msg = 'Iniciando sesión como '.$request->nombre;
+      return response()->json(['message' => $msg]);
+      // if($request->ajax()){
+      //   return response()->json(['message' => 'hola']);
+      // }
+    } else{
+      return response()->json(['errors' => 'No se pudo inicar sesión']);
+    }
   }
-  public function mostrar_perfil()
-  {
+
+  public function mostrar_perfil(){
     return view('inicio.perfil');
   }
 

@@ -30,6 +30,14 @@
 </head>
 
 <body class="login-page">
+  <!-- Page Loader -->
+  <div class="page-loader-wrapper">
+      <div class="loader">
+          <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
+          <p>Cargando...</p>
+      </div>
+  </div>
+  <!-- #END# Page Loader -->
 
   @yield('contenido')
 

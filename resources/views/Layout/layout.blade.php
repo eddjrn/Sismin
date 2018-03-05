@@ -38,7 +38,7 @@
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
-            <div class="preloader">
+            <!-- <div class="preloader">
                 <div class="spinner-layer pl-red">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
@@ -47,7 +47,8 @@
                         <div class="circle"></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
             <p>Cargando...</p>
         </div>
     </div>
