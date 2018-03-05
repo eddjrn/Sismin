@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class controlador_usuarios extends Controller
 {
@@ -28,6 +29,9 @@ class controlador_usuarios extends Controller
   }
 
   public function crear(Request $request){
+   $archivo = $request->file('firma');
+   $imagen = Image::make($archivo->getRealPath());
+  return response()->json(['errors' => $imagen->encode('jpeg')]);
     $validacion = Validator::make($request->all(), [
       'nombre'=>'required|min:3',
       'apellido_paterno'=>'required|min:3',
@@ -40,18 +44,19 @@ class controlador_usuarios extends Controller
     if($validacion->fails()){
       return response()->json(['errors' => $validacion->errors()]);
     }
+    //
+    // $archivo = $request->file('firma');
+    // $imagen = Image::make($archivo);
+    // $imagen->encode('data-url');
 
-    // $archivo = $request->formdata->file('firma');
-    // $imagen = Image::make($archivo->getRealPath());
-    //$image2->encode('jpg', 80);
-
+   return response()->json(['mensaje' => $request->nombre]);
     $usuario = \App\usuario::create([
       'nombre'=>$request->nombre,
       'apellido_paterno' => $request->apellido_paterno,
       'apellido_materno' => $request->apellido_materno,
       'correo_electronico' => $request->correo_electronico,
       'password' => Hash::make($request->password),
-      'rubrica' => $imagen,
+      'rubrica' => "0101011",
     ]);
     $correo = $request->correo_electronico;
     $pass = $request->password;

@@ -79,7 +79,7 @@ Registrar a un nuevo usuario
           </div>
 
           <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#defaultModal">Rúbrica</button>
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" onclick="guardar();">Registrarme</button>
+          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" onclick="guardar2();">Registrarme</button>
 
           <div class="m-t-25 m-b--5 align-center">
             <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
@@ -165,7 +165,9 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-
+ if(result.errors){
+         mensajeAjax('Error', result.errors,'error');
+       }
 function guardar() {
   var url = "/registro";
   var urlToRedirectPage = "/";
@@ -224,6 +226,55 @@ function guardar() {
       mensajeAjax('Error', error, 'error');
     }
   });
+}
+
+
+function guardar2(){
+  var nombre = document.getElementById('nombre').value;
+  var apellido_paterno = document.getElementById('apellido_paterno').value;
+  var apellido_materno = document.getElementById('apellido_materno').value;
+  var correo_electronico = document.getElementById('correo_electronico').value;
+  var password = document.getElementById('password').value;
+  var confirm = document.getElementById('confirm').value;
+
+  document.getElementById('sketcher').toBlob(function(blob){
+    var formdata = new FormData();
+
+    formdata.append('imagen',blob);
+    formdata.append('nombre', nombre);
+    formdata.append('apellido_paterno', apellido_paterno);
+   formdata.append('apellido_materno', apellido_materno);
+   formdata.append('correo_electronico', correo_electronico);
+   formdata.append('password', password);
+   formdata.append('confirm', confirm);
+
+   $.ajax({
+     type:'POST',
+     url:'/registro',
+     data:formdata,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errors){
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errors,function(indice,valor){
+           //console.log(indice + ' - ' + valor);
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+       mensajeAjax('Registro correcto', result.mensaje,'success');
+     }
+
+     },
+     error: function (jqXHR, status, error) {
+       mensajeAjax('Error', error, 'error');
+     }
+   })
+  }, "image/jpeg", 0.95);
+
 }
 </script>
 
