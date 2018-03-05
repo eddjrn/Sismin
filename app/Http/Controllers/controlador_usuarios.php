@@ -51,7 +51,7 @@ class controlador_usuarios extends Controller
       'apellido_materno' => $request->apellido_materno,
       'correo_electronico' => $request->correo_electronico,
       'password' => Hash::make($request->password),
-      'rubrica' => "00",
+      'rubrica' => $imagen,
     ]);
     $correo = $request->correo_electronico;
     $pass = $request->password;
