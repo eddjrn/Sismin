@@ -23,6 +23,7 @@ Route::get('/login','controlador_usuarios@mostrar_login');
 Route::get('/registro','controlador_usuarios@mostrar_registro');
 Route::post('/registro','controlador_usuarios@crear');
 Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password');
+Route::post('/recuperar_pass','controlador_usuarios@cambiar_password');
 
 Route::get('/acercade','controlador_acercade@mostrar_acercade');
 Route::get('/perfil','controlador_usuarios@mostrar_perfil');

@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Image;
+use Reminder;
+use Mail;
+use Sentinel;
 
 class controlador_usuarios extends Controller
 {
@@ -22,10 +25,6 @@ class controlador_usuarios extends Controller
 
   public function mostrar_registro(){
     return view('inicio.registro');
-  }
-
-  public function mostrar_recuperar_password(){
-    return view('inicio.recuperar_pass');
   }
 
   public function crear(Request $request){
@@ -101,6 +100,48 @@ class controlador_usuarios extends Controller
   public function cerrar_sesion(){
     Auth::logout();
     return redirect('/login');
+  }
+
+  public function mostrar_recuperar_password(){
+    return view('inicio.recuperar_pass');
+  }
+
+  public function cambiar_password(Request $request)
+  {
+    $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
+
+    $sentinela = Sentinel::findById($usuario->id_usuario);
+
+    if($usuario -> count() == 0)
+    {
+      $colores = array("bg-green");
+      $mensajes = array("El link para reeestrablecer contraseña fue enviado a su correo electrónico.");
+      $tiempos = 1000;
+      return view('inicio.recuperar_pass',['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
+    }
+
+
+
+    $reminder = Reminder::exist($sentinela) ?: Reminder::create($sentinela);
+    $this->enviarCorreo($usuario, $remider->code);
+    $colores = array("bg-green");
+    $mensajes = array("El link para reeestrablecer contraseña fue enviado a su correo electrónico.");
+    $tiempos = 1000;
+    return view('inicio.recuperar_pass',
+    ['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
+  }
+
+  private function enviarCorreo($usuario, $codigo)
+  {
+    Mail::send('inicio.cambiar_password',[
+      'usuario' => $usuario,
+      'codigo' => $codigo
+    ], function($mensaje) use ($usuario){
+        $mensaje->to($usuario->correo_electronico);
+        $mensaje->subjetc("Hola $usuario->nombre
+        haz clic en el siguiente enlace para reestablecer tu contraseña.");
+    });
+
   }
 
 }
