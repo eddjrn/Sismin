@@ -52,4 +52,8 @@ class usuario extends Authenticatable
       $this->attributes['apellido_materno'] = $apellido_materno;
     }
 
+    public function getRubricaAttribute($value){
+      return "data:image/jpeg;base64,".base64_encode($value);
+    }
+
 }
