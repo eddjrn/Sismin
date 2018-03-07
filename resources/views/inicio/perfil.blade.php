@@ -38,7 +38,7 @@ Perfil de usuario
           </div>
 
           <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#confirmModal">Eliminar cuenta</button>
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" onclick="">Regresar</button>
+          <a href="{{asset('/')}}" class="btn btn-block btn-lg bg-pink waves-effect">Regresar</a>
 
         </form>
       </div>

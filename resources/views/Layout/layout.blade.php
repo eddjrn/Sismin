@@ -163,7 +163,7 @@
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
-                    <p>Pepe Perez Pereira</p>
+                    <p>{{Auth::user()}}</p>
                     <ul class="demo-choose-skin">
                       <!-- <li data-theme="red" class="active"> -->
                         <a href="{{asset('/perfil')}}">
