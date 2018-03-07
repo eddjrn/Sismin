@@ -13,6 +13,7 @@
 
 
 Route::get('/t', function(){
+  abort(419);
   $colores = array("bg-red","bg-orange");
   $mensajes = array("Error","warning");
   $tiempos = 1000;

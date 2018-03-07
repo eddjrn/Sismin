@@ -73,7 +73,7 @@ Registrar a un nuevo usuario
             <span class="input-group-addon">
                 <i class="material-icons">lock</i>
             </span>
-            <div class="fordemo-masked-inputm-line">
+            <div class="form-line">
                 <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña">
             </div>
           </div>
