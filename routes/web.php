@@ -26,8 +26,8 @@ Route::post('/registro','controlador_usuarios@crear');
 Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password');
 Route::post('/recuperar_pass','controlador_usuarios@cambiar_password');
 
-Route::get('/acercade','controlador_acercade@mostrar_acercade');
-Route::get('/perfil','controlador_usuarios@mostrar_perfil');
+Route::get('/acercade','controlador_acercade@mostrar_acercade')->middleware('sesion');
+Route::get('/perfil','controlador_usuarios@mostrar_perfil')->middleware('sesion');
 
 Route::post('/login','controlador_usuarios@iniciar_sesion');
 Route::get('/logout','controlador_usuarios@cerrar_sesion');
