@@ -1,6 +1,6 @@
 @extends('Layout.layout')
 
-@section('title')
+@section('titulo')
 
 @stop
 
@@ -8,7 +8,7 @@
 
 @stop
 
-@section('header')
+@section('cabecera')
 
 @stop
 

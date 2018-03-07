@@ -1,6 +1,6 @@
 @extends('Layout.layout2')
 
-@section('title')
+@section('titulo')
 Registrar a un nuevo usuario
 @stop
 

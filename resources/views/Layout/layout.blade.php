@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>
-      @yield('title')
+      @yield('titulo')
     </title>
     <!-- Favicon-->
     <link rel="icon" href="{{asset('/images/iconoMin.svg')}}" type="image/x-icon">
@@ -166,18 +166,22 @@
                     <p>Pepe Perez Pereira</p>
                     <ul class="demo-choose-skin">
                       <!-- <li data-theme="red" class="active"> -->
-                        <li data-theme="red">
-                            <i class="material-icons">face</i>
-                            <span><a href="{{asset('/perfil')}}">Perfil</a></span>
-                        </li>
+                        <a href="{{asset('/perfil')}}">
+                          <li data-theme="red">
+                              <i class="material-icons">face</i>
+                              <span>Perfil</span>
+                          </li>
+                        </a>
                         <li data-theme="red">
                             <i class="material-icons">security</i>
                             <span>Cambiar contraseña</span>
                         </li>
-                        <li data-theme="red">
-                            <i class="material-icons">highlight_off</i>
-                            <span>Cerrar sesión</span>
-                        </li>
+                        <a href="{{asset('/logout')}}">
+                          <li data-theme="red">
+                              <i class="material-icons">highlight_off</i>
+                              <span>Cerrar sesión</span>
+                          </li>
+                        </a>
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="settings">
@@ -191,11 +195,13 @@
                           <i class="material-icons">note_add</i>
                           <span>Nueva minuta</span>
                       </li>
-                      <p><img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/></p>
-                      <li data-theme="red">
+                      <a href="{{asset('/acercade')}}">
+                        <li data-theme="red">
                           <i class="material-icons">help</i>
-                          <span><a  href="{{asset('/acercade')}}">Acerca de...</a></span>
-                    </li>
+                          <span>Acerca de...</span>
+                        </li>
+                      </a>
+                      <p><img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/></p>
                   </ul>
 
                 </div>
@@ -207,9 +213,8 @@
   <section class="content">
       <div class="container-fluid">
 
-
         <div class="block-header">
-            <h2>@yield('header')</h2>
+            <h2>@yield('cabecera')</h2>
         </div>
 
         @yield('contenido')

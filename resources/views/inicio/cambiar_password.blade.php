@@ -1,6 +1,6 @@
 @extends('Layout.layout2')
 
-@section('title')
+@section('titulo')
 Cambiar contraseña
 @stop
 
