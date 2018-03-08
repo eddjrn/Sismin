@@ -1,6 +1,6 @@
 @extends('Layout.layout')
 
-@section('title')
+@section('titulo')
 Página principal
 @stop
 

@@ -166,7 +166,9 @@ class controlador_usuarios extends Controller
       $usuario->update([
         'password'=>Hash::make($request->password)
       ]);
-      return response()->json(['mensaje' => "se cambio la contraseña exitosamente"]);
+      $codigo = 'DELETE FROM claves_usuarios  WHERE correo_electronico = ?';
+      \DB::delete($codigo, [$request->correo_electronico]);
+      return response()->json(['mensaje' => "Se cambio la contraseña exitosamente"]);
     }
   }
 

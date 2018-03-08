@@ -31,14 +31,14 @@ Recuperar contraseña
                         <i class="material-icons">email</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Ej: ejemplo@ejemplo.com" required autofocus>
+                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required autofocus>
                     </div>
                 </div>
             </div>
               <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Enviar</button>
 
               <div class="row m-t-20 m-b--5 align-center">
-                  <a href="{{asset('/registro')}}">Registrarse!</a>
+                  <a href="{{asset('/registro')}}">¡Registrarse!</a>
               </div>
           </form>
       </div>

@@ -54,7 +54,7 @@ Inicio de sesión de usuarios
                         <a href="{{asset('/registro')}}">Registrarse</a>
                     </div>
                     <div class="col-xs-6 align-right">
-                        <a href="{{asset('/recuperar_pass')}}">¿olvidó su contraseña?</a>
+                        <a href="{{asset('/recuperar_pass')}}">¿Olvidó su contraseña?</a>
                     </div>
                 </div>
             </form>
