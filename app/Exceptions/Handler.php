@@ -48,17 +48,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        $status = $exception->getStatusCode();
-
-        $paths = collect(config('view.paths'));
-
-        view()->replaceNamespace('errors', $paths->map(function ($path) {
-            return "{$path}/Errores";
-        })->push(__DIR__.'/views')->all());
-
-        if (view()->exists($view = "errors::{$status}")) {
-            return response()->view($view, ['exception' => $exception], $status, $exception->getHeaders());
-        }
+        // $status = $exception->getStatusCode();
+        //
+        // $paths = collect(config('view.paths'));
+        //
+        // view()->replaceNamespace('errors', $paths->map(function ($path) {
+        //     return "{$path}/Errores";
+        // })->push(__DIR__.'/views')->all());
+        //
+        // if (view()->exists($view = "errors::{$status}")) {
+        //     return response()->view($view, ['exception' => $exception], $status, $exception->getHeaders());
+        // }
 
         return parent::render($request, $exception);
     }

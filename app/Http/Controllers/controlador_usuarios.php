@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Image;
-use Reminder;
 use Mail;
-use Sentinel;
+
 
 class controlador_usuarios extends Controller
 {
@@ -108,40 +107,67 @@ class controlador_usuarios extends Controller
 
   public function cambiar_password(Request $request)
   {
+
     $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
 
-    $sentinela = Sentinel::findById($usuario->id_usuario);
-
-    if($usuario -> count() == 0)
+    if($usuario == null)
     {
       $colores = array("bg-green");
-      $mensajes = array("El link para reeestrablecer contraseña fue enviado a su correo electrónico.");
+      $mensajes = array("El link para reestrablecer su contraseña fue enviado a su correo electrónico.");
       $tiempos = 1000;
       return view('inicio.recuperar_pass',['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
     }
 
+    $this->enviarCorreo($usuario);
 
-
-    $reminder = Reminder::exist($sentinela) ?: Reminder::create($sentinela);
-    $this->enviarCorreo($usuario, $remider->code);
     $colores = array("bg-green");
-    $mensajes = array("El link para reeestrablecer contraseña fue enviado a su correo electrónico.");
+    $mensajes = array("El link para reeestrablecer su contraseña fue enviado a su correo electrónico.");
     $tiempos = 1000;
     return view('inicio.recuperar_pass',
     ['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
   }
 
-  private function enviarCorreo($usuario, $codigo)
+  private function enviarCorreo($usuario)
   {
-    Mail::send('inicio.cambiar_password',[
+    $codigo = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
+    $registro = \App\clave_usuarios::create([
+      'correo_electronico' => $usuario->correo_electronico,
+      'codigo' =>$codigo,
+    ]);
+
+    Mail::send('inicio.link_contraseña',[
       'usuario' => $usuario,
       'codigo' => $codigo
     ], function($mensaje) use ($usuario){
         $mensaje->to($usuario->correo_electronico);
-        $mensaje->subjetc("Hola $usuario->nombre
+        $mensaje->subject("Hola $usuario->nombre
         haz clic en el siguiente enlace para reestablecer tu contraseña.");
     });
 
+  }
+
+  public function mostrar_cambiar_password($correo, $codigo)
+  {
+      return view('inicio.cambiar_password',['correo'=>$correo,'codigo'=>$codigo]);
+  }
+
+  public function reestablecer_password(Request $request)
+  {
+    $validacion = Validator::make($request->all(), [
+      'password'=>'required|same:confirm|min:6',
+      'confirm'=>'required',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+    else{
+      $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
+      $usuario->update([
+        'password'=>Hash::make($request->password)
+      ]);
+      return response()->json(['mensaje' => "se cambio la contraseña exitosamente"]);
+    }
   }
 
 }

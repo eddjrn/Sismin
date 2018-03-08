@@ -23,8 +23,11 @@ Route::get('/t', function(){
 Route::get('/login','controlador_usuarios@mostrar_login');
 Route::get('/registro','controlador_usuarios@mostrar_registro');
 Route::post('/registro','controlador_usuarios@crear');
+
 Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password');
 Route::post('/recuperar_pass','controlador_usuarios@cambiar_password');
+Route::get('/cambiar_password/{correo}/{codigo}','controlador_usuarios@mostrar_cambiar_password');
+Route::post('/cambiar_password','controlador_usuarios@reestablecer_password');
 
 Route::get('/acercade','controlador_acercade@mostrar_acercade')->middleware('sesion');
 Route::get('/perfil','controlador_usuarios@mostrar_perfil')->middleware('sesion');

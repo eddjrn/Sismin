@@ -17,6 +17,7 @@ return [
     */
 
     'driver' => env('MAIL_DRIVER', 'smtp'),
+    //'driver' => env('MAIL_DRIVER', 'log'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +57,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'mayra29109@gmail.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sisminipn@gmail.com '),
         'name' => env('MAIL_FROM_NAME', 'Mayra Villavicencio'),
     ],
 
@@ -83,11 +84,16 @@ return [
     | connection. You may also set the "password" value below this one.
     |
     */
-
     'username' => env('MAIL_USERNAME'),
 
     'password' => env('MAIL_PASSWORD'),
+    //hsmvmppuvwrriuxa
 
+    'sendmail' => '/usr/sbin/sendmail -bs',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Markdown Mail Settings
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
