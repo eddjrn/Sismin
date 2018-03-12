@@ -158,8 +158,8 @@ $.ajaxSetup({
 });
 
 function guardar(){
-  var url = "/registro";
-  var urlToRedirectPage = "/";
+  var url = "{{asset('/registro')}}";
+  var urlToRedirectPage = "{{asset('/')}}";
 
   var nombre = document.getElementById('nombre').value;
   var apellido_paterno = document.getElementById('apellido_paterno').value;
