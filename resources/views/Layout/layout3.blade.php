@@ -29,7 +29,7 @@
         <div class="error-code">@yield('codigo')</div>
         <div class="error-message">@yield('mensaje')</div>
         <div class="button-place">
-            <a href="{{('/')}}" class="btn btn-default btn-lg waves-effect">Ir a inicio</a>
+            <a href="{{asset('/')}}" class="btn btn-default btn-lg waves-effect">Ir a inicio</a>
         </div>
     </div>
 

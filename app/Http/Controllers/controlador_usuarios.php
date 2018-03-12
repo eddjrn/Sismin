@@ -40,6 +40,11 @@ class controlador_usuarios extends Controller
       return response()->json(['errores' => $validacion->errors()]);
     }
 
+    $archivo = $request->file('imagen')->getClientSize();
+    if($archivo <= 1537){
+        return response()->json(['errores' => ["La rúbrica no puede estar vacía."]]);
+    }
+
     $archivo = $request->file('imagen');
     $imagen = Image::make($archivo);
     $imagen->encode('jpeg', 80);

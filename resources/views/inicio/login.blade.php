@@ -41,11 +41,7 @@ Inicio de sesión de usuarios
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6 p-t-5">
-                        <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
-                        <label for="rememberme">Guardar sesión</label>
-                    </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 col-xs-offset-3">
                         <button class="btn btn-block bg-pink waves-effect" type="submit">Iniciar sesión</button>
                     </div>
                 </div>
