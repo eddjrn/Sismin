@@ -1,6 +1,6 @@
 <?php
 
 return [
-  'url' => env('APP_URL'),
+  'usuariosDB' => 50,
 
 ];

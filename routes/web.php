@@ -20,18 +20,18 @@ Route::get('/t', function(){
   return view('/Layout/layout',['mensaje' => $mensajes, 'color'=> $colores, 'tiempo' => $tiempos]);
 });
 
-Route::get('/login','controlador_usuarios@mostrar_login');
-Route::get('/registro','controlador_usuarios@mostrar_registro');
-Route::post('/registro','controlador_usuarios@crear');
+Route::get('/login','controlador_usuarios@mostrar_login')->middleware('publico');
+Route::get('/registro','controlador_usuarios@mostrar_registro')->middleware('publico');
+Route::post('/registro','controlador_usuarios@crear')->middleware('publico');
 
-Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password');
-Route::post('/recuperar_pass','controlador_usuarios@cambiar_password');
-Route::get('/cambiar_password/{correo}/{codigo}','controlador_usuarios@mostrar_cambiar_password');
-Route::post('/cambiar_password','controlador_usuarios@reestablecer_password');
+Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password')->middleware('publico');
+Route::post('/recuperar_pass','controlador_usuarios@cambiar_password')->middleware('publico');
+Route::get('/cambiar_password/{correo}/{codigo}','controlador_usuarios@mostrar_cambiar_password')->middleware('publico');
+Route::post('/cambiar_password','controlador_usuarios@reestablecer_password')->middleware('publico');
 
 Route::get('/acercade','controlador_acercade@mostrar_acercade')->middleware('sesion');
 Route::get('/perfil','controlador_usuarios@mostrar_perfil')->middleware('sesion');
 
-Route::post('/login','controlador_usuarios@iniciar_sesion');
+Route::post('/login','controlador_usuarios@iniciar_sesion')->middleware('publico');
 Route::get('/logout','controlador_usuarios@cerrar_sesion');
 Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware('sesion');

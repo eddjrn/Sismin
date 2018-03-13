@@ -5,6 +5,8 @@ namespace App;
 //use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Date\Date;
+
 
 class usuario extends Authenticatable
 {
@@ -55,5 +57,11 @@ class usuario extends Authenticatable
     public function getRubricaAttribute($value){
       return "data:image/jpeg;base64,".base64_encode($value);
     }
+
+    public function getFecha(){
+     Date::setLocale('es');
+     return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+   }
+
 
 }
