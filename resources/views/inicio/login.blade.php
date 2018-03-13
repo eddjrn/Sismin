@@ -28,7 +28,7 @@ Inicio de sesión de usuarios
                         <i class="material-icons">person</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required autofocus>
+                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required>
                     </div>
                 </div>
               </div>

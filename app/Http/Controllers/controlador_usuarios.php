@@ -81,7 +81,7 @@ class controlador_usuarios extends Controller
 
     $correo = $request->correo_electronico;
     $pass = $request->password;
-    $guardar = $request->rememberme;
+    // $guardar = $request->rememberme;
     //return gettype($guardar);
     // if($guardar=='on'){
     //   $guardar=true;
@@ -91,14 +91,19 @@ class controlador_usuarios extends Controller
     //   $guardar=false;
     // }
 
-    if(Auth::attempt([
-      'correo_electronico' => $correo,
-      'password' => $pass],$guardar)){
-      return redirect()->intended('/');
-      }
+    if(Auth::attempt(['correo_electronico' => $correo, 'password' => $pass],false)){
+      // return redirect()->intended('/');
+      $colores = array("bg-green");
+      $mensajes = array("Bienvenido a SisMin.");
+      $tiempos = 1000;
+      return redirect('/')->with(['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
+    }
 
-      return back();
-    //return $request;
+    $colores = array("bg-red");
+    $mensajes = array("Los datos no son correctos.");
+    $tiempos = 1000;
+    return view('inicio.login',
+    ['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
   }
 
   public function cerrar_sesion(){

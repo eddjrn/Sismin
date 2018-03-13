@@ -65,7 +65,7 @@ Registrar a un nuevo usuario
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres">
             </div>
           </div>
 
@@ -74,7 +74,7 @@ Registrar a un nuevo usuario
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña">
+                <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
             </div>
           </div>
 

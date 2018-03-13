@@ -74,6 +74,7 @@
 
   <!-- Custom Js -->
   <script src="{{asset('/js/admin.js')}}"></script>
+  <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
   <script src="{{asset('/js/pages/examples/sign-in.js')}}"></script>
 
   @yield('scripts')

@@ -62,24 +62,24 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                <a class="navbar-brand" href="index.html"><b>SisMin</b></a>
+                <a class="navbar-brand" href="{{asset('/')}}"><b>SisMin</b></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Inicio">
                           <i class="material-icons">dashboard</i>
                           <span class="label-count">7</span>
                       </a>
                   </li>
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Archivos">
                           <i class="material-icons">archive</i>
                           <span class="label-count">7</span>
                       </a>
                   </li>
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Agenda">
                           <i class="material-icons">insert_invitation</i>
                           <span class="label-count">7</span>
                       </a>
@@ -148,7 +148,11 @@
                     </li> -->
                     <!-- #END# Tasks -->
 
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">chrome_reader_mode</i></a></li>
+                    <li class="pull-right">
+                      <a href="javascript:void(0);" class="js-right-sidebar" data-close="true" data-toggle="tooltip" data-placement="bottom" title="Menú">
+                        <i class="material-icons">chrome_reader_mode</i>
+                      </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -172,10 +176,6 @@
                               <span>Perfil</span>
                           </li>
                         </a>
-                        <li data-theme="red">
-                            <i class="material-icons">security</i>
-                            <span>Cambiar contraseña</span>
-                        </li>
                         <a href="{{asset('/logout')}}">
                           <li data-theme="red">
                               <i class="material-icons">highlight_off</i>
@@ -254,6 +254,7 @@
 
   <!-- Custom Js -->
   <script src="{{asset('/js/admin.js')}}"></script>
+  <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
   <script src="{{asset('/js/pages/index.js')}}"></script>
 
   <!-- Demo Js -->
