@@ -5,29 +5,24 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 
-class orden_dia extends Model
+class tipo_reunion extends Model
 {
-  protected $table = 'orden_dia';
+  protected $table = 'tipo_reunion';
 
-  protected $primaryKey = 'id_orden_dia';
+  protected $primaryKey = 'id_tipo_reunion';
 
   protected $fillable = [
-    'id_reunion',
-    'id_usuario',
+    'id_tipo_reunion',
     'descripcion',
-    'descripcion_hechos',
+    'imagen_logo',
   ];
 
   public function __toString(){
     return $this->descripcion;
   }
 
-  public function usuario(){
-    return $this->hasOne(usuario::class,'id_usuario');
-  }
-
-  public function reunion(){
-    return $this->hasOne(reunion::class,'id_reunion');
+  public function reuniones(){
+    return $this->hasMany(reunion::class,'id_tipo_reunion');
   }
 
   public function getFecha(){

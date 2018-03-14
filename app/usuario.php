@@ -63,5 +63,13 @@ class usuario extends Authenticatable
      return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
    }
 
+   public function orden_dia(){
+     return $this->belongsTo(orden_dia::class,'id_usuario');
+   }
+
+   public function convocados(){
+     return $this->belongsToMany(reunion_convocado::class,'id_usuario');
+   }
+
 
 }
