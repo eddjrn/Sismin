@@ -14,7 +14,7 @@ class CreacionClavesUsuarios extends Migration
     public function up()
     {
         //
-        Schema::create('claves_usuarios',function(Blueprint $table){
+        Schema::create('clave_usuario',function(Blueprint $table){
           $table->string('correo_electronico',50)->unique();
           $table->string('codigo');
           $table->timestamps();
@@ -30,6 +30,6 @@ class CreacionClavesUsuarios extends Migration
     public function down()
     {
         //
-          Schema::drop('claves_usuarios');
+          Schema::drop('clave_usuario');
     }
 }

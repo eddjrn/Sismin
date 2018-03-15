@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class clave_usuarios extends Model
 {
-  protected $table = 'claves_usuarios';
+  protected $table = 'clave_usuario';
 
   protected $fillable = [
     'correo_electronico',

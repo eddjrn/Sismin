@@ -31,7 +31,7 @@ class controlador_usuarios extends Controller
       'nombre'=>'required|min:3',
       'apellido_paterno'=>'required|min:3',
       'apellido_materno'=>'required|min:3',
-      'correo_electronico'=>'required|min:3|email|unique:usuarios,correo_electronico',
+      'correo_electronico'=>'required|min:3|email|unique:usuario,correo_electronico',
       'password'=>'required|same:confirm|min:6',
       'confirm'=>'required',
     ]);
@@ -176,7 +176,7 @@ class controlador_usuarios extends Controller
       $usuario->update([
         'password'=>Hash::make($request->password)
       ]);
-      $codigo = 'DELETE FROM claves_usuarios  WHERE correo_electronico = ?';
+      $codigo = 'DELETE FROM clave_usuario  WHERE correo_electronico = ?';
       \DB::delete($codigo, [$request->correo_electronico]);
       return response()->json(['mensaje' => "Se cambio la contraseña exitosamente"]);
     }

@@ -12,7 +12,7 @@ class pruebas_usuario extends Seeder
      */
     public function run()
     {
-      DB::table('usuarios')->insert([
+      DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
         'nombre' => 'Mayra',
@@ -24,7 +24,7 @@ class pruebas_usuario extends Seeder
       ]);
 
       for($i=0; $i<= config('variables.usuariosDB'); $i++){
-        DB::table('usuarios')->insert([
+        DB::table('usuario')->insert([
           'created_at'=> now(),
           'updated_at' => now(),
           'nombre' => str_random(7),

@@ -19,7 +19,7 @@ class CreacionReunionConvocado extends Migration
         $table->integer('id_reunion')->unsigned()->index();
         $table->foreign('id_reunion')->references('id_reunion')->on('reunion');
         $table->integer('id_usuario')->unsigned()->index();
-        $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->boolean('asistencia');
         $table->integer('id_rol')->unsigned()->index();
         $table->foreign('id_rol')->references('id_rol')->on('rol_usuario');

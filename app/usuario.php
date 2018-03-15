@@ -14,7 +14,7 @@ class usuario extends Authenticatable
 
     protected $guard = 'web';
 
-    protected $table = 'usuarios';
+    protected $table = 'usuario';
 
     protected $primaryKey = 'id_usuario';
 
@@ -59,9 +59,9 @@ class usuario extends Authenticatable
     }
 
     public function getFecha(){
-     Date::setLocale('es');
-     return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
-   }
+       Date::setLocale('es');
+       return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+     }
 
    public function orden_dia(){
      return $this->belongsTo(orden_dia::class,'id_usuario');
