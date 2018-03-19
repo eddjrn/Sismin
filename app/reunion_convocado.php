@@ -33,7 +33,7 @@ class reunion_convocado extends Model
   }
 
   public function reunion(){
-    return $this->belongsToMany(reunion::class,'id_reunion');
+    return $this->hasOne(reunion::class,'id_reunion');
   }
 
   public function rol(){

@@ -31,12 +31,31 @@ class reunion extends Model
   }
 
  public function convocados(){
-  return $this->belongsToMany(reunion_convocado::class,'id_reunion');
+  return $this->hasMany(reunion_convocado::class,'id_reunion');
  }
 
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+ }
+
+ public function setMotivoAttribute($value){
+   $con = strtolower($value);
+   $Motivo = ucfirst($con);
+   $this->attributes['motivo'] = $Motivo;
+ }
+
+ public function setLugarAttribute($value){
+   $con = strtolower($value);
+   $lugar = ucfirst($con);
+   $this->attributes['lugar'] = $lugar;
+ }
+
+ public function setDescripcionAttribute($value){
+   $con = strtolower($value);
+   $descripcion = ucfirst($con);
+   $this->attributes['descripcion'] = $descripcion;
+   
  }
 
 }

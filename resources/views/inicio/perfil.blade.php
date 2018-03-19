@@ -37,7 +37,7 @@ Perfil de usuario
             <img src="{{Auth::user()->rubrica}}" class="thumbnail"/>
           </div>
 
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#confirmModal">Eliminar cuenta</button>
+          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#cambiarCModal">Cambiar contraseña</button>
           <a href="{{asset('/')}}" class="btn btn-block btn-lg bg-pink waves-effect">Regresar</a>
 
         </form>
@@ -49,59 +49,30 @@ Perfil de usuario
     </div>
 </div>
 
-<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h4 class="modal-title" id="largeModalLabel">Eliminar cuenta</h4>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-lg-12 text-center">
-                    <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
-                    <p class="font-bold">¿Seguro que desea eliminar su cuenta de manera permanente?</p>
-                    <p class="font-italic col-pink">- Tendrá que crear una cuenta nueva para ingresar a el sistema...</p>
-                  </div>
-                </div>
-                <div class="modal-footer row clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-6">
-                    <button type="button" id="clear" onclick="" class="btn btn-danger btn-block waves-effect" data-toggle="modal" data-target="#borrarModal" data-dismiss="modal">Borrar</button>
-                  </div>
-                  <div class="col-md-6 col-sm-6 col-xs-6">
-                    <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-          </div>
-      </div>
-  </div>
 
-  <div class="modal fade" id="borrarModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="cambiarCModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="largeModalLabel">Eliminar cuenta</h4>
+                    <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña</h4>
                 </div>
                 <div class="modal-body">
+                  <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" >
+                    {{csrf_field()}}
                   <div class="row">
                     <div class="col-lg-12 text-center">
                       <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-lg-12">
-                      <p class="font-bold">Ingrese su contraseña para proceder</p>
-                      <p class="font-italic col-pink">- Tendrá que crear una cuenta nueva para ingresar a el sistema...</p>
-                      <div class="input-group">
+                    <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">lock</i>
                         </span>
                         <div class="form-line">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
+                            <input type="password" class="form-control" id="passwordAnt" name="passwordAnt" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">
                         </div>
                       </div>
                       <div class="input-group">
@@ -109,20 +80,31 @@ Perfil de usuario
                             <i class="material-icons">lock</i>
                         </span>
                         <div class="form-line">
-                            <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su nueva contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres">
+                        </div>
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
                         </div>
                       </div>
                     </div>
                   </div>
+                    <input type="hidden" value="{{Auth::user()->correo_electronico}}" id="correo_electronico"/>
+
                   <div class="modal-footer row clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                      <button type="button" id="clear" onclick="borrar();" class="btn btn-danger btn-block waves-effect" data-dismiss="modal">Borrar</button>
-                    </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                       <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
                     </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                      <button type="button"  onclick="cambiar()" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Guardar</button>
+                    </div>
                   </div>
                 </div>
+              </form>
             </div>
         </div>
     </div>
@@ -130,7 +112,7 @@ Perfil de usuario
 @stop
 
 @section('scripts')
-
+<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 <script>
 $.ajaxSetup({
     headers: {
@@ -138,34 +120,52 @@ $.ajaxSetup({
     }
 });
 
-function borrar(){
-  alert('Se borrara :v');
+function cambiar(){
 
-  // $.ajax(url, {
-  //   method: "POST",
-  //   data: parametros,
-  //   success: function (response) {
-  //     if(response.errors){
-  //       mensajeAjax('Error', 'Verifique sus datos', 'error');
-  //       var errores = '<ul>';
-  //       $.each(response.errors,function(indice,valor){
-  //         //console.log(indice + ' - ' + valor);
-  //         errores += '<li>' + valor + '</li>';
-  //       });
-  //       errores += '</ul>';
-  //       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-  //     } else{
-  //       mensajeAjax('Correcto', response.message, 'success');
-  //       window.setTimeout(function(){
-  //         location.href = urlToRedirectPage;
-  //       } ,1500);
-  //     }
-  //   },
-  //   error: function (jqXHR, status, error) {
-  //     mensajeAjax('Error', error, 'error');
-  //   }
-  // });
+  var url = "{{asset('/perfil')}}";
+  var urlToRedirectPage = "{{asset('/login')}}";
+
+  var correo_electronico = document.getElementById('correo_electronico').value;
+  var password = document.getElementById('password').value;
+  var confirm = document.getElementById('confirm').value;
+  var passwordAnt = document.getElementById('passwordAnt').value;
+
+  var formdata = new FormData();
+  formdata.append('correo_electronico', correo_electronico);
+  formdata.append('password', password);
+  formdata.append('confirm', confirm);
+  formdata.append('passwordAnt', passwordAnt);
+
+  $.ajax({
+   type:'POST',
+   url: url,
+   data:formdata,
+   processData:false,
+   contentType:false,
+   success:function(result){
+     if(result.errores){
+      // mensajeAjax('Error', 'Verifique sus datos', 'error');
+       var errores = '<ul>';
+       $.each(result.errores,function(indice,valor){
+         //console.log(indice + ' - ' + valor);
+         errores += '<li>' + valor + '</li>';
+       });
+       errores += '</ul>';
+       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+     } else{
+       notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+       //mensajeAjax('Registro correcto', result.mensaje,'success');
+       window.setTimeout(function(){
+         location.href = urlToRedirectPage;
+       } ,1500);
+     }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  })
 }
 </script>
+@include('Errores.ajaxMensajes')
 
 @stop

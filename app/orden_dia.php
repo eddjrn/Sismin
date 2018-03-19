@@ -34,5 +34,16 @@ class orden_dia extends Model
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
  }
+ public function setDescripcionAttribute($value){
+   $con = strtolower($value);
+   $descripcion = ucfirst($con);
+   $this->attributes['descripcion'] = $descripcion;
+ }
+
+ public function setDescripcionHechosAttribute($value){
+   $con = strtolower($value);
+   $descripcion = ucfirst($con);
+   $this->attributes['descripcion_hechos'] = $descripcion;
+ }
 
 }

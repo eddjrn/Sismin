@@ -31,6 +31,7 @@ Route::post('/cambiar_password','controlador_usuarios@reestablecer_password')->m
 
 Route::get('/acercade','controlador_acercade@mostrar_acercade')->middleware('sesion');
 Route::get('/perfil','controlador_usuarios@mostrar_perfil')->middleware('sesion');
+Route::post('/perfil','controlador_usuarios@reestablecer_password_perfil')->middleware('sesion');
 
 Route::post('/login','controlador_usuarios@iniciar_sesion')->middleware('publica');
 Route::get('/logout','controlador_usuarios@cerrar_sesion');

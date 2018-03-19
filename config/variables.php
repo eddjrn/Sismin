@@ -7,6 +7,6 @@ return [
   'orden_del_diaDB' => 10,
   'rol_usuarioDB' => 4,
   'tipo_usuarioDB' => 2,
-  'reunion_convocado' => 30,
+  'reunion_convocadoDB' => 30,
 
 ];

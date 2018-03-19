@@ -182,4 +182,34 @@ class controlador_usuarios extends Controller
     }
   }
 
+  public function reestablecer_password_perfil(Request $request)
+  {
+    $validacion = Validator::make($request->all(), [
+      'passwordAnt'=>'required',
+      'password'=>'required|same:confirm|min:6',
+      'confirm'=>'required',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+    else{
+      $pass = Hash::make($request->passwordAnt);
+      if (Hash::check($request->passwordAnt,Auth::user()->password))
+      {
+        $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
+        $usuario->update([
+          'password'=>Hash::make($request->password)
+        ]);
+        Auth::logout();
+        $msg = 'Se cambio la contraseña exitosamente, por favor inicie sesion para continuar '.$request->nombre;
+        return response()->json(['mensaje' => $msg]);
+    }
+    else
+    {
+      return response()->json(['errores' => ['La contraseña no es correcta']]);
+    }
+  }
+  }
+
 }
