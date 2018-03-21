@@ -23,29 +23,32 @@ Registro del motivo de una reunión
     <div class="card">
         <div class="body">
             <form>
-              @if(isset($tipos))
-              <a class="btn bg-pink waves-effect m-b-15" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Ver registros existentes
-              </a>
-              <div class="collapse" id="collapseExample" style="overflow-y: scroll;">
-                  <div class="well" style="height:200px;">
-                    <div class="list-group">
-                      @foreach($tipos as $tipo)
-                        <button type="button" class="list-group-item" style="word-wrap: break-word;">{{$tipo->descripcion}}</button>
-                      @endforeach
-                    </div>
-                  </div>
-              </div>
-              @endif
-
                 <div class="msg">Dar de alta tipo de reunión</div>
+                @if(isset($tipos))
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">list</i>
+                    </span>
+                    <a class="btn btn-lg bg-pink waves-effect" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Ver registros existentes
+                    </a>
+                </div>
+                <div class="collapse" id="collapseExample" style="overflow-y: scroll;">
+                    <div class="well">
+                      <div class="list-group" style="height:200px;">
+                        @foreach($tipos as $tipo)
+                          <button type="button" class="list-group-item" style="word-wrap: break-word;">{{$tipo->descripcion}}</button>
+                        @endforeach
+                      </div>
+                    </div>
+                </div>
+                @endif
+
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="material-icons">camera_enhance</i>
                     </span>
-                    <div class="form-line">
-                        <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#photoModalEdit">Logo de la organización/empresa</button>
-                    </div>
+                    <button type="button" class="btn btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#photoModalEdit">Logo de la organización/empresa</button>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">
