@@ -36,3 +36,6 @@ Route::post('/perfil','controlador_usuarios@reestablecer_password_perfil')->midd
 Route::post('/login','controlador_usuarios@iniciar_sesion')->middleware('publica');
 Route::get('/logout','controlador_usuarios@cerrar_sesion');
 Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware('sesion');
+
+Route::get('/Motivo','controlador_reunion@mostrar_vista_motivo')->middleware('sesion');
+Route::post('/Motivo','controlador_reunion@registrar_motivo')->middleware('sesion');

@@ -191,10 +191,12 @@
                           <i class="material-icons">add</i>
                           <span>Nueva reunión</span>
                       </li>
+                   <a href="{{asset('/Motivo')}}">
                       <li data-theme="red">
                           <i class="material-icons">note_add</i>
-                          <span>Nueva minuta</span>
+                          <span>Nuevo Registro</span>
                       </li>
+                    </a>
                       <a href="{{asset('/acercade')}}">
                         <li data-theme="red">
                           <i class="material-icons">help</i>
