@@ -39,3 +39,9 @@ Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware(
 
 Route::get('/Motivo','controlador_reunion@mostrar_vista_motivo')->middleware('sesion');
 Route::post('/Motivo','controlador_reunion@registrar_motivo')->middleware('sesion');
+
+Route::get('/tipoUsuario','controlador_reunion@mostrar_vista_tipo_usuario')->middleware('sesion');
+Route::post('/tipoUsuario','controlador_reunion@registrar_tipo_usuario')->middleware('sesion');
+
+Route::get('/reunion','controlador_reunion@mostrar_vista_reunion')->middleware('sesion');
+Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');
