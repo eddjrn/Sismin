@@ -28,12 +28,16 @@ class tipo_reunion extends Model
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
- }
+  }
 
  public function setDescripcionAttribute($value){
    $con = strtolower($value);
    $descripcion = ucfirst($con);
    $this->attributes['descripcion'] = $descripcion;
+ }
+
+ public function getImagenLogoAttribute($value){
+   return "data:image/jpeg;base64,".base64_encode($value);
  }
 
 }

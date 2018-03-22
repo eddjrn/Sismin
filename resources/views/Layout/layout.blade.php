@@ -30,6 +30,8 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('/css/themes/all-themes.css')}}" rel="stylesheet" />
 
+    <link href="{{asset('/css/scrollbar/OverlayScrollbars.css')}}" rel="stylesheet">
+
     @yield('estilos')
 
 </head>
@@ -261,6 +263,14 @@
 
   <!-- Demo Js -->
   <script src="{{asset('/js/demo.js')}}"></script>
+
+  <script src="{{asset('/js/scrollbar/jquery.overlayScrollbars.js')}}"></script>
+  <script type="text/javascript">
+    $(function() {
+        //Barras de desplazamiento no intrusivas
+        $('.scroll').overlayScrollbars({ });
+    });
+  </script>
 
   @yield('scripts')
 

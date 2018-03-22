@@ -26,6 +26,8 @@
     <!-- Custom Css -->
     <link href="{{asset('/css/style.css')}}" rel="stylesheet">
 
+    <link href="{{asset('/css/scrollbar/OverlayScrollbars.css')}}" rel="stylesheet">
+
     @yield('estilos')
 </head>
 
@@ -76,6 +78,14 @@
   <script src="{{asset('/js/admin.js')}}"></script>
   <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
   <script src="{{asset('/js/pages/examples/sign-in.js')}}"></script>
+
+  <script src="{{asset('/js/scrollbar/jquery.overlayScrollbars.js')}}"></script>
+  <script type="text/javascript">
+    $(function() {
+        //Barras de desplazamiento no intrusivas
+        $('.scroll').overlayScrollbars({ });
+    });
+  </script>
 
   @yield('scripts')
 

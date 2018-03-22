@@ -33,15 +33,23 @@ Registro del motivo de una reunión
                         Ver registros existentes
                     </a>
                 </div>
-                <div class="collapse" id="collapseExample" style="overflow-y: scroll;">
-                    <div class="well">
-                      <div class="list-group" style="height:200px;">
-                        @foreach($tipos as $tipo)
-                          <button type="button" class="list-group-item" style="word-wrap: break-word;">{{$tipo->descripcion}}</button>
-                        @endforeach
-                      </div>
+                <div class="collapse scroll" id="collapseExample" style="overflow-y: scroll;">
+                    <div class="list-group" style="height:200px;">
+                      @foreach($tipos as $tipo)
+                        <button type="button" class="list-group-item" style="word-wrap: break-word;">
+                          <div class="media">
+                              <div class="media-left">
+                                  <a href="javascript:void(0);">
+                                      <img class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
+                                  </a>
+                              </div>
+                              <div class="media-body">{{$tipo->descripcion}}</div>
+                          </div>
+                        </button>
+                      @endforeach
                     </div>
                 </div>
+                <br/>
                 @endif
 
                 <div class="input-group">
@@ -138,4 +146,5 @@ Registro del motivo de una reunión
 <script src="{{asset('/js/cropper/cropper.js')}}"></script>
 <script src="{{asset('/js/cropper/custom.js')}}"></script>
 @include('Errores.ajaxMensajes')
+
 @stop
