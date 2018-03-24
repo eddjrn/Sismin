@@ -26,12 +26,12 @@
     <!-- Custom Css -->
     <link href="{{asset('/css/style.css')}}" rel="stylesheet">
 
-    <link href="{{asset('/css/scrollbar/OverlayScrollbars.css')}}" rel="stylesheet">
+    <link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
 
     @yield('estilos')
 </head>
 
-<body class="login-page">
+<body class="login-page scroll">
   <!-- Page Loader -->
   <div class="page-loader-wrapper">
       <div class="loader">
@@ -49,11 +49,19 @@
   <!-- Bootstrap Core Js -->
   <script src="{{asset('/plugins/bootstrap/js/bootstrap.js')}}"></script>
 
+  <!-- Slimscroll Plugin Js -->
+  <script src="{{asset('/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
+
   <!-- Waves Effect Plugin Js -->
   <script src="{{asset('/plugins/node-waves/waves.js')}}"></script>
 
   <!-- Validation Plugin Js -->
   <script src="{{asset('/plugins/jquery-validation/jquery.validate.js')}}"></script>
+
+  <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
+
+  <!-- SweetAlert Plugin Js -->
+  <script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
   <!-- Bootstrap Notify Plugin Js -->
   <script src="{{asset('/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script>
@@ -74,20 +82,20 @@
     @endforeach
   @endif
 
-  <!-- Custom Js -->
-  <script src="{{asset('/js/admin.js')}}"></script>
-  <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
-  <script src="{{asset('/js/pages/examples/sign-in.js')}}"></script>
-
-  <script src="{{asset('/js/scrollbar/jquery.overlayScrollbars.js')}}"></script>
-  <script type="text/javascript">
-    $(function() {
-        //Barras de desplazamiento no intrusivas
-        $('.scroll').overlayScrollbars({ });
-    });
-  </script>
+  @include('Errores.ajaxMensajes')
 
   @yield('scripts')
+
+  <!-- Custom Js -->
+  <script src="{{asset('/js/admin.js')}}"></script>
+
+  <script>
+    $(function(){
+        $('.bar').slimScroll({
+            height: '250px'
+        });
+    });
+  </script>
 
 </body>
 

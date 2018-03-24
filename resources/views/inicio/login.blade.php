@@ -68,12 +68,11 @@ Inicio de sesión de usuarios
 <script src="{{asset('/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
 
 <script>
-$(function () {
-
-  //Masked Input ============================================================================================================================
-  var $demoMaskedInput = $('.demo-masked-input');
-//Email
-  $demoMaskedInput.find('.email').inputmask({ alias: "email" });
-});
+  $(function () {
+    //Masked Input ============================================================================================================================
+    var $demoMaskedInput = $('.demo-masked-input');
+  //Email
+    $demoMaskedInput.find('.email').inputmask({ alias: "email" });
+  });
 </script>
 @stop

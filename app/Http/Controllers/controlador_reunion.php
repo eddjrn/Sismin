@@ -10,7 +10,7 @@ class controlador_reunion extends Controller
 {
     //
     public function mostrar_vista_motivo(){
-      $tipos = \App\tipo_reunion::all();
+      $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
 
       return view('Paginas.Motivo', ['tipos' => $tipos]);
     }
@@ -37,14 +37,12 @@ class controlador_reunion extends Controller
       return response()->json(['mensaje' => $msg]);
     }
 
-    public function mostrar_vista_tipo_usuario()
-  {
-      $tipos = \App\tipo_usuario::all();
-    return view('Paginas.tipoUsuario', ['tipos' => $tipos]);
-  }
+    public function mostrar_vista_tipo_usuario(){
+      $tipos = \App\tipo_usuario::orderBy('updated_at', 'desc')->get();
+      return view('Paginas.tipoUsuario', ['tipos' => $tipos]);
+    }
 
-  public function registrar_tipo_usuario(Request $request)
-  {
+  public function registrar_tipo_usuario(Request $request){
     $validacion = Validator::make($request->all(), [
       'descripcion'=>'required',
     ]);
@@ -59,13 +57,11 @@ class controlador_reunion extends Controller
     return response()->json(['mensaje' => $msg]);
   }
 
-  public function mostrar_vista_reunion()
-  {
+  public function mostrar_vista_reunion(){
     return view('Paginas.reunion');
   }
 
-  public function crear_reunion(Request $request)
-  {
+  public function crear_reunion(Request $request){
     return $request;
   }
 

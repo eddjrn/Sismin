@@ -5,7 +5,8 @@ Perfil de usuario
 @stop
 
 @section('estilos')
-<meta name="csrf-token" content="{{ csrf_token() }}" /> <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 
 @section('contenido')
@@ -39,7 +40,6 @@ Perfil de usuario
 
           <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#cambiarCModal">Cambiar contraseña</button>
           <a href="{{asset('/')}}" class="btn btn-block btn-lg bg-pink waves-effect">Regresar</a>
-
         </form>
       </div>
     </div>
@@ -50,69 +50,68 @@ Perfil de usuario
 </div>
 
 
-  <div class="modal fade" id="cambiarCModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña</h4>
-                </div>
-                <div class="modal-body">
-                  <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" >
-                    {{csrf_field()}}
-                  <div class="row">
-                    <div class="col-lg-12 text-center">
-                      <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-12">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" id="passwordAnt" name="passwordAnt" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">
-                        </div>
-                      </div>
-                      <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su nueva contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres">
-                        </div>
-                      </div>
-                      <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                    <input type="hidden" value="{{Auth::user()->correo_electronico}}" id="correo_electronico"/>
-
-                  <div class="modal-footer row clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                      <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                      <button type="button"  onclick="cambiar()" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Guardar</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+<div class="modal fade" id="cambiarCModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña</h4>
             </div>
+            <div class="modal-body">
+              <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" >
+                {{csrf_field()}}
+              <div class="row">
+                <div class="col-lg-12 text-center">
+                  <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">lock</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="password" class="form-control" id="passwordAnt" name="passwordAnt" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">lock</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su nueva contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres">
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">lock</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" value="{{Auth::user()->correo_electronico}}" id="correo_electronico"/>
+
+              <div class="modal-footer row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button type="button"  onclick="cambiar()" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
     </div>
+</div>
 
 @stop
 
 @section('scripts')
-<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 <script>
 $.ajaxSetup({
     headers: {
@@ -121,7 +120,6 @@ $.ajaxSetup({
 });
 
 function cambiar(){
-
   var url = "{{asset('/perfil')}}";
   var urlToRedirectPage = "{{asset('/login')}}";
 
@@ -166,6 +164,5 @@ function cambiar(){
   })
 }
 </script>
-@include('Errores.ajaxMensajes')
 
 @stop

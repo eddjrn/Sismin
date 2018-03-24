@@ -119,6 +119,8 @@ return [
     'attributes' => [
         'password' => 'contraseña',
         'confirm' => 'confirmar',
+        'passwordAnt' => 'contraseña actual',
+        'descripcion' => 'descripción',
     ],
 
 ];

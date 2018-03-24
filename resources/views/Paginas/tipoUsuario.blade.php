@@ -6,9 +6,6 @@ Registro del motivo de la reunión
 
 @section('estilos')
 <meta name="csrf-token" content="{{ csrf_token() }}" /> <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
-<link  href="{{asset('/css/cropper/cropper.css')}}" rel="stylesheet">
-<link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
-
 @stop
 
 @section('cabecera')
@@ -29,24 +26,26 @@ Registro del motivo de la reunión
         <div class="body">
             <form>
                 <div class="msg">Dar de alta tipo de reunión</div>
+
                 @if(isset($tipos))
                 <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">list</i>
-                    </span>
-                    <a class="btn btn-lg bg-pink waves-effect" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Ver registros existentes
-                    </a>
+                  <span class="input-group-addon">
+                      <i class="material-icons">list</i>
+                  </span>
+                  <button class="btn btn-lg bg-pink waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      Ver registros existentes
+                  </button>
                 </div>
-                <div class="collapse scroll" id="collapseExample" style="overflow-y: scroll;">
-                    <div class="well">
-                      <div class="list-group" style="height:200px;">
+                <div class="collapse" id="collapseExample">
+                    <div class="well bar" style="height: 200px; overflow-y: scroll;">
+                      <div class="list-group">
                         @foreach($tipos as $tipo)
                           <button type="button" class="list-group-item" style="word-wrap: break-word;">{{$tipo->descripcion}}</button>
                         @endforeach
                       </div>
                     </div>
                 </div>
+                <br/>
                 @endif
 
                 <div class="input-group">
@@ -54,7 +53,7 @@ Registro del motivo de la reunión
                         <i class="material-icons">description</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Gerente de ventas" required data-toggle="tooltip" data-placement="top" title="Ingrese la desdcripción de el tipo de usuario">
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" required data-toggle="tooltip" data-placement="top" title="Ingrese la desdcripción de el rol de usuario">
                     </div>
                 </div>
                 <div class="row">
@@ -76,12 +75,7 @@ Registro del motivo de la reunión
 @stop
 
 @section('scripts')
-
-
-<!-- SweetAlert Plugin Js -->
-<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 <script>
-
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -90,42 +84,39 @@ $.ajaxSetup({
 
 function guardar(){
   var url = "{{asset('/tipoUsuario')}}";
-  var urlToRedirectPage = "{{asset('/')}}";
-
+  var urlToRedirectPage = "{{asset('/tipoUsuario')}}";
   var descripcion = document.getElementById('descripcion').value;
+  var formdata = new FormData();
+  formdata.append('descripcion', descripcion);
 
-    var formdata = new FormData();
-    formdata.append('descripcion', descripcion);
-
-    $.ajax({
-     type:'POST',
-     url: url,
-     data:formdata,
-     processData:false,
-     contentType:false,
-     success:function(result){
-       if(result.errores){
-         mensajeAjax('Error', 'Verifique sus datos', 'error');
-         var errores = '<ul>';
-         $.each(result.errores,function(indice,valor){
-           //console.log(indice + ' - ' + valor);
-           errores += '<li>' + valor + '</li>';
-         });
-         errores += '</ul>';
-         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-       } else{
-         mensajeAjax('Registro correcto', result.mensaje,'success');
-         window.setTimeout(function(){
-           location.href = urlToRedirectPage;
-         } ,1500);
-       }
-      },
-      error: function (jqXHR, status, error) {
-       mensajeAjax('Error', error, 'error');
-      }
-    })
+  $.ajax({
+   type:'POST',
+   url: url,
+   data:formdata,
+   processData:false,
+   contentType:false,
+   success:function(result){
+     if(result.errores){
+       mensajeAjax('Error', 'Verifique sus datos', 'error');
+       var errores = '<ul>';
+       $.each(result.errores,function(indice,valor){
+         //console.log(indice + ' - ' + valor);
+         errores += '<li>' + valor + '</li>';
+       });
+       errores += '</ul>';
+       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+     } else{
+       mensajeAjax('Registro correcto', result.mensaje,'success');
+       window.setTimeout(function(){
+         location.href = urlToRedirectPage;
+       } ,1500);
+     }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  })
 }
 </script>
-@include('Errores.ajaxMensajes')
 
 @stop

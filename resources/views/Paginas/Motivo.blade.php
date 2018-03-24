@@ -7,7 +7,6 @@ Registro del motivo de una reunión
 @section('estilos')
 <meta name="csrf-token" content="{{ csrf_token() }}" /> <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <link  href="{{asset('/css/cropper/cropper.css')}}" rel="stylesheet">
-<link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
 @stop
 
 @section('contenido')
@@ -24,29 +23,32 @@ Registro del motivo de una reunión
         <div class="body">
             <form>
                 <div class="msg">Dar de alta tipo de reunión</div>
+
                 @if(isset($tipos))
                 <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">list</i>
-                    </span>
-                    <a class="btn btn-lg bg-pink waves-effect" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Ver registros existentes
-                    </a>
+                  <span class="input-group-addon">
+                      <i class="material-icons">list</i>
+                  </span>
+                  <button class="btn btn-lg bg-pink waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      Ver registros existentes
+                  </button>
                 </div>
-                <div class="collapse scroll" id="collapseExample" style="overflow-y: scroll;">
-                    <div class="list-group" style="height:200px;">
-                      @foreach($tipos as $tipo)
-                        <button type="button" class="list-group-item" style="word-wrap: break-word;">
-                          <div class="media">
-                              <div class="media-left">
-                                  <a href="javascript:void(0);">
-                                      <img class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
-                                  </a>
-                              </div>
-                              <div class="media-body">{{$tipo->descripcion}}</div>
-                          </div>
-                        </button>
-                      @endforeach
+                <div class="collapse" id="collapseExample">
+                    <div class="well bar" style="height: 200px; overflow-y: scroll;">
+                      <div class="list-group">
+                        @foreach($tipos as $tipo)
+                          <button type="button" class="list-group-item" style="word-wrap: break-word;">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="javascript:void(0);">
+                                        <img class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
+                                    </a>
+                                </div>
+                                <div class="media-body">{{$tipo->descripcion}}</div>
+                            </div>
+                          </button>
+                        @endforeach
+                      </div>
                     </div>
                 </div>
                 <br/>
@@ -130,7 +132,6 @@ Registro del motivo de una reunión
 @stop
 
 @section('scripts')
-<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
 <script>
   $.ajaxSetup({
@@ -140,11 +141,10 @@ Registro del motivo de una reunión
   });
 
   var UrlToPostForm = "{{asset('/Motivo')}}";
-  var UrlToRedirectPage = "{{asset('/')}}";
+  var UrlToRedirectPage = "{{asset('/Motivo')}}";
 </script>
 
 <script src="{{asset('/js/cropper/cropper.js')}}"></script>
 <script src="{{asset('/js/cropper/custom.js')}}"></script>
-@include('Errores.ajaxMensajes')
 
 @stop

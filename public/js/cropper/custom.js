@@ -93,7 +93,7 @@ if (URL) {
           } else{
             mensajeAjax('Registro correcto', result.mensaje,'success');
             window.setTimeout(function(){
-              location.href = urlToRedirectPage;
+              location.href = UrlToRedirectPage;
             } ,1500);
           }
          },

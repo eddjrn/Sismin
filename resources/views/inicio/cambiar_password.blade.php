@@ -5,9 +5,8 @@ Cambiar contraseña
 @stop
 
 @section('estilos')
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
-<link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
-
 @stop
 
 @section('contenido')
@@ -61,7 +60,7 @@ Cambiar contraseña
 @stop
 
 @section('scripts')
-<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
+<!-- Script de envio de formularios mediante ajax -->
 <script>
 $.ajaxSetup({
     headers: {
@@ -111,7 +110,5 @@ function guardar(){
   })
 }
 </script>
-
-@include('Errores.ajaxMensajes')
 
 @stop

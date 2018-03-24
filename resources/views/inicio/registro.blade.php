@@ -5,9 +5,10 @@ Registrar a un nuevo usuario
 @stop
 
 @section('estilos')
-<meta name="csrf-token" content="{{ csrf_token() }}" /> <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+<!-- Script para dibujar -->
 <script src="{{asset('/js/atrament.min.js')}}"></script>
-<link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
 @stop
 
 @section('contenido')
@@ -122,8 +123,6 @@ Registrar a un nuevo usuario
 @section('scripts')
 <!-- Input Mask Plugin Js -->
 <script src="{{asset('/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
-<!-- SweetAlert Plugin Js -->
-<script src="{{asset('/plugins/sweetalert/sweetalert.min.js')}}"></script>
 
 <script>
 $(function () {
@@ -140,6 +139,7 @@ $(function () {
 });
 </script>
 
+<!-- Script de las opciones del plugin de dibujo -->
 <script>
   var canvas = document.getElementById('sketcher');
   var atrament = atrament(canvas, 240, 240);
@@ -150,6 +150,7 @@ $(function () {
   });
 </script>
 
+<!-- Script de envio de formularios mediante ajax -->
 <script>
 $.ajaxSetup({
     headers: {
@@ -208,7 +209,5 @@ function guardar(){
   });
 }
 </script>
-
-@include('Errores.ajaxMensajes')
 
 @stop
