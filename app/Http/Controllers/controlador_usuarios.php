@@ -65,7 +65,7 @@ class controlador_usuarios extends Controller
       $msg = 'Iniciando sesión como '.$request->nombre;
       return response()->json(['mensaje' => $msg]);
     } else{
-      return response()->json(['errores' => 'No se pudo inicar sesión']);
+      return response()->json(['errores' => ['No se pudo inicar sesión.']]);
     }
   }
 
@@ -74,36 +74,24 @@ class controlador_usuarios extends Controller
   }
 
   public function iniciar_sesion(Request $request){
-    $this->validate($request,[
+    $validacion = Validator::make($request->all(), [
       'correo_electronico'=>'required',
       'password'=>'required'
     ]);
 
-    $correo = $request->correo_electronico;
-    $pass = $request->password;
-    // $guardar = $request->rememberme;
-    //return gettype($guardar);
-    // if($guardar=='on'){
-    //   $guardar=true;
-    //
-    // }
-    // else{
-    //   $guardar=false;
-    // }
-
-    if(Auth::attempt(['correo_electronico' => $correo, 'password' => $pass],false)){
-      // return redirect()->intended('/');
-      $colores = array("bg-green");
-      $mensajes = array("Bienvenido a SisMin.");
-      $tiempos = 1000;
-      return redirect('/')->with(['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
     }
 
-    $colores = array("bg-red");
-    $mensajes = array("Los datos no son correctos.");
-    $tiempos = 1000;
-    return view('inicio.login',
-    ['mensaje'=> $mensajes, 'color'=>$colores, 'tiempo' => $tiempos]);
+    $correo = $request->correo_electronico;
+    $pass = $request->password;
+
+    if(Auth::attempt(['correo_electronico' => $correo, 'password' => $pass],false)){
+      $msg = 'Iniciando sesión.';
+      return response()->json(['mensaje' => $msg]);
+    } else{
+      return response()->json(['errores' => ['Datos incorrectos.']]);
+    }
   }
 
   public function cerrar_sesion(){

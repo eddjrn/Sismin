@@ -5,6 +5,8 @@ Inicio de sesión de usuarios
 @stop
 
 @section('estilos')
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 
 @section('contenido')
@@ -19,8 +21,7 @@ Inicio de sesión de usuarios
     </div>
     <div class="card">
         <div class="body">
-            <form id="sign_in" method="POST" route = "{{asset('/login')}}" >
-              {{csrf_field()}}
+            <form id="sign_in">
                 <div class="msg">Inicio de sesión</div>
                 <div class="demo-masked-input">
                 <div class="input-group">
@@ -28,7 +29,7 @@ Inicio de sesión de usuarios
                         <i class="material-icons">person</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required>
+                        <input type="text" class="form-control email" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico">
                     </div>
                 </div>
               </div>
@@ -37,12 +38,12 @@ Inicio de sesión de usuarios
                         <i class="material-icons">lock</i>
                     </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3">
-                        <button class="btn btn-block bg-pink waves-effect" type="submit">Iniciar sesión</button>
+                        <button class="btn btn-block bg-pink waves-effect" type="button" onclick="guardar();">Iniciar sesión</button>
                     </div>
                 </div>
                 <div class="row m-t-15 m-b--20">
@@ -74,5 +75,54 @@ Inicio de sesión de usuarios
   //Email
     $demoMaskedInput.find('.email').inputmask({ alias: "email" });
   });
+</script>
+
+<script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+function guardar(){
+  var url = "{{asset('/login')}}";
+  var urlToRedirectPage = "{{asset('/')}}";
+
+  var correo_electronico = document.getElementById('correo_electronico').value;
+  var password = document.getElementById('password').value;
+
+  var formdata = new FormData();
+  formdata.append('correo_electronico', correo_electronico);
+  formdata.append('password', password);
+
+  $.ajax({
+   type:'POST',
+   url: url,
+   data:formdata,
+   processData:false,
+   contentType:false,
+   success:function(result){
+     if(result.errores){
+      // mensajeAjax('Error', 'Verifique sus datos', 'error');
+       var errores = '<ul>';
+       $.each(result.errores,function(indice,valor){
+         //console.log(indice + ' - ' + valor);
+         errores += '<li>' + valor + '</li>';
+       });
+       errores += '</ul>';
+       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+     } else{
+       notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+       //mensajeAjax('Registro correcto', result.mensaje,'success');
+       window.setTimeout(function(){
+         location.href = urlToRedirectPage;
+       } ,1500);
+     }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  })
+}
 </script>
 @stop

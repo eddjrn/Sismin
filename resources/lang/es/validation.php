@@ -121,6 +121,7 @@ return [
         'confirm' => 'confirmar',
         'passwordAnt' => 'contraseña actual',
         'descripcion' => 'descripción',
+        'correo_electronico' => 'correo electrónico',
     ],
 
 ];
