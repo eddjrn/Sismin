@@ -189,16 +189,24 @@
                 <div role="tabpanel" class="tab-pane fade" id="settings">
                   <ul class="demo-choose-skin">
                     <!-- <li data-theme="red" class="active"> -->
+                    <a href="{{asset('/reunion')}}">
                       <li data-theme="red">
                           <i class="material-icons">add</i>
                           <span>Nueva reunión</span>
                       </li>
+                    </a>
                    <a href="{{asset('/Motivo')}}">
                       <li data-theme="red">
                           <i class="material-icons">note_add</i>
                           <span>Nuevo Registro</span>
                       </li>
                     </a>
+                    <a href="{{asset('/tipoUsuario')}}">
+                       <li data-theme="red">
+                           <i class="material-icons">assistant</i>
+                           <span>Dar de alta un tipo de usuario</span>
+                       </li>
+                     </a>
                       <a href="{{asset('/acercade')}}">
                         <li data-theme="red">
                           <i class="material-icons">help</i>
@@ -216,7 +224,6 @@
 
   <section class="content">
       <div class="container-fluid">
-
         <div class="block-header">
             <h2>@yield('cabecera')</h2>
         </div>
@@ -232,20 +239,17 @@
   <!-- Bootstrap Core Js -->
   <script src="{{asset('/plugins/bootstrap/js/bootstrap.js')}}"></script>
 
-  <!-- Select Plugin Js -->
-  <script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
-
-  <!-- Slimscroll Plugin Js -->
-  <script src="{{asset('/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
-
-  <!-- Bootstrap Notify Plugin Js -->
-  <script src="{{asset('/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script>
-
   <!-- Waves Effect Plugin Js -->
   <script src="{{asset('/plugins/node-waves/waves.js')}}"></script>
 
+  <!-- Jquery Validation Plugin Css -->
+  <script src="{{asset('/plugins/jquery-validation/jquery.validate.js')}}"></script>
+
   <!-- Jquery CountTo Plugin Js -->
   <script src="{{asset('/plugins/jquery-countto/jquery.countTo.js')}}"></script>
+
+  <!-- Bootstrap Notify Plugin Js -->
+  <script src="{{asset('/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script>
 
   @if(isset($mensaje))
     <?php $c = 0; ?>
@@ -261,9 +265,14 @@
   <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
   <script src="{{asset('/js/pages/index.js')}}"></script>
 
+  <!-- Select Plugin Js -->
+  <script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+
+  <!-- Slimscroll Plugin Js -->
+  <script src="{{asset('/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
+  
   <!-- Demo Js -->
   <script src="{{asset('/js/demo.js')}}"></script>
-
   <script src="{{asset('/js/scrollbar/jquery.overlayScrollbars.js')}}"></script>
   <script type="text/javascript">
     $(function() {

@@ -36,4 +36,37 @@ class controlador_reunion extends Controller
       $msg = 'Se agregó: '.$request->descripcion;
       return response()->json(['mensaje' => $msg]);
     }
+
+    public function mostrar_vista_tipo_usuario()
+  {
+      $tipos = \App\tipo_usuario::all();
+    return view('Paginas.tipoUsuario', ['tipos' => $tipos]);
+  }
+
+  public function registrar_tipo_usuario(Request $request)
+  {
+    $validacion = Validator::make($request->all(), [
+      'descripcion'=>'required',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+    $tipo = \App\tipo_usuario::create([
+      'descripcion'=>$request->descripcion,
+    ]);
+    $msg = 'Se registro el tipo de usuario exitosamente '.$request->descripcion;
+    return response()->json(['mensaje' => $msg]);
+  }
+
+  public function mostrar_vista_reunion()
+  {
+    return view('Paginas.reunion');
+  }
+
+  public function crear_reunion(Request $request)
+  {
+    return $request;
+  }
+
 }
