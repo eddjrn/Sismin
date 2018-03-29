@@ -62,7 +62,7 @@ $(function () {
             return form.valid();
         },
         onFinished: function (event, currentIndex) {
-            swal("Good job!", "Submitted!", "success");
+            finalizar();
         }
     });
 
@@ -85,6 +85,6 @@ $(function () {
 });
 
 function setButtonWavesEffect(event) {
-    $(event.currentTarget).find('[role="menu"] li a').removeClass('waves-effect');
-    $(event.currentTarget).find('[role="menu"] li:not(.disabled) a').addClass('waves-effect');
+    // $(event.currentTarget).find('[role="menu"] li a').addClass(colorDis());
+    // $(event.currentTarget).find('[role="menu"] li:not(.disabled) a').addClass(color());
 }

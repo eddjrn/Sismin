@@ -1794,7 +1794,7 @@ var defaults = $.fn.steps.defaults = {
      * @default false
      * @for defaults
      **/
-    enableCancelButton: false,
+    enableCancelButton: true,
 
     /**
      * Shows the finish button if enabled.
@@ -1915,7 +1915,9 @@ var defaults = $.fn.steps.defaults = {
      * @default function (event) { }
      * @for defaults
      **/
-    onCanceled: function (event) { },
+    onCanceled: function (event) {
+      cancelar();
+    },
 
     /**
      * Fires before finishing and can be used to prevent completion by returning `false`.
@@ -1936,7 +1938,9 @@ var defaults = $.fn.steps.defaults = {
      * @default function (event, currentIndex) { }
      * @for defaults
      **/
-    onFinished: function (event, currentIndex) { },
+    onFinished: function (event, currentIndex) {
+
+    },
 
     /**
      * Fires after async content is loaded.

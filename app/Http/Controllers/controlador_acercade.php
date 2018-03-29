@@ -10,7 +10,7 @@ class controlador_acercade extends Controller
     //
   public function mostrar_acercade()
   {
-    return view('inicio.acercade');
+    return view('Paginas.acercade');
   }
 
 }
