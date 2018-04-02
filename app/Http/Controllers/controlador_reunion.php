@@ -58,7 +58,39 @@ class controlador_reunion extends Controller
   }
 
   public function mostrar_vista_reunion(){
-    return view('Paginas.reunion');
+    $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
+    $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
+    $roles = \App\rol_usuario::orderBy('updated_at', 'desc')->get();
+
+    return view('Paginas.reunion', [
+      'tipos'=>$tipos,
+      'convocados'=>$convocados,
+      'roles'=>$roles,
+    ]);
+  }
+
+  public function actualizar_vista(Request $request, $opc){
+    switch($opc){
+      case 1:
+        $tipo_reunion = \App\tipo_reunion::find($request->id);
+        $reunion = $tipo_reunion->reuniones->sortByDesc('updated_at')->first();
+        // No se tienen temas pendientes en el sistema :(
+        // Por hacer
+        //   Sacar los temas pendientes de las minutas y ponerlos en la seccion de orden del dia
+        //   Que sean seleccionables en la seccion y sacar sus datos
+        return response()->json(['mensaje' => 'No implementado temas pendientes']);
+
+        break;
+      case 2:
+
+        break;
+      case 3:
+
+        break;
+      case 4:
+
+        break;
+    }
   }
 
   public function crear_reunion(Request $request){

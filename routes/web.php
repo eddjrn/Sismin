@@ -44,4 +44,5 @@ Route::get('/tipoUsuario','controlador_reunion@mostrar_vista_tipo_usuario')->mid
 Route::post('/tipoUsuario','controlador_reunion@registrar_tipo_usuario')->middleware('sesion');
 
 Route::get('/reunion','controlador_reunion@mostrar_vista_reunion')->middleware('sesion');
+Route::post('/reunion/{opc}', 'controlador_reunion@actualizar_vista')->middleware('sesion');
 Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');

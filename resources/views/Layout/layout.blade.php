@@ -59,7 +59,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Inicio">
+                      <a href="{{asset('/')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Inicio">
                           <i class="material-icons">dashboard</i>
                           <span class="label-count">7</span>
                       </a>

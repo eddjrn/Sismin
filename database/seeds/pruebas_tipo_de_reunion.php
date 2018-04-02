@@ -22,7 +22,7 @@ class pruebas_tipo_de_reunion extends Seeder
         DB::table('tipo_reunion')->insert([
           'created_at'=> now(),
           'updated_at' => now(),
-          'descripcion' => str_random(70),
+          'descripcion' => str_random(15),
           'imagen_logo' => '01010101',
         ]);
       }

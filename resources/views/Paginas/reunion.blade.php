@@ -5,6 +5,9 @@ Nueva reunión
 @stop
 
 @section('estilos')
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <!-- Bootstrap Material Datetime Picker Css -->
 <link href="{{asset('/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}" rel="stylesheet" />
 
@@ -80,32 +83,34 @@ Nueva reunión
                         <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
                           <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" class="datetimepicker form-control" name="fecha">
+                                <input type="text" onfocusout="actualizarFecha(this);" data-fecha="" class="datetimepicker form-control" id="fecha" name="fecha">
                                 <label class="form-label">Fecha y hora</label>
                             </div>
                           </div>
                           <div class="form-group form-float">
                               <div class="form-line">
-                                  <input type="text" class="form-control" name="motivo">
+                                  <input type="text" onfocusout="actualizarMotivo(this);" class="form-control" id="motivo" name="motivo">
                                   <label class="form-label">Motivo de la reunión</label>
                               </div>
                           </div>
                           <div class="form-group form-float">
                               <div class="form-line">
-                                  <input type="text" class="form-control" name="lugar">
+                                  <input type="text" onfocusout="actualizatLugar(this);" class="form-control" id="lugar" name="lugar">
                                   <label class="form-label">Lugar de la reunión</label>
                               </div>
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2">
                           <p class="col-grey">Tipo de reunión</p>
-                          <select class="form-control show-tick" data-live-search="true">
-                              <option>Seleccionar</option>
-                              <option>Burger, Shake and a Smile</option>
+                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-live-search="true">
+                              <option value="0">Seleccionar</option>
+                              @foreach($tipos as $tipo)
+                              <option value="{{$tipo->id_tipo_reunion}}" data-imagen="{{$tipo->imagen_logo}}">{{$tipo->descripcion}}</option>
+                              @endforeach
                           </select>
                           <br/>
                           <br/>
-                          <img class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" width="150" height="150" style="margin: auto;">
+                          <img id="imagen_tipo_reunion" class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" width="150" height="150" style="margin: auto;">
                         </div>
                     </div>
                   </div>
@@ -127,29 +132,28 @@ Nueva reunión
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
+                                @foreach($convocados as $convocado)
+                                  <tr>
+                                    <td id="nmd_checkbox_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
+                                    <td>{{$convocado->correo_electronico}}</td>
                                     <td>
                                       <div class="row">
                                         <div class="col-lg-3 col-md-3">
-                                          <input type="checkbox" id="md_checkbox_1" class="chk-col-teal" checked />
-                                          <label for="md_checkbox_1">Agregar</label>
+                                          <input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal"/>
+                                          <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
                                         </div>
-                                        <div class="col-lg-9 col-md-9">
-                                          <select class="form-control show-tick">
-                                              <option>Seleccionar</option>
-                                              <option>Burger, Shake and a Smile</option>
+                                        <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-9 col-md-9 oculto">
+                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" class="form-control show-tick">
+                                              <option value="0">Seleccionar</option>
+                                              @foreach($roles as $rol)
+                                              <option value="{{$rol->id_rol}}">{{$rol->descripcion}}</option>
+                                              @endforeach
                                           </select>
                                         </div>
                                       </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                </tr>
+                                  </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -159,24 +163,16 @@ Nueva reunión
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Temas pendientes</h4>
                         <div class="well" style="height: 200px; overflow-y: scroll;">
-                          <div class="list-group">
-                              <button type="button" class="list-group-item" style="word-wrap: break-word;">
-                                gdfgdfg
-                              </button>
-                          </div>
+
                         </div>
                         <button type="button" class="colorBoton">Agregar a la lista</button>
                       </div>
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Orden del día</h4>
                         <div class="well" style="height: 200px; overflow-y: scroll;">
-                          <div class="list-group">
-                              <button type="button" class="list-group-item" style="word-wrap: break-word;" data-toggle="modal" data-target="#temasModal">
-                                gdfgdfg
-                              </button>
-                          </div>
+                          <div id="lista_orden" class="list-group"></div>
                         </div>
-                        <button type="button" class="colorBoton" data-toggle="modal" data-target="#temasModal">Nuevo tema</button>
+                        <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema</button>
                       </div>
                     </div>
                   </div>
@@ -184,40 +180,34 @@ Nueva reunión
                     <div class="well">
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          {{now()}}
+                          <p id="fecha_hoy">Hoy</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          <img class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
+                          <img id="imagen_tipo_reunion_texto" class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
                         </div>
                       </div>
 
-                      <h2 class="align-center">Junta de consejo</h2>
-                      <h4>Motivo: Presentacion de junta de consejo</h4>
+                      <h2 id="tipo_texto" class="align-center">SisMin</h2>
+                      <h4 id="motivo_texto">Motivo:</h4>
 
                       <h5>Convocados</h5>
-                      <ul>
-                        <li>- Eduardo Javier Reyes Norman</li>
-                        <li>- Mayra Villavicencio Marquez</li>
-                      </ul>
+                      <ul id="convocados_texto"></ul>
 
                       <h5>Para tratar los siguientes temas</h5>
-                      <ol>
-                        <li>Pase de lista</li>
-                        <li>Dudas y preguntas</li>
-                        <li>Conclusiones</li>
-                      </ol>
+                      <ol id="lista_texto"></ol>
 
                       <br/>
-                      Fecha de: {{now()}}
+                      <p id="fecha_texto">Fecha de:</p>
                       <br/>
                       <br/>
-                      Lugar: CDV
+                      <p id="lugar_texto">Lugar:</p>
 
-                      <h3 class="align-center">Atte: Eduardo (Moderador)</h3>
+                      <h3 class="align-center">Atte: {{Auth::user()}} (Moderador)</h3>
                     </div>
                   </div>
                 </div>
               </div>
+              <hr/>
               <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 text-center">
                   <button type="button" id="anterior" class="colorBotonDis" onClick="anterior()">Anterior</button>
@@ -243,25 +233,30 @@ Nueva reunión
             <div class="modal-body">
               <div class="input-group">
                   <span class="input-group-addon">
-                      <i class="material-icons">assignment</i>
+                      <i class="material-icons">subject</i>
                   </span>
                   <div class="form-line">
-                      <input class="form-control date" placeholder="Descripción" type="text">
+                      <input id="descripcion_nuevo_tema" class="form-control date" placeholder="Descripción" type="text">
                   </div>
               </div>
               <p class="col-grey">Responsable</p>
-              <select class="form-control show-tick" data-live-search="true">
-                  <option>Seleccionar</option>
-                  <option>Burger, Shake and a Smile</option>
+              <select id="responsable_nuevo_tema" class="form-control show-tick" data-live-search="true">
+                  <option value="0">Seleccionar</option>
               </select>
             </div>
             <div class="modal-footer">
               <div class="row">
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button type="button" class="colorBoton btn-block">Guardar</button>
+                  <button id="btnGuardar" type="button" onClick="actualizarOrdenDia(1, null);" class="colorBoton btn-block">Guardar</button>
                 </div>
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button type="button" class="colorBoton btn-block" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="colorBoton btn-block" onClick="actualizarOrdenDia(5, null);">Cancelar</button>
+                </div>
+              </div>
+              <div id="filaEliminar" class="row oculto">
+                <br/>
+                <div class="col-lg-12 col-md-12 text-center">
+                  <button id="btnEliminar" type="button" onClick="actualizarOrdenDia(6, null);" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>
             </div>
@@ -309,6 +304,16 @@ var fondo = "bg-cyan";
 var tema = "theme-cyan";
 
 var urlToCancelPage = "{{asset('/')}}";
+var moderador = "{{Auth::user()->id_usuario}}";
+
+var formulario = new FormData();
+formulario.append('id_usuario', moderador);
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 </script>
 
 <script src="{{asset('/js/paginas/reunion.js')}}"></script>
