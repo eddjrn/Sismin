@@ -37,12 +37,12 @@ class controlador_reunion extends Controller
       return response()->json(['mensaje' => $msg]);
     }
 
-    public function mostrar_vista_tipo_usuario(){
-      $tipos = \App\tipo_usuario::orderBy('updated_at', 'desc')->get();
-      return view('Paginas.tipoUsuario', ['tipos' => $tipos]);
+    public function mostrar_vista_rol_usuario(){
+      $tipos = \App\rol_usuario::orderBy('updated_at', 'desc')->get();
+      return view('Paginas.rolUsuario', ['tipos' => $tipos]);
     }
 
-  public function registrar_tipo_usuario(Request $request){
+  public function registrar_rol_usuario(Request $request){
     $validacion = Validator::make($request->all(), [
       'descripcion'=>'required',
     ]);
@@ -50,10 +50,10 @@ class controlador_reunion extends Controller
     if($validacion->fails()){
       return response()->json(['errores' => $validacion->errors()]);
     }
-    $tipo = \App\tipo_usuario::create([
+    $tipo = \App\rol_usuario::create([
       'descripcion'=>$request->descripcion,
     ]);
-    $msg = 'Se registro el tipo de usuario exitosamente '.$request->descripcion;
+    $msg = 'Se registro el rol de usuario exitosamente: '.$request->descripcion;
     return response()->json(['mensaje' => $msg]);
   }
 
@@ -94,7 +94,54 @@ class controlador_reunion extends Controller
   }
 
   public function crear_reunion(Request $request){
-    return $request;
+    $validacion = Validator::make($request->all(), [
+      'motivo'=>'required|min:4',
+      'lugar'=>'required|min:4',
+      'tipo_de_reunion'=>'required',
+      'fecha'=>'required|date',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+
+    $lista_convocados = json_decode($request->convocados);
+    $roles = json_decode($request->roles);
+    $orden = json_decode($request->orden_dia);
+    $responsables = json_decode($request->responsables);
+
+    if(count($lista_convocados) < 2){
+      return response()->json(['errores' => ["Tiene agregar por lo menos un convocado."]]);
+    }
+    if(count($orden) == 0){
+      return response()->json(['errores' => ["Tiene que agregar por lo menos un tema para la orden del día."]]);
+    }
+
+    $reunion = \App\reunion::create([
+      'fecha_reunion' => $request->fecha,
+      'id_tipo_reunion' => $request->tipo_de_reunion,
+      'motivo' => $request->motivo,
+      'lugar' => $request->lugar,
+    ]);
+
+    for($i = 0; $i < count($orden); $i++){
+      $orden_dia = \App\orden_dia::create([
+        'id_reunion' => $reunion->id_reunion,
+        'id_usuario' => $responsables[$i],
+        'descripcion' => $orden[$i],
+      ]);
+    }
+
+    for($i = 0; $i < count($lista_convocados); $i++){
+      $convocados = \App\reunion_convocado::create([
+        'id_reunion' => $reunion->id_reunion,
+        'id_usuario' => $lista_convocados[$i],
+        'id_rol' => $roles[$i],
+        'id_tipo_usuario' => 1,
+      ]);
+    }
+
+    return response()->json(['mensaje' => "Nueva reunión creada correctamente."]);
   }
 
 }

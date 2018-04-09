@@ -64,11 +64,11 @@ class usuario extends Authenticatable
      }
 
    public function orden_dia(){
-     return $this->belongsTo(orden_dia::class,'id_usuario');
+     return $this->hasMany(orden_dia::class,'id_usuario');
    }
 
-   public function convocados(){
-     return $this->belongsToMany(reunion_convocado::class,'id_usuario');
+   public function convocado_en(){
+     return $this->hasMany(reunion_convocado::class,'id_usuario');
    }
 
 

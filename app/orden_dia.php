@@ -23,11 +23,11 @@ class orden_dia extends Model
   }
 
   public function usuario(){
-    return $this->hasOne(usuario::class,'id_usuario');
+    return $this->belongsTo(usuario::class,'id_usuario');
   }
 
   public function reunion(){
-    return $this->hasOne(reunion::class,'id_reunion');
+    return $this->belongsTo(reunion::class,'id_reunion');
   }
 
   public function getFecha(){

@@ -16,7 +16,7 @@ class CreacionDeLaReunion extends Migration
         Schema::create('reunion', function (Blueprint $table) {
             $table->increments('id_reunion');
             $table->timestamps();
-            $table->date('fecha_reunion');
+            $table->dateTime('fecha_reunion');
             $table->integer('id_tipo_reunion')->unsigned()->index();
             $table->foreign('id_tipo_reunion')->references('id_tipo_reunion')->on('tipo_reunion');
             $table->text('motivo',100);

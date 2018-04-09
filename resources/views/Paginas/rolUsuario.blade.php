@@ -1,7 +1,7 @@
 @extends('Layout.layout2')
 
 @section('titulo')
-Registro del motivo de la reunión
+Registro de un rol de usuario
 @stop
 
 @section('estilos')
@@ -25,7 +25,7 @@ Registro del motivo de la reunión
     <div class="card">
         <div class="body">
             <form>
-                <div class="msg">Dar de alta tipo de reunión</div>
+                <div class="msg">Dar de alta rol de reunión</div>
 
                 @if(isset($tipos))
                 <div class="input-group">
@@ -83,8 +83,8 @@ $.ajaxSetup({
 });
 
 function guardar(){
-  var url = "{{asset('/tipoUsuario')}}";
-  var urlToRedirectPage = "{{asset('/tipoUsuario')}}";
+  var url = "{{asset('/rolUsuario')}}";
+  var urlToRedirectPage = "{{asset('/rolUsuario')}}";
   var descripcion = document.getElementById('descripcion').value;
   var formdata = new FormData();
   formdata.append('descripcion', descripcion);

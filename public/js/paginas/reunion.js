@@ -2,36 +2,39 @@ var indice = 1;
 var candado = false;
 
 function finalizar(){
-  mensajeAjax('Registro realizado', 'Redireccionando a inicio','success');
+  // mensajeAjax('Registro realizado', 'Redireccionando a inicio','success');
+  formulario.append('convocados', JSON.stringify(convocados));
+  formulario.append('roles', JSON.stringify(roles));
+  formulario.append('orden_dia', JSON.stringify(orden_dia));
+  formulario.append('responsables', JSON.stringify(responsables));
 
-  var url = urlToCancelPage + "reunion/1";
-  var formdata = new FormData();
-  formdata.append('id', id_tipo_reunion);
-
-  // $.ajax({
-  //    type:'POST',
-  //    url: url,
-  //    data:formdata,
-  //    processData:false,
-  //    contentType:false,
-  //    success:function(result){
-  //      if(result.errores){
-  //       // mensajeAjax('Error', 'Verifique sus datos', 'error');
-  //        var errores = '<ul>';
-  //        $.each(result.errores,function(indice,valor){
-  //          //console.log(indice + ' - ' + valor);
-  //          errores += '<li>' + valor + '</li>';
-  //        });
-  //        errores += '</ul>';
-  //        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-  //      } else{
-  //        notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
-  //      }
-  //     },
-  //     error: function (jqXHR, status, error) {
-  //      mensajeAjax('Error', error, 'error');
-  //     }
-  // });
+  $.ajax({
+     type:'POST',
+     url: url,
+     data:formulario,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errores){
+        // mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           //console.log(indice + ' - ' + valor);
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+         window.setTimeout(function(){
+           location.href = urlToRedirectPage;
+         } ,1500);
+       }
+      },
+      error: function (jqXHR, status, error) {
+       mensajeAjax('Error', error, 'error');
+      }
+  });
 }
 
 function actualizarRol(boton){
@@ -39,11 +42,16 @@ function actualizarRol(boton){
   var id_usuario = id_seleccion[2];
   var id_rol = $(`#${boton.id} option:selected`).val();
 
+  var indice = convocados.indexOf(id_usuario);
+  if(indice!=-1){
+     roles[indice] = id_rol;
+  }
+
   if(id_rol == 0){
-    return false;
+    notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
   } else{
-    alert("sidid");
     // aqui va lo que se haga con el rol
+
   }
 }
 
@@ -52,6 +60,8 @@ function actualizarLista(boton){
   if(boton.checked){
     var nombre = $(`#n${boton.id}`).html();
     var id_usuario = boton.id.split("_");
+    convocados.push(id_usuario[2]);
+    roles.push(1);
     // alert(id_usuario[2]);
     // return false;
     $(`#a${boton.id}`).show();
@@ -63,6 +73,12 @@ function actualizarLista(boton){
     `);
   } else{
     var id_usuario = boton.id.split("_");
+    var indice = convocados.indexOf(id_usuario[2]);
+    if(indice!=-1){
+       convocados.splice(indice, 1);
+       roles.splice(indice, 1);
+    }
+
     $(`#a${boton.id}`).hide();
     $(`#nombre_texto${boton.id}`).remove();
     $(`#convocado${boton.id}`).remove();
@@ -70,6 +86,7 @@ function actualizarLista(boton){
     $(`#rol_seleccion_${id_usuario[2]}`).selectpicker('refresh');
     // alert(`rol_seleccion_${id_usuario[2]}`);
   }
+  // alert(convocados);
   $(`#responsable_nuevo_tema`).selectpicker('refresh');
 }
 
@@ -91,6 +108,10 @@ function actualizarOrdenDia(opc, boton){
       var idRand = Math.floor(Math.random() * 99);
       var lista_texto_id = 'ordenDia_texto' + idRand;
       var boton_id = 'ordenDia' + idRand;
+
+      orden_dia.push(descripcion);
+      responsables.push(seleccion);
+      orden_dia_control.push(idRand);
 
       $('#lista_orden').html($('#lista_orden').html() + `\
       <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
@@ -118,6 +139,13 @@ function actualizarOrdenDia(opc, boton){
         notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
         break;
       }
+
+      var indice = orden_dia_control.indexOf(boton);
+      if(indice!=-1){
+         orden_dia[indice] = descripcion;
+         responsables[indice] = seleccion;
+      }
+
       // limpia los campos, los datos y hace los cambios
       $(`#ordenDia${boton}`).html(descripcion);
       $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
@@ -165,6 +193,13 @@ function actualizarOrdenDia(opc, boton){
       $(`#ordenDia_texto${boton}`).remove();
       $(`#ordenDia${boton}`).remove();
 
+      var indice = convocados.indexOf(boton);
+      if(indice!=-1){
+         orden_dia.splice(indice, 1);
+         responsables.splice(indice, 1);
+         orden_dia_control.splice(indice, 1);
+      }
+
       $('#descripcion_nuevo_tema').val(null);
       $('#responsable_nuevo_tema').val(0);
       $(`#responsable_nuevo_tema`).selectpicker('refresh');
@@ -175,10 +210,10 @@ function actualizarOrdenDia(opc, boton){
   }
 }
 
-function actualizarFecha(valor){
-  var fecha = valor.value;
-  // alert(fecha);
-}
+// function actualizarFecha(valor){
+//   var fecha = valor.value;
+//   // alert(fecha);
+// }
 
 function actualizarMotivo(valor){
   var motivo = valor.value;
@@ -187,7 +222,7 @@ function actualizarMotivo(valor){
   formulario.set('motivo', motivo);
 }
 
-function actualizatLugar(valor){
+function actualizarLugar(valor){
   var lugar = valor.value;
   // alert(lugar);
   $('#lugar_texto').html("Lugar: " + lugar);
@@ -207,7 +242,7 @@ function actualizarTipo(opcion){
   $('#imagen_tipo_reunion').attr("src", imagen);
   $('#imagen_tipo_reunion_texto').attr("src", imagen);
 
-  formulario.set('id_tipo_reunion', id_tipo_reunion);
+  formulario.set('tipo_de_reunion', id_tipo_reunion);
 
   var url = urlToCancelPage + "reunion/1";
   var formdata = new FormData();
@@ -332,6 +367,7 @@ $(function () {
       $('#fecha_texto').html("Fecha de: " + date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
       $('#fecha_hoy').html(moment().format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
       $('#fecha').attr("data-fecha", date.format("YYYY-MM-DD HH:mm"));
+      formulario.set('fecha', date.format("YYYY-MM-DD HH:mm"));
       // alert(date.format("DD-MM-YYYY HH:mm"));
       // alert(moment().format("DD-MM-YYYY HH:mm"));
       // alert(date.get('D'));

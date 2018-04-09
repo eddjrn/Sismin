@@ -21,7 +21,7 @@ class CreacionDeLaOrdenDelDia extends Migration
           $table->integer('id_usuario')->unsigned()->index();
           $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
           $table->text('descripcion',200);
-          $table->text('descripcion_hechos',400);
+          $table->text('descripcion_hechos',400)->nullable();
         });
     }
 

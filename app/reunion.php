@@ -18,6 +18,12 @@ class reunion extends Model
     'lugar',
   ];
 
+  protected $dates = [
+   'created_at', // Add if you're using timestamps on the model
+   'updated_at', // Add if you're using timestamps on the model
+   'fecha_reunion',
+  ];
+
   public function __toString(){
     return $this->motivo.' en el lugar '.$this->lugar;
   }
@@ -37,25 +43,31 @@ class reunion extends Model
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
- }
+  }
 
- public function setMotivoAttribute($value){
+  public function getLimite(){
+    $fecha = new Date($this->getOriginal('fecha_reunion'));
+    return $fecha->diffForHumans();
+  }
+
+  public function getFechaReunionAttribute($value){
+   Date::setLocale('es');
+   return Date::parse($value)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+  }
+
+  public function setFechaReunionAttribute($value){
+    $this->attributes['fecha_reunion'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
+  }
+
+  public function setMotivoAttribute($value){
    $con = strtolower($value);
    $Motivo = ucfirst($con);
    $this->attributes['motivo'] = $Motivo;
- }
+  }
 
- public function setLugarAttribute($value){
+  public function setLugarAttribute($value){
    $con = strtolower($value);
    $lugar = ucfirst($con);
    $this->attributes['lugar'] = $lugar;
- }
-
- public function setDescripcionAttribute($value){
-   $con = strtolower($value);
-   $descripcion = ucfirst($con);
-   $this->attributes['descripcion'] = $descripcion;
-   
- }
-
+  }
 }

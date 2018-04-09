@@ -95,7 +95,7 @@ Nueva reunión
                           </div>
                           <div class="form-group form-float">
                               <div class="form-line">
-                                  <input type="text" onfocusout="actualizatLugar(this);" class="form-control" id="lugar" name="lugar">
+                                  <input type="text" onfocusout="actualizarLugar(this);" class="form-control" id="lugar" name="lugar">
                                   <label class="form-label">Lugar de la reunión</label>
                               </div>
                           </div>
@@ -304,10 +304,18 @@ var fondo = "bg-cyan";
 var tema = "theme-cyan";
 
 var urlToCancelPage = "{{asset('/')}}";
+var url = "{{asset('/reunion')}}";
+var urlToRedirectPage = "{{asset('/')}}";
 var moderador = "{{Auth::user()->id_usuario}}";
 
 var formulario = new FormData();
-formulario.append('id_usuario', moderador);
+// formulario.append('id_moderador', moderador);
+
+var convocados = [moderador];
+var roles = [1];
+var orden_dia = [];
+var responsables = [];
+var orden_dia_control = [];
 
 $.ajaxSetup({
     headers: {

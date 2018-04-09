@@ -128,7 +128,7 @@
                           <span>Dar de alta un nuevo tipo de reunión</span>
                       </li>
                     </a>
-                    <a href="{{asset('/tipoUsuario')}}">
+                    <a href="{{asset('/rolUsuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>
                            <span>Dar de alta un rol de usuario</span>
