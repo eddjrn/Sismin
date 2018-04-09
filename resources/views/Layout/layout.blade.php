@@ -196,6 +196,18 @@
   <!-- Custom Js -->
   <script src="{{asset('/js/admin.js')}}"></script>
 
+  <script>
+    $(function(){
+        $('.bar').slimScroll({
+          height: '300px',
+          railVisible: true,
+          alwaysVisible: true,
+          allowPageScroll: true,
+          size: '8px'
+        });
+    });
+  </script>
+
   <script src="{{asset('/js/pages/index.js')}}"></script>
 
   <!-- Demo Js -->

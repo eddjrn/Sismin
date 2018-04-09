@@ -92,7 +92,11 @@
   <script>
     $(function(){
         $('.bar').slimScroll({
-            height: '250px'
+          height: '300px',
+          railVisible: true,
+          alwaysVisible: true,
+          allowPageScroll: true,
+          size: '8px'
         });
     });
   </script>

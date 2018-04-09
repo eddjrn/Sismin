@@ -115,7 +115,7 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu2" class="oculto">
-                    <div class="table-responsive">
+                    <div class="table-responsive bar" style="height: 400px; overflow-y: scroll;">
                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
                                 <tr>
@@ -164,14 +164,14 @@ Nueva reunión
                     <div class="row">
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Temas pendientes</h4>
-                        <div class="well" style="height: 200px; overflow-y: scroll;">
+                        <div class="well bar" style="height: 300px; overflow-y: scroll;">
 
                         </div>
                         <button type="button" class="colorBoton">Agregar a la lista</button>
                       </div>
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Orden del día</h4>
-                        <div class="well" style="height: 200px; overflow-y: scroll;">
+                        <div class="well bar" style="height: 300px; overflow-y: scroll;">
                           <div id="lista_orden" class="list-group"></div>
                         </div>
                         <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema</button>
@@ -179,7 +179,7 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu4" class="oculto">
-                    <div class="well">
+                    <div class="well bar" style="height: 900px; overflow-y: scroll;">
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                           <p id="fecha_hoy">Hoy</p>
@@ -282,13 +282,6 @@ Nueva reunión
 <!-- Jquery DataTable Plugin Js -->
 <script src="{{asset('/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
 <script src="{{asset('/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/jszip.min.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
-<script src="{{asset('/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
 
 <!-- Moment Plugin Js -->
 <script src="{{asset('/plugins/momentjs/moment.js')}}"></script>

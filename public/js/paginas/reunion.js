@@ -390,8 +390,8 @@ $(function () {
             "infoFiltered": "(Se filtró de _MAX_ registros totales)",
             "search": "Buscar",
             "paginate": {
-                "previous": "Anterior",
-                "next": "Siguiente"
+                "previous": "<",
+                "next": ">"
               }
         },
     });
