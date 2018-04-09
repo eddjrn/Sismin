@@ -95,8 +95,8 @@ class controlador_reunion extends Controller
 
   public function crear_reunion(Request $request){
     $validacion = Validator::make($request->all(), [
-      'motivo'=>'required|min:4',
-      'lugar'=>'required|min:4',
+      'motivo'=>'required|min:3',
+      'lugar'=>'required|min:3',
       'tipo_de_reunion'=>'required',
       'fecha'=>'required|date',
     ]);

@@ -1,13 +1,24 @@
 var indice = 1;
 var candado = false;
+// Listas de datos a llenar
+var formulario = new FormData();
+// Se agrega al usuario logueado a la nueva lista
+var convocados = [moderador];
+var roles = [1];
 
+var orden_dia = [];
+var responsables = [];
+// Control del la orden del día y sus responsables
+var orden_dia_control = [];
+
+// Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
-  // mensajeAjax('Registro realizado', 'Redireccionando a inicio','success');
+  // Se agregan los datos faltantes al formulario y se codifican para el envío
   formulario.append('convocados', JSON.stringify(convocados));
   formulario.append('roles', JSON.stringify(roles));
   formulario.append('orden_dia', JSON.stringify(orden_dia));
   formulario.append('responsables', JSON.stringify(responsables));
-
+  // Se hace la petición al servidor
   $.ajax({
      type:'POST',
      url: url,
@@ -16,16 +27,15 @@ function finalizar(){
      contentType:false,
      success:function(result){
        if(result.errores){
-        // mensajeAjax('Error', 'Verifique sus datos', 'error');
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
          var errores = '<ul>';
          $.each(result.errores,function(indice,valor){
-           //console.log(indice + ' - ' + valor);
            errores += '<li>' + valor + '</li>';
          });
          errores += '</ul>';
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        } else{
-         notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+         mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
            location.href = urlToRedirectPage;
          } ,1500);
@@ -37,33 +47,31 @@ function finalizar(){
   });
 }
 
+// Función que se ejecuta al seleccionar un rol para el usuario
 function actualizarRol(boton){
   var id_seleccion = boton.id.split("_");
   var id_usuario = id_seleccion[2];
   var id_rol = $(`#${boton.id} option:selected`).val();
-
+  // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
   var indice = convocados.indexOf(id_usuario);
   if(indice!=-1){
      roles[indice] = id_rol;
   }
-
   if(id_rol == 0){
+    roles[indice] = 1;
     notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
-  } else{
-    // aqui va lo que se haga con el rol
-
   }
 }
 
+// Función que se ejecuta al palomear un usuario
 function actualizarLista(boton){
-  // alert(boton.checked);
+  // Checa si esta palomeado el usuario
   if(boton.checked){
     var nombre = $(`#n${boton.id}`).html();
     var id_usuario = boton.id.split("_");
     convocados.push(id_usuario[2]);
     roles.push(1);
-    // alert(id_usuario[2]);
-    // return false;
+    // Muestra el boton de rol y hace cambios en el resumen
     $(`#a${boton.id}`).show();
     $('#convocados_texto').html($('#convocados_texto').html() + `\
       <li id="nombre_texto${boton.id}">${nombre}</li>\
@@ -72,24 +80,24 @@ function actualizarLista(boton){
       <option id="convocado${boton.id}" value="${id_usuario[2]}">${nombre}</option>\
     `);
   } else{
+    // Elimina a el usuario de la lista si existe
     var id_usuario = boton.id.split("_");
     var indice = convocados.indexOf(id_usuario[2]);
     if(indice!=-1){
        convocados.splice(indice, 1);
        roles.splice(indice, 1);
     }
-
+    // Oculta el boton de rol y actualiza el resumen de la página
     $(`#a${boton.id}`).hide();
     $(`#nombre_texto${boton.id}`).remove();
     $(`#convocado${boton.id}`).remove();
     $(`#rol_seleccion_${id_usuario[2]}`).val(0);
     $(`#rol_seleccion_${id_usuario[2]}`).selectpicker('refresh');
-    // alert(`rol_seleccion_${id_usuario[2]}`);
   }
-  // alert(convocados);
   $(`#responsable_nuevo_tema`).selectpicker('refresh');
 }
 
+// Función que se ejecuta al agregar o editar una orden del día (Boton es un numero aleatorio)
 function actualizarOrdenDia(opc, boton){
   switch(opc){
     // Guardar nuevo tema de orden del dia
@@ -108,11 +116,11 @@ function actualizarOrdenDia(opc, boton){
       var idRand = Math.floor(Math.random() * 99);
       var lista_texto_id = 'ordenDia_texto' + idRand;
       var boton_id = 'ordenDia' + idRand;
-
+      // Se agregan los datos corresponientes a las listas
       orden_dia.push(descripcion);
       responsables.push(seleccion);
       orden_dia_control.push(idRand);
-
+      // Se genera el codigo HTML correspondiente de los botones
       $('#lista_orden').html($('#lista_orden').html() + `\
       <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
       style="word-wrap: break-word;" data-usuario="${seleccion}">${descripcion}</button>`);
@@ -120,7 +128,6 @@ function actualizarOrdenDia(opc, boton){
       $('#descripcion_nuevo_tema').val(null);
       $('#responsable_nuevo_tema').val(0);
       $(`#responsable_nuevo_tema`).selectpicker('refresh');
-
       $('#lista_texto').html($('#lista_texto').html() + `\
         <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
       break;
@@ -139,13 +146,12 @@ function actualizarOrdenDia(opc, boton){
         notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
         break;
       }
-
+      // Cambia los valores en el indice de los temas correspondientes
       var indice = orden_dia_control.indexOf(boton);
       if(indice!=-1){
          orden_dia[indice] = descripcion;
          responsables[indice] = seleccion;
       }
-
       // limpia los campos, los datos y hace los cambios
       $(`#ordenDia${boton}`).html(descripcion);
       $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
@@ -192,14 +198,14 @@ function actualizarOrdenDia(opc, boton){
       $('#temasModal').modal('hide');
       $(`#ordenDia_texto${boton}`).remove();
       $(`#ordenDia${boton}`).remove();
-
+      // Busca el valor en un indice y lo elimina de la lista
       var indice = convocados.indexOf(boton);
       if(indice!=-1){
          orden_dia.splice(indice, 1);
          responsables.splice(indice, 1);
          orden_dia_control.splice(indice, 1);
       }
-
+      // Pone los valores en vacío
       $('#descripcion_nuevo_tema').val(null);
       $('#responsable_nuevo_tema').val(0);
       $(`#responsable_nuevo_tema`).selectpicker('refresh');
@@ -210,31 +216,25 @@ function actualizarOrdenDia(opc, boton){
   }
 }
 
-// function actualizarFecha(valor){
-//   var fecha = valor.value;
-//   // alert(fecha);
-// }
-
+// Función que se ejecuta al escribir el motivo
 function actualizarMotivo(valor){
   var motivo = valor.value;
-  // alert(motivo);
   $('#motivo_texto').html("Motivo: " + motivo);
   formulario.set('motivo', motivo);
 }
 
+// Función que se ejecuta al escribir el lugar
 function actualizarLugar(valor){
   var lugar = valor.value;
-  // alert(lugar);
   $('#lugar_texto').html("Lugar: " + lugar);
   formulario.set('lugar', lugar);
 }
 
+// Función que se ejecuta cuando se selecciona un tipo de reunión
 function actualizarTipo(opcion){
-  // alert(opcion.value);
   var id_tipo_reunion = opcion.value;
   var descripcion = $("#tipo_reunion option:selected").html();
   var imagen = $("#tipo_reunion option:selected").attr("data-imagen");
-  // alert(descripcion);
   if(id_tipo_reunion == 0){
     return false;
   }
@@ -243,8 +243,8 @@ function actualizarTipo(opcion){
   $('#imagen_tipo_reunion_texto').attr("src", imagen);
 
   formulario.set('tipo_de_reunion', id_tipo_reunion);
-
   var url = urlToCancelPage + "reunion/1";
+  // NO implementado aun ----------------------------------------------------------------
   var formdata = new FormData();
   formdata.append('id', id_tipo_reunion);
 
@@ -268,6 +268,7 @@ function actualizarTipo(opcion){
 
 }
 
+// Botones de navegación
 function cancelar(){
   mensajeAjax('Registro cancelado', 'Redireccionando a inicio','warning');
   window.setTimeout(function(){
@@ -280,6 +281,9 @@ function anterior(){
     var menu = "#menu"+indice;
     $(menu).hide();
     indice--;
+    var paso = "#paso"+indice;
+    $(paso).addClass(fondo);
+    $(paso).removeClass("bg-grey");
     menu = "#menu"+indice;
     $(menu).show(200);
 
@@ -296,7 +300,10 @@ function anterior(){
 function siguiente(){
   if(indice < 4){
     var menu = "#menu"+indice;
+    var paso = "#paso"+indice;
     $(menu).hide();
+    $(paso).addClass("bg-grey");
+    $(paso).removeClass(fondo);
     indice++;
     menu = "#menu"+indice;
     $(menu).show(200);
@@ -316,24 +323,24 @@ function siguiente(){
   }
 }
 
+// Función al recargar la página, cambia estilos e inicaliza scripts en español
 $(function () {
+    // Cambia estilos
+    // Cuerpo
     $('body').removeClass('theme-pink');
     $('body').addClass(tema);
-
     // Botones
     $('.colorBoton').addClass(colorBtn);
     $('.colorBotonDis').addClass(colorBtnDis);
     $('#anterior').prop( "disabled", true );
-
-    // Checkbox
+    // Checkboxs
     $('.chk-col-teal').addClass(colorCheck);
     $('.chk-col-teal').removeClass('chk-col-teal');
-
+    // Fondos generales y objetos ocultos
     $('.fondo').addClass(fondo);
     $('.oculto').hide();
 
     //Datetimepicker plugin
-    // moment.locale('fr', null);
     moment.updateLocale('en', {
       months : [
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
@@ -359,20 +366,20 @@ $(function () {
         nowButton: true,
         weekStart: 1
     }).on('change', function(e, date){
+      // Función que se ejecuta al agregar fecha
+      // Si la fecha es anterior a hoy
       if(moment(date).isBefore(moment())){
         mensajeAjax('Error', 'La fecha tiene que estar en futuro.','error');
         $('#fecha').val(null);
         return false;
       }
+      // Ponemos los datos en formato amigable y agregamos los datos al formulario que se va a envíar
       $('#fecha_texto').html("Fecha de: " + date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
       $('#fecha_hoy').html(moment().format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
-      $('#fecha').attr("data-fecha", date.format("YYYY-MM-DD HH:mm"));
       formulario.set('fecha', date.format("YYYY-MM-DD HH:mm"));
-      // alert(date.format("DD-MM-YYYY HH:mm"));
-      // alert(moment().format("DD-MM-YYYY HH:mm"));
-      // alert(date.get('D'));
   	});
 
+    // Data table plugin
     $('.js-basic-example').DataTable({
         responsive: true,
         "language": {

@@ -32,7 +32,7 @@ Nueva reunión
             <div class="body">
               <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect">
+                  <div class="info-box fondo  hover-zoom-effect" id="paso1">
                       <div class="icon hidden-xs">
                           <i class="material-icons">event</i>
                       </div>
@@ -43,7 +43,7 @@ Nueva reunión
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect">
+                  <div class="info-box fondo  hover-zoom-effect" id="paso2">
                       <div class="icon hidden-xs">
                           <i class="material-icons">contacts</i>
                       </div>
@@ -54,7 +54,7 @@ Nueva reunión
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect">
+                  <div class="info-box fondo  hover-zoom-effect" id="paso3">
                       <div class="icon hidden-xs">
                           <i class="material-icons">assignment</i>
                       </div>
@@ -65,7 +65,7 @@ Nueva reunión
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect">
+                  <div class="info-box fondo  hover-zoom-effect" id="paso4">
                       <div class="icon hidden-xs">
                           <i class="material-icons">subject</i>
                       </div>
@@ -133,6 +133,7 @@ Nueva reunión
                             </tfoot>
                             <tbody>
                                 @foreach($convocados as $convocado)
+                                @unless($convocado->id_usuario == Auth::user()->id_usuario)
                                   <tr>
                                     <td id="nmd_checkbox_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
                                     <td>{{$convocado->correo_electronico}}</td>
@@ -153,6 +154,7 @@ Nueva reunión
                                       </div>
                                     </td>
                                   </tr>
+                                @endunless
                                 @endforeach
                             </tbody>
                         </table>
@@ -186,22 +188,19 @@ Nueva reunión
                           <img id="imagen_tipo_reunion_texto" class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
                         </div>
                       </div>
-
                       <h2 id="tipo_texto" class="align-center">SisMin</h2>
                       <h4 id="motivo_texto">Motivo:</h4>
-
                       <h5>Convocados</h5>
-                      <ul id="convocados_texto"></ul>
-
+                      <ul id="convocados_texto">
+                        <li>{{Auth::user()}}</li>
+                      </ul>
                       <h5>Para tratar los siguientes temas</h5>
                       <ol id="lista_texto"></ol>
-
                       <br/>
                       <p id="fecha_texto">Fecha de:</p>
                       <br/>
                       <br/>
                       <p id="lugar_texto">Lugar:</p>
-
                       <h3 class="align-center">Atte: {{Auth::user()}} (Moderador)</h3>
                     </div>
                   </div>
@@ -242,6 +241,7 @@ Nueva reunión
               <p class="col-grey">Responsable</p>
               <select id="responsable_nuevo_tema" class="form-control show-tick" data-live-search="true">
                   <option value="0">Seleccionar</option>
+                  <option id="convocado{{Auth::user()->id_usuario}}" value="{{Auth::user()->id_usuario}}">{{Auth::user()}}</option>
               </select>
             </div>
             <div class="modal-footer">
@@ -307,15 +307,6 @@ var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var moderador = "{{Auth::user()->id_usuario}}";
-
-var formulario = new FormData();
-// formulario.append('id_moderador', moderador);
-
-var convocados = [moderador];
-var roles = [1];
-var orden_dia = [];
-var responsables = [];
-var orden_dia_control = [];
 
 $.ajaxSetup({
     headers: {
