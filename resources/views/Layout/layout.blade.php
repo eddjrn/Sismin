@@ -33,6 +33,9 @@
     <link href="{{asset('/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
 
     @yield('estilos')
+
+    <!-- Plugin CSS overlayScrollbars -->
+    <link type="text/css" href="{{asset('/css/scrollbar/OverlayScrollbars.css')}}" rel="stylesheet"/>
 </head>
 
 <body class="theme-pink ls-closed" >
@@ -163,9 +166,6 @@
   <!-- Bootstrap Core Js -->
   <script src="{{asset('/plugins/bootstrap/js/bootstrap.js')}}"></script>
 
-  <!-- Slimscroll Plugin Js -->
-  <script src="{{asset('/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
-
   <!-- Waves Effect Plugin Js -->
   <script src="{{asset('/plugins/node-waves/waves.js')}}"></script>
 
@@ -196,15 +196,11 @@
   <!-- Custom Js -->
   <script src="{{asset('/js/admin.js')}}"></script>
 
+  <!-- Plugin JS overlayScrollbars -->
+  <script type="text/javascript" src="{{asset('/js/scrollbar/jquery.overlayScrollbars.js')}}"></script>
   <script>
     $(function(){
-        $('.bar').slimScroll({
-          height: '300px',
-          railVisible: true,
-          alwaysVisible: true,
-          allowPageScroll: true,
-          size: '8px'
-        });
+        $('.bar').overlayScrollbars({ });
     });
   </script>
 

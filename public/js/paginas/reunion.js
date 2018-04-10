@@ -394,5 +394,7 @@ $(function () {
                 "next": ">"
               }
         },
+        "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
+        "autoWidth": false,
     });
 });

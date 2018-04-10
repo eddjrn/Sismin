@@ -83,26 +83,26 @@ Nueva reunión
                         <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
                           <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" onfocusout="actualizarFecha(this);" data-fecha="" class="datetimepicker form-control" id="fecha" name="fecha">
+                                <input type="text" onfocusout="actualizarFecha(this);" data-fecha="" class="datetimepicker form-control" id="fecha" name="fecha" autocomplete="off">
                                 <label class="form-label">Fecha y hora</label>
                             </div>
                           </div>
                           <div class="form-group form-float">
                               <div class="form-line">
-                                  <input type="text" onfocusout="actualizarMotivo(this);" class="form-control" id="motivo" name="motivo">
+                                  <input type="text" onfocusout="actualizarMotivo(this);" class="form-control" id="motivo" name="motivo" autocomplete="off">
                                   <label class="form-label">Motivo de la reunión</label>
                               </div>
                           </div>
                           <div class="form-group form-float">
                               <div class="form-line">
-                                  <input type="text" onfocusout="actualizarLugar(this);" class="form-control" id="lugar" name="lugar">
+                                  <input type="text" onfocusout="actualizarLugar(this);" class="form-control" id="lugar" name="lugar" autocomplete="off">
                                   <label class="form-label">Lugar de la reunión</label>
                               </div>
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2">
                           <p class="col-grey">Tipo de reunión</p>
-                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-live-search="true">
+                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-live-search="true" autocomplete="off">
                               <option value="0">Seleccionar</option>
                               @foreach($tipos as $tipo)
                               <option value="{{$tipo->id_tipo_reunion}}" data-imagen="{{$tipo->imagen_logo}}">{{$tipo->descripcion}}</option>
@@ -115,20 +115,18 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu2" class="oculto">
-                    <div class="table-responsive bar" style="height: 400px; overflow-y: scroll;">
+                    <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Correo electrónico</th>
-                                    <th>Rol dentro de la reunión</th>
+                                    <th style="width: 400px !important">Rol dentro de la reunión</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Correo electrónico</th>
-                                    <th>Rol dentro de la reunión</th>
+                                    <th style="width: 400px !important">Rol dentro de la reunión</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -136,15 +134,14 @@ Nueva reunión
                                 @unless($convocado->id_usuario == Auth::user()->id_usuario)
                                   <tr>
                                     <td id="nmd_checkbox_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
-                                    <td>{{$convocado->correo_electronico}}</td>
                                     <td>
                                       <div class="row">
-                                        <div class="col-lg-3 col-md-3">
-                                          <input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal"/>
+                                        <div class="col-lg-2 col-md-2">
+                                          <input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
                                           <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
                                         </div>
-                                        <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-9 col-md-9 oculto">
-                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" class="form-control show-tick">
+                                        <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
+                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
                                               <option value="0">Seleccionar</option>
                                               @foreach($roles as $rol)
                                               <option value="{{$rol->id_rol}}">{{$rol->descripcion}}</option>
@@ -164,14 +161,12 @@ Nueva reunión
                     <div class="row">
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Temas pendientes</h4>
-                        <div class="well bar" style="height: 300px; overflow-y: scroll;">
-
-                        </div>
+                        <div class="well bar" style="height: 250px; overflow-y: scroll;"></div>
                         <button type="button" class="colorBoton">Agregar a la lista</button>
                       </div>
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Orden del día</h4>
-                        <div class="well bar" style="height: 300px; overflow-y: scroll;">
+                        <div class="well bar" style="height: 250px; overflow-y: scroll;">
                           <div id="lista_orden" class="list-group"></div>
                         </div>
                         <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema</button>
@@ -179,7 +174,7 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu4" class="oculto">
-                    <div class="well bar" style="height: 900px; overflow-y: scroll;">
+                    <div class="well bar" style="height: 350px; overflow-y: scroll;">
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                           <p id="fecha_hoy">Hoy</p>
