@@ -102,7 +102,7 @@ Nueva reunión
                         </div>
                         <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2">
                           <p class="col-grey">Tipo de reunión</p>
-                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-live-search="true" autocomplete="off">
+                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-container="body" data-live-search="true" autocomplete="off">
                               <option value="0">Seleccionar</option>
                               @foreach($tipos as $tipo)
                               <option value="{{$tipo->id_tipo_reunion}}" data-imagen="{{$tipo->imagen_logo}}">{{$tipo->descripcion}}</option>
@@ -141,7 +141,7 @@ Nueva reunión
                                           <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
                                         </div>
                                         <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
-                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
+                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
                                               <option value="0">Seleccionar</option>
                                               @foreach($roles as $rol)
                                               <option value="{{$rol->id_rol}}">{{$rol->descripcion}}</option>
