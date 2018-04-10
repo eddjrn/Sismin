@@ -8,7 +8,7 @@ $(function () {
     $image.cropper({
       autoCropArea: 0.5,
       aspectRatio: 1 / 1,
-      viewMode: 1,
+      viewMode: 0,
       movable: true,
       zoomable: true,
       zoomOnTouch: true,
