@@ -46,3 +46,6 @@ Route::post('/rolUsuario','controlador_reunion@registrar_rol_usuario')->middlewa
 Route::get('/reunion','controlador_reunion@mostrar_vista_reunion')->middleware('sesion');
 Route::post('/reunion/{opc}', 'controlador_reunion@actualizar_vista')->middleware('sesion');
 Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');
+
+//Route::get('/pdf/{correo}/{codigo}','controlador_reunion@pdf')->middleware('publica');
+Route::get('/pdf/{id}/{codigo}','controlador_reunion@pdf');

@@ -18,6 +18,7 @@ class pruebas_reunion extends Seeder
         'id_tipo_reunion' => 1,
         'motivo' => 'prueba',
         'lugar' => 'cds',
+        'codigo'=> 'DdBvARU8W1',
       ]);
 
       for($i=0; $i<= config('variables.reunionDB'); $i++){
@@ -28,6 +29,7 @@ class pruebas_reunion extends Seeder
           'id_tipo_reunion' =>rand(1,config('variables.tipos_de_reunionDB')),
           'motivo' => str_random(70),
           'lugar' => str_random(30),
+          'codigo' => str_random(10),
         ]);
       }
     }

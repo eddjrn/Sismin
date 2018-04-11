@@ -16,6 +16,7 @@ class reunion extends Model
     'id_tipo_reunion',
     'motivo',
     'lugar',
+    'codigo'
   ];
 
   protected $dates = [
@@ -42,7 +43,7 @@ class reunion extends Model
 
   public function getFecha(){
    Date::setLocale('es');
-   return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+   return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');
   }
 
   public function getLimite(){
@@ -52,7 +53,7 @@ class reunion extends Model
 
   public function getFechaReunionAttribute($value){
    Date::setLocale('es');
-   return Date::parse($value)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s ');
   }
 
   public function setFechaReunionAttribute($value){

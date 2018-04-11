@@ -21,6 +21,7 @@ class CreacionDeLaReunion extends Migration
             $table->foreign('id_tipo_reunion')->references('id_tipo_reunion')->on('tipo_reunion');
             $table->text('motivo',100);
             $table->text('lugar',100);
+            $table->string('codigo',10);
         });
     }
 

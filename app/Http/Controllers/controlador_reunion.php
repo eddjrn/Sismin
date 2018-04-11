@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Image;
+use Mail;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class controlador_reunion extends Controller
 {
@@ -117,11 +119,13 @@ class controlador_reunion extends Controller
       return response()->json(['errores' => ["Tiene que agregar por lo menos un tema para la orden del día."]]);
     }
 
+    $c = str_random(10);
     $reunion = \App\reunion::create([
       'fecha_reunion' => $request->fecha,
       'id_tipo_reunion' => $request->tipo_de_reunion,
       'motivo' => $request->motivo,
       'lugar' => $request->lugar,
+      'codigo'=> $c,
     ]);
 
     for($i = 0; $i < count($orden); $i++){
@@ -131,17 +135,71 @@ class controlador_reunion extends Controller
         'descripcion' => $orden[$i],
       ]);
     }
-
-    for($i = 0; $i < count($lista_convocados); $i++){
+    $convocado = \App\reunion_convocado::create([
+      'id_reunion' => $reunion->id_reunion,
+      'id_usuario' => $lista_convocados[0],
+      'id_rol' => $roles[0],
+      'id_tipo_usuario' => 1,
+    ]);
+    
+    for($i = 1; $i < count($lista_convocados); $i++){
       $convocados = \App\reunion_convocado::create([
         'id_reunion' => $reunion->id_reunion,
         'id_usuario' => $lista_convocados[$i],
         'id_rol' => $roles[$i],
-        'id_tipo_usuario' => 1,
+        'id_tipo_usuario' => 2,
       ]);
     }
 
+
+
+    //enviar convocatoria por correo_electronico
+
+    for($i=0; $i< count($reunion->convocados); $i++)
+    {
+      $correo= $reunion->convocados->get($i)->usuario->correo_electronico;
+      $this->enviarCorreo($reunion->id_reunion,$correo,$c);
+    }
+
     return response()->json(['mensaje' => "Nueva reunión creada correctamente."]);
+  }
+
+  private function enviarCorreo($id,$correo,$codigo)
+  {
+
+    $usuario = \App\usuario::wherecorreo_electronico($correo)->first();
+    Mail::send('Paginas.link_pdf',[
+      'id_reunion' => $id,
+      'codigo' => $codigo,
+      'usuario'=>$usuario
+    ], function($mensaje) use ($usuario){
+        $mensaje->to($usuario->correo_electronico);
+        $mensaje->subject("Hola $usuario->nombre haz sido convocada(o) a una reunión.");
+    });
+
+  }
+
+  public function pdf($id,$codigo){
+    //creación del pdf
+
+        $reunion= \App\reunion::find($id);
+
+        if($codigo==$reunion->codigo){
+        $pdf = PDF::loadView('Paginas.pdf',[
+          'imagen'=>$reunion->tipo_reunion->imagen_logo,
+          'motivo'=>$reunion->motivo,
+          'convocados' =>$reunion->convocados,
+          'reunion_orden_dia'=>$reunion->orden_dia,
+          'fecha_reunion'=>$reunion->fecha_reunion,
+          'lugar'=>$reunion->lugar,
+          'fecha_creacion'=>$reunion->getFecha()
+      ]);
+        return $pdf->stream();
+      }
+      else{
+        abort(404);
+      }
+        //return $pdf->download('listado.pdf');
   }
 
 }
