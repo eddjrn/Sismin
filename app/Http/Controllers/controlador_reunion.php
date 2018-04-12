@@ -141,7 +141,7 @@ class controlador_reunion extends Controller
       'id_rol' => $roles[0],
       'id_tipo_usuario' => 1,
     ]);
-    
+
     for($i = 1; $i < count($lista_convocados); $i++){
       $convocados = \App\reunion_convocado::create([
         'id_reunion' => $reunion->id_reunion,
@@ -150,8 +150,6 @@ class controlador_reunion extends Controller
         'id_tipo_usuario' => 2,
       ]);
     }
-
-
 
     //enviar convocatoria por correo_electronico
 
@@ -192,7 +190,9 @@ class controlador_reunion extends Controller
           'reunion_orden_dia'=>$reunion->orden_dia,
           'fecha_reunion'=>$reunion->fecha_reunion,
           'lugar'=>$reunion->lugar,
-          'fecha_creacion'=>$reunion->getFecha()
+          'fecha_creacion'=>$reunion->getFecha(),
+          'img'=>$reunion->convocados->get(0)->usuario->rubrica,
+          'tipo'=>$reunion->tipo_reunion->descripcion
       ]);
         return $pdf->stream();
       }

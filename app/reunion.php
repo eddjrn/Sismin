@@ -53,7 +53,7 @@ class reunion extends Model
 
   public function getFechaReunionAttribute($value){
    Date::setLocale('es');
-   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s ');
+   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
   }
 
   public function setFechaReunionAttribute($value){

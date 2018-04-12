@@ -70,7 +70,7 @@ Página Principal
         <div class="card">
             <div class="header">
                 <h2>
-                    Mis reuniones <small>Soy moderador de tres reuniones </small>
+                    Mis reuniones <small>Soy moderador de tres reuniones</small>
                 </h2>
             </div>
             <div class="body table-responsive">
@@ -84,12 +84,14 @@ Página Principal
                         </tr>
                     </thead>
                     <tbody>
+                      @foreach($reuniones as $reunion)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <th scope="row">{{$reunion->id_reunion}}</th>
+                            <td>{{$reunion->motivo}}</td>
+                            <td>{{$reunion->tipo_reunion}}</td>
                             <td><button class="btn bg-pink waves-effect" type="submit">Mostrar</button></td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -112,9 +114,7 @@ Página Principal
                       <div class="col-lg-4">
                         <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <a href="../../images/image-gallery/1.jpg" data-sub-html="Demo Description">
-                                    <img class="img-responsive thumbnail" src="../../images/image-gallery/thumb/thumb-1.jpg">
-                                </a>
+                              <img class="thumbnail" src="{{$reuniones[4]->tipo_reunion->imagen_logo}}" width="150" height="150">
                             </div>
                         </div>
                       </div>
@@ -190,14 +190,12 @@ Página Principal
                       <div class="col-lg-12">
                         <div class="row clearfix">
                             <div class="col-md-12">
+                              @foreach($reuniones as $reunion)
                                 <select class="form-control show-tick">
                                     <option value="">-- Seleccionar --</option>
                                     <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                    <option value="40">40</option>
-                                    <option value="50">50</option>
                                 </select>
+                                @endforeach
                             </div>
                       </div>
                       </div>
