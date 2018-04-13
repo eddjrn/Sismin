@@ -120,7 +120,7 @@ Registro del motivo de una reunión
               </div>
 
               <div class="modal-footer row clearfix">
-                <div class="col-md-6 col-sm-6 col-xs-6 col-lg-offset-3">
+                <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
                   <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Aceptar</button>
                 </div>
               </div>
@@ -140,11 +140,11 @@ Registro del motivo de una reunión
       }
   });
 
-  var UrlToPostForm = "{{asset('/Motivo')}}";
-  var UrlToRedirectPage = "{{asset('/Motivo')}}";
+  var UrlToPostForm = "{{asset('/tipo_reunion')}}";
+  var UrlToRedirectPage = "{{asset('/tipo_reunion')}}";
 </script>
 
 <script src="{{asset('/js/cropper/cropper.js')}}"></script>
-<script src="{{asset('/js/cropper/custom.js')}}"></script>
+<script src="{{asset('/js/paginas/tipo_reunion.js')}}"></script>
 
 @stop

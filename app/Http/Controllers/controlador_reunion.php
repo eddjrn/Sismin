@@ -11,13 +11,13 @@ use Barryvdh\DomPDF\Facade as PDF;
 class controlador_reunion extends Controller
 {
     //
-    public function mostrar_vista_motivo(){
+    public function mostrar_vista_tipo_reunion(){
       $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
 
-      return view('Paginas.Motivo', ['tipos' => $tipos]);
+      return view('Paginas.tipo_reunion', ['tipos' => $tipos]);
     }
 
-    public function registrar_motivo(Request $request){
+    public function registrar_tipo_reunion(Request $request){
       $validacion = Validator::make($request->all(), [
         'descripcion'=>'required|min:4',
       ]);

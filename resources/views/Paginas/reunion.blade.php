@@ -176,27 +176,27 @@ Nueva reunión
                   <div id="menu4" class="oculto">
                     <div class="well bar" style="height: 350px; overflow-y: scroll;">
                       <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          <p id="fecha_hoy">Hoy</p>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                          <img id="imagen_tipo_reunion_texto" class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-6 col-md-offset-6 col-xs-offset-6">
+                          <img id="imagen_tipo_reunion_texto" class="thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
                         </div>
                       </div>
-                      <h2 id="tipo_texto" class="align-center">SisMin</h2>
-                      <h4 id="motivo_texto">Motivo:</h4>
+                      <h2 id="tipo_texto" class="align-center">"SisMin"</h2>
+                      <span>Por  medio  de  la  presente,  se  le  convoca  a </span><span id="motivo_texto"></span><span>para  el  día </span><span id="fecha_texto"></span> , en <span id="lugar_texto"></span>.
+                      <br/>
                       <h5>Convocados</h5>
                       <ul id="convocados_texto">
                         <li>{{Auth::user()}}</li>
                       </ul>
-                      <h5>Para tratar los siguientes temas</h5>
+                      <h5>Para tratar los siguientes temas:</h5>
                       <ol id="lista_texto"></ol>
                       <br/>
-                      <p id="fecha_texto">Fecha de:</p>
+                      <p id="fecha_hoy" class="align-right">Hoy</p>
                       <br/>
                       <br/>
-                      <p id="lugar_texto">Lugar:</p>
-                      <h3 class="align-center">Atte: {{Auth::user()}} (Moderador)</h3>
+                      <h5>Atentamente:</h5>
+                      <img id="imagen_tipo_reunion_texto" class="thumbnail" src="{{Auth::user()->rubrica}}" style="margin:auto;" width="150" height="150">
+                      <hr style="width: 50%"/>
+                      <h3 class="align-center">{{Auth::user()}} (Moderador)</h3>
                     </div>
                   </div>
                 </div>

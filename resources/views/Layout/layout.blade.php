@@ -125,7 +125,7 @@
                           <span>Nueva reunión</span>
                       </li>
                     </a>
-                   <a href="{{asset('/Motivo')}}">
+                   <a href="{{asset('/tipo_reunion')}}">
                       <li data-theme="red">
                           <i class="material-icons">note_add</i>
                           <span>Dar de alta un nuevo tipo de reunión</span>

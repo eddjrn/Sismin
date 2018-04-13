@@ -70,7 +70,7 @@ class controlador_usuarios extends Controller
   }
 
   public function mostrar_perfil(){
-    return view('inicio.perfil');
+    return view('Paginas.perfil');
   }
 
   public function iniciar_sesion(Request $request){

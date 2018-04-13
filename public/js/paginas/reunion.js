@@ -219,14 +219,14 @@ function actualizarOrdenDia(opc, boton){
 // Función que se ejecuta al escribir el motivo
 function actualizarMotivo(valor){
   var motivo = valor.value;
-  $('#motivo_texto').html("Motivo: " + motivo);
+  $('#motivo_texto').html(motivo);
   formulario.set('motivo', motivo);
 }
 
 // Función que se ejecuta al escribir el lugar
 function actualizarLugar(valor){
   var lugar = valor.value;
-  $('#lugar_texto').html("Lugar: " + lugar);
+  $('#lugar_texto').html(lugar);
   formulario.set('lugar', lugar);
 }
 
@@ -238,7 +238,7 @@ function actualizarTipo(opcion){
   if(id_tipo_reunion == 0){
     return false;
   }
-  $('#tipo_texto').html(descripcion);
+  $('#tipo_texto').html('"' + descripcion + '"');
   $('#imagen_tipo_reunion').attr("src", imagen);
   $('#imagen_tipo_reunion_texto').attr("src", imagen);
 
@@ -374,7 +374,7 @@ $(function () {
         return false;
       }
       // Ponemos los datos en formato amigable y agregamos los datos al formulario que se va a envíar
-      $('#fecha_texto').html("Fecha de: " + date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
+      $('#fecha_texto').html(date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
       $('#fecha_hoy').html(moment().format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
       formulario.set('fecha', date.format("YYYY-MM-DD HH:mm"));
   	});
