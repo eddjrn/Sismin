@@ -14,7 +14,7 @@
   @endforeach
 </ol>
   <p class="fecha_hoy"><b>{{$fecha_creacion}}</b></p>
-  <div >Atentamente,
+  <div >Atentamente:
       <center><img src="{{$img}}" class="rubrica" width="150" height="150" /></center>
   <hr>
   <h3>{{$convocados->get(0)->usuario}}<br> (Moderador)</h3></div>

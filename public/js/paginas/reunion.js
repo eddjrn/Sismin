@@ -397,4 +397,17 @@ $(function () {
         "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
         "autoWidth": false,
     });
+
+    $('#icono').animateCss('bounceIn');
+});
+
+//Copied from https://github.com/daneden/animate.css
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        $(this).addClass('vendor-animation-duration: 3s; -vendor-animation-delay: 2s; -moz-animation-iteration-count: infinite;');
+        $(this).addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
 });

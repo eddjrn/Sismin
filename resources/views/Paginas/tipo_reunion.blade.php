@@ -95,7 +95,7 @@ Registro del motivo de una reunión
               <form>
               <div class="row">
                 <div class="col-lg-12 text-center">
-                  <img id="image" src="{{asset('/images/iconoFull.svg')}}" alt="Picture" width="150" height="150"/>
+                  <img id="image" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
                 </div>
               </div>
               <br/>

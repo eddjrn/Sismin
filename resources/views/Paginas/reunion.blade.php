@@ -110,7 +110,7 @@ Nueva reunión
                           </select>
                           <br/>
                           <br/>
-                          <img id="imagen_tipo_reunion" class="img-responsive thumbnail" src="{{asset('/images/iconoFull.svg')}}" width="150" height="150" style="margin: auto;">
+                          <img id="imagen_tipo_reunion" class="img-responsive thumbnail" src="{{asset('/images/imagen.svg')}}" width="150" height="150" style="margin: auto;">
                         </div>
                     </div>
                   </div>
@@ -177,7 +177,7 @@ Nueva reunión
                     <div class="well bar" style="height: 350px; overflow-y: scroll;">
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-6 col-md-offset-6 col-xs-offset-6">
-                          <img id="imagen_tipo_reunion_texto" class="thumbnail" src="{{asset('/images/iconoFull.svg')}}" style="float: right !important;" width="150" height="150">
+                          <img id="imagen_tipo_reunion_texto" class="thumbnail" src="{{asset('/images/imagen.svg')}}" style="float: right !important;" width="150" height="150">
                         </div>
                       </div>
                       <h2 id="tipo_texto" class="align-center">"SisMin"</h2>
@@ -258,6 +258,23 @@ Nueva reunión
         </div>
     </div>
 </div>
+
+<!-- <div class="loader">
+    <div class="preloader">
+        <div class="spinner-layer pl-cyan">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+        <img src="{{asset('/images/cargando.svg')}}" width="150" height="150"/>
+    </div>
+    <h3>Nueva reunión</h3>
+    <h1><i class="material-icons" id="icono">mail</i></h1>
+    <p>Cargando...</p>
+</div> -->
 @stop
 
 @section('scripts')
