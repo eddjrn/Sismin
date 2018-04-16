@@ -36,6 +36,7 @@ Route::post('/perfil','controlador_usuarios@reestablecer_password_perfil')->midd
 Route::post('/login','controlador_usuarios@iniciar_sesion')->middleware('publica');
 Route::get('/logout','controlador_usuarios@cerrar_sesion');
 Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware('sesion');
+Route::post('/vista_principal_detalles','controlador_vista_general@mostrar_detalles_reunion')->middleware('sesion');
 
 Route::get('/tipo_reunion','controlador_reunion@mostrar_vista_tipo_reunion')->middleware('sesion');
 Route::post('/tipo_reunion','controlador_reunion@registrar_tipo_reunion')->middleware('sesion');
@@ -47,5 +48,4 @@ Route::get('/reunion','controlador_reunion@mostrar_vista_reunion')->middleware('
 Route::post('/reunion/{opc}', 'controlador_reunion@actualizar_vista')->middleware('sesion');
 Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');
 
-//Route::get('/pdf/{correo}/{codigo}','controlador_reunion@pdf')->middleware('publica');
 Route::get('/pdf/{id}/{codigo}','controlador_reunion@pdf');

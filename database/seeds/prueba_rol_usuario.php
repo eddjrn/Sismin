@@ -14,7 +14,7 @@ class prueba_rol_usuario extends Seeder
       DB::table('rol_usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
-        'descripcion' => 'Esta es la descripcion del primer rol de usuario',
+        'descripcion' => 'Secretario',
       ]);
 
       for($i=0; $i<= config('variables.rol_usuarioDB'); $i++){

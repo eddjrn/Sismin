@@ -70,7 +70,7 @@ function actualizarLista(boton){
     var nombre = $(`#n${boton.id}`).html();
     var id_usuario = boton.id.split("_");
     convocados.push(id_usuario[2]);
-    roles.push(1);
+    roles.push(2);
     // Muestra el boton de rol y hace cambios en el resumen
     $(`#a${boton.id}`).show();
     $('#convocados_texto').html($('#convocados_texto').html() + `\
@@ -399,6 +399,8 @@ $(function () {
     });
 
     $('#icono').animateCss('bounceIn');
+
+    $('.rol').find('1').remove();
 });
 
 //Copied from https://github.com/daneden/animate.css

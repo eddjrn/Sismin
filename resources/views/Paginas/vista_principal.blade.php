@@ -5,6 +5,9 @@ Página principal
 @stop
 
 @section('estilos')
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <!-- Bootstrap Select Css -->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
@@ -45,8 +48,8 @@ Página Principal
                 <i class="material-icons">today</i>
             </div>
             <div class="content">
-                <div class="text">Próximas reuniones</div>
-                <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="text">Reuniones pendientes</div>
+                <div class="number count-to" data-from="0" data-to="{{count($reuniones)}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
@@ -70,7 +73,7 @@ Página Principal
         <div class="card">
             <div class="header">
                 <h2>
-                    Mis reuniones <small>Soy moderador de tres reuniones</small>
+                    Mis reuniones <small>Soy moderador de {{Auth::user()->numModerador()}} </small>
                 </h2>
             </div>
             <div class="body table-responsive">
@@ -80,6 +83,8 @@ Página Principal
                             <th>#</th>
                             <th>Motivo</th>
                             <th>Moderador</th>
+                            <th>Tipo de reunion</th>
+                            <th>Fecha límite</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -88,8 +93,10 @@ Página Principal
                         <tr>
                             <th scope="row">{{$reunion->id_reunion}}</th>
                             <td>{{$reunion->motivo}}</td>
+                            <td>{{$reunion->moderador()}}</td>
                             <td>{{$reunion->tipo_reunion}}</td>
-                            <td><button class="btn bg-pink waves-effect" type="submit">Mostrar</button></td>
+                            <td>{{$reunion->getLimite()}}</td>
+                            <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -104,7 +111,7 @@ Página Principal
           <div class="card">
               <div class="header">
                   <h2>
-                      Reunion selecionada <small>Moderador: Mayra Villavicencio</small>
+                      Reunion selecionada <small>Moderador: <span id="moderador"> {{$reuniones[0]->moderador()}}</span></small>
                   </h2>
               </div>
               <div class="body">
@@ -114,18 +121,18 @@ Página Principal
                       <div class="col-lg-4">
                         <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                              <img class="thumbnail" src="{{$reuniones[4]->tipo_reunion->imagen_logo}}" width="150" height="150">
+                              <img class="thumbnail" id="imgReunion" src="{{$reuniones[0]->tipo_reunion->imagen_logo}}" width="150" height="150">
                             </div>
                         </div>
                       </div>
                       <div class="col-lg-8">
                         <div class="row">
                           <div class="col-lg-12">
-                            <h3>Motivo de la minuta</h3>
-                            Moderador: Mayra Villavicencio.<br>
-                            Secretario: Eduardo Javier Reyes.<br>
-                            Numero de reunion: 3.<br>
-                            Motivo: Precio del próximo evento.<br>
+                            <h3 id="tipo_reunion">{{$reuniones[0]->tipo_reunion}}</h3>
+                            Moderador: <span id="moderador2">{{$reuniones[0]->moderador()}}.</span><br>
+                            Secretario: <span id="secretario">{{$reuniones[0]->moderador()}}.</span><br>
+                            Fecha de la reunion: <span id="fecha_reunion">{{$reuniones[0]->fecha_reunion}}.</span><br>
+                            Motivo:<span id="motivo">{{$reuniones[0]->motivo}}.</span><br>
                           </div>
                         </div>
                         <div class="row">
@@ -147,24 +154,24 @@ Página Principal
                                 <div class="header">
                                     <h2>
                                         Convocados
-                                        <small>5</small>
+                                        <small><span id="convocados3">{{count($reuniones[0]->convocados)}}</span></small>
                                     </h2>
                                 </div>
-                                <div class="body table-responsive">
+                                <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Correo electrónico</th>
+                                                <th>Rol</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="listaConvocados">
+                                          @foreach($reuniones[0]->convocados as $convocado)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>@mdo</td>
+                                                <td><span id="convocadoNombre">{{$convocado->usuario->__toString()}}</span></td>
+                                                <td><span id="rol">{{$convocado->rol}}</span></td>
                                             </tr>
+                                          @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -176,7 +183,7 @@ Página Principal
                 </div>
               </div>
           </div>
-      </div>
+      </div><script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
     </div>
 
     <div class="modal fade" id="responsabilidadModal" tabindex="-1" role="dialog">
@@ -218,4 +225,22 @@ Página Principal
 @section('scripts')
 <!-- Select Plugin Js -->
 <script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+<script src="{{asset('/js/paginas/vista_principal.js')}}"></script>
+
+<!-- Script de envio de formularios mediante ajax -->
+<script>
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+var url = "{{asset('/vista_principal_detalles')}}";
+var urlToRedirectPage = "{{asset('/')}}";
+</script>
+
+
+
+
 @stop

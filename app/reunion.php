@@ -71,4 +71,8 @@ class reunion extends Model
    $lugar = ucfirst($con);
    $this->attributes['lugar'] = $lugar;
   }
+  public function moderador(){
+    return $this->convocados->where('id_tipo_usuario','=','1')->get(0)->usuario->__toString();
+  }
+
 }

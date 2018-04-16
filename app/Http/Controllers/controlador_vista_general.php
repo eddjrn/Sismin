@@ -29,4 +29,36 @@ class controlador_vista_general extends Controller
         'reuniones'=>$reuniones_recientes
       ]);
     }
+
+    public function mostrar_detalles_reunion(Request $id){
+      $reunion =\App\reunion::find($id->id_reunion);
+      $reuniones =  array();
+      $convocadosData= array();
+      $rol = array();
+      $datosReunion = array();
+
+      array_push($datosReunion,$reunion->moderador());
+      array_push($datosReunion,$reunion->fecha_reunion);
+      array_push($datosReunion,$reunion->getLimite());
+      array_push($datosReunion,$reunion->tipo_reunion);
+      array_push($datosReunion,$reunion->tipo_reunion->imagen_logo);
+
+      foreach($reunion->convocados as $convocado){
+        array_push($convocadosData,$convocado->usuario->__toString());
+        array_push($rol,$convocado->rol->descripcion);
+      }
+
+      array_push($reuniones,$reunion);
+      array_push($reuniones,$convocadosData);
+      array_push($reuniones,$rol);
+      array_push($reuniones,$datosReunion);
+      return response()->json(['datos' => $reuniones]);
+    }
+
+
+
+
+
+
+
 }
