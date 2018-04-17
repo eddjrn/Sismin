@@ -75,4 +75,8 @@ class reunion extends Model
     return $this->convocados->where('id_tipo_usuario','=','1')->get(0)->usuario->__toString();
   }
 
+  public function secretario(){
+    return $this->convocados->where('id_rol','=','1')->get(0)->usuario->__toString();
+  }
+
 }

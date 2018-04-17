@@ -4,7 +4,7 @@
   Convocados:</h2>
     <ul class="convocado">
     @foreach ($convocados as $convocado)
-        <li>{{$convocado->usuario->__toString()}}</li>
+        <li>{{$convocado->rol}}: {{$convocado->usuario->__toString()}}</li>
     @endforeach
   </ul>
   <h2>Para tratar los siguientes temas:</h2>

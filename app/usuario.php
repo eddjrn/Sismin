@@ -76,16 +76,25 @@ class usuario extends Authenticatable
     $cont=0;
     $id_reuniones =  array();
 
-    for($i=0; $i<count($reuniones); $i++)
-    {
-        $id =$reuniones[$i]->reunion->id_tipo_reunion;
+    foreach ($reuniones as $reunionMod) {
+      $id =$reunionMod->reunion->id_tipo_reunion;
 
-        if(!(in_array($id,$id_reuniones))){
-          $igualar=$reuniones[$i]->reunion;
-          array_push($id_reuniones,$id);
-          $cont++;
-        }
-   }
+      if(!(in_array($id,$id_reuniones))){
+        array_push($id_reuniones,$id);
+        $cont++;
+      }
+    }
+
+    // for($i=0; $i<count($reuniones); $i++)
+    // {
+    //     $id =$reuniones[$i]->reunion->id_tipo_reunion;
+    //
+    //     if(!(in_array($id,$id_reuniones))){
+    //       $igualar=$reuniones[$i]->reunion;
+    //       array_push($id_reuniones,$id);
+    //       $cont++;
+    //     }
+
 
    return $cont . ' reuniones recientes';
  }

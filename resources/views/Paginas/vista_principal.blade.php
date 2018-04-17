@@ -19,6 +19,7 @@ Página Principal
 @stop
 
 @section('contenido')
+@unless(isset($nuevo))
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
@@ -130,17 +131,17 @@ Página Principal
                           <div class="col-lg-12">
                             <h3 id="tipo_reunion">{{$reuniones[0]->tipo_reunion}}</h3>
                             Moderador: <span id="moderador2">{{$reuniones[0]->moderador()}}.</span><br>
-                            Secretario: <span id="secretario">{{$reuniones[0]->moderador()}}.</span><br>
+                            Secretario: <span id="secretario">{{$reuniones[0]->secretario()}}.</span><br>
                             Fecha de la reunion: <span id="fecha_reunion">{{$reuniones[0]->fecha_reunion}}.</span><br>
                             Motivo:<span id="motivo">{{$reuniones[0]->motivo}}.</span><br>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="btns">
                           <div class="col-lg-6">
                             <button class="btn bg-pink waves-effect" type="submit">Realizar minuta</button>
                           </div>
                           <div class="col-lg-6">
-                            <button type="button" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#responsabilidadModal">Delegar responsabilidad</button>
+                            <button type="button" class="btn bg-pink waves-effect" id="delegarResp"  onclick="delegarResp()">Delegar responsabilidad</button>
                          </div>
                         </div>
                       </div>
@@ -190,36 +191,34 @@ Página Principal
           <div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario</h4>
+                      <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario de la reunión:<br> <span id="tipoReunion">"{{$reuniones[0]->tipo_reunion}}".</span></h4>
                   </div>
                   <div class="modal-body">
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="row clearfix">
                             <div class="col-md-12">
-                              @foreach($reuniones as $reunion)
-                                <select class="form-control show-tick">
+                                <select class="form-control show-tick" id="Copc">
                                     <option value="">-- Seleccionar --</option>
                                     <option value="10">10</option>
                                 </select>
-                                @endforeach
                             </div>
                       </div>
                       </div>
                     </div>
                     <div class="modal-footer row clearfix">
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect">Cancelar</button>
+                        <button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Guardar</button>
+                        <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal" id="actualizarSecre" onclick="actualizarSecre()">Guardar</button>
                       </div>
                     </div>
                   </div>
               </div>
           </div>
       </div>
-
+@endunless
 @stop
 
 @section('scripts')
