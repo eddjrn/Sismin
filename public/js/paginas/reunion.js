@@ -13,6 +13,7 @@ var orden_dia_control = [];
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
+  inicioSpinner();
   // Se agregan los datos faltantes al formulario y se codifican para el envío
   formulario.append('convocados', JSON.stringify(convocados));
   formulario.append('roles', JSON.stringify(roles));
@@ -27,6 +28,7 @@ function finalizar(){
      contentType:false,
      success:function(result){
        if(result.errores){
+         finSpinner();
          mensajeAjax('Error', 'Verifique sus datos', 'error');
          var errores = '<ul>';
          $.each(result.errores,function(indice,valor){
@@ -42,7 +44,8 @@ function finalizar(){
        }
       },
       error: function (jqXHR, status, error) {
-       mensajeAjax('Error', error, 'error');
+        finSpinner();
+        mensajeAjax('Error', error, 'error');
       }
   });
 }
@@ -400,7 +403,7 @@ $(function () {
 
     $('#icono').animateCss('bounceIn');
 
-    $('.rol').find('1').remove();
+    // $(".rol option[value='1']").remove();
 });
 
 //Copied from https://github.com/daneden/animate.css

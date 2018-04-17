@@ -19,6 +19,7 @@ Nueva reunión
 
 <!-- JQuery DataTable Css -->
 <link href="{{asset('/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
+
 @stop
 
 @section('cabecera')
@@ -242,10 +243,10 @@ Nueva reunión
             <div class="modal-footer">
               <div class="row">
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button id="btnGuardar" type="button" onClick="actualizarOrdenDia(1, null);" class="colorBoton btn-block">Guardar</button>
+                  <button type="button" class="colorBoton btn-block" onClick="actualizarOrdenDia(5, null);">Cancelar</button>
                 </div>
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button type="button" class="colorBoton btn-block" onClick="actualizarOrdenDia(5, null);">Cancelar</button>
+                  <button id="btnGuardar" type="button" onClick="actualizarOrdenDia(1, null);" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminar" class="row oculto">
@@ -260,7 +261,7 @@ Nueva reunión
 </div>
 
 <!-- <div class="loader">
-    <div class="preloader">
+    <div class="preloader pl-size-l">
         <div class="spinner-layer pl-cyan">
             <div class="circle-clipper left">
                 <div class="circle"></div>
@@ -307,6 +308,7 @@ var colorBtn = "btn bg-cyan waves-effect";
 var colorBtnDis = "btn btn-default waves-effect";
 var fondo = "bg-cyan";
 var tema = "theme-cyan";
+var colorSpinner = '#00BCD4';
 
 var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";

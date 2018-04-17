@@ -160,6 +160,8 @@
     </div>
 </section>
 
+<canvas id="spinner" style="background-color:black; display: none; position: absolute; top: 0; left: 0; z-index: 101;"></canvas>
+
   <!-- Jquery Core Js -->
   <script src="{{asset('/plugins/jquery/jquery.min.js')}}"></script>
 
@@ -208,6 +210,9 @@
 
   <!-- Demo Js -->
   <script src="{{asset('/js/demo.js')}}"></script>
+
+  <!-- Spinner para cargar -->
+  <script src="{{asset('/js/spinner/spinner.js')}}"></script>
 
 </body>
 
