@@ -8,5 +8,5 @@ return [
   'rol_usuarioDB' => 4,
   'tipo_usuarioDB' => 2,
   'reunion_convocadoDB' => 30,
-
+  'tema_pendienteDB' => 20,
 ];
