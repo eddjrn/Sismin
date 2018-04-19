@@ -80,6 +80,8 @@ Nueva reunión
               <div class="row">
                 <div class="container-fluid">
                   <div id="menu1">
+                    <h4>Dar de alta una reunión</h4>
+                    <hr/>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
                           <div class="form-group form-float">
@@ -102,7 +104,7 @@ Nueva reunión
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2">
-                          <p class="col-grey">Tipo de reunión</p>
+                          <p class="col-grey">Grupo de la reunión</p>
                           <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-container="body" data-live-search="true" autocomplete="off">
                               <option value="0">Seleccionar</option>
                               @foreach($tipos as $tipo)
@@ -116,6 +118,8 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu2" class="oculto">
+                    <h4>Agregar los convocados de la reunión</h4>
+                    <hr/>
                     <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                             <thead>
@@ -143,7 +147,7 @@ Nueva reunión
                                         </div>
                                         <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
                                           <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick rol" autocomplete="off">
-                                              <option value="0">Seleccionar</option>
+                                              <option value="0">Seleccionar rol</option>
                                               @foreach($roles as $rol)
                                               <option value="{{$rol->id_rol}}">{{$rol->descripcion}}</option>
                                               @endforeach
@@ -159,6 +163,8 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu3" class="oculto">
+                    <h4>Crear la orden del día de la reunión</h4>
+                    <hr/>
                     <div class="row">
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Temas pendientes</h4>
@@ -175,6 +181,8 @@ Nueva reunión
                     </div>
                   </div>
                   <div id="menu4" class="oculto">
+                    <h4>Resumen final de la reunión</h4>
+                    <hr/>
                     <div class="well bar" style="height: 350px; overflow-y: scroll;">
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-6 col-md-offset-6 col-xs-offset-6">
@@ -259,23 +267,6 @@ Nueva reunión
         </div>
     </div>
 </div>
-
-<!-- <div class="loader">
-    <div class="preloader pl-size-l">
-        <div class="spinner-layer pl-cyan">
-            <div class="circle-clipper left">
-                <div class="circle"></div>
-            </div>
-            <div class="circle-clipper right">
-                <div class="circle"></div>
-            </div>
-        </div>
-        <img src="{{asset('/images/cargando.svg')}}" width="150" height="150"/>
-    </div>
-    <h3>Nueva reunión</h3>
-    <h1><i class="material-icons" id="icono">mail</i></h1>
-    <p>Cargando...</p>
-</div> -->
 @stop
 
 @section('scripts')
