@@ -64,19 +64,28 @@
                   <li class="dropdown">
                       <a href="{{asset('/')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Inicio">
                           <i class="material-icons">dashboard</i>
-                          <span class="label-count">7</span>
+                          <?php $num1 = count(Auth::user()->reuniones());?>
+                          @if($num1 > 0)
+                          <span class="label-count">{{$num1}}</span>
+                          @endif
                       </a>
                   </li>
                   <li class="dropdown">
                       <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Archivos">
                           <i class="material-icons">archive</i>
+                          <?php $num2 = 0;?>
+                          @if($num2 > 0)
                           <span class="label-count">7</span>
+                          @endif
                       </a>
                   </li>
                   <li class="dropdown">
                       <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Agenda">
                           <i class="material-icons">insert_invitation</i>
+                          <?php $num3 = 0;?>
+                          @if($num3 > 0)
                           <span class="label-count">7</span>
+                          @endif
                       </a>
                   </li>
                   <li class="pull-right">

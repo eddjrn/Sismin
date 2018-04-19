@@ -23,25 +23,24 @@ function mostrar(id_reunion){
             <th>${result.datos[2][i]}</th>\
         `);
         }
-      $('#listaConvocados').html($('#listaConvocados').html()+'</tr>');
-      $('#convocados3').html(result.datos[1].length);
-      $('#imgReunion').attr('src',result.datos[3][4]);
-      $('#secretario').html(result.datos[3][5]);
-      if(result.datos[3][6]==result.datos[3][7]){
-        $('#btns').show();
-        var id_convocados = [];
+        $('#listaConvocados').html($('#listaConvocados').html()+'</tr>');
+        $('#convocados3').html(result.datos[1].length);
+        $('#imgReunion').attr('src',result.datos[3][4]);
+        $('#secretario').html(result.datos[3][5]);
+        if(result.datos[3][6]==result.datos[3][7]){
+          $('#btns').show();
+          var id_convocados = [];
+          id_convocados = result.datos[4];
 
-        id_convocados = result.datos[4];
-
-
-        $('#delegarResp').attr('onClick',`delegarResp(\
-          ${result.datos[0]['id_reunion']},\
-          "${result.datos[3][8]}",\
-          [${id_convocados}])`);
-            convocados = result.datos[1];
-      }else {
-        $('#btns').hide();
-      }
+          $('#delegarResp').attr('onClick',`delegarResp(\
+            ${result.datos[0]['id_reunion']},\
+            "${result.datos[3][8]}",\
+            [${id_convocados}])`);
+              convocados = result.datos[1];
+        }else {
+          $('#btns').hide();
+        }
+        $('#detalles_reunion').show(200);
       },
       error: function (jqXHR, status, error) {
        mensajeAjax('Error', error, 'error');

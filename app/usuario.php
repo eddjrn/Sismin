@@ -87,7 +87,6 @@ class usuario extends Authenticatable
          }
      }
      return $reuniones_recientes;
-
    }
 
    public function numModerador(){
@@ -103,18 +102,24 @@ class usuario extends Authenticatable
         $cont++;
       }
     }
-
-    // for($i=0; $i<count($reuniones); $i++)
-    // {
-    //     $id =$reuniones[$i]->reunion->id_tipo_reunion;
-    //
-    //     if(!(in_array($id,$id_reuniones))){
-    //       $igualar=$reuniones[$i]->reunion;
-    //       array_push($id_reuniones,$id);
-    //       $cont++;
-    //     }
-
-
    return $cont . ' reuniones recientes';
- }
+  }
+
+  public function es_secretario($id_reunion){
+    $reunion_secretario = \App\reunion::find($id_reunion)->secretario();
+    if($this->id_usuario == $reunion_secretario->id_usuario){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function es_moderador($id_reunion){
+    $reunion_secretario = \App\reunion::find($id_reunion)->moderador();
+    if($this->id_usuario == $reunion_secretario->id_usuario){
+      return true;
+    } else{
+      return false;
+    }
+  }
 }

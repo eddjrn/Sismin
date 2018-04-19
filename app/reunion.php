@@ -72,11 +72,11 @@ class reunion extends Model
    $this->attributes['lugar'] = $lugar;
   }
   public function moderador(){
-    return $this->convocados->where('id_tipo_usuario','=','1')->first()->usuario->__toString();
+    return $this->convocados->where('id_tipo_usuario','=','1')->first()->usuario;
   }
 
   public function secretario(){
-    return $this->convocados->where('id_rol','=','1')->first()->usuario->__toString();
+    return $this->convocados->where('id_rol','=','1')->first()->usuario;
   }
 
 }
