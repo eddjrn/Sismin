@@ -67,8 +67,16 @@ class usuario extends Authenticatable
      return $this->hasMany(orden_dia::class,'id_usuario');
    }
 
+   public function temas_pendientes(){
+     return $this->hasOne(tema_pendiente::class,'id_usuario');
+   }
+
    public function convocado_en(){
      return $this->hasMany(reunion_convocado::class,'id_usuario')->orderBy('created_at', 'desc');
+   }
+
+   public function responsables(){
+     return $this->hasMany(compromiso_responsable::class,'id_usuario');
    }
 
    public function reuniones(){

@@ -30,6 +30,14 @@ class orden_dia extends Model
     return $this->belongsTo(reunion::class,'id_reunion');
   }
 
+  public function temas_pendientes(){
+   return $this->hasMany(temas_pendientes::class,'id_orden_dia');
+  }
+
+  public function compromisos(){
+   return $this->hasMany(compromiso::class,'id_orden_dia');
+  }
+
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');

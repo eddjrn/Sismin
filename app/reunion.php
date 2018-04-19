@@ -41,6 +41,10 @@ class reunion extends Model
   return $this->hasMany(reunion_convocado::class,'id_reunion');
  }
 
+ public function minuta(){
+  return $this->hasOne(minuta::class,'id_reunion');
+ }
+
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');
