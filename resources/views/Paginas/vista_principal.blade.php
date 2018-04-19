@@ -154,7 +154,7 @@ Página Principal
                             <div class="header">
                               <h2>
                                   Convocados
-                                  <small>Núm. <span id="convocados3"></span></small>
+                                  <small>Cantidad: <span id="convocados3"></span></small>
                               </h2>
                             </div>
                             <div class="well bar" style="height: 300px; overflow-y: scroll;">
