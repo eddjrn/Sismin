@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 class controlador_vista_general extends Controller
@@ -11,21 +12,8 @@ class controlador_vista_general extends Controller
     //
     public function mostrar_vista_principal(){
 
-      $reuniones = Auth::user()->convocado_en->sortByDesc('updated_at')->all();
-      $id_reuniones =  array();
-      $reuniones_recientes =  array();
+      $reuniones_recientes = Auth::user()->reuniones();
 
-      for($i=0; $i<count($reuniones); $i++)
-      {
-          $id =$reuniones[$i]->reunion->id_tipo_reunion;
-
-          if(!(in_array($id,$id_reuniones))){
-            $igualar=$reuniones[$i]->reunion;
-            array_push($id_reuniones,$id);
-            array_push($reuniones_recientes,$igualar);
-
-          }
-      }
       if (count($reuniones_recientes)>0) {
         return view('Paginas.vista_principal',[
           'reuniones'=>$reuniones_recientes
@@ -44,7 +32,7 @@ class controlador_vista_general extends Controller
       $rol = array();
       $datosReunion = array();
       $idConvocados = array();
-      $idSecre= $reunion->convocados->where('id_rol','=','1')->get(0)->usuario->id_usuario;
+      $idSecre= $reunion->convocados->where('id_rol','=','1')->first()->usuario->id_usuario;
       $idMod = Auth::user()->id_usuario;
 
 
@@ -70,6 +58,29 @@ class controlador_vista_general extends Controller
       array_push($reuniones,$datosReunion);
       array_push($reuniones,$idConvocados);
       return response()->json(['datos' => $reuniones]);
+    }
+
+    public function cambiarSecre(Request $request){
+      $validacion = Validator::make($request->all(), [
+        'id_reunion'=>'required',
+        'id_convocado'=>'required|not_in:0',
+      ]);
+
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+      $id= $request->id_reunion;
+      $reunion =\App\reunion::find($id);
+      $idMod = $reunion->convocados->where('id_rol','=','1')->first();
+      $idU = $reunion->convocados->where('id_usuario','=',$request->id_convocado)->first();
+
+      $idMod->update([
+        "id_rol"=>2
+      ]);
+      $idU->update([
+        "id_rol"=>1
+      ]);
+      return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->usuario->__toString()]);
     }
 
 

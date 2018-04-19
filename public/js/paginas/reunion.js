@@ -61,7 +61,7 @@ function actualizarRol(boton){
      roles[indice] = id_rol;
   }
   if(id_rol == 0){
-    roles[indice] = 1;
+    roles[indice] = 2;
     notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
   }
 }

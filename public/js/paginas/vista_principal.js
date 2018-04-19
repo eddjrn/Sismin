@@ -1,3 +1,4 @@
+var convocados = [];
 function mostrar(id_reunion){
 //  alert(reunion);
 
@@ -28,11 +29,16 @@ function mostrar(id_reunion){
       $('#secretario').html(result.datos[3][5]);
       if(result.datos[3][6]==result.datos[3][7]){
         $('#btns').show();
+        var id_convocados = [];
+
+        id_convocados = result.datos[4];
+
+
         $('#delegarResp').attr('onClick',`delegarResp(\
           ${result.datos[0]['id_reunion']},\
-          ${result.datos[3][8]},\
-          ${result.datos[1]},\
-          ${result.datos[4]})`);
+          "${result.datos[3][8]}",\
+          [${id_convocados}])`);
+            convocados = result.datos[1];
       }else {
         $('#btns').hide();
       }
@@ -43,9 +49,47 @@ function mostrar(id_reunion){
     })
   }
 
-  function delegarResp(id_reunion,tipo_reunion,id_convocados,convocados){
+  function delegarResp(id_reunion,tipo_reunion,id_convocados){
     $('#responsabilidadModal').modal('show');
     $('#tipoReunion').html(tipo_reunion);
-    alert('holi');
+    $('#Copc').html(``);
+    $('#Copc').selectpicker('refresh');
+    for (var i = 0; i < id_convocados.length; i++) {
+      $('#Copc').html($('#Copc').html()+`<option value="${id_convocados[i]}">${convocados[i]}</option>`);
+    }
+  $('#Copc').selectpicker('refresh');
+  $('#actualizarSecre').attr('onClick',`actualizarSecre(${id_reunion})`);
 
   }
+
+ function actualizarSecre(id_reunion){
+     var id_convocado = $('#Copc').val();
+
+   $.ajax({
+      type:'POST',
+      url: urlS,
+      data:
+      {
+        "id_reunion":id_reunion,
+        "id_convocado": id_convocado
+      },
+      success:function(result){
+        if(result.errores){
+          var errores = '<ul>';
+          $.each(result.errores,function(indice,valor){
+            errores += '<li>' + valor + '</li>';
+          });
+          errores += '</ul>';
+          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+        } else{
+          mensajeAjax('Registro correcto', result.mensaje,'success');
+          window.setTimeout(function(){
+            location.href = urlToRedirectPage;
+          } ,1500);
+        }
+     },
+     error: function (jqXHR, status, error) {
+      mensajeAjax('Error', error, 'error');
+     }
+   });
+ }

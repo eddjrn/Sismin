@@ -68,7 +68,26 @@ class usuario extends Authenticatable
    }
 
    public function convocado_en(){
-     return $this->hasMany(reunion_convocado::class,'id_usuario');
+     return $this->hasMany(reunion_convocado::class,'id_usuario')->orderBy('created_at', 'desc');
+   }
+
+   public function reuniones(){
+     $reuniones = $this->convocado_en->all();
+     $id_reuniones =  array();
+     $reuniones_recientes =  array();
+
+     for($i=0; $i<count($reuniones); $i++)
+     {
+         $id =$reuniones[$i]->reunion->id_tipo_reunion;
+         if(!(in_array($id,$id_reuniones))){
+           $igualar=$reuniones[$i]->reunion;
+           array_push($id_reuniones,$id);
+           array_push($reuniones_recientes,$igualar);
+
+         }
+     }
+     return $reuniones_recientes;
+
    }
 
    public function numModerador(){

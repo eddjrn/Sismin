@@ -199,8 +199,7 @@ Página Principal
                         <div class="row clearfix">
                             <div class="col-md-12">
                                 <select class="form-control show-tick" id="Copc">
-                                    <option value="">-- Seleccionar --</option>
-                                    <option value="10">10</option>
+                                    <option value="0">-- Seleccionar --</option>
                                 </select>
                             </div>
                       </div>
@@ -237,6 +236,7 @@ $.ajaxSetup({
 
 var url = "{{asset('/vista_principal_detalles')}}";
 var urlToRedirectPage = "{{asset('/')}}";
+var urlS = "{{asset('/vista_principal_select')}}";
 </script>
 
 

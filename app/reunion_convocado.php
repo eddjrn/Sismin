@@ -33,7 +33,7 @@ class reunion_convocado extends Model
   }
 
   public function reunion(){
-    return $this->belongsTo(reunion::class,'id_reunion');
+    return $this->belongsTo(reunion::class,'id_reunion')->orderBy('fecha_reunion', 'desc');
   }
 
   public function rol(){
