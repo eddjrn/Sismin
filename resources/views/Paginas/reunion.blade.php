@@ -168,14 +168,19 @@ Nueva reunión
                     <div class="row">
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Temas pendientes</h4>
-                        <div class="well bar" style="height: 250px; overflow-y: scroll;"></div>
-                        <button type="button" class="colorBoton">Agregar a la lista</button>
+                        <div class="well bar" style="height: 250px; overflow-y: scroll;">
+                          <div id="lista_pendientes" class="list-group"></div>
+                        </div>
                       </div>
                       <div class="col-lg-6 col-md-6 text-center">
                         <h4>Orden del día</h4>
                         <div class="well bar" style="height: 250px; overflow-y: scroll;">
                           <div id="lista_orden" class="list-group"></div>
                         </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12 text-center">
                         <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema</button>
                       </div>
                     </div>

@@ -17,7 +17,7 @@ Registro de un rol de usuario
     <div class="logo">
         <div class="row">
           <div class="col-xs-6 col-xs-offset-3">
-            <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
+            <img src="{{asset('/images/rol_usuario.svg')}}" width="150" height="150"/>
           </div>
         </div>
         <a href="javascript:void(0);"><b>SisMin</b></a>

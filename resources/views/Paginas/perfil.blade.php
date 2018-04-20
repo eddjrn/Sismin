@@ -54,17 +54,16 @@ Perfil de usuario
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <div class="row">
+                  <div class="col-lg-12 text-center">
+                    <img src="{{asset('/images/cambiar_perfil.svg')}}" width="150" height="150"/>
+                  </div>
+                </div>
                 <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña</h4>
             </div>
             <div class="modal-body">
               <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" >
                 {{csrf_field()}}
-              <div class="row">
-                <div class="col-lg-12 text-center">
-                  <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
-                </div>
-              </div>
-
               <div class="row">
                 <div class="col-lg-12">
                 <div class="input-group">

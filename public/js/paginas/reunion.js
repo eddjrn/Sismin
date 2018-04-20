@@ -238,16 +238,18 @@ function actualizarTipo(opcion){
   var id_tipo_reunion = opcion.value;
   var descripcion = $("#tipo_reunion option:selected").html();
   var imagen = $("#tipo_reunion option:selected").attr("data-imagen");
+  // En caso de que no seleccione una
   if(id_tipo_reunion == 0){
     return false;
   }
+  // Se cambia el contenido de la pagina por los datos de el ripo de reunión seleccionada
   $('#tipo_texto').html('"' + descripcion + '"');
   $('#imagen_tipo_reunion').attr("src", imagen);
   $('#imagen_tipo_reunion_texto').attr("src", imagen);
 
   formulario.set('tipo_de_reunion', id_tipo_reunion);
   var url = urlToCancelPage + "reunion/1";
-  // NO implementado aun ----------------------------------------------------------------
+  // Se sacan los datos del servidor
   var formdata = new FormData();
   formdata.append('id', id_tipo_reunion);
 
@@ -261,14 +263,45 @@ function actualizarTipo(opcion){
        if(result.errores){
          notificacionAjax('bg-red', result.errores, 2500,  'bottom', 'center', null, null);
        } else{
-         notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+         // En caso de tener una buena respuesta se hacen los cambios
+         $('#lista_pendientes').html('');
+         if(result.datos.length > 0){
+           for(var i = 0; i < result.datos.length; i++){
+             $('#lista_pendientes').html($('#lista_pendientes').html() + `\
+             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item" \
+             style="word-wrap: break-word;" data-usuario="">${result.datos[i]['descripcion']}</button>`);
+           }
+         } else{
+           notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
+         }
        }
     },
     error: function (jqXHR, status, error) {
      mensajeAjax('Error', error, 'error');
     }
   });
+}
+// Al hacer click sobre el tema pendiente
+function agregarTemaPendiente(id_tema, descripcion){
+  var idRand = Math.floor(Math.random() * 99);
+  var lista_texto_id = 'ordenDia_texto' + idRand;
+  var boton_id = 'ordenDia' + idRand;
+  var nombres = $('#responsable_nuevo_tema option:eq(1)').html();
+  var nombre = nombres.split(" ");
 
+  orden_dia.push(descripcion);
+  responsables.push(moderador);
+  orden_dia_control.push(idRand);
+
+  notificacionAjax('bg-blue-grey', "Debe seleccionar un responsable.", 2500,  'bottom', 'center', null, null);
+  // Se elimina de temas pendientes
+  $(`#pendiente_${id_tema}`).remove();
+  // Se genera el codigo HTML correspondiente de los botones
+  $('#lista_orden').html($('#lista_orden').html() + `\
+  <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
+  style="word-wrap: break-word;" data-usuario="${moderador}">${descripcion}</button>`);
+  $('#lista_texto').html($('#lista_texto').html() + `\
+    <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
 }
 
 // Botones de navegación
@@ -367,7 +400,8 @@ $(function () {
         format: 'dddd DD MMMM YYYY [a las] HH:mm [hrs]',
         clearButton: false,
         nowButton: true,
-        weekStart: 1
+        weekStart: 1,
+        minDate : new Date(),
     }).on('change', function(e, date){
       // Función que se ejecuta al agregar fecha
       // Si la fecha es anterior a hoy

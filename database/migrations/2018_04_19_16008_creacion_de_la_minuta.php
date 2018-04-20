@@ -16,7 +16,7 @@ class CreacionDeLaMinuta extends Migration
       Schema::create('minuta',function(Blueprint $table){
         $table->increments('id_minuta');
         $table->timestamps();
-        $table->dateTime('fecha_elaboracion');
+        $table->dateTime('fecha_elaboracion')->nullable();
         $table->integer('id_reunion')->unsigned()->index();
         $table->foreign('id_reunion')->references('id_reunion')->on('reunion');
         $table->string('codigo',10);

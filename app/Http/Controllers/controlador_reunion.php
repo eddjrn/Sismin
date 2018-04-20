@@ -75,21 +75,20 @@ class controlador_reunion extends Controller
     switch($opc){
       case 1:
         $tipo_reunion = \App\tipo_reunion::find($request->id);
-        $reunion = $tipo_reunion->reuniones->sortByDesc('updated_at')->first();
+        $reunion = $tipo_reunion->reuniones->sortByDesc('fecha_reunion')->first();
         // No se tienen temas pendientes en el sistema :(
         // Por hacer
         //   Sacar los temas pendientes de las minutas y ponerlos en la seccion de orden del dia
         //   Que sean seleccionables en la seccion y sacar sus datos
-        return response()->json(['mensaje' => 'No implementado temas pendientes']);
-
-        break;
-      case 2:
-
-        break;
-      case 3:
-
-        break;
-      case 4:
+        if($reunion == null){
+          $temas = null;
+        } else{
+          $temas = $reunion->minuta->temas_pendientes;
+        }
+        return response()->json([
+          'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
+          'datos' => $temas,
+        ]);
 
         break;
     }
@@ -126,6 +125,12 @@ class controlador_reunion extends Controller
       'motivo' => $request->motivo,
       'lugar' => $request->lugar,
       'codigo'=> $c,
+    ]);
+
+    $c2 = str_random(10);
+    \App\minuta::create([
+      'id_reunion' => $reunion->id_reunion,
+      'codigo' => $c2,
     ]);
 
     for($i = 0; $i < count($orden); $i++){
