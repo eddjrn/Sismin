@@ -31,7 +31,7 @@ function mostrar(id_reunion){
           $('#btns').show();
           var id_convocados = [];
           id_convocados = result.datos[4];
-
+          $('#realizarMinuta').attr('onClick',`realizarMinuta(${result.datos[3][10]},"${result.datos[3][9]}")`);
           $('#delegarResp').attr('onClick',`delegarResp(\
             ${result.datos[0]['id_reunion']},\
             "${result.datos[3][8]}",\
@@ -92,3 +92,10 @@ function mostrar(id_reunion){
      }
    });
  }
+
+function realizarMinuta(id,codigo){
+ mensajeAjax('Redireccionando...',"Realizar Minuta",'success');
+  window.setTimeout(function(){
+    location.href = urlToRedirectPage+`minuta/${id}/${codigo}`;
+  } ,1500);
+}

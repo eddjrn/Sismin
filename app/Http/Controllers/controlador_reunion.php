@@ -169,7 +169,6 @@ class controlador_reunion extends Controller
 
   private function enviarCorreo($id,$correo,$codigo)
   {
-
     $usuario = \App\usuario::wherecorreo_electronico($correo)->first();
     Mail::send('Paginas.link_pdf',[
       'id_reunion' => $id,
@@ -177,7 +176,7 @@ class controlador_reunion extends Controller
       'usuario'=>$usuario
     ], function($mensaje) use ($usuario){
         $mensaje->to($usuario->correo_electronico);
-        $mensaje->subject("Hola $usuario->nombre haz sido convocada(o) a una reunión.");
+        $mensaje->subject("Hola $usuario->nombre haz sido convocada(o) a una reunión en el sistema SisMin");
     });
 
   }
@@ -186,7 +185,6 @@ class controlador_reunion extends Controller
     //creación del pdf
 
         $reunion= \App\reunion::find($id);
-
         if($codigo==$reunion->codigo){
         $pdf = PDF::loadView('Paginas.pdf',[
           'imagen'=>$reunion->tipo_reunion->imagen_logo,
@@ -205,6 +203,11 @@ class controlador_reunion extends Controller
         abort(404);
       }
         //return $pdf->download('listado.pdf');
+  }
+
+  public function pdf_minuta(){
+    $pdf = PDF::loadView('Paginas.pdf_minuta');
+    return $pdf->stream();
   }
 
 }

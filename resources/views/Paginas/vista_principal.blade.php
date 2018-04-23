@@ -138,7 +138,7 @@ Página Principal
                         </div>
                         <div class="row" id="btns">
                           <div class="col-lg-6 col-md-6 col-sm-6">
-                            <button class="btn bg-pink waves-effect" type="submit">Realizar minuta</button>
+                            <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)" >Realizar minuta</button>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-6">
                             <button type="button" class="btn bg-pink waves-effect" id="delegarResp"  onclick="delegarResp()">Delegar responsabilidad</button>

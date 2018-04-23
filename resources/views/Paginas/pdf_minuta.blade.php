@@ -1,24 +1,9 @@
-   <title>Convocatoria de la reunión {{$tipo}} </title>
-    <div align="right"><img src="{{$imagen}}" class="logo" width="100" height="100"></div>
-    <center><h1 class="tipo">"{{$tipo}}"</h1></center>
-  <h2 align="justify">Por medio de la presente, se le convoca a {{$motivo}} para el día {{$fecha_reunion}}, en {{$lugar}}.<br><br>
-  Convocados:</h2>
-    <ul class="convocado">
-    @foreach ($convocados as $convocado)
-        <li>{{$convocado->rol}}: {{$convocado->usuario->__toString()}}</li>
-    @endforeach
-  </ul>
-  <h2>Para tratar los siguientes temas:</h2>
-  <ol class="convocado">
-  @foreach($reunion_orden_dia as $tema)
-    <li>{{$tema->descripcion}} => {{$tema->usuario}}</li>
-  @endforeach
-</ol>
-  <p class="fecha_hoy"><b>{{$fecha_creacion}}</b></p>
-  <div >Atentamente:
-      <center><img src="{{$img}}" class="rubrica" width="150" height="150" /></center>
-  <hr>
-  <h3>{{$convocados->get(0)->usuario}}<br> (Moderador)</h3></div>
+   <title>Minuta correspondiente a la reunión </title>
+   <div align="right"><img src="{{asset('/images/imagen.svg')}}" class="logo" width="100" height="100"></div>
+   <center><h1 class="tipo">Junta de consejo</h1></center>
+   <h2 align="justify">Datos de la reunión
+   <hr></h2>
+
 
 <style>
 .logo{
@@ -71,7 +56,7 @@ ol {
     list-style-type: decimal-leading-zero;
     padding-left: 2em;
 }
-hr{
+.hr1{
     width: 50%;
 }
 

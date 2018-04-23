@@ -45,6 +45,8 @@ class controlador_vista_general extends Controller
       array_push($datosReunion,$idSecre);
       array_push($datosReunion,$idMod);
       array_push($datosReunion,$reunion->tipo_reunion->descripcion);
+      array_push($datosReunion,$reunion->minuta->codigo);
+      array_push($datosReunion,$reunion->minuta->id_minuta);
 
       foreach($reunion->convocados as $convocado){
         array_push($convocadosData,$convocado->usuario->__toString());

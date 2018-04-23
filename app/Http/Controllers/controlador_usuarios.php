@@ -139,7 +139,7 @@ class controlador_usuarios extends Controller
     ], function($mensaje) use ($usuario){
         $mensaje->to($usuario->correo_electronico);
         $mensaje->subject("Hola $usuario->nombre
-        haz clic en el siguiente enlace para reestablecer tu contraseña.");
+        Solicitud de restablecimiento de contraseña.-SISMIN");
     });
 
   }

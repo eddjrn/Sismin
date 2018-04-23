@@ -179,6 +179,7 @@
 
   <!-- Waves Effect Plugin Js -->
   <script src="{{asset('/plugins/node-waves/waves.js')}}"></script>
+  
 
   <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
 

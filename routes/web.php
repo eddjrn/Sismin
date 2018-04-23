@@ -50,3 +50,7 @@ Route::post('/reunion/{opc}', 'controlador_reunion@actualizar_vista')->middlewar
 Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');
 
 Route::get('/pdf/{id}/{codigo}','controlador_reunion@pdf');
+
+Route::get('/minuta/{id}/{codigo}','controlador_minuta@mostrar_vista_minuta')->middleware('sesion');
+Route::post('/minuta','controlador_minuta@crear_minuta')->middleware('sesion');
+Route::get('/pdf_minuta','controlador_minuta@pdf_minuta');
