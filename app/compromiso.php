@@ -46,5 +46,19 @@ class compromiso extends Model
    return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');
   }
 
+  public function getLimite(){
+    $fecha = new Date($this->getOriginal('fecha_limite'));
+    return $fecha->diffForHumans();
+  }
+
+  public function getFechaLimiteAttribute($value){
+   Date::setLocale('es');
+   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
+  }
+
+  public function setFechaLimiteAttribute($value){
+    $this->attributes['fecha_limite'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
+  }
+
 
 }

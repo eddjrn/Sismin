@@ -80,7 +80,7 @@
                       </a>
                   </li>
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Agenda">
+                      <a href="{{asset('/agenda')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Agenda">
                           <i class="material-icons">insert_invitation</i>
                           <?php $num3 = 0;?>
                           @if($num3 > 0)
@@ -179,7 +179,7 @@
 
   <!-- Waves Effect Plugin Js -->
   <script src="{{asset('/plugins/node-waves/waves.js')}}"></script>
-  
+
 
   <script src="{{asset('/js/pages/ui/tooltips-popovers.js')}}"></script>
 
