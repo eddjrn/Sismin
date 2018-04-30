@@ -228,24 +228,24 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       }
 
       var id_nuevo = Math.floor(Math.random() * 9999);
+      var numero_indice = $(`#descripcion_orden_resumen_${id_orden_lista}`).attr("data-numero");
+      var fecha_compromiso_legible = $(`#fecha`).attr("data-fechaLegible");
+      var fecha_compromiso = $(`#fecha`).attr("data-fecha"); ///////////////////agregar a formulario
 
       $(`#compromisoLista_${id_orden_lista}`).html($(`#compromisoLista_${id_orden_lista}`).html() + `\
-        <li id="compromiso_${id_orden_lista}_${id_nuevo}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a><span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
+        <li id="compromiso_${id_orden_lista}_${id_nuevo}" data-fechaCompromiso="${fecha_compromiso}" data-fechaCompromisoLegible="${fecha_compromiso_legible}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a><span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
           <ul id="lista_responsables_compromiso_${id_orden_lista}_${id_nuevo}">\
             <li><a onClick="actualizarResponsable(4, ${id_orden_lista}, ${id_nuevo});" class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-plus'></i>Agregar nuevo responsable</a></li>\
             <li><a class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-user'></i>Responsable: </a><span id="responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}" data-id="${id_responsable}">${nombre_responsable}</span></li>\
           </ul>\
-        </li>
-      `);
-
-      var numero_indice = $(`#descripcion_orden_resumen_${id_orden_lista}`).attr("data-numero");
+        </li>`);
 
       $("#tabla_compromisos_resumen").html($("#tabla_compromisos_resumen").html() + `\
         <tr id="compromiso_resumen_${id_orden_lista}_${id_nuevo}">\
           <td>${numero_indice}</td>\
           <td id="descripcion_compromiso_resumen_${id_orden_lista}_${id_nuevo}">${descripcion_compromiso}</td>\
           <td id="responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}">${nombre_responsable}</td>\
-          <td>Fecha</td>\
+          <td id="fecha_compromiso_${id_orden_lista}">${fecha_compromiso_legible}</td>\
         </tr>`);
       limpiarDialogo();
       break;
@@ -261,12 +261,18 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
         break;
       }
 
+      var fecha_compromiso_legible = $(`#fecha`).attr("data-fechaLegible");
+      var fecha_compromiso = $(`#fecha`).attr("data-fecha"); ///////////////////agregar a formulario
+
       $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html(descripcion_compromiso);
       $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html(nombre_responsable);
       $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).attr("data-id", id_responsable);
+      $(`#compromiso_${id_orden_lista}_${id_nuevo}`).attr("data-fechaCompromiso", `${fecha_compromiso}`);
+      $(`#compromiso_${id_orden_lista}_${id_nuevo}`).attr("data-fechaCompromisoLegible", `${fecha_compromiso_legible}`);
 
       $(`#descripcion_compromiso_resumen_${id_orden_lista}_${id_nuevo}`).html(descripcion_compromiso);
       $(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html(nombre_responsable);
+      $(`#fecha_compromiso_${id_orden_lista}`).html(fecha_compromiso_legible);
       limpiarDialogo();
       break;
     // Eliminar compromiso con responsable y los demas responsables
@@ -289,6 +295,8 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
     case 5:
       var descripcion_compromiso = $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html();
       var id_responsable = $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).attr("data-id");
+      var fecha_compromiso = $(`#compromiso_${id_orden_lista}_${id_nuevo}`).attr("data-fechaCompromiso");
+      var fecha_compromiso_legible = $(`#compromiso_${id_orden_lista}_${id_nuevo}`).attr("data-fechaCompromisoLegible");
 
       $('#compromisoModalTitulo').html("Editar compromiso");
       // Campo de descripcion del dialogo
@@ -298,10 +306,15 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       $('#responsable_nuevo_compromiso').prop("disabled", false);
       $(`#responsable_nuevo_compromiso`).val(id_responsable);
       $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+      // Campo de fecha
+      $('#fecha').prop("disabled", false);
 
       $('#filaEliminar').show();
       $('#btnEliminar').attr("onClick", `actualizarCompromiso(3, ${id_orden_lista}, ${id_nuevo});`);
       $('#btnGuardar').attr("onClick", `actualizarCompromiso(2, ${id_orden_lista}, ${id_nuevo});`);
+      $('#fecha').attr("data-fecha", fecha_compromiso);
+      $('#fecha').attr("data-fechaLegible", fecha_compromiso_legible);
+      $('#fecha').val(fecha_compromiso_legible);
       $('#compromisoModal').modal('show');
       break;
   }
@@ -361,6 +374,7 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
       $('#descripcion_nuevo_compromiso').prop("disabled", true);
       $('#responsable_nuevo_compromiso').prop("disabled", false);
       $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+      $('#fecha').prop("disabled", false);
 
       $('#btnGuardar').attr("onClick", `actualizarResponsable(1, ${id_orden_lista}, ${id_nuevo});`);
       $('#compromisoModal').modal('show');
@@ -369,13 +383,14 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
     case 5:
       var descripcion = $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html();
       var id_responsable = $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).attr("data-id");
-
+      var fecha_compromiso;//////////////////////////////////////////////////////////
       $('#compromisoModalTitulo').html("Editar responsable del compromiso");
       $('#descripcion_nuevo_compromiso').val(descripcion);
       $('#descripcion_nuevo_compromiso').prop("disabled", true);
       $('#responsable_nuevo_compromiso').prop("disabled", false);
       $('#responsable_nuevo_compromiso').val(id_responsable)
       $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+      $('#fecha').prop("disabled", true);
       $('#filaEliminar').show();
       $('#btnEliminar').attr("onClick", `actualizarResponsable(3, ${id_orden_lista}, ${id_nuevo}, ${id_nuevo_responsable});`);
       $('#btnGuardar').attr("onClick", `actualizarResponsable(2, ${id_orden_lista}, ${id_nuevo}, ${id_nuevo_responsable});`);
@@ -393,7 +408,9 @@ function limpiarDialogo(){
   $('#descripcion_nuevo_compromiso').prop("disabled", true);
   $('#responsable_nuevo_compromiso').val(0);
   $('#responsable_nuevo_compromiso').prop("disabled", true);
-  $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+  $('#responsable_nuevo_compromiso').selectpicker('refresh');
+  $('#fecha').val(null);
+  $('#fecha').prop("disabled", true);
 }
 
 // Función al recargar la página, cambia estilos e inicaliza scripts en español
@@ -431,6 +448,7 @@ $(function () {
       weekdaysShort : ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
       weekdaysMin : ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
     });
+    $('#fecha_hoy').html(moment().format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
     $('.datetimepicker').bootstrapMaterialDatePicker({
         cancelText : 'Cancelar',
         clearText : 'Limpiar',
@@ -450,9 +468,10 @@ $(function () {
         return false;
       }
       // Ponemos los datos en formato amigable y agregamos los datos al formulario que se va a envíar
-      $('#fecha_texto').html(date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
-      $('#fecha_hoy').html(moment().format("dddd DD MMMM YYYY [a las] HH:mm [hrs]"));
-      formulario.set('fecha', date.format("YYYY-MM-DD HH:mm"));
+      var fecha_legible = date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]");
+
+      $('#fecha').attr("data-fecha", date);
+      $('#fecha').attr("data-fechaLegible", fecha_legible);
   	});
 
     // Data table plugin

@@ -171,7 +171,7 @@ Nueva Minuta
                       </div>
                       <h2 id="tipo_texto" class="align-center">"{{$minuta->reunion->tipo_reunion->descripcion}}"</h2>
                       <hr/>
-                      <h4>Fecha: {{now()}}</h4>
+                      <h4>Fecha: <span id="fecha_hoy"></span></h4>
                       <h4>Lugar: {{$minuta->reunion->lugar}}</h4>
                       <h4>Motivo: {{$minuta->reunion->motivo}}</h4>
                       <h4>Reunión convocada por: {{$minuta->reunion->moderador()->__toString()}}</h4>
@@ -230,14 +230,7 @@ Nueva Minuta
                               <th>Fecha limite</th>
                             </tr>
                           </thead>
-                          <tbody id="tabla_compromisos_resumen">
-                            <!-- <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr> -->
-                          </tbody>
+                          <tbody id="tabla_compromisos_resumen"></tbody>
                       </table>
                       <h3>Temas pendientes</h3>
                       <hr/>
@@ -277,6 +270,14 @@ Nueva Minuta
                   </span>
                   <div class="form-line">
                       <input id="descripcion_nuevo_compromiso" class="form-control date" placeholder="Descripción" type="text">
+                  </div>
+              </div>
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">event</i>
+                  </span>
+                  <div class="form-line">
+                      <input placeholder="Fecha y hora" type="text" data-fecha="" data-fechaLegible="" class="datetimepicker form-control" id="fecha" name="fecha" autocomplete="off">
                   </div>
               </div>
               <p class="col-grey">Responsable</p>
