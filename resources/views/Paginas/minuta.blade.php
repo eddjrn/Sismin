@@ -19,8 +19,8 @@ Nueva minuta
 
 <!-- JQuery DataTable Css -->
 <link href="{{asset('/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
-<!-- JQuery Nestable Css -->
-<link href="{{asset('/plugins/nestable/jquery-nestable.css')}}" rel="stylesheet" />
+
+<link href="{{asset('/css/treeview/easyTree.css')}}" rel="stylesheet" />
 @stop
 
 @section('cabecera')
@@ -33,63 +33,37 @@ Nueva Minuta
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="body">
-              <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso1">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">event</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Detalles de la reunión</div>
-                          <div class="number">1</div>
-                      </div>
-                  </div>
+              <?php
+                $tamanioPasos = "col-lg-2 col-md-2 col-sm-2 col-xs-4";
+              ?>
+              <div class="row text-center">
+                <div class="{{$tamanioPasos}} col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
+                  <button type="button" id="paso1" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Detalles de la reunión">
+                    <i class="material-icons">library_books</i>
+                  </button>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso2">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">contacts</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Asistencia</div>
-                          <div class="number">2</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso2" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Asistencia">
+                    <i class="material-icons">contacts</i>
+                  </button>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso3">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">assignment</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Temas tratados y pendientes</div>
-                          <div class="number">3</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso3" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Temas tratados y pendientes">
+                    <i class="material-icons">assignment_turned_in</i>
+                  </button>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso4">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">subject</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Compromisos</div>
-                          <div class="number">4</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso4" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Compromisos">
+                    <i class="material-icons">list</i>
+                  </button>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso5">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">subject</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Resumen</div>
-                          <div class="number">5</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso5" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la minuta">
+                    <i class="material-icons">subject</i>
+                  </button>
                 </div>
               </div>
+
               <div class="row">
                 <div class="container-fluid">
                   <div id="menu1">
@@ -110,13 +84,15 @@ Nueva Minuta
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
+                                    <th>Rol dentro de la reunión</th>
                                     <th style="width: 400px !important">Asistencia</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Asistencia</th>
+                                    <th>Rol dentro de la reunión</th>
+                                    <th style="width: 300px !important">Asistencia</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -124,14 +100,12 @@ Nueva Minuta
                                 @unless($convocado->id_usuario == Auth::user()->id_usuario)
                                   <tr>
                                     <td id="nmd_checkbox_{{$convocado->usuario->id_usuario}}">{{$convocado->usuario->__toString()}}</td>
+                                    <td>{{$convocado->rol->descripcion}}</td>
                                     <td>
                                       <div class="row">
                                         <div class="col-lg-2 col-md-2">
-                                          <input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
-                                          <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
-                                        </div>
-                                        <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
-
+                                          <input type="checkbox" onClick="actualizarAsistencia(this);" id="asistencia_checkbox_{{$convocado->id_convocado}}" class="chk-col-teal" autocomplete="off"/>
+                                          <label for="asistencia_checkbox_{{$convocado->id_convocado}}">Agregar asistencia</label>
                                         </div>
                                       </div>
                                     </td>
@@ -158,9 +132,9 @@ Nueva Minuta
                               @foreach($minuta->reunion->orden_dia as $orden)
                                 <tr>
                                     <th scope="row">{{$orden->descripcion}}</th>
-                                    <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDh(this)">Ingrese la descripcion de lo hechos</td>
-                                    <td><input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
-                                    <label for="md_checkbox_{{$orden->id_orden_dia}}">Agregar</label></td>
+                                    <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);">Ingrese la descripcion de lo hechos.</td>
+                                    <td width="200px"><input type="checkbox" onClick="actualizarPendientes(this);" id="pendiente_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
+                                    <label for="pendiente_checkbox_{{$orden->id_orden_dia}}">Agregar como pendiente</label></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -171,29 +145,105 @@ Nueva Minuta
                   <div id="menu4" class="oculto">
                     <h4>Compromisos</h4>
                     <hr/>
-                    <div class="dd">
-                        <ol class="dd-list">
-                          @foreach($minuta->reunion->orden_dia as $orden)
-                            <li class="dd-item" data-id="2">
-                                <div class="dd-handle">{{$orden->descripcion}}</div>
-                                <ol class="dd-list">
-                                    <li class="dd-item" data-id="3">
-                                        <div class="dd-handle">Responsable: {{$orden->usuario->__toString()}}</div>
-                                    </li>
-                                </ol>
-                                <ol class="dd-list">
-                                    <li class="dd-item" data-id="3">
-                                        <div class="dd-handle">Compromisos</div>
-                                    </li>
-                                </ol>
-                              </li>
-                            @endforeach
-                            </ol>
-                          </div>
+                    <ul class="treeview">
+                        @foreach($minuta->reunion->orden_dia as $orden)
+                        <li><a class="col-white label fondo">Tema:</a><span> {{$orden->descripcion}}</span>
+                        	<ul>
+                            <li><i class='tree-indicator glyphicon glyphicon-user'></i><span>Responsable del tema: {{$orden->usuario->__toString()}}</span></li>
+                            <li><a href="#">Compromisos</a>
+                            	<ul id="compromisoLista_{{$orden->id_orden_dia}}">
+                                <li><a onClick="actualizarCompromiso(4, {{$orden->id_orden_dia}});" class="font-bold texto"><i class='tree-indicator glyphicon glyphicon-plus'></i>Agregar nuevo compromiso</a></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        @endforeach
+                    </ul>
                   </div>
                   <div id="menu5" class="oculto">
                     <h4>Resumen final de la minuta</h4>
                     <hr/>
+                    <div class="well bar" style="height: 300px; overflow-y: scroll;">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-6 col-md-offset-6 col-xs-offset-6">
+                          <img class="thumbnail" src="{{$minuta->reunion->tipo_reunion->imagen_logo}}" style="float: right !important;" width="150" height="150">
+                        </div>
+                      </div>
+                      <h2 id="tipo_texto" class="align-center">"{{$minuta->reunion->tipo_reunion->descripcion}}"</h2>
+                      <hr/>
+                      <h4>Fecha: {{now()}}</h4>
+                      <h4>Lugar: {{$minuta->reunion->lugar}}</h4>
+                      <h4>Motivo: {{$minuta->reunion->motivo}}</h4>
+                      <h4>Reunión convocada por: {{$minuta->reunion->moderador()->__toString()}}</h4>
+                      <hr/>
+                      <h3>Participantes</h3>
+                      <hr/>
+                      <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Rol dentro de la reunión</th>
+                              <th>Asistencia</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach($minuta->reunion->convocados as $convocado)
+                            <tr>
+                              <td>{{$convocado->usuario->__toString()}}</td>
+                              <td>{{$convocado->rol->descripcion}}</td>
+                              <td id="resumen_convocado_asistencia_{{$convocado->id_convocado}}">
+                                @if($convocado->id_usuario == Auth::user()->id_usuario)
+                                Presente
+                                @else
+                                Ausente
+                                @endif
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                      </table>
+                      <h3>Temas tratados / descripción de los hechos</h3>
+                      <hr/>
+                      <ol>
+                        <?php
+                          $indice = 0;
+                        ?>
+                        @foreach($minuta->reunion->orden_dia as $orden)
+                        <?php
+                          $indice++;
+                        ?>
+                        <li><span id="descripcion_orden_resumen_{{$orden->id_orden_dia}}" data-numero="{{$indice}}">{{$orden->descripcion}}</span> <span id="orden_pendiente_resumen_{{$orden->id_orden_dia}}"></span>
+                          <ul>
+                            <li id="descripcion_hechos_resumen_dh_{{$orden->id_orden_dia}}">Ingrese la descripcion de lo hechos.</li>
+                          </ul>
+                        </li>
+                        @endforeach
+                      </ol>
+                      <h3>Compromisos asumidos</h3>
+                      <hr/>
+                      <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Tema</th>
+                              <th>compromiso</th>
+                              <th>Responsable(s)</th>
+                              <th>Fecha limite</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tabla_compromisos_resumen">
+                            <!-- <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr> -->
+                          </tbody>
+                      </table>
+                      <h3>Temas pendientes</h3>
+                      <hr/>
+                      <h3>Próxima reunión</h3>
+                      <hr/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -214,11 +264,11 @@ Nueva Minuta
     </div>
 </div>
 
-<div class="modal fade" id="temasModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="compromisoModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Tema de la reunión</h4>
+                <h4 id="compromisoModalTitulo" class="modal-title"></h4>
             </div>
             <div class="modal-body">
               <div class="input-group">
@@ -226,28 +276,30 @@ Nueva Minuta
                       <i class="material-icons">subject</i>
                   </span>
                   <div class="form-line">
-                      <input id="descripcion_nuevo_tema" class="form-control date" placeholder="Descripción" type="text">
+                      <input id="descripcion_nuevo_compromiso" class="form-control date" placeholder="Descripción" type="text">
                   </div>
               </div>
               <p class="col-grey">Responsable</p>
-              <select id="responsable_nuevo_tema" class="form-control show-tick" data-live-search="true">
+              <select id="responsable_nuevo_compromiso" class="form-control show-tick" data-live-search="true">
                   <option value="0">Seleccionar</option>
-                  <option id="convocado{{Auth::user()->id_usuario}}" value="{{Auth::user()->id_usuario}}">{{Auth::user()}}</option>
+                  @foreach($minuta->reunion->convocados as $convocado)
+                    <option value="{{$convocado->usuario->id_usuario}}">{{$convocado->usuario->__toString()}}</option>
+                  @endforeach
               </select>
             </div>
             <div class="modal-footer">
               <div class="row">
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button type="button" class="colorBoton btn-block" onClick="actualizarOrdenDia(5, null);">Cancelar</button>
+                  <button type="button" class="colorBoton btn-block" onClick="limpiarDialogo();">Cancelar</button>
                 </div>
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button id="btnGuardar" type="button" onClick="actualizarOrdenDia(1, null);" class="colorBoton btn-block">Guardar</button>
+                  <button id="btnGuardar" type="button" onClick="" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminar" class="row oculto">
                 <br/>
                 <div class="col-lg-12 col-md-12 text-center">
-                  <button id="btnEliminar" type="button" onClick="actualizarOrdenDia(6, null);" class="btn btn-danger waves-effect btn-block">Eliminar</button>
+                  <button id="btnEliminar" type="button" onClick="" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>
             </div>
@@ -255,6 +307,41 @@ Nueva Minuta
     </div>
 </div>
 
+<div class="modal fade" id="hechosModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="hechosModalTitulo" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">subject</i>
+                  </span>
+                  <div class="form-line">
+                      <textarea id="hechosDescripcion" rows="4" class="form-control no-resize" placeholder="Descripción de los hechos."></textarea>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 text-center">
+                  <button type="button" class="colorBoton btn-block" onClick="ocultarHechosDialogo();">Cancelar</button>
+                </div>
+                <div class="col-lg-6 col-md-6 text-center">
+                  <button id="btnGuardarhechos" type="button" onClick="" class="colorBoton btn-block">Guardar</button>
+                </div>
+              </div>
+              <div id="filaEliminarHechos" class="row oculto">
+                <br/>
+                <div class="col-lg-12 col-md-12 text-center">
+                  <button id="btnEliminarHechos" type="button" onClick="" class="btn btn-danger waves-effect btn-block">Eliminar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @stop
 
@@ -281,8 +368,8 @@ Nueva Minuta
 
 <!-- Bootstrap Material Datetime Picker Plugin Js -->
 <script src="{{asset('/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
-<!-- Jquery Nestable -->
-<script src="{{asset('/plugins/nestable/jquery.nestable.js')}}"></script>
+
+<script src="{{asset('/js/treeview/easyTree.js')}}"></script>
 
 <script>
 var colorCheck = "chk-col-light-green";
@@ -291,6 +378,7 @@ var colorBtnDis = "btn btn-default waves-effect";
 var fondo = "bg-light-green";
 var tema = "theme-light-green";
 var colorSpinner = '#8BC34A';
+var textoColor = "col-light-green";
 
 var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";

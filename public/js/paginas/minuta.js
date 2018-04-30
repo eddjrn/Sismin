@@ -2,14 +2,10 @@ var indice = 1;
 var candado = false;
 // Listas de datos a llenar
 var formulario = new FormData();
-// Se agrega al usuario logueado a la nueva lista
-var convocados = [moderador];
-var roles = [1];
 
-var orden_dia = [];
-var responsables = [];
-// Control del la orden del día y sus responsables
-var orden_dia_control = [];
+var asistencia = [];
+var temas_pendientes =[];
+
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
@@ -50,19 +46,31 @@ function finalizar(){
   });
 }
 
-// Función que se ejecuta al seleccionar un rol para el usuario
-function actualizarRol(boton){
-  var id_seleccion = boton.id.split("_");
-  var id_usuario = id_seleccion[2];
-  var id_rol = $(`#${boton.id} option:selected`).val();
-  // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
-  var indice = convocados.indexOf(id_usuario);
-  if(indice!=-1){
-     roles[indice] = id_rol;
+function actualizarAsistencia(boton){
+  var id_convocado = boton.id.split("_");
+  if(boton.checked){
+    asistencia.push(boton.id);
+    $(`#resumen_convocado_asistencia_${id_convocado[2]}`).html("Presente");
+  } else{
+    var indice = asistencia.indexOf(boton.id);
+    if(indice!=-1){
+       asistencia.splice(indice, 1);
+    }
+    $(`#resumen_convocado_asistencia_${id_convocado[2]}`).html("Ausente");
   }
-  if(id_rol == 0){
-    roles[indice] = 2;
-    notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
+}
+
+function actualizarPendientes(boton){
+  var id_orden_dia = boton.id.split("_");
+  if(boton.checked){
+    temas_pendientes.push(boton.id);
+    $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("(Tema pendiente)");
+  } else{
+    var indice = asistencia.indexOf(boton.id);
+    if(indice!=-1){
+       asistencia.splice(indice, 1);
+    }
+    $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("");
   }
 }
 
@@ -100,210 +108,6 @@ function actualizarLista(boton){
   $(`#responsable_nuevo_tema`).selectpicker('refresh');
 }
 
-// Función que se ejecuta al agregar o editar una orden del día (Boton es un numero aleatorio)
-function actualizarOrdenDia(opc, boton){
-  switch(opc){
-    // Guardar nuevo tema de orden del dia
-    case 1:
-      var descripcion = $('#descripcion_nuevo_tema').val();
-      var seleccion = $('#responsable_nuevo_tema').val();
-      var nombres = $('#responsable_nuevo_tema option:selected').html();
-      var nombre = nombres.split(" ");
-      // checa si el campo de descripcion esta vacio
-      if(descripcion == "" || seleccion == 0){
-        $('#temasModal').modal('hide');
-        notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
-        break;
-      }
-      // genera un numero aleatorio con el cual identificar y poder cambiar los datos en la pagina html
-      var idRand = Math.floor(Math.random() * 99);
-      var lista_texto_id = 'ordenDia_texto' + idRand;
-      var boton_id = 'ordenDia' + idRand;
-      // Se agregan los datos corresponientes a las listas
-      orden_dia.push(descripcion);
-      responsables.push(seleccion);
-      orden_dia_control.push(idRand);
-      // Se genera el codigo HTML correspondiente de los botones
-      $('#lista_orden').html($('#lista_orden').html() + `\
-      <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
-      style="word-wrap: break-word;" data-usuario="${seleccion}">${descripcion}</button>`);
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#lista_texto').html($('#lista_texto').html() + `\
-        <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
-      break;
-    // editar tema existente
-    case 2:
-      var descripcion = $('#descripcion_nuevo_tema').val();
-      var seleccion = $('#responsable_nuevo_tema').val();
-      var nombres = $('#responsable_nuevo_tema option:selected').html();
-      var nombre = nombres.split(" ");
-      // checa si el campo de descripcion esta vacio
-      if(descripcion == "" || seleccion == 0){
-        $('#temasModal').modal('hide');
-        $('#filaEliminar').hide();
-        $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-        $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
-        notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
-        break;
-      }
-      // Cambia los valores en el indice de los temas correspondientes
-      var indice = orden_dia_control.indexOf(boton);
-      if(indice!=-1){
-         orden_dia[indice] = descripcion;
-         responsables[indice] = seleccion;
-      }
-      // limpia los campos, los datos y hace los cambios
-      $(`#ordenDia${boton}`).html(descripcion);
-      $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
-      $(`#ordenDia_texto${boton}`).html(descripcion + " => " + nombre[0] + " " + nombre[1]);
-
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      break;
-    // mostrar dialogo con campos
-    case 3:
-      var descripcion = $(`#ordenDia${boton}`).html();
-      var opcion = $(`#ordenDia${boton}`).attr("data-usuario");
-      $('#descripcion_nuevo_tema').val(descripcion);
-      $('#responsable_nuevo_tema').val(opcion);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      // cambia la accion de guardar en el modal dialog para que se pueda editar un campo
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(2, ${boton});`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(6, ${boton});`);
-      $('#filaEliminar').show();
-      $('#temasModal').modal('show');
-      break;
-    // mostrar dialogo vacío
-    case 4:
-      $('#temasModal').modal('show');
-      break;
-    // boton de cancelar
-    case 5:
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      break;
-    // boton de eliminar registro
-    case 6:
-      mensajeAjax('Eliminando', 'Borrando registro','warning');
-      $('#temasModal').modal('hide');
-      $(`#ordenDia_texto${boton}`).remove();
-      $(`#ordenDia${boton}`).remove();
-      // Busca el valor en un indice y lo elimina de la lista
-      var indice = convocados.indexOf(boton);
-      if(indice!=-1){
-         orden_dia.splice(indice, 1);
-         responsables.splice(indice, 1);
-         orden_dia_control.splice(indice, 1);
-      }
-      // Pone los valores en vacío
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      break;
-  }
-}
-
-// Función que se ejecuta al escribir el motivo
-function actualizarMotivo(valor){
-  var motivo = valor.value;
-  $('#motivo_texto').html(motivo);
-  formulario.set('motivo', motivo);
-}
-
-// Función que se ejecuta al escribir el lugar
-function actualizarLugar(valor){
-  var lugar = valor.value;
-  $('#lugar_texto').html(lugar);
-  formulario.set('lugar', lugar);
-}
-
-// Función que se ejecuta cuando se selecciona un tipo de reunión
-function actualizarTipo(opcion){
-  var id_tipo_reunion = opcion.value;
-  var descripcion = $("#tipo_reunion option:selected").html();
-  var imagen = $("#tipo_reunion option:selected").attr("data-imagen");
-  // En caso de que no seleccione una
-  if(id_tipo_reunion == 0){
-    return false;
-  }
-  // Se cambia el contenido de la pagina por los datos de el ripo de reunión seleccionada
-  $('#tipo_texto').html('"' + descripcion + '"');
-  $('#imagen_tipo_reunion').attr("src", imagen);
-  $('#imagen_tipo_reunion_texto').attr("src", imagen);
-
-  formulario.set('tipo_de_reunion', id_tipo_reunion);
-  var url = urlToCancelPage + "reunion/1";
-  // Se sacan los datos del servidor
-  var formdata = new FormData();
-  formdata.append('id', id_tipo_reunion);
-
-  $.ajax({
-     type:'POST',
-     url: url,
-     data:formdata,
-     processData:false,
-     contentType:false,
-     success:function(result){
-       if(result.errores){
-         notificacionAjax('bg-red', result.errores, 2500,  'bottom', 'center', null, null);
-       } else{
-         // En caso de tener una buena respuesta se hacen los cambios
-         $('#lista_pendientes').html('');
-         if(result.datos.length > 0){
-           for(var i = 0; i < result.datos.length; i++){
-             $('#lista_pendientes').html($('#lista_pendientes').html() + `\
-             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item" \
-             style="word-wrap: break-word;" data-usuario="">${result.datos[i]['descripcion']}</button>`);
-           }
-         } else{
-           notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
-         }
-       }
-    },
-    error: function (jqXHR, status, error) {
-     mensajeAjax('Error', error, 'error');
-    }
-  });
-}
-// Al hacer click sobre el tema pendiente
-function agregarTemaPendiente(id_tema, descripcion){
-  var idRand = Math.floor(Math.random() * 99);
-  var lista_texto_id = 'ordenDia_texto' + idRand;
-  var boton_id = 'ordenDia' + idRand;
-  var nombres = $('#responsable_nuevo_tema option:eq(1)').html();
-  var nombre = nombres.split(" ");
-
-  orden_dia.push(descripcion);
-  responsables.push(moderador);
-  orden_dia_control.push(idRand);
-
-  notificacionAjax('bg-blue-grey', "Debe seleccionar un responsable.", 2500,  'bottom', 'center', null, null);
-  // Se elimina de temas pendientes
-  $(`#pendiente_${id_tema}`).remove();
-  // Se genera el codigo HTML correspondiente de los botones
-  $('#lista_orden').html($('#lista_orden').html() + `\
-  <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
-  style="word-wrap: break-word;" data-usuario="${moderador}">${descripcion}</button>`);
-  $('#lista_texto').html($('#lista_texto').html() + `\
-    <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
-}
-
 // Botones de navegación
 function cancelar(){
   mensajeAjax('Registro cancelado', 'Redireccionando a inicio','warning');
@@ -315,10 +119,15 @@ function cancelar(){
 function anterior(){
   if(indice > 1){
     var menu = "#menu"+indice;
+    var paso2 = "#paso"+indice;
+
     $(menu).hide();
     indice--;
     var paso = "#paso"+indice;
-    $(paso).addClass(fondo);
+
+    $(paso2).addClass(fondo);
+    $(paso2).removeClass("bg-pink");
+    $(paso).addClass("bg-pink");
     $(paso).removeClass("bg-grey");
     menu = "#menu"+indice;
     $(menu).show(200);
@@ -337,9 +146,13 @@ function siguiente(){
   if(indice < 5){
     var menu = "#menu"+indice;
     var paso = "#paso"+indice;
+    var indice2 = indice+1;
+    var paso2 = "#paso"+indice2;
     $(menu).hide();
     $(paso).addClass("bg-grey");
-    $(paso).removeClass(fondo);
+    $(paso).removeClass("bg-pink");
+    $(paso2).addClass("bg-pink");
+    $(paso2).removeClass(fondo);
     indice++;
     menu = "#menu"+indice;
     $(menu).show(200);
@@ -359,17 +172,228 @@ function siguiente(){
   }
 }
 
-function mostrarDh(th){
-  //alert(th);
-  $(th).html(`<input type="text" onfocusout="actualizarTh(this,'${th.id}');">`);
-  $(th).attr('onClick',"");
+function mostrarDialogoHechos(opcion, th){
+  switch(opcion){
+    // Agregar nueva descripcion de los hechos
+    case 1:
+      var descripcion = $('#hechosDescripcion').val();
+      $(`#${th}`).html(descripcion);
+      $(`#${th}`).attr("onClick", `mostrarDialogoHechos(4, "${th}");`);
+      $(`#descripcion_hechos_resumen_${th}`).html(descripcion);
+      ocultarHechosDialogo();
+      break;
+    // Mostrar dialogo para eliminar descripcion de hechos
+    case 2:
+      $(`#${th}`).html("Ingrese la descripcion de lo hechos.");
+      $(`#descripcion_hechos_resumen_${th}`).html("Ingrese la descripcion de lo hechos.");
+      ocultarHechosDialogo();
+      break;
+    // Mostrar dialogo vacío
+    case 3:
+      $('#hechosDescripcion').val("");
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${th.id}");`);
+      $('#hechosModal').modal('show');
+      break;
+    // Mostrar dialogo para editar descripcion de los hechos
+    case 4:
+      var descripcion = $(`#${th}`).html();
+      $('#hechosDescripcion').val(descripcion);
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${th}");`);
+      $('#filaEliminarHechos').show();
+      $('#btnEliminarHechos').attr("onClick", `mostrarDialogoHechos(2, "${th}");`);
+      $('#hechosModal').modal('show');
+      break;
+  }
 }
 
-function actualizarTh(texto,idTh){
-  alert(idTh);
-  var contenido = texto.value;
-  $(`#${idTh}`).html(contenido);
-  //texto.remove();
+function ocultarHechosDialogo(){
+  $('#hechosModal').modal('hide');
+  $('#hechosDescripcion').val("");
+  $('#filaEliminarHechos').hide();
+  $('#btnEliminarHechos').attr("onClick", "");
+}
+
+function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
+  switch(opcion){
+    // Agregar compromiso
+    case 1:
+      var descripcion_compromiso = $('#descripcion_nuevo_compromiso').val();
+      var id_responsable = $('#responsable_nuevo_compromiso').val();
+      var nombre_responsable = $('#responsable_nuevo_compromiso option:selected').html();
+
+      if(id_responsable == 0 || descripcion_compromiso == ""){
+        notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
+        limpiarDialogo();
+        break;
+      }
+
+      var id_nuevo = Math.floor(Math.random() * 9999);
+
+      $(`#compromisoLista_${id_orden_lista}`).html($(`#compromisoLista_${id_orden_lista}`).html() + `\
+        <li id="compromiso_${id_orden_lista}_${id_nuevo}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a><span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
+          <ul id="lista_responsables_compromiso_${id_orden_lista}_${id_nuevo}">\
+            <li><a onClick="actualizarResponsable(4, ${id_orden_lista}, ${id_nuevo});" class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-plus'></i>Agregar nuevo responsable</a></li>\
+            <li><a class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-user'></i>Responsable: </a><span id="responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}" data-id="${id_responsable}">${nombre_responsable}</span></li>\
+          </ul>\
+        </li>
+      `);
+
+      var numero_indice = $(`#descripcion_orden_resumen_${id_orden_lista}`).attr("data-numero");
+
+      $("#tabla_compromisos_resumen").html($("#tabla_compromisos_resumen").html() + `\
+        <tr id="compromiso_resumen_${id_orden_lista}_${id_nuevo}">\
+          <td>${numero_indice}</td>\
+          <td id="descripcion_compromiso_resumen_${id_orden_lista}_${id_nuevo}">${descripcion_compromiso}</td>\
+          <td id="responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}">${nombre_responsable}</td>\
+          <td>Fecha</td>\
+        </tr>`);
+      limpiarDialogo();
+      break;
+    // Editar compromiso y principal responsable
+    case 2:
+      var descripcion_compromiso = $('#descripcion_nuevo_compromiso').val();
+      var id_responsable = $('#responsable_nuevo_compromiso').val();
+      var nombre_responsable = $('#responsable_nuevo_compromiso option:selected').html();
+
+      if(id_responsable == 0 || descripcion_compromiso == ""){
+        notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
+        limpiarDialogo();
+        break;
+      }
+
+      $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html(descripcion_compromiso);
+      $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html(nombre_responsable);
+      $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).attr("data-id", id_responsable);
+
+      $(`#descripcion_compromiso_resumen_${id_orden_lista}_${id_nuevo}`).html(descripcion_compromiso);
+      $(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html(nombre_responsable);
+      limpiarDialogo();
+      break;
+    // Eliminar compromiso con responsable y los demas responsables
+    case 3:
+      mensajeAjax('Eliminando', 'Borrando compromiso','warning');
+      $(`#compromiso_${id_orden_lista}_${id_nuevo}`).remove();
+      $(`#compromiso_resumen_${id_orden_lista}_${id_nuevo}`).remove();
+      limpiarDialogo();
+      break;
+    // Mostrar dialogo con compromiso al presionar "Agregar nuevo compromiso"
+    case 4:
+      $('#compromisoModalTitulo').html("Agregar nuevo compromiso");
+      $('#descripcion_nuevo_compromiso').prop("disabled", false);
+      $('#responsable_nuevo_compromiso').prop("disabled", false);
+      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+      $('#btnGuardar').attr("onClick", `actualizarCompromiso(1, ${id_orden_lista});`);
+      $('#compromisoModal').modal('show');
+      break;
+    // Mostrar dialogo con campos poblados para editar compromiso
+    case 5:
+      var descripcion_compromiso = $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html();
+      var id_responsable = $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).attr("data-id");
+
+      $('#compromisoModalTitulo').html("Editar compromiso");
+      // Campo de descripcion del dialogo
+      $('#descripcion_nuevo_compromiso').prop("disabled", false);
+      $('#descripcion_nuevo_compromiso').val(descripcion_compromiso);
+      // Campo de seleccion de responsable
+      $('#responsable_nuevo_compromiso').prop("disabled", false);
+      $(`#responsable_nuevo_compromiso`).val(id_responsable);
+      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+
+      $('#filaEliminar').show();
+      $('#btnEliminar').attr("onClick", `actualizarCompromiso(3, ${id_orden_lista}, ${id_nuevo});`);
+      $('#btnGuardar').attr("onClick", `actualizarCompromiso(2, ${id_orden_lista}, ${id_nuevo});`);
+      $('#compromisoModal').modal('show');
+      break;
+  }
+}
+
+function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_responsable){
+  switch(opcion){
+    // Agregar responsable
+    case 1:
+      var id_responsable = $('#responsable_nuevo_compromiso').val();
+      var nombre_responsable = $('#responsable_nuevo_compromiso option:selected').html();
+
+      if(id_responsable == 0){
+        notificacionAjax('bg-red', "El campo no puede estar vacío", 2500,  'bottom', 'center', null, null);
+        limpiarDialogo();
+        break;
+      }
+
+      var id_nuevo_responsable = Math.floor(Math.random() * 9999);
+
+      $(`#lista_responsables_compromiso_${id_orden_lista}_${id_nuevo}`).html($(`#lista_responsables_compromiso_${id_orden_lista}_${id_nuevo}`).html() + `\
+        <li id="responsable_compromiso_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}"><a onClick="actualizarResponsable(5, ${id_orden_lista}, ${id_nuevo}, ${id_nuevo_responsable});" class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-user'></i>Responsable: </a><span id="responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}" data-id="${id_responsable}">${nombre_responsable}</span></li>\
+      `);
+
+      $(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html($(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html() + `\
+        <span id="responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}">, ${nombre_responsable}</span>`);
+      limpiarDialogo();
+      break;
+    // Editar responsable
+    case 2:
+      var id_responsable = $('#responsable_nuevo_compromiso').val();
+      var nombre_responsable = $('#responsable_nuevo_compromiso option:selected').html();
+
+      if(id_responsable == 0){
+        notificacionAjax('bg-red', "El campo no puede estar vacío", 2500,  'bottom', 'center', null, null);
+        limpiarDialogo();
+        break;
+      }
+
+      $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).html(nombre_responsable);
+      $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).attr("data-id", id_responsable);
+      $(`#responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).html(", " + nombre_responsable);
+      limpiarDialogo();
+      break;
+    // Eliminar responsable
+    case 3:
+      mensajeAjax('Eliminando', 'Quitando responsable','warning');
+      $(`#responsable_compromiso_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).remove();
+      $(`#responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).remove();
+      limpiarDialogo();
+      break;
+    // Mostrar dialogo para nuevo responsable
+    case 4:
+      var descripcion = $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html();
+      $('#compromisoModalTitulo').html("Agregar nuevo responsable");
+      $('#descripcion_nuevo_compromiso').val(descripcion);
+      $('#descripcion_nuevo_compromiso').prop("disabled", true);
+      $('#responsable_nuevo_compromiso').prop("disabled", false);
+      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+
+      $('#btnGuardar').attr("onClick", `actualizarResponsable(1, ${id_orden_lista}, ${id_nuevo});`);
+      $('#compromisoModal').modal('show');
+      break;
+    // Mostrar dialogo para editar responsable
+    case 5:
+      var descripcion = $(`#descripcion_compromiso_${id_orden_lista}_${id_nuevo}`).html();
+      var id_responsable = $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).attr("data-id");
+
+      $('#compromisoModalTitulo').html("Editar responsable del compromiso");
+      $('#descripcion_nuevo_compromiso').val(descripcion);
+      $('#descripcion_nuevo_compromiso').prop("disabled", true);
+      $('#responsable_nuevo_compromiso').prop("disabled", false);
+      $('#responsable_nuevo_compromiso').val(id_responsable)
+      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+      $('#filaEliminar').show();
+      $('#btnEliminar').attr("onClick", `actualizarResponsable(3, ${id_orden_lista}, ${id_nuevo}, ${id_nuevo_responsable});`);
+      $('#btnGuardar').attr("onClick", `actualizarResponsable(2, ${id_orden_lista}, ${id_nuevo}, ${id_nuevo_responsable});`);
+      $('#compromisoModal').modal('show');
+      break;
+  }
+}
+
+function limpiarDialogo(){
+  $('#compromisoModal').modal('hide');
+  $('#compromisoModalTitulo').html("");
+  $('#filaEliminar').hide();
+  $('#btnEliminar').attr("onClick", "");
+  $('#descripcion_nuevo_compromiso').val("");
+  $('#descripcion_nuevo_compromiso').prop("disabled", true);
+  $('#responsable_nuevo_compromiso').val(0);
+  $('#responsable_nuevo_compromiso').prop("disabled", true);
+  $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
 }
 
 // Función al recargar la página, cambia estilos e inicaliza scripts en español
@@ -388,6 +412,8 @@ $(function () {
     // Fondos generales y objetos ocultos
     $('.fondo').addClass(fondo);
     $('.oculto').hide();
+    //texto
+    $('.texto').addClass(textoColor);
 
     //Datetimepicker plugin
     moment.updateLocale('en', {
@@ -450,19 +476,12 @@ $(function () {
 
     $('#icono').animateCss('bounceIn');
 
-    // $(".rol option[value='1']").remove();
-    $('.dd').nestable({
-        maxDepth: 6,
-        disableNest: true,
-    });
-
-    // $('.dd').on('change', function () {
-    //     var $this = $(this);
-    //     var serializedData = window.JSON.stringify($($this).nestable('serialize'));
-    //
-    //     $this.parents('div.body').find('textarea').val(serializedData);
-    // });
+   $('.treeview').each(function () {
+  		var tree = $(this);
+  		tree.treeview();
+  	});
 });
+
 
 //Copied from https://github.com/daneden/animate.css
 $.fn.extend({

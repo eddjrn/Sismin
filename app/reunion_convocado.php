@@ -22,9 +22,9 @@ class reunion_convocado extends Model
 
   public function __toString(){
   if($this->asistencia==true){
-    return 'Asistió';
+    return 'Presente';
   }else{
-    return 'no asistió';
+    return 'Ausente';
   }
   }
 
