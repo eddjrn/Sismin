@@ -18,6 +18,7 @@ class reunion_convocado extends Model
     'asistencia',
     'id_rol',
     'id_tipo_usuario',
+    'enterado',
   ];
 
   public function __toString(){

@@ -103,7 +103,7 @@ Nueva Minuta
                                     <td>{{$convocado->rol->descripcion}}</td>
                                     <td>
                                       <div class="row">
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-12">
                                           <input type="checkbox" onClick="actualizarAsistencia(this);" id="asistencia_checkbox_{{$convocado->id_convocado}}" class="chk-col-teal" autocomplete="off"/>
                                           <label for="asistencia_checkbox_{{$convocado->id_convocado}}">Agregar asistencia</label>
                                         </div>
@@ -189,7 +189,7 @@ Nueva Minuta
                           <tbody>
                             @foreach($minuta->reunion->convocados as $convocado)
                             <tr>
-                              <td>{{$convocado->usuario->__toString()}}</td>
+                              <td id="convocado_resumen_nombre_{{$convocado->id_convocado}}">{{$convocado->usuario->__toString()}}</td>
                               <td>{{$convocado->rol->descripcion}}</td>
                               <td id="resumen_convocado_asistencia_{{$convocado->id_convocado}}">
                                 @if($convocado->id_usuario == Auth::user()->id_usuario)
@@ -232,10 +232,30 @@ Nueva Minuta
                           </thead>
                           <tbody id="tabla_compromisos_resumen"></tbody>
                       </table>
-                      <h3>Temas pendientes</h3>
                       <hr/>
-                      <h3>Próxima reunión</h3>
+                      <h3>Notas de la minuta</h3>
+                      <div class="input-group">
+                          <div class="form-line">
+                            <textarea id="notas_minuta" rows="6" class="form-control no-resize" placeholder="Notas."></textarea>
+                          </div>
+                      </div>
                       <hr/>
+                      <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Firma</th>
+                            </tr>
+                          </thead>
+                          <tbody id="firmas_resumen">
+                            <tr>
+                              <td id="firmas_resumen_convocado_g">{{Auth::user()}}</td>
+                              <td>
+                                <button id="usuario_g" type="button" onClick="firmarMinuta(1, this);" class="colorBoton">Firmar</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -281,7 +301,7 @@ Nueva Minuta
                   </div>
               </div>
               <p class="col-grey">Responsable</p>
-              <select id="responsable_nuevo_compromiso" class="form-control show-tick" data-live-search="true">
+              <select id="responsable_nuevo_compromiso" class="form-control show-tick" data-live-search="true" autocomplete="off">
                   <option value="0">Seleccionar</option>
                   @foreach($minuta->reunion->convocados as $convocado)
                     <option value="{{$convocado->usuario->id_usuario}}">{{$convocado->usuario->__toString()}}</option>
@@ -344,6 +364,36 @@ Nueva Minuta
     </div>
 </div>
 
+<div class="modal fade" id="firmaModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar firma de: <span id="firmaModalTitulo"></span></h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">account_circle</i>
+                  </span>
+                  <div class="form-line">
+                      <input id="clave_firma" class="form-control" placeholder="Contraseña del convocado." type="password">
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 text-center">
+                  <button type="button" class="colorBoton btn-block" onClick="firmarMinuta(2);">Cancelar</button>
+                </div>
+                <div class="col-lg-6 col-md-6 text-center">
+                  <button id="btnFirmarMinuta" type="button" onClick="" class="colorBoton btn-block">Firmar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @stop
 
 @section('scripts')
@@ -385,6 +435,8 @@ var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var moderador = "{{Auth::user()->id_usuario}}";
+
+var urlEnterado = "{{asset('/minuta/enterado')}}";
 
 $.ajaxSetup({
     headers: {

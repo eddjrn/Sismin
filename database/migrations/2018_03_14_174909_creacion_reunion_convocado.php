@@ -25,6 +25,7 @@ class CreacionReunionConvocado extends Migration
         $table->foreign('id_rol')->references('id_rol')->on('rol_usuario');
         $table->integer('id_tipo_usuario')->unsigned()->index();
         $table->foreign('id_tipo_usuario')->references('id_tipo_usuario')->on('tipo_usuario');
+        $table->boolean('enterado')->default(false);
       });
     }
 

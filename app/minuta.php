@@ -15,7 +15,8 @@ class minuta extends Model
   protected $fillable = [
     'fecha_elaboracion',
     'id_reunion',
-    'codigo'
+    'notas',
+    'codigo',
   ];
 
   public function reunion(){
