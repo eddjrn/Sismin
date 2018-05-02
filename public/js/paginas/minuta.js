@@ -19,17 +19,23 @@ var descripcionHechos = new Array(descripcionHechos_constante);
 // Arreglo que almacenará los compromisos con sus responsables
 var compromisos = [];
 // Arreglo que almacenará las firmas de enterado
-var enterados = [];
+var enterados = new Array(convocados_constante+1);
+enterados.fill(false);
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
   // inicioSpinner();
   // Se agregan los datos faltantes al formulario y se codifican para el envío
+  formulario.append('minuta_constante', JSON.stringify(minuta_constante));
   formulario.append('asistencia', JSON.stringify(asistencia));
   formulario.append('temas_pendientes', JSON.stringify(temas_pendientes));
   formulario.append('descripcionHechos', JSON.stringify(descripcionHechos));
   formulario.append('compromisos', JSON.stringify(compromisos));
+  var notas = $('#notas_minuta').val();
+  formulario.append('notas', JSON.stringify(notas));
   formulario.append('enterados', JSON.stringify(enterados));
+  var fecha_hoy = moment().format("YYYY-MM-DD HH:mm");
+  formulario.append('fecha_hoy', JSON.stringify(fecha_hoy));
   // Se hace la petición al servidor
   $.ajax({
      type:'POST',
@@ -48,7 +54,7 @@ function finalizar(){
          errores += '</ul>';
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        } else{
-         mensajeAjax('Registro correcto', result.mensaje,'success');
+         mensajeAjax('Registro correcto', result.mensaje.toSource(),'success');
          // window.setTimeout(function(){
          //   location.href = urlToRedirectPage;
          // } ,1500);
@@ -61,14 +67,14 @@ function finalizar(){
   });
 }
 
-function firmarMinuta(opcion, boton){
+function firmarMinuta(opcion, boton, indice_asistencia){
   switch (opcion) {
     // Mostrar dialogo para firmar
     case 1:
       var id_convocado = boton.id.split("_");
       var nombre_convocado = $(`#firmas_resumen_convocado_${id_convocado[1]}`).html();
       $('#firmaModalTitulo').html(nombre_convocado);
-      $('#btnFirmarMinuta').attr("onClick", `firmar(${id_convocado[1]})`);
+      $('#btnFirmarMinuta').attr("onClick", `firmar(${id_convocado[1]}, ${indice_asistencia})`);
       $('#firmaModal').modal('show');
       break;
     // Ocultar dialogo para firmar
@@ -80,7 +86,7 @@ function firmarMinuta(opcion, boton){
   }
 }
 
-function firmar(id_convocado){
+function firmar(id_convocado, indice_asistencia){
   var clave = $('#clave_firma').val();
   $.ajax({
      type:'POST',
@@ -101,7 +107,7 @@ function firmar(id_convocado){
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          $(`#usuario_${id_convocado}`).parent().html('<i class="material-icons">done</i>');
-         enterados.push(id_convocado);
+         enterados[indice_asistencia] = true;
        }
     },
     error: function (jqXHR, status, error) {
@@ -122,7 +128,7 @@ function actualizarAsistencia(boton){
       <tr>\
         <td id="firmas_resumen_convocado_${id_convocado[2]}">${nombre_convocado}</td>\
         <td>\
-          <button id="usuario_${id_convocado[2]}" type="button" onClick="firmarMinuta(1, this);" class="${colorBtn}">Firmar</button>\
+          <button id="usuario_${id_convocado[2]}" type="button" onClick="firmarMinuta(1, this, ${indice_asistencia});" class="${colorBtn}">Firmar</button>\
         </td>\
       </tr>`);
   } else{
@@ -206,7 +212,7 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       var id_nuevo = Math.floor(Math.random() * 9999);
       var numero_indice = $(`#descripcion_orden_resumen_${id_orden_lista}`).attr("data-numero");
       var fecha_compromiso_legible = $(`#fecha`).attr("data-fechaLegible");
-      var fecha_compromiso = $(`#fecha`).attr("data-fecha"); ///////////////////agregar a formulario
+      var fecha_compromiso = $(`#fecha`).attr("data-fecha");
 
       $(`#compromisoLista_${id_orden_lista}`).html($(`#compromisoLista_${id_orden_lista}`).html() + `\
         <li id="compromiso_${id_orden_lista}_${id_nuevo}" data-fechaCompromiso="${fecha_compromiso}" data-fechaCompromisoLegible="${fecha_compromiso_legible}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a> <span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
@@ -600,8 +606,9 @@ $(function () {
       }
       // Ponemos los datos en formato amigable y agregamos los datos al formulario que se va a envíar
       var fecha_legible = date.format("dddd DD MMMM YYYY [a las] HH:mm [hrs]");
+      var fecha = date.format("YYYY-MM-DD HH:mm");
 
-      $('#fecha').attr("data-fecha", date);
+      $('#fecha').attr("data-fecha", fecha);
       $('#fecha').attr("data-fechaLegible", fecha_legible);
   	});
 

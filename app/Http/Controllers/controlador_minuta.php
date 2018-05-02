@@ -45,13 +45,69 @@ class controlador_minuta extends Controller
       // Arreglo de booleanos de las asistencias
       $asistencia = json_decode($request->asistencia);
       if(count(array_filter($asistencia)) < 3){
-        return response()->json(['errores' => ["Necesita agregar por lo menos dos asistentes."]]);
+        // return response()->json(['errores' => ["Necesita agregar por lo menos dos asistentes."]]);
+      }
+      $enterados = json_decode($request->enterados);
+      if(count(array_filter($enterados)) < 3){
+        // return response()->json(['errores' => ["Necesita agregar por lo menos dos firmas."]]);
       }
       $pendientes = json_decode($request->temas_pendientes);
       $hechos = json_decode($request->descripcionHechos);
       $compromisos = json_decode($request->compromisos);
-      $enterados = json_decode($request->enterados);
-      // return response()->json(['mensaje' => $compromisos]);
+      $notas = json_decode($request->notas);
+      $minuta_constante = json_decode($request->minuta_constante);
+      $fecha_hoy = json_decode($request->fecha_hoy);
+
+       // return response()->json(['mensaje' => $compromisos]);
+
+      $minuta = \App\minuta::find($minuta_constante);
+      $minuta->update([
+        'fecha_elaboracion' => $fecha_hoy,
+        'notas' => $notas,
+      ]);
+
+      foreach($minuta->reunion->convocados as $indice => $convocado){
+        if($asistencia[$indice]){
+          $convocado->update([
+            'asistencia' => true,
+          ]);
+        }
+        if($enterados[$indice]){
+          $convocado->update([
+            'enterado' => true,
+          ]);
+        }
+      }
+
+      foreach($minuta->reunion->orden_dia as $indice => $orden){
+        if($pendientes[$indice]){
+          \App\tema_pendiente::create([
+            'id_minuta' => $minuta_constante,
+            'id_orden_dia' => $orden->id_orden_dia,
+            'id_usuario' => $orden->id_usuario,
+            'descripcion' => "Hoal",
+          ]);
+        }
+
+        $orden->update([
+          'descripcion_hechos' => $hechos[$indice],
+        ]);
+      }
+
+      foreach($compromisos as $compromiso){
+        $nuevo_compromiso = \App\compromiso::create([
+          'id_minuta' => $minuta_constante,
+          'id_orden_dia' => $compromiso->id_orden,
+          'descripcion' => $compromiso->descripcion,
+          'fecha_limite' => $compromiso->fecha,
+        ]);
+
+        $nuevo_responsable_compromiso = \App\compromiso_responsable::create([
+          'id_compromiso' => $nuevo_compromiso->id_compromiso,
+          'id_usuario' => '1',
+        ]);
+      }
+
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
     }
 }

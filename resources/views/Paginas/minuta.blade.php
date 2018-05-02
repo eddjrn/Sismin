@@ -458,6 +458,7 @@ var urlEnterado = "{{asset('/minuta/enterado')}}";
 var convocados_constante = {{$indice_asistencia}};
 var pendientes_constante = {{$indice_pendientes}};
 var descripcionHechos_constante = {{$indice_pendientes}};
+var minuta_constante = {{$minuta->id_minuta}};
 
 $.ajaxSetup({
     headers: {
@@ -467,5 +468,4 @@ $.ajaxSetup({
 </script>
 
 <script src="{{asset('/js/paginas/minuta.js')}}"></script>
-
 @stop

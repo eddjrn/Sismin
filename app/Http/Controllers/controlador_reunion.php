@@ -127,10 +127,8 @@ class controlador_reunion extends Controller
       'codigo'=> $c,
     ]);
 
-    $c2 = str_random(10);
     \App\minuta::create([
       'id_reunion' => $reunion->id_reunion,
-      'codigo' => $c2,
     ]);
 
     for($i = 0; $i < count($orden); $i++){

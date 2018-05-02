@@ -20,7 +20,7 @@ class CreacionDeCompromisoResponsables extends Migration
           $table->foreign('id_compromiso')->references('id_compromiso')->on('compromiso');
           $table->integer('id_usuario')->unsigned()->index();
           $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
-          $table->text('tarea',100);
+          $table->text('tarea',100)->nullable();
       });
     }
 
