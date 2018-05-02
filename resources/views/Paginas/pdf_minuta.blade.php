@@ -1,6 +1,6 @@
-   <title>Minuta correspondiente a la reunión </title>
+   <title>Minuta correspondiente a la reunión {{$tipo}}</title>
    <div align="right"><img src="{{asset('/images/imagen.svg')}}" class="logo" width="100" height="100"></div>
-   <center><h1 class="tipo">Junta de consejo</h1></center>
+   <center><h1 class="tipo">"{{$tipo}}"</h1></center>
    <h2 align="justify">Datos de la reunión
    <hr></h2>
 

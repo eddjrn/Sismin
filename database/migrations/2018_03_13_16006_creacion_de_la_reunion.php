@@ -17,6 +17,7 @@ class CreacionDeLaReunion extends Migration
             $table->increments('id_reunion');
             $table->timestamps();
             $table->dateTime('fecha_reunion');
+            $table->dateTime('fecha_reunion_orden');
             $table->integer('id_tipo_reunion')->unsigned()->index();
             $table->foreign('id_tipo_reunion')->references('id_tipo_reunion')->on('tipo_reunion');
             $table->text('motivo',100);

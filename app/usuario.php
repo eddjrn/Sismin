@@ -80,7 +80,7 @@ class usuario extends Authenticatable
    }
 
    public function reuniones(){
-     $reuniones = $this->convocado_en->all();
+     $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
      $id_reuniones =  array();
      $reuniones_recientes =  array();
 

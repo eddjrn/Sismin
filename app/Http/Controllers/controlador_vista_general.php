@@ -35,7 +35,6 @@ class controlador_vista_general extends Controller
       $idSecre= $reunion->convocados->where('id_rol','=','1')->first()->usuario->id_usuario;
       $idMod = Auth::user()->id_usuario;
 
-
       array_push($datosReunion,$reunion->moderador()->__toString());
       array_push($datosReunion,$reunion->fecha_reunion);
       array_push($datosReunion,$reunion->getLimite());

@@ -87,7 +87,7 @@ body {
 				<div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
 						<div class="modal-content">
 								<div class="modal-header">
-										<h4 class="modal-title" id="largeModalLabel"><span id="modalTitle"></span></h4>
+										<h4 class="modal-title" align="center"><span id="modalTitle"></span></h4>
 								</div>
 								<div class="modal-body">
 									<div class="row">
@@ -99,7 +99,7 @@ body {
 																<span class="input-group-addon">
 																		<i class="material-icons">list</i>
 																</span>
-																<button class="btn btn-lg bg-pink waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+																<button class="colorBoton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 																		Convocados
 																</button>
 															</div>
@@ -120,11 +120,49 @@ body {
 												</div>
 										</div>
 									</div>
-									<div><h2> Moderador: </h2><span id="moderador"></span></div>
-									<div><h2> Secretario: </h2><span id="secretario"></span></div>
-									<div> <h2>Fecha:</h2> <span id="eventStart"></span></div>
+									<div class="row">
+										<div class="col-lg-12">
+												<div class="row clearfix">
+														<div class="col-md-12">
+															@if(isset($eventos))
+															<div class="input-group">
+																<span class="input-group-addon">
+																		<i class="material-icons">list</i>
+																</span>
+																<button class="colorBoton" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+																		Temas Pendientes
+																</button>
+															</div>
+															<div class="collapse" id="collapseExample2">
+																	<div class="well bar" style="height: 200px; overflow-y: scroll;">
+																		<div class="list-group">
+																				<button type="button" class="list-group-item" style="word-wrap: break-word;">
+																					<div class="media">
+																							<div class="media-body"><span id="temas_pendientes"> </span></div>
+																					</div>
+																				</button>
+																		</div>
+																	</div>
+															</div>
+															<br/>
+															@endif
+														</div>
+												</div>
+										</div>
+									</div>
+									<div align="justify"><h4> Moderador:</h4> <span id="moderador"></span></div>
+									<div align="justify"><h4> Secretario:</h4> <span id="secretario"></span></div>
+									<div align="justify"><h4>Fecha:</h4> <span id="eventStart"></span></div>
 									<div class="modal-footer row clearfix">
-											<button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<a class="colorBoton" id="modalURLM" target="_blank">ver minuta</a>
+										</div>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<a class="colorBoton" id="modalURLC" target="_blank">ver convocatoria</a>
+										</div>
+									</div>
+									<div class="modal-footer row clearfix">
+										<button type="button" id="clear" data-dismiss="modal" class="colorBoton">Cerrar</button>
 									</div>
 								</div>
 						</div>
@@ -135,15 +173,15 @@ body {
 					<div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
 							<div class="modal-content">
 									<div class="modal-header">
-											<h4 class="modal-title" id="largeModalLabel"><span id="modalTitleC"></span></h4>
+											<h4 class="modal-title" align="center"><span id="modalTitleC"></span></h4>
 									</div>
 									<div class="modal-body">
-										<div><h2> Pertenece a la minuta: </h2><span id="modalMinuta"></span></div>
-										<div><h2> Status: </h2><span id="modalStatus"></span></div>
-										<div><h2> Responsabilidad: </h2><span id="modalResponsabilidad"></span></div>
-										<div> <h2>Fecha:</h2> <span id="modalFecha"></span></div>
+										<div align="justify"><h4>Status: </h4><span id="modalStatus"></span>.</div>
+										<div align="justify"><h4>Pertenece a la reunión: </h4><span id="modalMinuta"></span>.</div>
+										<div align="justify"><h4>Responsabilidad: </h4><span id="modalTema"> </span>: <span id="modalResponsabilidad"></span>.</div>
+										<div align="justify"><h4>Fecha: </h4><span id="modalFecha"></span>.</div>
 										<div class="modal-footer row clearfix">
-												<button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
+											<button type="button" id="clear" data-dismiss="modal" class="colorBoton">Cerrar</button>
 										</div>
 									</div>
 							</div>
@@ -158,10 +196,36 @@ body {
 <script src="{{asset('/js/Calendar/fullcalendar.min.js')}}"></script>
 <script src="{{asset('/js/Calendar/locale/es.js')}}"></script>
 <script>
+var colorCheck = "chk-col-cyan";
+var colorBtn = "btn bg-cyan waves-effect";
+var colorBtnDis = "btn btn-default waves-effect";
+var fondo = "bg-cyan";
+var tema = "theme-cyan";
+var colorSpinner = '#8BC34A';
+var textoColor = "col-cyan";
+</script>
+
+<script>
+
 $(document).ready(function() {
 		var date = new Date();
 		var n=0;
-		var con=new Array();
+
+		// Cambia estilos
+		// Cuerpo
+		$('body').removeClass('theme-cyan');
+		$('body').addClass(tema);
+		// Botones
+		$('.colorBoton').addClass(colorBtn);
+		// Checkboxs
+		$('.chk-col-teal').addClass(colorCheck);
+		$('.chk-col-teal').removeClass('chk-col-teal');
+		// Fondos generales y objetos ocultos
+		$('.fondo').addClass(fondo);
+		$('.oculto').hide();
+		//texto
+		$('.texto').addClass(textoColor);
+
 
 	/* initialize the calendar
 	-----------------------------------------------------------------*/
@@ -180,7 +244,7 @@ $(document).ready(function() {
 				 eventLimit: true, // allow "more" link when too many events
 				 timeFormat: 'h(:mm)a',
 		  events: [
-				@foreach($eventos as $evento)
+				@foreach($eventos as $e=>$evento)
 				{
 					id: '{{$evento->id_reunion}}',
 					title:'{{$evento->tipo_reunion->descripcion}}',
@@ -189,12 +253,22 @@ $(document).ready(function() {
 					moderador: '{{$evento->moderador()->__toString()}}',
 					secretario: '{{$evento->secretario()->__toString()}}',
 					convocados: [
-						 @foreach($evento->convocados as $convocado)
+					@foreach($evento->convocados as $convocado)
 						{
 							con: '{{$convocado->usuario->__toString()}}',
 						},
 					@endforeach
 					],
+					temasPendientes: [
+					@foreach($evento->minuta->temas_pendientes as $tema)
+						{
+							temasP: '{{$tema->descripcion}}',
+						},
+					@endforeach
+					],
+					convocatoria: "/pdf/"+'{{$evento->minuta->id_reunion}}'+"/"+'{{$evento->minuta->reunion->codigo}}',
+					minuta: "/pdf_minuta/"+'{{$evento->minuta->id_minuta}}'+"/"+'{{$evento->minuta->codigo}}',
+					codigo:'{{$evento->minuta->codigo}}',
 					hora: '{{$evento->fecha_reunion}}',
 					allDay: false,
 					backgroundColor: '#A6113C',
@@ -203,16 +277,18 @@ $(document).ready(function() {
 					className:'info',
 				},
 				@endforeach
-				@foreach($compromisos as $compromiso)
+				@foreach($compromisos as $key=>$compromiso)
 				{
 					title:'{{$compromiso->descripcion}}',
+					tarea:'{{$CR[$key]->tarea}}',
 					start: new Date("{{$compromiso->getOriginal()['fecha_limite']}}"),
 					hora: '{{$compromiso->fecha_limite}}',
 					status: '{{$compromiso->finalizado}}',
-					minuta: '{{$compromiso->id_minuta}}',
+					reunion:'{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}',
+					temaOD:'{{$compromiso->orden_dia->descripcion}}',
 					allDay: false,
-					backgroundColor: '#00CDCD',
-					borderColor:'#007D7D',
+					backgroundColor: '#3498db',
+					borderColor:'#aed6f1',
 					color:'#ffffff',
 					className:'info',
 				},
@@ -224,9 +300,18 @@ $(document).ready(function() {
 				for (var i = 0; i < event.convocados.length; i++) {
 					 $('#convocados').html($('#convocados').html()+"<b>"+(i+1)+": "+`${event.convocados[i].con}`+"</b></br>");
 				}
+				for (var k = 0; k < event.temasPendientes.length; k++) {;
+					 $('#temas_pendientes').html($('#temas_pendientes').html()+"<b>"+(k+1)+": "+`${event.temasPendientes[k].temasP}`+"</b></br>");
+				}
 			 $('#moderador').html(event.moderador);
 			 $('#secretario').html(event.secretario);
 			 $('#eventStart').html(event.hora);
+			 $('#modalURLC').attr('href',event.convocatoria);
+			 if(event.codigo == null || event.codigo ==""){
+				  $('#modalURLM').hide();
+		 }else{
+			   $('#modalURLM').attr('href',event.minuta);
+		 }
 			 $('#fullCalModal').modal();
 		 }else{
 		 $('#modalTitleC').html(event.title);
@@ -235,8 +320,9 @@ $(document).ready(function() {
 		 }else{
 			 $('#modalStatus').html('En proceso');
 		 }
-		 $('#modalMinuta').html(event.minuta);
-		 $('#modalResponsabilidad').html(event.status);
+		 $('#modalMinuta').html(event.reunion);
+		 $('#modalResponsabilidad').html(event.tarea);
+		 $('#modalTema').html(event.temaOD);
 		 $('#modalFecha').html(event.hora);
 		 $('#fullCalModalC').modal();
 	 }

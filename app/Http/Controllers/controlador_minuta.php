@@ -110,4 +110,26 @@ class controlador_minuta extends Controller
 
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
     }
+    public function pdf_minuta($id,$codigo){
+      //creación del pdf
+          $reunion= \App\reunion::find($id);
+         if($codigo==($reunion->minuta->codigo)){
+          $pdf = PDF::loadView('Paginas.pdf_minuta',[
+            'imagen'=>$reunion->tipo_reunion->imagen_logo,
+            'motivo'=>$reunion->motivo,
+            'convocados' =>$reunion->convocados,
+            'reunion_orden_dia'=>$reunion->orden_dia,
+            'fecha_reunion'=>$reunion->fecha_reunion,
+            'lugar'=>$reunion->lugar,
+            'fecha_creacion'=>$reunion->getFecha(),
+            'img'=>$reunion->convocados->get(0)->usuario->rubrica,
+            'tipo'=>$reunion->tipo_reunion->descripcion
+        ]);
+          return $pdf->stream();
+        }
+        else{
+          abort(404);
+        }
+  }
+
 }

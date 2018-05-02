@@ -13,6 +13,7 @@ class reunion extends Model
 
   protected $fillable = [
     'fecha_reunion',
+    'fecha_reunion_orden',
     'id_tipo_reunion',
     'motivo',
     'lugar',
@@ -23,6 +24,7 @@ class reunion extends Model
    'created_at', // Add if you're using timestamps on the model
    'updated_at', // Add if you're using timestamps on the model
    'fecha_reunion',
+   'fecha_reunion_orden',
   ];
 
   public function __toString(){
@@ -42,7 +44,7 @@ class reunion extends Model
  }
 
  public function minuta(){
-  return $this->hasOne(minuta::class,'id_reunion');
+  return $this->hasOne(minuta::class,'id_reunion')->orderBy('id_minuta', 'desc');
  }
 
   public function getFecha(){
@@ -62,6 +64,7 @@ class reunion extends Model
 
   public function setFechaReunionAttribute($value){
     $this->attributes['fecha_reunion'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
+    $this->attributes['fecha_reunion_orden'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
   }
 
   public function setMotivoAttribute($value){
