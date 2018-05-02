@@ -1,20 +1,35 @@
+// Variables para los botones de navegación
 var indice = 1;
 var candado = false;
 // Listas de datos a llenar
 var formulario = new FormData();
 
-var asistencia = [];
-var temas_pendientes =[];
+// Arreglo del conteo de asistencias
+var asistencia = new Array(convocados_constante+1);
+asistencia.fill(false);
+// El secretario tiene sistencia de forma obligatoria
+asistencia[0] = true;
 
+// Arreglo del conteo de temas pendientes de la orden del dia
+var temas_pendientes = new Array(pendientes_constante);
+temas_pendientes.fill(false);
+
+// Arreglo que almacenará la descripcion de los hechos de la orden del día
+var descripcionHechos = new Array(descripcionHechos_constante);
+// Arreglo que almacenará los compromisos con sus responsables
+var compromisos = [];
+// Arreglo que almacenará las firmas de enterado
+var enterados = [];
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
-  inicioSpinner();
+  // inicioSpinner();
   // Se agregan los datos faltantes al formulario y se codifican para el envío
-  formulario.append('convocados', JSON.stringify(convocados));
-  formulario.append('roles', JSON.stringify(roles));
-  formulario.append('orden_dia', JSON.stringify(orden_dia));
-  formulario.append('responsables', JSON.stringify(responsables));
+  formulario.append('asistencia', JSON.stringify(asistencia));
+  formulario.append('temas_pendientes', JSON.stringify(temas_pendientes));
+  formulario.append('descripcionHechos', JSON.stringify(descripcionHechos));
+  formulario.append('compromisos', JSON.stringify(compromisos));
+  formulario.append('enterados', JSON.stringify(enterados));
   // Se hace la petición al servidor
   $.ajax({
      type:'POST',
@@ -34,9 +49,9 @@ function finalizar(){
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
-         window.setTimeout(function(){
-           location.href = urlToRedirectPage;
-         } ,1500);
+         // window.setTimeout(function(){
+         //   location.href = urlToRedirectPage;
+         // } ,1500);
        }
       },
       error: function (jqXHR, status, error) {
@@ -86,6 +101,7 @@ function firmar(id_convocado){
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          $(`#usuario_${id_convocado}`).parent().html('<i class="material-icons">done</i>');
+         enterados.push(id_convocado);
        }
     },
     error: function (jqXHR, status, error) {
@@ -97,8 +113,9 @@ function firmar(id_convocado){
 
 function actualizarAsistencia(boton){
   var id_convocado = boton.id.split("_");
+  var indice_asistencia = $(boton).parent().attr("data-asistencia");
   if(boton.checked){
-    asistencia.push(boton.id);
+    asistencia[indice_asistencia] = true;
     var nombre_convocado = $(`#convocado_resumen_nombre_${id_convocado[2]}`).html();
     $(`#resumen_convocado_asistencia_${id_convocado[2]}`).html("Presente");
     $(`#firmas_resumen`).html($(`#firmas_resumen`).html() + `\
@@ -109,10 +126,7 @@ function actualizarAsistencia(boton){
         </td>\
       </tr>`);
   } else{
-    var indice = asistencia.indexOf(boton.id);
-    if(indice!=-1){
-       asistencia.splice(indice, 1);
-    }
+    asistencia[indice_asistencia] = false;
     $(`#resumen_convocado_asistencia_${id_convocado[2]}`).html("Ausente");
     $(`#firmas_resumen_convocado_${id_convocado[2]}`).parent().remove();
   }
@@ -120,14 +134,12 @@ function actualizarAsistencia(boton){
 
 function actualizarPendientes(boton){
   var id_orden_dia = boton.id.split("_");
+  var indice_pendientes = $(boton).attr("data-pendiente");
   if(boton.checked){
-    temas_pendientes.push(boton.id);
+    temas_pendientes[indice_pendientes] = true;
     $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("(Tema pendiente)");
   } else{
-    var indice = asistencia.indexOf(boton.id);
-    if(indice!=-1){
-       asistencia.splice(indice, 1);
-    }
+    temas_pendientes[indice_pendientes] = false;
     $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("");
   }
 }
@@ -137,6 +149,8 @@ function mostrarDialogoHechos(opcion, th){
     // Agregar nueva descripcion de los hechos
     case 1:
       var descripcion = $('#hechosDescripcion').val();
+      var indice_descripcionHechos = $(`#${th}`).attr("data-pendiente");
+      descripcionHechos[indice_descripcionHechos] = descripcion;
       $(`#${th}`).html(descripcion);
       $(`#${th}`).attr("onClick", `mostrarDialogoHechos(4, "${th}");`);
       $(`#descripcion_hechos_resumen_${th}`).html(descripcion);
@@ -145,6 +159,8 @@ function mostrarDialogoHechos(opcion, th){
     // Mostrar dialogo para eliminar descripcion de hechos
     case 2:
       $(`#${th}`).html("Ingrese la descripcion de lo hechos.");
+      var indice_descripcionHechos = $(`#${th}`).attr("data-pendiente");
+      descripcionHechos[indice_descripcionHechos] = null;
       $(`#descripcion_hechos_resumen_${th}`).html("Ingrese la descripcion de lo hechos.");
       ocultarHechosDialogo();
       break;
@@ -193,7 +209,7 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       var fecha_compromiso = $(`#fecha`).attr("data-fecha"); ///////////////////agregar a formulario
 
       $(`#compromisoLista_${id_orden_lista}`).html($(`#compromisoLista_${id_orden_lista}`).html() + `\
-        <li id="compromiso_${id_orden_lista}_${id_nuevo}" data-fechaCompromiso="${fecha_compromiso}" data-fechaCompromisoLegible="${fecha_compromiso_legible}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a><span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
+        <li id="compromiso_${id_orden_lista}_${id_nuevo}" data-fechaCompromiso="${fecha_compromiso}" data-fechaCompromisoLegible="${fecha_compromiso_legible}"><a onClick="actualizarCompromiso(5, ${id_orden_lista}, ${id_nuevo});" class="col-white label ${fondo}">Compromiso:</a> <span id="descripcion_compromiso_${id_orden_lista}_${id_nuevo}"> ${descripcion_compromiso}</span>\
           <ul id="lista_responsables_compromiso_${id_orden_lista}_${id_nuevo}">\
             <li><a onClick="actualizarResponsable(4, ${id_orden_lista}, ${id_nuevo});" class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-plus'></i>Agregar nuevo responsable</a></li>\
             <li><span class="font-bold ${textoColor}"><i class='tree-indicator glyphicon glyphicon-user'></i>Responsable: </span><span id="responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_orden_lista}" data-id="${id_responsable}">${nombre_responsable}</span></li>\
@@ -207,6 +223,15 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
           <td id="responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}">${nombre_responsable}</td>\
           <td id="fecha_compromiso_${id_orden_lista}">${fecha_compromiso_legible}</td>\
         </tr>`);
+
+      var compromiso = {
+        "id_orden":id_orden_lista,
+        "identificador":id_nuevo,
+        "descripcion":descripcion_compromiso,
+        "fecha":fecha_compromiso,
+        "responsables":[id_responsable],
+      };
+      compromisos.push(compromiso);
       limpiarDialogo();
       break;
     // Editar compromiso y principal responsable
@@ -233,6 +258,14 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       $(`#descripcion_compromiso_resumen_${id_orden_lista}_${id_nuevo}`).html(descripcion_compromiso);
       $(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html(nombre_responsable);
       $(`#fecha_compromiso_${id_orden_lista}`).html(fecha_compromiso_legible);
+
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          compromisos[i].descripcion = descripcion_compromiso;
+          compromisos[i].fecha = fecha_compromiso;
+          compromisos[i].responsables[0] = id_responsable;
+        }
+      }
       limpiarDialogo();
       break;
     // Eliminar compromiso con responsable y los demas responsables
@@ -240,6 +273,11 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       mensajeAjax('Eliminando', 'Borrando compromiso','warning');
       $(`#compromiso_${id_orden_lista}_${id_nuevo}`).remove();
       $(`#compromiso_resumen_${id_orden_lista}_${id_nuevo}`).remove();
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          compromisos.splice(i, 1);
+        }
+      }
       limpiarDialogo();
       break;
     // Mostrar dialogo con compromiso al presionar "Agregar nuevo compromiso"
@@ -267,6 +305,17 @@ function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){
       // Campo de seleccion de responsable
       $('#responsable_nuevo_compromiso').prop("disabled", false);
       $(`#responsable_nuevo_compromiso`).val(id_responsable);
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          for(var j = 0; j < compromisos[i].responsables.length; j++){
+            $('#responsable_nuevo_compromiso > option').each(function() {
+                if(compromisos[i].responsables[j] == $(this).val() && $(this).val() != id_responsable){
+                  $(this).prop("disabled", true);
+                }
+            });
+          }
+        }
+      }
       $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
       // Campo de fecha
       $('#fecha').prop("disabled", false);
@@ -303,6 +352,11 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
 
       $(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html($(`#responsable_compromiso_texto_resumen_${id_orden_lista}_${id_nuevo}_${id_orden_lista}`).html() + `\
         <span id="responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}">, ${nombre_responsable}</span>`);
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          compromisos[i].responsables.push(id_responsable);
+        }
+      }
       limpiarDialogo();
       break;
     // Editar responsable
@@ -316,16 +370,38 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
         break;
       }
 
+      var id_responsable_antiguo = $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).attr("data-id");
+
       $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).html(nombre_responsable);
       $(`#responsable_compromiso_texto_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).attr("data-id", id_responsable);
       $(`#responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).html(", " + nombre_responsable);
+
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          for(var j = 0; j < compromisos[i].responsables.length; j++){
+            if(compromisos[i].responsables[j] == id_responsable_antiguo){
+              compromisos[i].responsables[j] = id_responsable;
+            }
+          }
+        }
+      }
       limpiarDialogo();
       break;
     // Eliminar responsable
     case 3:
+      var id_responsable = $('#responsable_nuevo_compromiso').val();
       mensajeAjax('Eliminando', 'Quitando responsable','warning');
       $(`#responsable_compromiso_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).remove();
       $(`#responsable_compromiso_resumen_${id_orden_lista}_${id_nuevo}_${id_nuevo_responsable}`).remove();
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          for(var j = 0; j < compromisos[i].responsables.length; j++){
+            if(compromisos[i].responsables[j] == id_responsable){
+              compromisos[i].responsables.splice(j, 1);
+            }
+          }
+        }
+      }
       limpiarDialogo();
       break;
     // Mostrar dialogo para nuevo responsable
@@ -335,11 +411,21 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
       $('#compromisoModalTitulo').html("Agregar nuevo responsable");
       $('#descripcion_nuevo_compromiso').val(descripcion);
       $('#descripcion_nuevo_compromiso').prop("disabled", true);
-      $('#responsable_nuevo_compromiso').prop("disabled", false);
-      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
       $('#fecha').prop("disabled", true);
       $('#fecha').val(fecha_compromiso_legible);
-
+      $('#responsable_nuevo_compromiso').prop("disabled", false);
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          for(var j = 0; j < compromisos[i].responsables.length; j++){
+            $('#responsable_nuevo_compromiso > option').each(function() {
+                if(compromisos[i].responsables[j] == $(this).val()){
+                  $(this).prop("disabled", true);
+                }
+            });
+          }
+        }
+      }
+      $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
       $('#btnGuardar').attr("onClick", `actualizarResponsable(1, ${id_orden_lista}, ${id_nuevo});`);
       $('#compromisoModal').modal('show');
       break;
@@ -352,8 +438,20 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
       $('#descripcion_nuevo_compromiso').val(descripcion);
       $('#descripcion_nuevo_compromiso').prop("disabled", true);
       $('#responsable_nuevo_compromiso').prop("disabled", false);
-      $('#responsable_nuevo_compromiso').val(id_responsable)
+      $('#responsable_nuevo_compromiso').val(id_responsable);
+      for(var i = 0; i < compromisos.length; i++){
+        if(compromisos[i].id_orden == id_orden_lista && compromisos[i].identificador == id_nuevo){
+          for(var j = 0; j < compromisos[i].responsables.length; j++){
+            $('#responsable_nuevo_compromiso > option').each(function() {
+                if(compromisos[i].responsables[j] == $(this).val() && $(this).val() != id_responsable){
+                  $(this).prop("disabled", true);
+                }
+            });
+          }
+        }
+      }
       $(`#responsable_nuevo_compromiso`).selectpicker('refresh');
+
       $('#fecha').prop("disabled", true);
       $('#fecha').val(fecha_compromiso_legible);
       $('#filaEliminar').show();
@@ -362,6 +460,7 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
       $('#compromisoModal').modal('show');
       break;
   }
+  alert(compromisos.toSource());
 }
 
 function limpiarDialogo(){
@@ -373,6 +472,9 @@ function limpiarDialogo(){
   $('#descripcion_nuevo_compromiso').prop("disabled", true);
   $('#responsable_nuevo_compromiso').val(0);
   $('#responsable_nuevo_compromiso').prop("disabled", true);
+  $('#responsable_nuevo_compromiso > option').each(function() {
+      $(this).prop("disabled", false);
+  });
   $('#responsable_nuevo_compromiso').selectpicker('refresh');
   $('#fecha').val(null);
   $('#fecha').prop("disabled", true);

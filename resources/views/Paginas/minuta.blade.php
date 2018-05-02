@@ -96,14 +96,20 @@ Nueva Minuta
                                 </tr>
                             </tfoot>
                             <tbody>
+                                <?php
+                                  $indice_asistencia = 0;
+                                ?>
                                 @foreach($minuta->reunion->convocados as $convocado)
                                 @unless($convocado->id_usuario == Auth::user()->id_usuario)
+                                <?php
+                                  $indice_asistencia++;
+                                ?>
                                   <tr>
                                     <td id="nmd_checkbox_{{$convocado->usuario->id_usuario}}">{{$convocado->usuario->__toString()}}</td>
                                     <td>{{$convocado->rol->descripcion}}</td>
                                     <td>
                                       <div class="row">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12" data-asistencia="{{$indice_asistencia}}">
                                           <input type="checkbox" onClick="actualizarAsistencia(this);" id="asistencia_checkbox_{{$convocado->id_convocado}}" class="chk-col-teal" autocomplete="off"/>
                                           <label for="asistencia_checkbox_{{$convocado->id_convocado}}">Agregar asistencia</label>
                                         </div>
@@ -129,14 +135,22 @@ Nueva Minuta
                                 </tr>
                             </thead>
                             <tbody>
+                              <?php
+                                $indice_pendientes = 0;
+                              ?>
                               @foreach($minuta->reunion->orden_dia as $orden)
                                 <tr>
                                     <th scope="row">{{$orden->descripcion}}</th>
-                                    <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);">Ingrese la descripcion de lo hechos.</td>
-                                    <td width="200px"><input type="checkbox" onClick="actualizarPendientes(this);" id="pendiente_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
-                                    <label for="pendiente_checkbox_{{$orden->id_orden_dia}}">Agregar como pendiente</label></td>
+                                    <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);" data-pendiente="{{$indice_pendientes}}">Ingrese la descripcion de lo hechos.</td>
+                                    <td width="200px">
+                                      <input type="checkbox" onClick="actualizarPendientes(this);" data-pendiente="{{$indice_pendientes}}" id="pendiente_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
+                                      <label for="pendiente_checkbox_{{$orden->id_orden_dia}}">Agregar como pendiente</label>
+                                    </td>
                                 </tr>
-                                @endforeach
+                              <?php
+                                $indice_pendientes++;
+                              ?>
+                              @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -373,7 +387,7 @@ Nueva Minuta
             <div class="modal-body">
               <div class="input-group">
                   <span class="input-group-addon">
-                      <i class="material-icons">account_circle</i>
+                      <i class="material-icons">vpn_key</i>
                   </span>
                   <div class="form-line">
                       <input id="clave_firma" class="form-control" placeholder="Contraseña del convocado." type="password">
@@ -431,12 +445,19 @@ var tema = "theme-light-green";
 var colorSpinner = '#8BC34A';
 var textoColor = "col-light-green";
 
-var urlToCancelPage = "{{asset('/')}}";
-var url = "{{asset('/reunion')}}";
-var urlToRedirectPage = "{{asset('/')}}";
+
+
+
 var moderador = "{{Auth::user()->id_usuario}}";
 
+var url = "{{asset('/minuta')}}";
+var urlToCancelPage = "{{asset('/')}}";
+var urlToRedirectPage = "{{asset('/')}}";
 var urlEnterado = "{{asset('/minuta/enterado')}}";
+
+var convocados_constante = {{$indice_asistencia}};
+var pendientes_constante = {{$indice_pendientes}};
+var descripcionHechos_constante = {{$indice_pendientes}};
 
 $.ajaxSetup({
     headers: {

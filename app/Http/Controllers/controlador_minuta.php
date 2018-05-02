@@ -41,7 +41,17 @@ class controlador_minuta extends Controller
       }
     }
 
-    public function crear_minuta(){
-
+    public function crear_minuta(Request $request){
+      // Arreglo de booleanos de las asistencias
+      $asistencia = json_decode($request->asistencia);
+      if(count(array_filter($asistencia)) < 3){
+        return response()->json(['errores' => ["Necesita agregar por lo menos dos asistentes."]]);
+      }
+      $pendientes = json_decode($request->temas_pendientes);
+      $hechos = json_decode($request->descripcionHechos);
+      $compromisos = json_decode($request->compromisos);
+      $enterados = json_decode($request->enterados);
+      // return response()->json(['mensaje' => $compromisos]);
+      return response()->json(['mensaje' => "Minuta realizada correctamente."]);
     }
 }
