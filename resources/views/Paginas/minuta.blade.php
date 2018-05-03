@@ -131,6 +131,7 @@ Nueva Minuta
                                 <tr>
                                     <th>Tema</th>
                                     <th>Descripción de los hechos</th>
+                                    <th>Descripción del tema pendiente</th>
                                     <th>Tema pendiente</th>
                                 </tr>
                             </thead>
@@ -142,6 +143,7 @@ Nueva Minuta
                                 <tr>
                                     <th scope="row">{{$orden->descripcion}}</th>
                                     <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);" data-pendiente="{{$indice_pendientes}}">Ingrese la descripcion de lo hechos.</td>
+                                    <td id="dh_pendiente_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);" data-pendiente="{{$indice_pendientes}}">Ingrese la descripcion del tema pendiente.</td>
                                     <td width="200px">
                                       <input type="checkbox" onClick="actualizarPendientes(this);" data-pendiente="{{$indice_pendientes}}" id="pendiente_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
                                       <label for="pendiente_checkbox_{{$orden->id_orden_dia}}">Agregar como pendiente</label>
@@ -263,9 +265,9 @@ Nueva Minuta
                           </thead>
                           <tbody id="firmas_resumen">
                             <tr>
-                              <td id="firmas_resumen_convocado_g">{{Auth::user()}}</td>
+                              <td id="firmas_resumen_convocado_{{$minuta->reunion->convocados->get(0)->id_convocado}}">{{Auth::user()}}</td>
                               <td>
-                                <button id="usuario_g" type="button" onClick="firmarMinuta(1, this);" class="colorBoton">Firmar</button>
+                                <button id="usuario_{{$minuta->reunion->convocados->get(0)->id_convocado}}" type="button" onClick="firmarMinuta(1, this, 0);" class="colorBoton">Firmar</button>
                               </td>
                             </tr>
                           </tbody>
@@ -444,11 +446,6 @@ var fondo = "bg-light-green";
 var tema = "theme-light-green";
 var colorSpinner = '#8BC34A';
 var textoColor = "col-light-green";
-
-
-
-
-var moderador = "{{Auth::user()->id_usuario}}";
 
 var url = "{{asset('/minuta')}}";
 var urlToCancelPage = "{{asset('/')}}";

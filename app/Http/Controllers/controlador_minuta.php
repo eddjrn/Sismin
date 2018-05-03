@@ -45,11 +45,11 @@ class controlador_minuta extends Controller
       // Arreglo de booleanos de las asistencias
       $asistencia = json_decode($request->asistencia);
       if(count(array_filter($asistencia)) < 3){
-        // return response()->json(['errores' => ["Necesita agregar por lo menos dos asistentes."]]);
+        return response()->json(['errores' => ["Necesita agregar por lo menos dos asistentes."]]);
       }
       $enterados = json_decode($request->enterados);
       if(count(array_filter($enterados)) < 3){
-        // return response()->json(['errores' => ["Necesita agregar por lo menos dos firmas."]]);
+        return response()->json(['errores' => ["Necesita agregar por lo menos dos firmas."]]);
       }
       $pendientes = json_decode($request->temas_pendientes);
       $hechos = json_decode($request->descripcionHechos);
@@ -57,8 +57,6 @@ class controlador_minuta extends Controller
       $notas = json_decode($request->notas);
       $minuta_constante = json_decode($request->minuta_constante);
       $fecha_hoy = json_decode($request->fecha_hoy);
-
-       // return response()->json(['mensaje' => $compromisos]);
 
       $minuta = \App\minuta::find($minuta_constante);
       $minuta->update([

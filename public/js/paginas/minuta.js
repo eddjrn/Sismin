@@ -24,7 +24,7 @@ enterados.fill(false);
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
-  // inicioSpinner();
+  inicioSpinner();
   // Se agregan los datos faltantes al formulario y se codifican para el envío
   formulario.append('minuta_constante', JSON.stringify(minuta_constante));
   formulario.append('asistencia', JSON.stringify(asistencia));
@@ -55,9 +55,9 @@ function finalizar(){
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        } else{
          mensajeAjax('Registro correcto', result.mensaje.toSource(),'success');
-         // window.setTimeout(function(){
-         //   location.href = urlToRedirectPage;
-         // } ,1500);
+         window.setTimeout(function(){
+           location.href = urlToRedirectPage;
+         } ,1500);
        }
       },
       error: function (jqXHR, status, error) {
@@ -466,7 +466,6 @@ function actualizarResponsable(opcion, id_orden_lista, id_nuevo, id_nuevo_respon
       $('#compromisoModal').modal('show');
       break;
   }
-  alert(compromisos.toSource());
 }
 
 function limpiarDialogo(){
