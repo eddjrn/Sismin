@@ -251,7 +251,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="326.59991"
+     inkscape:cx="120.17134"
      inkscape:cy="227.46961"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -281,7 +281,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -336,12 +336,5 @@
          d="m 103.65997,220.93227 -74.272326,0.18899"
          style="display:inline;fill:none;stroke:#ff7bde;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
-    <path
-       sodipodi:nodetypes="ccszccccssscccsccssszsc"
-       inkscape:connector-curvature="0"
-       id="path5362-0"
-       d="m 218.07066,209.08915 c 0,0 -4.04717,-5.64745 -4.99175,-6.90773 2.03387,0.6836 4.85627,1.32057 5.13746,-0.20791 0.51314,-2.78926 -1.45221,-4.41579 -3.24633,-4.9208 -1.79412,-0.50501 -5.22528,0.0246 -6.81619,1.72778 -1.34271,1.19734 -2.12202,3.249 -1.1697,4.91934 2.0222,3.92901 5.8745,6.79431 7.02127,11.19976 0.89741,3.03446 -0.4155,6.2851 -2.60528,8.4266 -2.02403,2.2584 -5.12788,3.44497 -8.41401,3.23093 -3.61203,-0.23527 -6.56787,-2.99913 -7.85173,-4.85041 -1.60942,-2.32073 -1.75904,-5.47973 -0.4815,-8.20656 1.26581,-2.70181 3.45509,-3.7188 6.43531,-3.86688 0.96797,1.75683 3.64547,1.5879 4.33862,3.42463 -1.89844,-0.15389 -4.58476,-0.18243 -6.03479,1.41984 -3.20959,4.19797 1.76342,7.59987 5.52103,7.38284 4.0804,-0.23567 5.65279,-3.98903 4.31571,-6.98655 -1.34014,-3.30217 -4.33022,-5.54567 -5.91449,-8.71079 -1.31092,-2.25587 -0.80716,-4.77097 0.11818,-6.70273 1.35057,-2.81948 4.71912,-5.08978 8.24979,-5.17615 5.10074,-0.12478 8.83887,2.69322 9.2794,6.68597 0.22715,2.05876 0.1374,3.30758 -1.35009,5.02168 -1.48749,1.7141 -1.27709,1.97459 -1.54091,3.09709 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.43936539px;line-height:1.25;font-family:'Misc Fixed Wide';-inkscape-font-specification:'Misc Fixed Wide';letter-spacing:0px;word-spacing:0px;display:inline;fill:#ff1db5;fill-opacity:1;stroke:#ffb5df;stroke-width:0.99793386;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter5631)"
-       transform="matrix(2.3861802,0,0,2.3861802,-421.72078,-267.32138)" />
   </g>
 </svg>
