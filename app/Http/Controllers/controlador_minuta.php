@@ -102,10 +102,12 @@ class controlador_minuta extends Controller
           'fecha_limite' => $compromiso->fecha,
         ]);
 
-        $nuevo_responsable_compromiso = \App\compromiso_responsable::create([
-          'id_compromiso' => $nuevo_compromiso->id_compromiso,
-          'id_usuario' => '1',
-        ]);
+        foreach($compromiso->responsables as $responsable){
+          $nuevo_responsable_compromiso = \App\compromiso_responsable::create([
+            'id_compromiso' => $nuevo_compromiso->id_compromiso,
+            'id_usuario' => $responsable,
+          ]);
+        }
       }
 
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
