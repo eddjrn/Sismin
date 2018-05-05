@@ -13,14 +13,14 @@ class CreacionDeLosCompromisos extends Migration
      */
     public function up()
     {
-      
+
       Schema::create('compromiso', function (Blueprint $table) {
           $table->increments('id_compromiso');
           $table->timestamps();
           $table->integer('id_minuta')->unsigned()->index();
-          $table->foreign('id_minuta')->references('id_minuta')->on('minuta');
+          $table->foreign('id_minuta')->references('id_minuta')->on('minuta')->onDelete('cascade');
           $table->integer('id_orden_dia')->unsigned()->index();
-          $table->foreign('id_orden_dia')->references('id_orden_dia')->on('orden_dia');
+          $table->foreign('id_orden_dia')->references('id_orden_dia')->on('orden_dia')->onDelete('cascade');
           $table->text('descripcion',100);
           $table->dateTime('fecha_limite');
           $table->boolean('finalizado')->default(false);

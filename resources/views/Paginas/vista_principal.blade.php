@@ -69,149 +69,187 @@ Página Principal
 
 <!-- Basic Card -->
 <div class="row clearfix">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    Mis reuniones <small>Soy moderador de {{Auth::user()->numModerador()}} </small>
-                </h2>
-            </div>
-            <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Motivo</th>
-                            <th>Moderador</th>
-                            <th>Tipo de reunion</th>
-                            <th>Fecha límite</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      @foreach($reuniones as $reunion)
-                      @if($reunion->minuta->getOriginal()['fecha_elaboracion'] == null)
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="header">
+              <h2>
+                  Mis reuniones <small>Soy moderador de {{Auth::user()->numModerador()}} </small>
+              </h2>
+          </div>
+          <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
+              <table class="table table-striped">
+                  <thead>
                       <tr>
-                          <th scope="row">{{$reunion->id_reunion}}</th>
-                          <td>{{$reunion->motivo}}</td>
-                          <td>{{$reunion->moderador()}}</td>
-                          <td>{{$reunion->tipo_reunion}}</td>
-                          <td>{{$reunion->getLimite()}}</td>
-                          <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
+                          <th>#</th>
+                          <th>Motivo</th>
+                          <th>Moderador</th>
+                          <th>Tipo de reunion</th>
+                          <th>Fecha límite</th>
+                          <th>Acción</th>
                       </tr>
-                      @endif
-                      @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                  </thead>
+                  <tbody>
+                    @foreach($reuniones as $reunion)
+                    @if($reunion->minuta->getOriginal()['fecha_elaboracion'] == null)
+                    <tr>
+                        <th scope="row">{{$reunion->id_reunion}}</th>
+                        <td>{{$reunion->motivo}}</td>
+                        <td>{{$reunion->moderador()}}</td>
+                        <td>{{$reunion->tipo_reunion}}</td>
+                        <td>{{$reunion->getLimite()}}</td>
+                        <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
+                    </tr>
+                    @endif
+                    @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
   </div>
+</div>
 
-  <div class="row clearfix" style="display:none;" id="detalles_reunion">
-      <div class="col-lg-12">
-          <div class="card">
-              <div class="header">
-                  <h2>
-                      Reunion selecionada <small>Moderador: <span id="moderador"></span></small>
-                  </h2>
-              </div>
-              <div class="body">
+<div class="row clearfix" style="display:none;" id="detalles_reunion">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="header">
+              <h2>
+                  Reunion selecionada <small>Moderador: <span id="moderador"></span></small>
+              </h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-6">
                 <div class="row">
-                  <div class="col-lg-6">
-                    <div class="row">
-                      <div class="col-lg-3 col-md-3 col-sm-3">
-                        <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                              <img class="thumbnail" id="imgReunion" src="{{asset('/images/imagen.svg')}}" width="150" height="150">
-                            </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                          <img class="thumbnail" id="imgReunion" src="{{asset('/images/imagen.svg')}}" width="150" height="150">
                         </div>
-                      </div>
-                      <div class="col-lg-9 col-md-9 col-sm-9">
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <h3 id="tipo_reunion"></h3>
-                            Moderador: <span id="moderador2"></span><br>
-                            Secretario: <span id="secretario"></span><br>
-                            Fecha de la reunion: <span id="fecha_reunion"></span><br>
-                            Motivo:<span id="motivo"></span><br>
-                          </div>
-                        </div>
-                        <div class="row" id="btns">
-                          <div class="col-lg-6 col-md-6 col-sm-6">
-                            <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)" >Realizar minuta</button>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6">
-                            <button type="button" class="btn bg-pink waves-effect" id="delegarResp"  onclick="delegarResp()">Delegar responsabilidad</button>
-                         </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                  <div class="col-lg-6">
-                    <!-- Striped Rows -->
-                    <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header">
-                              <h2>
-                                  Convocados
-                                  <small>Cantidad: <span id="convocados3"></span></small>
-                              </h2>
-                            </div>
-                            <div class="well bar" style="height: 300px; overflow-y: scroll;">
-                              <table class="table table-striped">
-                                  <thead>
-                                      <tr>
-                                          <th>Nombre</th>
-                                          <th>Rol</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody id="listaConvocados">
-                                      <tr>
-                                          <td><span id="convocadoNombre"></span></td>
-                                          <td><span id="rol"></span></td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                            </div>
-                        </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <h3 id="tipo_reunion"></h3>
+                        Moderador: <span id="moderador2"></span><br>
+                        Secretario: <span id="secretario"></span><br>
+                        Fecha de la reunion: <span id="fecha_reunion"></span><br>
+                        Motivo:<span id="motivo"></span><br>
+                      </div>
                     </div>
-                    <!-- #END# Striped Rows -->
+                    <div class="row">
+                      <div id="btns">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                          <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)" >Realizar minuta</button>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                          <button type="button" class="btn bg-pink waves-effect" id="delegarResp"  onclick="delegarResp()">Delegar responsabilidad</button>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-4" id="eliminarReunion">
+                        <button type="button" class="btn bg-red waves-effect" onClick="">Eliminar reunión</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-          </div>
-      </div><script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
-    </div>
-
-    <div class="modal fade" id="responsabilidadModal" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario de la reunión:<br> <span id="tipoReunion"></span></h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-lg-12">
-                          <div class="row clearfix">
-                              <div class="col-md-12">
-                                  <select class="form-control show-tick" id="Copc"></select>
-                              </div>
-                          </div>
-                      </div>
+              <div class="col-lg-6">
+                <!-- Striped Rows -->
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="header">
+                          <h2>
+                              Convocados
+                              <small>Cantidad: <span id="convocados3"></span></small>
+                          </h2>
+                        </div>
+                        <div class="well bar" style="height: 300px; overflow-y: scroll;">
+                          <table class="table table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Rol</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="listaConvocados">
+                                  <tr>
+                                      <td><span id="convocadoNombre"></span></td>
+                                      <td><span id="rol"></span></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                        </div>
                     </div>
-                    <div class="modal-footer row clearfix">
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal" id="actualizarSecre" onclick="actualizarSecre()">Guardar</button>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+                <!-- #END# Striped Rows -->
               </div>
+            </div>
           </div>
       </div>
+  </div><script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+</div>
+
+<div class="modal fade" id="responsabilidadModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario de la reunión:<br> <span id="tipoReunion"></span></h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-12">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <select class="form-control show-tick" id="Copc"></select>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal" id="actualizarSecre" onclick="actualizarSecre()">Guardar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                  <div class="col-lg-12 text-center">
+                    <img src="{{asset('/images/cambiar_perfil.svg')}}" width="150" height="150"/>
+                  </div>
+                </div>
+                <h4 class="modal-title" id="largeModalLabel">Eliminar reunión</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">lock</i>
+                  </span>
+                  <div class="form-line">
+                      <input type="password" class="form-control" id="claveDel" name="claveDel" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">
+                  </div>
+              </div>
+              <div class="modal-footer row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button id="btnEliminarModal" type="button"  onclick="" class="btn btn-block bg-red waves-effect" data-dismiss="modal">Eliminar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('scripts')
@@ -231,6 +269,7 @@ $.ajaxSetup({
 var url = "{{asset('/vista_principal_detalles')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var urlS = "{{asset('/vista_principal_select')}}";
+var urlD = "{{asset('/vista_principal_eliminar/')}}";
 
 var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";
 </script>

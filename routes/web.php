@@ -38,6 +38,7 @@ Route::get('/logout','controlador_usuarios@cerrar_sesion');
 Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware('sesion');
 Route::post('/vista_principal_detalles','controlador_vista_general@mostrar_detalles_reunion')->middleware('sesion');
 Route::post('/vista_principal_select','controlador_vista_general@cambiarSecre')->middleware('sesion');
+Route::post('/vista_principal_eliminar/{id}/{codigo}','controlador_vista_general@eliminarReunion')->middleware('sesion');
 
 Route::get('/tipo_reunion','controlador_reunion@mostrar_vista_tipo_reunion')->middleware('sesion');
 Route::post('/tipo_reunion','controlador_reunion@registrar_tipo_reunion')->middleware('sesion');

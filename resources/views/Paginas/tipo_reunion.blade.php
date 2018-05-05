@@ -141,7 +141,7 @@ Registro del motivo de una reunión
   });
 
   var UrlToPostForm = "{{asset('/tipo_reunion')}}";
-  var UrlToRedirectPage = "{{asset('/tipo_reunion')}}";
+  var UrlToRedirectPage = "{{asset('/')}}";
 </script>
 
 <script src="{{asset('/js/cropper/cropper.js')}}"></script>

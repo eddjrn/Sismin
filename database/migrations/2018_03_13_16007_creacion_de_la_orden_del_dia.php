@@ -17,9 +17,9 @@ class CreacionDeLaOrdenDelDia extends Migration
           $table->increments('id_orden_dia');
           $table->timestamps();
           $table->integer('id_reunion')->unsigned()->index();
-          $table->foreign('id_reunion')->references('id_reunion')->on('reunion');
+          $table->foreign('id_reunion')->references('id_reunion')->on('reunion')->onDelete('cascade');
           $table->integer('id_usuario')->unsigned()->index();
-          $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+          $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('cascade');
           $table->text('descripcion',200);
           $table->text('descripcion_hechos',400)->nullable();
         });

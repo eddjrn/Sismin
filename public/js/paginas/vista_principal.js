@@ -40,6 +40,14 @@ function mostrar(id_reunion){
         }else {
           $('#btns').hide();
         }
+        if(result.datos[3][7] == result.datos[3][11]){
+          $('#eliminarReunion').show();
+          $('#eliminarReunion').attr("onClick", `eliminarReunion(2, ${id_reunion}, "${result.datos[3][9]}");`);
+        } else{
+          $('#eliminarReunion').hide();
+          $('#eliminarReunion').attr("onClick", "");
+        }
+
         $('#detalles_reunion').show(200);
       },
       error: function (jqXHR, status, error) {
@@ -62,7 +70,7 @@ function mostrar(id_reunion){
   }
 
  function actualizarSecre(id_reunion){
-     var id_convocado = $('#Copc').val();
+   var id_convocado = $('#Copc').val();
 
    $.ajax({
       type:'POST',
@@ -98,4 +106,42 @@ function realizarMinuta(id,codigo){
   window.setTimeout(function(){
     location.href = urlToRedirectPage+`minuta/${id}/${codigo}`;
   } ,1500);
+}
+
+function eliminarReunion(opcion, id_reunion, codigo){
+  switch(opcion){
+    case 1:
+    urlD2 = urlD + "/" + id_reunion + "/" + codigo;
+    $.ajax({
+       type:'POST',
+       url: urlD2,
+       data:
+       {
+         "clave": $('#claveDel').val(),
+       },
+       success:function(result){
+         if(result.errores){
+           var errores = '<ul>';
+           $.each(result.errores,function(indice,valor){
+             errores += '<li>' + valor + '</li>';
+           });
+           errores += '</ul>';
+           notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+         } else{
+           mensajeAjax('Eliminando reunión', result.mensaje,'warning');
+           window.setTimeout(function(){
+             location.href = urlToRedirectPage;
+           } ,1500);
+         }
+      },
+        error: function (jqXHR, status, error) {
+         mensajeAjax('Error', error, 'error');
+        }
+      });
+      break;
+    case 2:
+      $('#btnEliminarModal').attr("onClick", `eliminarReunion(1, ${id_reunion}, "${codigo}")`);
+      $('#eliminarModal').modal('show');
+      break;
+  }
 }

@@ -19,7 +19,7 @@ class CreacionDeLaReunion extends Migration
             $table->dateTime('fecha_reunion');
             $table->dateTime('fecha_reunion_orden');
             $table->integer('id_tipo_reunion')->unsigned()->index();
-            $table->foreign('id_tipo_reunion')->references('id_tipo_reunion')->on('tipo_reunion');
+            $table->foreign('id_tipo_reunion')->references('id_tipo_reunion')->on('tipo_reunion')->onDelete('cascade');
             $table->text('motivo',100);
             $table->text('lugar',100);
             $table->string('codigo',10);

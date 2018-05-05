@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Hash;
 
 
 class controlador_vista_general extends Controller
@@ -39,6 +40,7 @@ class controlador_vista_general extends Controller
       array_push($datosReunion,$reunion->tipo_reunion->descripcion);
       array_push($datosReunion,$reunion->minuta->codigo);
       array_push($datosReunion,$reunion->minuta->id_minuta);
+      array_push($datosReunion,$reunion->moderador()->id_usuario);
 
       foreach($reunion->convocados as $convocado){
         array_push($convocadosData,$convocado->usuario->__toString());
@@ -77,10 +79,25 @@ class controlador_vista_general extends Controller
       return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->usuario->__toString()]);
     }
 
+    public function eliminarReunion(Request $request, $id, $codigo){
+      $validacion = Validator::make($request->all(), [
+        'clave'=>'required',
+      ]);
 
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
 
+      if(!Hash::check($request->clave, Auth::user()->password)){
+        return response()->json(['errores' => ["Las constraseñas no coinciden"]]);
+      }
+      $reunion = \App\reunion::find($id);
+      if($reunion->minuta->codigo != $codigo){
+        return response()->json(['errores' => ["No existe la reunión"]]);
+      }
 
+      $reunion->delete();
 
-
-
+      return response()->json(['mensaje' => "Limpiando registros"]);
+    }
 }
