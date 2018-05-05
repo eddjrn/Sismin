@@ -68,7 +68,7 @@ class usuario extends Authenticatable
    }
 
    public function temas_pendientes(){
-     return $this->hasOne(tema_pendiente::class,'id_usuario');
+     return $this->hasMany(tema_pendiente::class,'id_usuario');
    }
 
    public function convocado_en(){
@@ -79,7 +79,7 @@ class usuario extends Authenticatable
      return $this->hasMany(compromiso_responsable::class,'id_usuario');
    }
 
-   public function reuniones(){
+   public function reuniones_pendientes(){
      $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
      $id_reuniones =  array();
      $reuniones_recientes =  array();
@@ -87,11 +87,10 @@ class usuario extends Authenticatable
      for($i=0; $i<count($reuniones); $i++)
      {
          $id =$reuniones[$i]->reunion->id_tipo_reunion;
-         if(!(in_array($id,$id_reuniones))){
+         if(!(in_array($id,$id_reuniones)) && $reuniones[$i]->reunion->minuta->existe() == false){
            $igualar=$reuniones[$i]->reunion;
            array_push($id_reuniones,$id);
            array_push($reuniones_recientes,$igualar);
-
          }
      }
      return $reuniones_recientes;
@@ -105,12 +104,12 @@ class usuario extends Authenticatable
     foreach ($reuniones as $reunionMod) {
       $id =$reunionMod->reunion->id_tipo_reunion;
 
-      if(!(in_array($id,$id_reuniones))){
+      if(!(in_array($id,$id_reuniones)) && $reunionMod->reunion->minuta->existe() == false){
         array_push($id_reuniones,$id);
         $cont++;
       }
     }
-   return $cont . ' reuniones recientes';
+    return $cont . ' reuniones recientes';
   }
 
   public function es_secretario($id_reunion){

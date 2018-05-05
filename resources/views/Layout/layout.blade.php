@@ -64,7 +64,7 @@
                   <li class="dropdown">
                       <a href="{{asset('/')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Inicio">
                           <i class="material-icons">dashboard</i>
-                          <?php $num1 = count(Auth::user()->reuniones());?>
+                          <?php $num1 = count(Auth::user()->reuniones_pendientes());?>
                           @if($num1 > 0)
                           <span class="label-count">{{$num1}}</span>
                           @endif

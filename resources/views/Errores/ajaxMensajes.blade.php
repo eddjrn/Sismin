@@ -11,6 +11,18 @@ function mensajeAjax(titulo, mensaje, tipo) {
     });
 }
 
+function mensajeAjaxIcono(titulo, mensaje, imagen) {
+    // tipo => 'success' , 'waring' o 'error'
+    swal({
+        title: titulo,
+        text: mensaje,
+        imageUrl: imagen,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 2000,
+    });
+}
+
 // colorName => 'bg-red', text => 'texto', time => 1000, placementFrom => 'bottom', placementAlign => 'center'
 function notificacionAjax(colorName, text, time,  placementFrom, placementAlign, animateEnter, animateExit) {
     if (colorName === null || colorName === '') { colorName = 'bg-black'; }

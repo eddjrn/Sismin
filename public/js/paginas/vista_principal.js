@@ -94,7 +94,7 @@ function mostrar(id_reunion){
  }
 
 function realizarMinuta(id,codigo){
- mensajeAjax('Redireccionando...',"Realizar Minuta",'success');
+  mensajeAjaxIcono("Redireccionando", "Nueva minuta...", imagenRedireccionar);
   window.setTimeout(function(){
     location.href = urlToRedirectPage+`minuta/${id}/${codigo}`;
   } ,1500);

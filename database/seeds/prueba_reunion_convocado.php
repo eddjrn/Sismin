@@ -21,7 +21,7 @@ class prueba_reunion_convocado extends Seeder
         'id_tipo_usuario' => 1,
       ]);
 
-      for($i=0; $i<= config('variables.reunion_convocadoDB'); $i++){
+      for($i=2; $i <= config('variables.reunion_convocadoDB'); $i++){
         DB::table('reunion_convocado')->insert([
           'created_at'=> now(),
           'updated_at' => now(),

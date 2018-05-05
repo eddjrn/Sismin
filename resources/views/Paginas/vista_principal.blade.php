@@ -19,7 +19,6 @@ Página Principal
 @stop
 
 @section('contenido')
-@unless(isset($nuevo))
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-cyan hover-zoom-effect">
@@ -38,7 +37,7 @@ Página Principal
                 <i class="material-icons">assignment_turned_in</i>
             </div>
             <div class="content">
-                <div class="text">Compromisos</div>
+                <div class="text">Compromisos pendientes</div>
                 <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
             </div>
         </div>
@@ -61,7 +60,7 @@ Página Principal
             </div>
             <div class="content">
                 <div class="text">Temas pendientes</div>
-                <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{Auth::user()->temas_pendientes->count()}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
@@ -189,7 +188,7 @@ Página Principal
           <div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario de la reunión:<br> <span id="tipoReunion">"{{$reuniones[0]->tipo_reunion}}".</span></h4>
+                      <h4 class="modal-title" id="largeModalLabel">Delegar responsabilidad de secretario de la reunión:<br> <span id="tipoReunion"></span></h4>
                   </div>
                   <div class="modal-body">
                     <div class="row">
@@ -213,7 +212,6 @@ Página Principal
               </div>
           </div>
       </div>
-@endunless
 @stop
 
 @section('scripts')
@@ -233,6 +231,8 @@ $.ajaxSetup({
 var url = "{{asset('/vista_principal_detalles')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var urlS = "{{asset('/vista_principal_select')}}";
+
+var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";
 </script>
 
 

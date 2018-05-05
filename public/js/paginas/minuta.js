@@ -57,7 +57,7 @@ function finalizar(){
          errores += '</ul>';
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        } else{
-         mensajeAjax('Registro correcto', result.mensaje.toSource(),'success');
+         mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
            location.href = urlToRedirectPage;
          } ,1500);

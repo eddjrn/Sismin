@@ -19,12 +19,12 @@ class prueba_minuta extends Seeder
         'codigo'=>'1234567898'
       ]);
 
-      for($i=0; $i<= config('variables.reunionDB'); $i++){
+      for($i=2; $i <= config('variables.reunionDB'); $i++){
         DB::table('minuta')->insert([
           'created_at'=> now(),
           'updated_at' => now(),
           'fecha_elaboracion' => now(),
-          'id_reunion' =>rand(1,config('variables.reunionDB')),
+          'id_reunion' => $i,
           'codigo' => str_random(10),
         ]);
       }

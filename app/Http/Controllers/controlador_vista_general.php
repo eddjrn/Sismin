@@ -11,18 +11,11 @@ class controlador_vista_general extends Controller
 {
     //
     public function mostrar_vista_principal(){
+      $reuniones_recientes = Auth::user()->reuniones_pendientes();
 
-      $reuniones_recientes = Auth::user()->reuniones();
-
-      if (count($reuniones_recientes)>0) {
-        return view('Paginas.vista_principal',[
-          'reuniones'=>$reuniones_recientes
-        ]);
-      }else{
-        return view('Paginas.vista_principal',[
-          'nuevo'=> true]);
-      }
-
+      return view('Paginas.vista_principal',[
+        'reuniones'=>$reuniones_recientes
+      ]);
     }
 
     public function mostrar_detalles_reunion(Request $id){
