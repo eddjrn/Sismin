@@ -96,20 +96,20 @@ class usuario extends Authenticatable
      return $reuniones_recientes;
    }
 
-   public function numModerador(){
+   public function reuniones_moderadas(){
     $reuniones=$this->convocado_en->where('id_tipo_usuario','=','1');
-    $cont=0;
     $id_reuniones =  array();
+    $reuniones_moderadas = array();
 
     foreach ($reuniones as $reunionMod) {
       $id =$reunionMod->reunion->id_tipo_reunion;
 
       if(!(in_array($id,$id_reuniones)) && $reunionMod->reunion->minuta->existe() == false){
         array_push($id_reuniones,$id);
-        $cont++;
+        array_push($reuniones_moderadas, $reunionMod->reunion);
       }
     }
-    return $cont . ' reuniones recientes';
+    return $reuniones_moderadas;
   }
 
   public function es_secretario($id_reunion){
