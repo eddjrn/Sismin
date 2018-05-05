@@ -55,13 +55,17 @@ function actualizarRol(boton){
   var id_seleccion = boton.id.split("_");
   var id_usuario = id_seleccion[2];
   var id_rol = $(`#${boton.id} option:selected`).val();
+  var descripcion_rol = $(`#${boton.id} option:selected`).html();
   // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
   var indice = convocados.indexOf(id_usuario);
   if(indice!=-1){
      roles[indice] = id_rol;
+     $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
   }
   if(id_rol == 0){
     roles[indice] = 2;
+    descripcion_rol = $(`#${boton.id} option:eq(1)`).html();
+    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
     notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
   }
 }
@@ -72,12 +76,14 @@ function actualizarLista(boton){
   if(boton.checked){
     var nombre = $(`#n${boton.id}`).html();
     var id_usuario = boton.id.split("_");
+    var descripcion_rol = $(`#rol_seleccion_${id_usuario[2]} option:eq(1)`).html();
+
     convocados.push(id_usuario[2]);
     roles.push(2);
     // Muestra el boton de rol y hace cambios en el resumen
     $(`#a${boton.id}`).show();
     $('#convocados_texto').html($('#convocados_texto').html() + `\
-      <li id="nombre_texto${boton.id}">${nombre}</li>\
+      <li id="nombre_texto${boton.id}"><span id="rol_texto_${id_usuario[2]}">${descripcion_rol}</span>: ${nombre}</li>\
     `);
     $('#responsable_nuevo_tema').html($('#responsable_nuevo_tema').html() + `\
       <option id="convocado${boton.id}" value="${id_usuario[2]}">${nombre}</option>\
@@ -315,10 +321,15 @@ function cancelar(){
 function anterior(){
   if(indice > 1){
     var menu = "#menu"+indice;
+    var paso2 = "#paso"+indice;
+
     $(menu).hide();
     indice--;
     var paso = "#paso"+indice;
-    $(paso).addClass(fondo);
+
+    $(paso2).addClass(fondo);
+    $(paso2).removeClass("bg-pink");
+    $(paso).addClass("bg-pink");
     $(paso).removeClass("bg-grey");
     menu = "#menu"+indice;
     $(menu).show(200);
@@ -337,9 +348,13 @@ function siguiente(){
   if(indice < 4){
     var menu = "#menu"+indice;
     var paso = "#paso"+indice;
+    var indice2 = indice+1;
+    var paso2 = "#paso"+indice2;
     $(menu).hide();
     $(paso).addClass("bg-grey");
-    $(paso).removeClass(fondo);
+    $(paso).removeClass("bg-pink");
+    $(paso2).addClass("bg-pink");
+    $(paso2).removeClass(fondo);
     indice++;
     menu = "#menu"+indice;
     $(menu).show(200);

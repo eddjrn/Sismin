@@ -31,52 +31,32 @@ Nueva reunión
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="body">
-              <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso1">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">event</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Alta de reunión</div>
-                          <div class="number">1</div>
-                      </div>
-                  </div>
+              <?php
+                $tamanioPasos = "col-lg-3 col-md-3 col-sm-3 col-xs-3";
+              ?>
+              <div class="row text-center">
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso1" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Dar de alta una reunión">
+                    <i class="material-icons">event</i>
+                  </button>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso2">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">contacts</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Convocados</div>
-                          <div class="number">2</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso2" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Agregar los convocados de la reunión">
+                    <i class="material-icons">contacts</i>
+                  </button>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso3">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">assignment</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Orden del día</div>
-                          <div class="number">3</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso3" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Crear la orden del día de la reunión">
+                    <i class="material-icons">assignment</i>
+                  </button>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                  <div class="info-box fondo  hover-zoom-effect" id="paso4">
-                      <div class="icon hidden-xs">
-                          <i class="material-icons">subject</i>
-                      </div>
-                      <div class="content">
-                          <div class="text hidden-sm hidden-xs">Resumen</div>
-                          <div class="number">4</div>
-                      </div>
-                  </div>
+                <div class="{{$tamanioPasos}}">
+                  <button type="button" id="paso4" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la reunión">
+                    <i class="material-icons">subject</i>
+                  </button>
                 </div>
               </div>
+
               <div class="row">
                 <div class="container-fluid">
                   <div id="menu1">
@@ -199,7 +179,7 @@ Nueva reunión
                       <br/>
                       <h5>Convocados</h5>
                       <ul id="convocados_texto">
-                        <li>{{Auth::user()}}</li>
+                        <li>Secretario: {{Auth::user()}}</li>
                       </ul>
                       <h5>Para tratar los siguientes temas:</h5>
                       <ol id="lista_texto"></ol>

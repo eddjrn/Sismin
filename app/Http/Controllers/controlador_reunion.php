@@ -76,10 +76,6 @@ class controlador_reunion extends Controller
       case 1:
         $tipo_reunion = \App\tipo_reunion::find($request->id);
         $reunion = $tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden')->first();
-        // No se tienen temas pendientes en el sistema :(
-        // Por hacer
-        //   Sacar los temas pendientes de las minutas y ponerlos en la seccion de orden del dia
-        //   Que sean seleccionables en la seccion y sacar sus datos
         if($reunion == null){
           $temas = null;
         } else{

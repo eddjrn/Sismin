@@ -57,6 +57,7 @@ class controlador_minuta extends Controller
       $notas = json_decode($request->notas);
       $minuta_constante = json_decode($request->minuta_constante);
       $fecha_hoy = json_decode($request->fecha_hoy);
+      $pendientes_descripcion = json_decode($request->descripcionPendientes);
 
       $minuta = \App\minuta::find($minuta_constante);
       $minuta->update([
@@ -83,7 +84,7 @@ class controlador_minuta extends Controller
             'id_minuta' => $minuta_constante,
             'id_orden_dia' => $orden->id_orden_dia,
             'id_usuario' => $orden->id_usuario,
-            'descripcion' => "Hoal",
+            'descripcion' => $pendientes_descripcion[$indice],
           ]);
         }
 
@@ -110,6 +111,7 @@ class controlador_minuta extends Controller
 
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
     }
+    
     public function pdf_minuta($id,$codigo){
       //creación del pdf
           $reunion= \App\reunion::find($id);

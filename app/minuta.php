@@ -41,6 +41,11 @@ class minuta extends Model
     return $fecha->diffForHumans();
   }
 
+  public function fecha_elaboracion_texto($value){
+   Date::setLocale('es');
+   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
+  }
+
   public function getFechaElaboracionAttribute($value){
    Date::setLocale('es');
    return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');

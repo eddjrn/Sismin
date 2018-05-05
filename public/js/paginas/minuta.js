@@ -21,6 +21,8 @@ var compromisos = [];
 // Arreglo que almacenará las firmas de enterado
 var enterados = new Array(convocados_constante+1);
 enterados.fill(false);
+// Arreglo para agregar la descripcion de los hechos pendientes
+var descripcionPendientes = new Array(descripcionHechos_constante);
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
@@ -36,6 +38,7 @@ function finalizar(){
   formulario.append('enterados', JSON.stringify(enterados));
   var fecha_hoy = moment().format("YYYY-MM-DD HH:mm");
   formulario.append('fecha_hoy', JSON.stringify(fecha_hoy));
+  formulario.append('descripcionPendientes', JSON.stringify(descripcionPendientes));
   // Se hace la petición al servidor
   $.ajax({
      type:'POST',
@@ -143,47 +146,145 @@ function actualizarPendientes(boton){
   var indice_pendientes = $(boton).attr("data-pendiente");
   if(boton.checked){
     temas_pendientes[indice_pendientes] = true;
+    mostrarDialogoPendiente(2, id_orden_dia[2]);
     $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("(Tema pendiente)");
   } else{
     temas_pendientes[indice_pendientes] = false;
+    descripcionPendientes[indice_pendientes] = null;
+    $(`#dh_pendiente_${id_orden_dia[2]}`).html("N/A");
     $(`#orden_pendiente_resumen_${id_orden_dia[2]}`).html("");
+    $(`#descripcion_hechos_resumen_pendientes_${id_orden_dia[2]}`).remove();
   }
 }
 
-function mostrarDialogoHechos(opcion, th){
+function mostrarDialogoPendiente(opcion, boton){
+  var indice_pendientes = $(`#dh_hechos_${boton}`).attr("data-pendiente");
+  switch (opcion) {
+    // Agregar descripcion del tema pendiente
+    case 1:
+      var descripcion = $('#hechosDescripcion').val();
+      if(descripcion == ""){
+        notificacionAjax('bg-red', "El campo no puede estar vacío", 2500,  'bottom', 'center', null, null);
+        $(`#pendiente_checkbox_${boton}`).prop('checked', false);
+        $(`#dh_pendiente_${boton}`).html("N/A");
+        descripcionPendientes[indice_pendientes] = null;
+        temas_pendientes[indice_pendientes] = false;
+        $(`#orden_pendiente_resumen_${boton}`).html("");
+        $(`#descripcion_hechos_resumen_pendientes_${boton}`).remove();
+        ocultarHechosDialogo();
+        break;
+      }
+      $(`#dh_pendiente_${boton}`).html(`\
+        <button id="pendientes_popover_${boton}" type="button" class="${colorBtn}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top" title="Descripción del tema pendiente" data-content="${descripcion}">\
+            <i class="material-icons">visibility</i>\
+            <span class="hidden-xs">Ver</span>\
+        </button>\
+        <button id="pendientes_popover_editar_${boton}" type="button" class="btn bg-orange waves-effect" onClick="mostrarDialogoPendiente(3, ${boton})">\
+            <i class="material-icons">mode_edit</i>\
+            <span class="hidden-xs">Editar</span>\
+        </button>\
+      `);
+      $(`#pendientes_popover_${boton}`).popover();
+      $(`#descripcion_hechos_resumen_lista_${boton}`).html($(`#descripcion_hechos_resumen_lista_${boton}`).html() + `\
+        <li id="descripcion_hechos_resumen_pendientes_${boton}">Tema pendiente: ${descripcion}</li>
+      `);
+      descripcionPendientes[indice_pendientes] = descripcion;
+      ocultarHechosDialogo();
+      break;
+    // Mostrar dialogo vacio
+    case 2:
+      $('#hechosDescripcion').val("");
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoPendiente(1, ${boton});`);
+      $('#btnCancelarhechos').attr("onClick", `mostrarDialogoPendiente(4, ${boton});`);
+      $('#hechosModal').modal({
+        show:true,
+        backdrop:'static'
+      });
+      break;
+    // Mostrar dialogo con campos completos
+    case 3:
+      var descripcion = $(`#pendientes_popover_${boton}`).attr("data-content");
+      $('#hechosDescripcion').val(descripcion);
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoPendiente(1, ${boton});`);
+      $('#btnCancelarhechos').attr("onClick", `mostrarDialogoPendiente(4, ${boton});`);
+      $('#hechosModal').modal({
+        show:true,
+        backdrop:'static'
+      });
+      break;
+    // Limpiar dialogo y cerrarlo
+    case 4:
+      var descripcionPopover = $(`#pendientes_popover_${boton}`).attr("data-content");
+      if(descripcionPopover == null){
+        $(`#pendiente_checkbox_${boton}`).prop('checked', false);
+        descripcionPendientes[indice_pendientes] = null;
+        temas_pendientes[indice_pendientes] = false;
+        $(`#orden_pendiente_resumen_${boton}`).html("");
+        $(`#descripcion_hechos_resumen_pendientes_${boton}`).remove();
+      }
+      ocultarHechosDialogo();
+      break;
+  }
+}
+
+function mostrarDialogoHechos(opcion, boton){
   switch(opcion){
     // Agregar nueva descripcion de los hechos
     case 1:
       var descripcion = $('#hechosDescripcion').val();
-      var indice_descripcionHechos = $(`#${th}`).attr("data-pendiente");
+      if(descripcion == ""){
+        notificacionAjax('bg-red', "El campo no puede estar vacío", 2500,  'bottom', 'center', null, null);
+        ocultarHechosDialogo();
+        break;
+      }
+      var indice_descripcionHechos = $(`#dh_hechos_${boton}`).attr("data-pendiente");
       descripcionHechos[indice_descripcionHechos] = descripcion;
-      $(`#${th}`).html(descripcion);
-      $(`#${th}`).attr("onClick", `mostrarDialogoHechos(4, "${th}");`);
-      $(`#descripcion_hechos_resumen_${th}`).html(descripcion);
+      $(`#dh_hechos_${boton}`).html(`\
+        <button id="hechos_popover_${boton}" type="button" class="${colorBtn}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top" title="Descripción de los hechos" data-content="${descripcion}">\
+            <i class="material-icons">visibility</i>\
+            <span class="hidden-xs">Ver</span>\
+        </button>\
+        <button id="hechos_popover_editar_${boton}" type="button" class="btn bg-orange waves-effect" onClick="mostrarDialogoHechos(2, ${boton})">\
+            <i class="material-icons">mode_edit</i>\
+            <span class="hidden-xs">Editar</span>\
+        </button>\
+      `);
+      $(`#descripcion_hechos_resumen_${boton}`).html(descripcion);
+      $(`#hechos_popover_${boton}`).popover();
       ocultarHechosDialogo();
       break;
-    // Mostrar dialogo para eliminar descripcion de hechos
+    // Mostrar dialogo para editar descripcion de hechos
     case 2:
-      $(`#${th}`).html("Ingrese la descripcion de lo hechos.");
-      var indice_descripcionHechos = $(`#${th}`).attr("data-pendiente");
-      descripcionHechos[indice_descripcionHechos] = null;
-      $(`#descripcion_hechos_resumen_${th}`).html("Ingrese la descripcion de lo hechos.");
-      ocultarHechosDialogo();
+      var descripcion = $(`#hechos_popover_${boton}`).attr("data-content");
+      $('#hechosDescripcion').val(descripcion);
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, ${boton});`);
+      $('#btnCancelarhechos').attr("onClick", `ocultarHechosDialogo();`);
+      $('#btnEliminarHechos').attr("onClick", `mostrarDialogoHechos(4, ${boton});`);
+      $('#filaEliminarHechos').show();
+      $('#hechosModal').modal({
+        show:true,
+        backdrop:'static'
+      });
       break;
     // Mostrar dialogo vacío
     case 3:
       $('#hechosDescripcion').val("");
-      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${th.id}");`);
-      $('#hechosModal').modal('show');
+      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${boton}");`);
+      $('#btnCancelarhechos').attr("onClick", `ocultarHechosDialogo();`);
+      $('#hechosModal').modal({
+        show:true,
+        backdrop:'static'
+      });
       break;
-    // Mostrar dialogo para editar descripcion de los hechos
+    // Mostrar dialogo para eliminar descripcion de los hechos
     case 4:
-      var descripcion = $(`#${th}`).html();
-      $('#hechosDescripcion').val(descripcion);
-      $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${th}");`);
-      $('#filaEliminarHechos').show();
-      $('#btnEliminarHechos').attr("onClick", `mostrarDialogoHechos(2, "${th}");`);
-      $('#hechosModal').modal('show');
+      mensajeAjax('Eliminando', 'Borrando descripción','warning');
+      $(`#dh_hechos_${boton}`).html(`\
+        <a onClick="mostrarDialogoHechos(3, ${boton});" class="font-bold ${textoColor}"><i class='glyphicon glyphicon-plus'></i> Agregar</a>
+      `);
+      var indice_descripcionHechos = $(`#dh_hechos_${boton}`).attr("data-pendiente");
+      descripcionHechos[indice_descripcionHechos] = null;
+      ocultarHechosDialogo();
       break;
   }
 }
@@ -193,6 +294,8 @@ function ocultarHechosDialogo(){
   $('#hechosDescripcion').val("");
   $('#filaEliminarHechos').hide();
   $('#btnEliminarHechos').attr("onClick", "");
+  $('#btnGuardarhechos').attr("onClick", "");
+  $('#btnCancelarhechos').attr("onClick", "");
 }
 
 function actualizarCompromiso(opcion, id_orden_lista, id_nuevo){

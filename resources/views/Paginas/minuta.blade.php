@@ -142,8 +142,10 @@ Nueva Minuta
                               @foreach($minuta->reunion->orden_dia as $orden)
                                 <tr>
                                     <th scope="row">{{$orden->descripcion}}</th>
-                                    <td id="dh_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);" data-pendiente="{{$indice_pendientes}}">Ingrese la descripcion de lo hechos.</td>
-                                    <td id="dh_pendiente_{{$orden->id_orden_dia}}" onclick="mostrarDialogoHechos(3, this);" data-pendiente="{{$indice_pendientes}}">Ingrese la descripcion del tema pendiente.</td>
+                                    <td id="dh_hechos_{{$orden->id_orden_dia}}" data-pendiente="{{$indice_pendientes}}">
+                                      <a onClick="mostrarDialogoHechos(3, {{$orden->id_orden_dia}});" class="font-bold texto"><i class='glyphicon glyphicon-plus'></i> Agregar</a>
+                                    </td>
+                                    <td id="dh_pendiente_{{$orden->id_orden_dia}}" data-pendiente="{{$indice_pendientes}}">N/A</td>
                                     <td width="200px">
                                       <input type="checkbox" onClick="actualizarPendientes(this);" data-pendiente="{{$indice_pendientes}}" id="pendiente_checkbox_{{$orden->id_orden_dia}}" class="chk-col-teal" autocomplete="off"/>
                                       <label for="pendiente_checkbox_{{$orden->id_orden_dia}}">Agregar como pendiente</label>
@@ -229,8 +231,8 @@ Nueva Minuta
                           $indice++;
                         ?>
                         <li><span id="descripcion_orden_resumen_{{$orden->id_orden_dia}}" data-numero="{{$indice}}">{{$orden->descripcion}}</span> <span id="orden_pendiente_resumen_{{$orden->id_orden_dia}}"></span>
-                          <ul>
-                            <li id="descripcion_hechos_resumen_dh_{{$orden->id_orden_dia}}">Ingrese la descripcion de lo hechos.</li>
+                          <ul id="descripcion_hechos_resumen_lista_{{$orden->id_orden_dia}}">
+                            <li id="descripcion_hechos_resumen_{{$orden->id_orden_dia}}">Ingrese la descripcion de lo hechos.</li>
                           </ul>
                         </li>
                         @endforeach
@@ -363,7 +365,7 @@ Nueva Minuta
             <div class="modal-footer">
               <div class="row">
                 <div class="col-lg-6 col-md-6 text-center">
-                  <button type="button" class="colorBoton btn-block" onClick="ocultarHechosDialogo();">Cancelar</button>
+                  <button id="btnCancelarhechos" type="button" class="colorBoton btn-block" onClick="ocultarHechosDialogo();">Cancelar</button>
                 </div>
                 <div class="col-lg-6 col-md-6 text-center">
                   <button id="btnGuardarhechos" type="button" onClick="" class="colorBoton btn-block">Guardar</button>

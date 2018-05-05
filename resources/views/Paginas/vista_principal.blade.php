@@ -91,15 +91,17 @@ Página Principal
                     </thead>
                     <tbody>
                       @foreach($reuniones as $reunion)
-                        <tr>
-                            <th scope="row">{{$reunion->id_reunion}}</th>
-                            <td>{{$reunion->motivo}}</td>
-                            <td>{{$reunion->moderador()}}</td>
-                            <td>{{$reunion->tipo_reunion}}</td>
-                            <td>{{$reunion->getLimite()}}</td>
-                            <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
-                        </tr>
-                        @endforeach
+                      @if($reunion->minuta->getOriginal()['fecha_elaboracion'] == null)
+                      <tr>
+                          <th scope="row">{{$reunion->id_reunion}}</th>
+                          <td>{{$reunion->motivo}}</td>
+                          <td>{{$reunion->moderador()}}</td>
+                          <td>{{$reunion->tipo_reunion}}</td>
+                          <td>{{$reunion->getLimite()}}</td>
+                          <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
+                      </tr>
+                      @endif
+                      @endforeach
                     </tbody>
                 </table>
             </div>
