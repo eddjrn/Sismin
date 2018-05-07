@@ -68,6 +68,47 @@ Página Principal
 <!-- #END# Widgets -->
 
 <!-- Basic Card -->
+<?php $CR= Auth::user()->responsables; ?>
+@if(count($CR->where('tarea','=', null)) > 0)
+<div class="row clearfix">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="header">
+              <h2>
+                  Mis compromisos
+              </h2>
+          </div>
+          <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Reunión</th>
+                          <th>Fecha del compromiso</th>
+                          <th>Descripcion del compromiso</th>
+                          <th>Tarea</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($CR as $resp)
+                    @if($resp->tarea==null)
+                    <tr>
+                        <td>{{$resp->compromisos->minuta->reunion->tipo_reunion->descripcion}}</td>
+                        <td>{{$resp->compromisos->fecha_limite}}</td>
+                        <td>{{$resp->compromisos->descripcion}}</td>
+                        <td><button class="btn bg-pink waves-effect" type="button"  onclick="asignarT({{$resp->id_compromiso_resp}})" >Agregar Tarea</button></td>
+                    </tr>
+                    @endif
+                    @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+@endif
+
+<!-- Basic Card -->
+@if(count(Auth::user()->reuniones_pendientes()) > 0)
 <div class="row clearfix">
   <div class="col-lg-12">
       <div class="card">
@@ -107,6 +148,7 @@ Página Principal
       </div>
   </div>
 </div>
+@endif
 
 <div class="row clearfix" style="display:none;" id="detalles_reunion">
   <div class="col-lg-12">
@@ -250,6 +292,35 @@ Página Principal
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="tareaModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="largeModalLabel">Asignar Tarea</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">list</i>
+                  </span>
+                  <div class="form-line">
+                      <input type="text" class="form-control" id="tarea" name="tarea" placeholder="Ingrese la descripcion de la tarea" ata-toggle="tooltip" data-placement="top" title="Ingrese la descripcion de la tarea">
+                  </div>
+              </div>
+              <div class="modal-footer row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button type="button" onclick="" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button  type="button"  onclick="actualizarTarea()" id="btnAsignarT" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Guardar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('scripts')
@@ -269,6 +340,7 @@ $.ajaxSetup({
 var url = "{{asset('/vista_principal_detalles')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var urlS = "{{asset('/vista_principal_select')}}";
+var urlT = "{{asset('/vista_principal_tarea')}}";
 var urlD = "{{asset('/vista_principal_eliminar/')}}";
 
 var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";

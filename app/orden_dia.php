@@ -31,7 +31,7 @@ class orden_dia extends Model
   }
 
   public function temas_pendientes(){
-   return $this->hasMany(temas_pendientes::class,'id_orden_dia');
+   return $this->hasMany(tema_pendiente::class,'id_orden_dia');
   }
 
   public function compromisos(){

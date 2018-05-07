@@ -100,4 +100,23 @@ class controlador_vista_general extends Controller
 
       return response()->json(['mensaje' => "Limpiando registros"]);
     }
+
+    public function actualizarTarea(Request $request){
+      $validacion = Validator::make($request->all(), [
+        'id_compromiso_resp'=>'required',
+        'tarea'=>'required',
+      ]);
+
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+      $id= $request->id_compromiso_resp;
+      $compromiso =\App\compromiso_responsable::find($id);
+      $tarea = $request->tarea;
+      $compromiso->update(['tarea'=>$tarea]);
+
+      // return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->usuario->__toString()]);
+     return response()->json(['mensaje' => "Se asigno tarea al usuario "]);
+    }
+
 }

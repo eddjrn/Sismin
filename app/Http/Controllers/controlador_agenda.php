@@ -10,25 +10,28 @@ class controlador_agenda extends Controller
 {
   public function mostrar_vista_agenda(){
   $usuario = Auth::user();
-  $reunionesC = $usuario->convocado_en->sortByDesc('fecha_reunion_orden');
+  $reunionesC = $usuario->convocado_en;
   $CR = $usuario->responsables->all();
   $reuniones = array();
+  $datosR = array();
   $tareaResp= array();
   $compromisos = array();
+
 
  for($i=0; $i<count($reunionesC); $i++)
  {
    array_push($reuniones,$reunionesC[$i]->reunion);
+   array_push($datosR,$reunionesC[$i]->reunion->reunion_temas_pendientes());
  }
 
  for($j=0; $j<count($CR); $j++)
  {
    array_push($compromisos,$CR[$j]->compromisos);
-   // array_push($tareaResp,$CR[$j]->tarea);
-   // array_push($tareaResp,$CR[$j]->usuario->__toString());
  }
-//return $reunionesC;
-return view('Paginas.agenda',['eventos'=>$reuniones, 'compromisos'=>$compromisos,'CR'=>$CR]);
+
+
+//return $datosR;
+return view('Paginas.agenda',['eventos'=>$reuniones, 'compromisos'=>$compromisos,'CR'=>$CR,'datos'=>$datosR]);
 }
 
 }

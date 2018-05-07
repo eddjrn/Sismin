@@ -14,7 +14,6 @@ class prueba_minuta extends Seeder
       DB::table('minuta')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
-        'fecha_elaboracion' => now(),
         'id_reunion' => 1,
         'codigo'=>'1234567898'
       ]);

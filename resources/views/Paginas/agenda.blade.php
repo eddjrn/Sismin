@@ -83,7 +83,7 @@ body {
     </div>
   </div>
 
-	<div class="modal fade" id="fullCalModal" tabindex="-1" role="dialog">
+	<div class="modal fade" id="fullCalModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" >
 				<div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">
 						<div class="modal-content">
 								<div class="modal-header">
@@ -162,7 +162,7 @@ body {
 										</div>
 									</div>
 									<div class="modal-footer row clearfix">
-										<button type="button" id="clear" data-dismiss="modal" class="colorBoton">Cerrar</button>
+										<button type="button" id="clear" data-dismiss="modal" class="colorBoton" onClick="limpiarDialogo();">Cerrar</button>
 									</div>
 								</div>
 						</div>
@@ -209,7 +209,13 @@ var textoColor = "col-cyan";
 
 $(document).ready(function() {
 		var date = new Date();
-		var n=0;
+		var dateString="";
+		var newDate = new Date();
+
+		// Get the month, day, and year.
+		dateString += (newDate.getMonth() + 1) + "/";
+		dateString += newDate.getDate() + "/";
+		dateString += newDate.getFullYear();
 
 		// Cambia estilos
 		// Cuerpo
@@ -237,7 +243,7 @@ $(document).ready(function() {
 					 center: 'title',
 					 right: 'month,agendaWeek,agendaDay,listMonth'
 				 },
-				 defaultDate: '2018-04-18',
+				 defaultDate: dateString,
 				 weekNumbers: true,
 				 navLinks: true, // can click day/week names to navigate views
 				 editable: false,
@@ -259,16 +265,21 @@ $(document).ready(function() {
 						},
 					@endforeach
 					],
-					temasPendientes: [
-					@foreach($evento->minuta->temas_pendientes as $tema)
+				  temasPendientes:[
+						@if(empty($datos[$e]))
 						{
-							temasP: '{{$tema->descripcion}}',
+							tem: 'esta reunion no tiene temas pendientes',
 						},
-					@endforeach
-					],
+						@endif
+						@foreach($datos[$e] as $tema)
+							{
+								tem: '{{$tema->descripcion}}',
+							},
+						@endforeach
+						],
 					convocatoria: "/pdf/"+'{{$evento->minuta->id_reunion}}'+"/"+'{{$evento->minuta->reunion->codigo}}',
 					minuta: "/pdf_minuta/"+'{{$evento->minuta->id_minuta}}'+"/"+'{{$evento->minuta->codigo}}',
-					codigo:'{{$evento->minuta->codigo}}',
+					codigo:'{{$evento->minuta->getOriginal()["fecha_elaboracion"]}}',
 					hora: '{{$evento->fecha_reunion}}',
 					allDay: false,
 					backgroundColor: '#A6113C',
@@ -300,18 +311,21 @@ $(document).ready(function() {
 				for (var i = 0; i < event.convocados.length; i++) {
 					 $('#convocados').html($('#convocados').html()+"<b>"+(i+1)+": "+`${event.convocados[i].con}`+"</b></br>");
 				}
-				for (var k = 0; k < event.temasPendientes.length; k++) {;
-					 $('#temas_pendientes').html($('#temas_pendientes').html()+"<b>"+(k+1)+": "+`${event.temasPendientes[k].temasP}`+"</b></br>");
+
+				for (var k = 0; k < event.temasPendientes.length; k++) {
+					 $('#temas_pendientes').html($('#temas_pendientes').html()+`${event.temasPendientes[k].tem}`+"</b></br>");
 				}
 			 $('#moderador').html(event.moderador);
 			 $('#secretario').html(event.secretario);
 			 $('#eventStart').html(event.hora);
 			 $('#modalURLC').attr('href',event.convocatoria);
-			 if(event.codigo == null || event.codigo ==""){
+			 if(event.codigo == null || event.codigo =="")
+			 {
 				  $('#modalURLM').hide();
-		 }else{
-			   $('#modalURLM').attr('href',event.minuta);
-		 }
+			 }else{
+					$('#modalURLM').show();
+				   $('#modalURLM').attr('href',event.minuta);
+			 }
 			 $('#fullCalModal').modal();
 		 }else{
 		 $('#modalTitleC').html(event.title);
@@ -339,7 +353,9 @@ $(document).ready(function() {
 	});
 
 });
-
+function limpiarDialogo(){
+	$('#temas_pendientes').html("");
+}
 </script>
 
 @stop

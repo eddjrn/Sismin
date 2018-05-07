@@ -39,6 +39,7 @@ Route::get('/','controlador_vista_general@mostrar_vista_principal')->middleware(
 Route::post('/vista_principal_detalles','controlador_vista_general@mostrar_detalles_reunion')->middleware('sesion');
 Route::post('/vista_principal_select','controlador_vista_general@cambiarSecre')->middleware('sesion');
 Route::post('/vista_principal_eliminar/{id}/{codigo}','controlador_vista_general@eliminarReunion')->middleware('sesion');
+Route::post('/vista_principal_tarea','controlador_vista_general@actualizarTarea')->middleware('sesion');
 
 Route::get('/tipo_reunion','controlador_reunion@mostrar_vista_tipo_reunion')->middleware('sesion');
 Route::post('/tipo_reunion','controlador_reunion@registrar_tipo_reunion')->middleware('sesion');
@@ -58,3 +59,5 @@ Route::get('/pdf_minuta/{id}/{codigo}','controlador_minuta@pdf_minuta');
 Route::post('/minuta/enterado','controlador_minuta@firmar')->middleware('sesion');
 
 Route::get('/agenda','controlador_agenda@mostrar_vista_agenda')->middleware('sesion');
+
+Route::get('/pendientes','controlador_pendientes@mostrar_vista_pendientes')->middleware('sesion');

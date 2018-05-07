@@ -81,15 +81,14 @@ class usuario extends Authenticatable
 
    public function reuniones_pendientes(){
      $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
-     $id_reuniones =  array();
+     
      $reuniones_recientes =  array();
 
      for($i=0; $i<count($reuniones); $i++)
      {
-         $id =$reuniones[$i]->reunion->id_tipo_reunion;
-         if(!(in_array($id,$id_reuniones)) && $reuniones[$i]->reunion->minuta->existe() == false){
+
+         if($reuniones[$i]->reunion->minuta->existe() == false){
            $igualar=$reuniones[$i]->reunion;
-           array_push($id_reuniones,$id);
            array_push($reuniones_recientes,$igualar);
          }
      }

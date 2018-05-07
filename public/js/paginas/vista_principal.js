@@ -145,3 +145,41 @@ function eliminarReunion(opcion, id_reunion, codigo){
       break;
   }
 }
+
+
+function asignarT(id_compromiso_resp){
+  $('#tareaModal').modal('show');
+  $('#btnAsignarT').attr('onClick',`actualizarTarea(${id_compromiso_resp})`);
+}
+
+function actualizarTarea(id){
+  var tarea = $('#tarea').val();
+
+  $.ajax({
+     type:'POST',
+     url: urlT,
+     data:
+     {
+       "id_compromiso_resp":id,
+       "tarea": tarea
+     },
+     success:function(result){
+       if(result.errores){
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           location.href = urlToRedirectPage;
+         } ,1500);
+       }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  });
+}

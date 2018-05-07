@@ -71,7 +71,7 @@
                       </a>
                   </li>
                   <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Archivos">
+                      <a href="{{asset('/pendientes')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Archivos">
                           <i class="material-icons">archive</i>
                           <?php $num2 = 0;?>
                           @if($num2 > 0)

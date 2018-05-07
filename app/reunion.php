@@ -86,4 +86,15 @@ class reunion extends Model
     return $this->convocados->where('id_rol','=','1')->first()->usuario;
   }
 
+  public function reunion_temas_pendientes(){
+    $reunion =$this->tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden')->get(1);
+    $codigo = $reunion->minuta->getOriginal()["fecha_elaboracion"];
+    if($reunion == null||$codigo ==""){
+        return array();
+    }else{
+        return $reunion->minuta->temas_pendientes;
+    }
+
+  }
+
 }
