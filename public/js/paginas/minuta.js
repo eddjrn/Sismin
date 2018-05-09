@@ -175,7 +175,7 @@ function mostrarDialogoPendiente(opcion, boton){
         break;
       }
       $(`#dh_pendiente_${boton}`).html(`\
-        <button id="pendientes_popover_${boton}" type="button" class="${colorBtn}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top" title="Descripción del tema pendiente" data-content="${descripcion}">\
+        <button id="pendientes_popover_${boton}" type="button" class="${colorBtn}" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" title="Descripción del tema pendiente" data-content="${descripcion}">\
             <i class="material-icons">visibility</i>\
             <span class="hidden-xs">Ver</span>\
         </button>\
@@ -186,7 +186,7 @@ function mostrarDialogoPendiente(opcion, boton){
       `);
       $(`#pendientes_popover_${boton}`).popover();
       $(`#descripcion_hechos_resumen_lista_${boton}`).html($(`#descripcion_hechos_resumen_lista_${boton}`).html() + `\
-        <li id="descripcion_hechos_resumen_pendientes_${boton}">Tema pendiente: ${descripcion}</li>
+        <li id="descripcion_hechos_resumen_pendientes_${boton}">Temas pendientes: ${descripcion}</li>
       `);
       descripcionPendientes[indice_pendientes] = descripcion;
       ocultarHechosDialogo();
@@ -194,6 +194,7 @@ function mostrarDialogoPendiente(opcion, boton){
     // Mostrar dialogo vacio
     case 2:
       $('#hechosDescripcion').val("");
+      $('#hechosDescripcion').tooltip('enable');
       $('#btnGuardarhechos').attr("onClick", `mostrarDialogoPendiente(1, ${boton});`);
       $('#btnCancelarhechos').attr("onClick", `mostrarDialogoPendiente(4, ${boton});`);
       $('#hechosModal').modal({
@@ -205,6 +206,7 @@ function mostrarDialogoPendiente(opcion, boton){
     case 3:
       var descripcion = $(`#pendientes_popover_${boton}`).attr("data-content");
       $('#hechosDescripcion').val(descripcion);
+      $('#hechosDescripcion').tooltip('enable');
       $('#btnGuardarhechos').attr("onClick", `mostrarDialogoPendiente(1, ${boton});`);
       $('#btnCancelarhechos').attr("onClick", `mostrarDialogoPendiente(4, ${boton});`);
       $('#hechosModal').modal({
@@ -240,7 +242,7 @@ function mostrarDialogoHechos(opcion, boton){
       var indice_descripcionHechos = $(`#dh_hechos_${boton}`).attr("data-pendiente");
       descripcionHechos[indice_descripcionHechos] = descripcion;
       $(`#dh_hechos_${boton}`).html(`\
-        <button id="hechos_popover_${boton}" type="button" class="${colorBtn}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top" title="Descripción de los hechos" data-content="${descripcion}">\
+        <button id="hechos_popover_${boton}" type="button" class="${colorBtn}" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" title="Descripción de los hechos" data-content="${descripcion}">\
             <i class="material-icons">visibility</i>\
             <span class="hidden-xs">Ver</span>\
         </button>\
@@ -257,6 +259,7 @@ function mostrarDialogoHechos(opcion, boton){
     case 2:
       var descripcion = $(`#hechos_popover_${boton}`).attr("data-content");
       $('#hechosDescripcion').val(descripcion);
+      $('#hechosDescripcion').tooltip('disable');
       $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, ${boton});`);
       $('#btnCancelarhechos').attr("onClick", `ocultarHechosDialogo();`);
       $('#btnEliminarHechos').attr("onClick", `mostrarDialogoHechos(4, ${boton});`);
@@ -269,6 +272,7 @@ function mostrarDialogoHechos(opcion, boton){
     // Mostrar dialogo vacío
     case 3:
       $('#hechosDescripcion').val("");
+      $('#hechosDescripcion').tooltip('disable');
       $('#btnGuardarhechos').attr("onClick", `mostrarDialogoHechos(1, "${boton}");`);
       $('#btnCancelarhechos').attr("onClick", `ocultarHechosDialogo();`);
       $('#hechosModal').modal({

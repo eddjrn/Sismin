@@ -38,7 +38,7 @@ Página Principal
             </div>
             <div class="content">
                 <div class="text">Compromisos pendientes</div>
-                <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{Auth::user()->responsables->count()}}" data-speed="15" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@ Página Principal
             </div>
             <div class="content">
                 <div class="text">Temas pendientes</div>
-                <div class="number count-to" data-from="0" data-to="{{Auth::user()->temas_pendientes->count()}}" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{Auth::user()->temas_pendientes->where('expirado','=','false')->count()}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>

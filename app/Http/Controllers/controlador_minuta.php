@@ -80,12 +80,17 @@ class controlador_minuta extends Controller
 
       foreach($minuta->reunion->orden_dia as $indice => $orden){
         if($pendientes[$indice]){
-          \App\tema_pendiente::create([
-            'id_minuta' => $minuta_constante,
-            'id_orden_dia' => $orden->id_orden_dia,
-            'id_usuario' => $orden->id_usuario,
-            'descripcion' => $pendientes_descripcion[$indice],
-          ]);
+          $temas_pendientes_separados = explode(",", $pendientes_descripcion[$indice]);
+          foreach($temas_pendientes_separados as $tema_separado){
+            if(!(empty($tema_separado) || $tema_separado == ' ')){
+              \App\tema_pendiente::create([
+                'id_minuta' => $minuta_constante,
+                'id_orden_dia' => $orden->id_orden_dia,
+                'id_usuario' => $orden->id_usuario,
+                'descripcion' => $tema_separado,
+              ]);
+            }
+          }
         }
 
         $orden->update([
@@ -111,7 +116,7 @@ class controlador_minuta extends Controller
 
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
     }
-    
+
     public function pdf_minuta($id,$codigo){
       //creación del pdf
           $reunion= \App\reunion::find($id);
