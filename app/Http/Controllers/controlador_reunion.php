@@ -72,22 +72,28 @@ class controlador_reunion extends Controller
   }
 
   public function actualizar_vista(Request $request, $opc){
-    switch($opc){
-      case 1:
-        $tipo_reunion = \App\tipo_reunion::find($request->id);
-        $reunion = $tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden')->first();
-        if($reunion == null){
-          $temas = null;
-        } else{
+      $tipo_reunion = \App\tipo_reunion::find($request->id);
+      $reuniones = $tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden');
+      $temas = null;
+      if($reuniones != null){
+        foreach($reuniones as $reunion){
           $temas = $reunion->minuta->temas_pendientes;
+          if($temas->count() == 0){
+            break;
+          }
+          // Si el primer tema pendiente esta expirado, los demas lo estan
+          if($temas->first()->expirado){
+            $temas = null;
+            break;
+          } else{
+            break;
+          }
         }
-        return response()->json([
-          'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
-          'datos' => $temas,
-        ]);
-
-        break;
-    }
+      }
+      return response()->json([
+        'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
+        'datos' => $temas,
+      ]);
   }
 
   public function crear_reunion(Request $request){
@@ -106,6 +112,7 @@ class controlador_reunion extends Controller
     $roles = json_decode($request->roles);
     $orden = json_decode($request->orden_dia);
     $responsables = json_decode($request->responsables);
+    $pendientes = json_decode($request->pendientes);
 
     if(count($lista_convocados) < 2){
       return response()->json(['errores' => ["Tiene agregar por lo menos un convocado."]]);
@@ -149,6 +156,12 @@ class controlador_reunion extends Controller
         'id_usuario' => $lista_convocados[$i],
         'id_rol' => $roles[$i],
         'id_tipo_usuario' => 2,
+      ]);
+    }
+
+    foreach($pendientes as $pendiente){
+      \App\tema_pendiente::find($pendiente)->update([
+        'expirado' => true,
       ]);
     }
 

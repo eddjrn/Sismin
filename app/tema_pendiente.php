@@ -16,6 +16,7 @@ class tema_pendiente extends Model
     'id_orden_dia',
     'id_usuario',
     'descripcion',
+    'expirado',
   ];
 
   public function __toString(){

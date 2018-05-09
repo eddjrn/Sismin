@@ -10,6 +10,8 @@ var orden_dia = [];
 var responsables = [];
 // Control del la orden del día y sus responsables
 var orden_dia_control = [];
+// Arreglos de los temas pendientes (Una vez creada la nueva convocatoria sera eliminados)
+var pendientes = [];
 
 // Función que se ejecutara cuando se finalice el formulario
 function finalizar(){
@@ -19,6 +21,7 @@ function finalizar(){
   formulario.append('roles', JSON.stringify(roles));
   formulario.append('orden_dia', JSON.stringify(orden_dia));
   formulario.append('responsables', JSON.stringify(responsables));
+  formulario.append('pendientes', JSON.stringify(pendientes));
   // Se hace la petición al servidor
   $.ajax({
      type:'POST',
@@ -276,6 +279,7 @@ function actualizarTipo(opcion){
              $('#lista_pendientes').html($('#lista_pendientes').html() + `\
              <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item" \
              style="word-wrap: break-word;" data-usuario="">${result.datos[i]['descripcion']}</button>`);
+             pendientes.push(result.datos[i]['id_tema_pendiente']);
            }
          } else{
            notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
