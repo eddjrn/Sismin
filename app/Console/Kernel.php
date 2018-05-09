@@ -26,6 +26,35 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        //* * * * * php /var/www/html/Sismin/artisan schedule:run >> /dev/null 2>&1
+        $schedule->call(function () {
+            $usuarios = \App\usuario::all();
+            foreach($usuarios as $usuario){
+                $correo = $usuario->correo_electronico;
+                $compromisos_responsables = $usuario->responsables;
+                $compromisos = array();
+                $fechaHoy = Date::now();
+                $ejecutarCorreo = false;
+                foreach($compromisos_responsables as $compromiso_responsable){
+                    if($compromiso_responsable->compromisos->finalizado == false){
+                        $fechaLimite = Date::parse($compromiso_responsable->compromisos->getOriginal()['fecha_limite']);
+                        if($fechaLimite->greaterThan($fechaHoy)){
+                            array_push($compromisos, $compromiso_responsable);
+                            $ejecutarCorreo = true;
+                        }
+                    }
+                }
+                if($ejecutarCorreo){
+                    Mail::send('Paginas.recordatoriosCompromisos', [
+                        'usuario' => $usuario,
+                        'compromisos' => $compromisos,
+                    ], function($mensaje) use ($correo, $usuario){
+                        $mensaje->to($correo);
+                        $mensaje->subject("Hola $usuario->nombre tienes pendientes en el sistema SisMin");
+                    });
+                }
+            }
+         })->daily();
     }
 
     /**
