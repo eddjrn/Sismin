@@ -143,4 +143,16 @@ class usuario extends Authenticatable
       return false;
     }
   }
+
+  public function minutas_recientes(){
+    $minutas_recientes = array();
+    foreach($this->convocado_en as $convocado_r){
+      $minuta = $convocado_r->reunion->minuta;
+      $fecha_elavoracion = Date::parse($minuta->getOriginal()['fecha_elaboracion']);
+      if($fecha_elavoracion->diffInWeeks() < 3){
+        array_push($minutas_recientes, $minuta);
+      }
+    }
+    return $minutas_recientes;
+  }
 }

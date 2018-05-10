@@ -13,7 +13,7 @@ class controlador_vista_general extends Controller
     //
     public function mostrar_vista_principal(){
       $reuniones_recientes = Auth::user()->reuniones_pendientes();
-
+      
       return view('Paginas.vista_principal',[
         'reuniones'=>$reuniones_recientes
       ]);

@@ -113,7 +113,7 @@
                       <!-- <li data-theme="red" class="active"> -->
                         <a href="{{asset('/perfil')}}">
                           <li data-theme="red">
-                              <i class="material-icons">face</i>
+                              <i class="material-icons">account_circle</i>
                               <span>Perfil</span>
                           </li>
                         </a>

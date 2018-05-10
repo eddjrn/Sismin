@@ -21,7 +21,7 @@ Página Principal
 @section('contenido')
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-cyan hover-zoom-effect">
+        <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{Auth::user()->convocado_en->count()}}">
             <div class="icon">
                 <i class="material-icons">today</i>
             </div>
@@ -32,7 +32,7 @@ Página Principal
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-pink hover-zoom-effect">
+        <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{Auth::user()->responsables->count()}}">
             <div class="icon">
                 <i class="material-icons">assignment_turned_in</i>
             </div>
@@ -43,18 +43,18 @@ Página Principal
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-green hover-zoom-effect">
+        <div class="info-box bg-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count(Auth::user()->reuniones_historial())}}">
             <div class="icon">
                 <i class="material-icons">description</i>
             </div>
             <div class="content">
                 <div class="text">Nuevas minutas</div>
-                <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{count(Auth::user()->minutas_recientes())}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-orange hover-zoom-effect">
+        <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{Auth::user()->temas_pendientes->count()}}">
             <div class="icon">
                 <i class="material-icons">format_list_numbered</i>
             </div>
@@ -68,8 +68,12 @@ Página Principal
 <!-- #END# Widgets -->
 
 <!-- Basic Card -->
-<?php $CR= Auth::user()->responsables; ?>
+<?php
+  $CR= Auth::user()->responsables;
+  $icono_vacio = false;
+?>
 @if(count($CR->where('tarea','=', null)) > 0)
+<?php $icono_vacio = false; ?>
 <div class="row clearfix">
   <div class="col-lg-12">
       <div class="card">
@@ -105,10 +109,13 @@ Página Principal
       </div>
   </div>
 </div>
+@else
+<?php $icono_vacio = true; ?>
 @endif
 
 <!-- Basic Card -->
 @if(count(Auth::user()->reuniones_pendientes()) > 0)
+<?php $icono_vacio = false; ?>
 <div class="row clearfix">
   <div class="col-lg-12">
       <div class="card">
@@ -148,6 +155,14 @@ Página Principal
       </div>
   </div>
 </div>
+@else
+<?php $icono_vacio = true; ?>
+@endif
+
+@if($icono_vacio)
+  <img src="{{asset('/images/iconoFull_gris.svg')}}" style="display: block; margin: auto;" width="250" height="250"/>
+  <h2 class="align-center col-blue-grey">No tienes pendientes en esta sección</h2>
+  <h2 class="align-center col-blue-grey"><i class="material-icons">tag_faces</i></h2>
 @endif
 
 <div class="row clearfix" style="display:none;" id="detalles_reunion">
