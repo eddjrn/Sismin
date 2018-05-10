@@ -81,7 +81,7 @@ class usuario extends Authenticatable
 
    public function reuniones_pendientes(){
      $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
-     
+
      $reuniones_recientes =  array();
 
      for($i=0; $i<count($reuniones); $i++)
@@ -93,6 +93,21 @@ class usuario extends Authenticatable
          }
      }
      return $reuniones_recientes;
+   }
+
+   public function reuniones_historial(){
+     $reuniones = $this->convocado_en;
+     $reuniones_historial =  array();
+
+     for($i=0; $i<count($reuniones); $i++)
+     {
+
+         if($reuniones[$i]->reunion->minuta->existe() == true){
+           $igualar=$reuniones[$i]->reunion;
+           array_push($reuniones_historial,$igualar);
+         }
+     }
+     return $reuniones_historial;
    }
 
    public function reuniones_moderadas(){

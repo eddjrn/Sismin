@@ -61,3 +61,4 @@ Route::post('/minuta/enterado','controlador_minuta@firmar')->middleware('sesion'
 Route::get('/agenda','controlador_agenda@mostrar_vista_agenda')->middleware('sesion');
 
 Route::get('/pendientes','controlador_pendientes@mostrar_vista_pendientes')->middleware('sesion');
+Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middleware('sesion');

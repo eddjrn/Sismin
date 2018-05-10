@@ -5,11 +5,13 @@ Pendientes
 @stop
 
 @section('estilos')
-
+<!--cabecera para que se puedan enviar peticiones POST desde javascript-->
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+<link href="{{asset('/css/treeview/easyTree.css')}}" rel="stylesheet" />
 @stop
 
 @section('cabecera')
-
+Pendientes
 @stop
 
 @section('contenido')
@@ -19,7 +21,7 @@ Pendientes
         <div class="card">
             <div class="body">
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs tab-col-pink" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#home_with_icon_title" data-toggle="tab">
                             <i class="material-icons">list</i> Compromisos.
@@ -33,6 +35,11 @@ Pendientes
                     <li role="presentation">
                         <a href="#messages_with_icon_title" data-toggle="tab">
                             <i class="material-icons">assignment_turned_in</i> Temas pendientes.
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#minutas" data-toggle="tab">
+                            <i class="material-icons">picture_as_pdf</i>Historial.
                         </a>
                     </li>
                 </ul>
@@ -55,7 +62,7 @@ Pendientes
                                 @foreach($compromisos as $c=>$compromiso)
                                 <tr>
                                     <th scope="row">{{$compromiso->fecha_limite}}</th>
-                                    <td>{{$compromiso->orden_dia->descripcion}}</td>
+                                    <td>{{$compromiso->descripcion}}</td>
                                     <td>{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}</td>
                                     <td>
                                   @foreach($compromisos[$c]->responsables as $responsable)
@@ -63,9 +70,15 @@ Pendientes
                                     @endforeach
                                   </td>
                                   @if($compromiso->finalizado ==1)
-                                    <td>Finalizado</td>
+                                    <td>
+                                      <input type="checkbox" id="estatus_{{$compromiso->id_compromiso}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}});" checked disabled/>
+                                      <label for="estatus_{{$compromiso->id_compromiso}}">Finalizado</label>
+                                    </td>
                                   @else
-                                    <td>En proceso</td>
+                                  <td>
+                                    <input type="checkbox" id="estatus_{{$compromiso->id_compromiso}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}},'{{$responsable->tarea}}');" autocomplete="off"/>
+                                    <label for="estatus_{{$compromiso->id_compromiso}}">En proceso</label>
+                                  </td>
                                   @endif
                                 </tr>
                                 @endforeach
@@ -110,17 +123,19 @@ Pendientes
                                           <tr>
                                               <th>Fecha de reunion</th>
                                               <th>Reunión</th>
-                                              <th>Orden del día</th>
+                                              <th>Orden del día a la que pertenece</th>
+                                              <th>Descripción del tema pendiente</th>
                                               <th>Motivo por el que quedo pendiente</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                        @foreach($listado as $temaP)
+                                        @foreach($temas as $temaP)
                                         <tr>
-                                            <th scope="row">{{$temaP->tema_pendiente->minuta->reunion->fecha_reunion}}</th>
-                                            <!-- <td>{{$temaP->reunion->tipo_reunion->descripcion}}</td>
+                                            <th scope="row">{{$temaP->minuta->reunion->fecha_reunion}}</th>
+                                            <td>{{$temaP->minuta->reunion->tipo_reunion->descripcion}}</td>
+                                            <td>{{$temaP->orden_dia->descripcion}}</td>
                                             <td>{{$temaP->descripcion}}</td>
-                                            <td>{{$temaP->descripcion_hechos}}</td> -->
+                                            <td>{{$temaP->orden_dia->descripcion_hechos}}</td>
                                         </tr>
                                         @endforeach
                                       </tbody>
@@ -129,13 +144,74 @@ Pendientes
                             </div>
                     </div>
                 </div>
+                    <div role="tabpanel" class="tab-pane fade" id="minutas">
+                      <b>A continuación se enlistan las reuniones pasadas con sus respectivas minutas y convocatorias.</b>
+                      <ul class="treeview">
+                      <?php $reuniones=  Auth::user()->reuniones_historial(); ?>
+                      @foreach($reuniones as $reunion)
+                      <li><a class="col-black label fondo">Reunión:</a><span> {{$reunion->tipo_reunion->descripcion}}</span>
+                        <ul id="minutasLista_$reunion->minuta->id_minuta">
+                          <li><i class="tree-indicator glyphicon glyphicon-info-sign"></i><span>Motivo: {{$reunion->motivo}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-calendar"></i><span>Fecha de la reunión: {{$reunion->fecha_reunion}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Moderador: {{$reunion->moderador()}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Secretario: {{$reunion->secretario()}} </span></li>
+                          <li><a href="/pdf/{{$reunion->minuta->id_reunion}}/{{$reunion->minuta->reunion->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver convocatoria</a></li>
+                          <li><a href='/pdf_minuta/{{$reunion->minuta->id_minuta}}/{{$reunion->minuta->codigo}}' class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver minuta</a></li>
+                        </ul>
+                      </li>
+                      @endforeach
+                      </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- #END# Tabs With Icon Title -->
+
+<div class="modal fade" id="estatusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="largeModalLabel">Cambiar estatus a finalizado</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">list</i>
+                  </span>
+                  <div class="form-line">
+                      <label>El estatus de éste compromiso se cabiará a finalizado, ¿desea continuar?</label>
+                  </div>
+              </div>
+              <div class="modal-footer row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button type="button" onclick="checkD();" id="btnCancelarE" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <button  type="button" onclick="actualizarE();" id="btnAsignarE" name="btnAsignarE" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Continuar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('scripts')
+<script src="{{asset('/js/paginas/pendientes.js')}}"></script>
+<script src="{{asset('/js/treeview/easyTree.js')}}"></script>
+<script>
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+var urlE = "{{asset('/pendientes')}}";
+var urlToRedirectPage = "{{asset('/pendientes')}}";
+
+var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";
+</script>
 
 @stop

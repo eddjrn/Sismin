@@ -67,7 +67,7 @@ body {
 @stop
 
 @section('cabecera')
-
+Agenda
 @stop
 
 @section('contenido')
@@ -76,7 +76,6 @@ body {
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-              <h1>Agenda</h1>
             </div>
 						  <div id='calendar'></div><br><br>
         </div>
@@ -355,6 +354,7 @@ $(document).ready(function() {
 });
 function limpiarDialogo(){
 	$('#temas_pendientes').html("");
+	$('#convocados').html("");
 }
 </script>
 
