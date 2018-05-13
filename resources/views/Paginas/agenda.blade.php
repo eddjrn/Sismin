@@ -72,6 +72,8 @@ Agenda
 
 @section('contenido')
 <!-- Basic Card -->
+@if(count($eventos) > 0)
+<?php $icono_vacio = false; ?>
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -81,6 +83,15 @@ Agenda
         </div>
     </div>
   </div>
+	@else
+	<?php $icono_vacio = true; ?>
+	@endif
+
+	@if($icono_vacio)
+	  <img src="{{asset('/images/iconoFull_gris.svg')}}" style="display: block; margin: auto;" width="250" height="250"/>
+	  <h2 class="align-center col-blue-grey">Aún no tienes compromisos agendados en esta sección</h2>
+	  <h2 class="align-center col-blue-grey"><i class="material-icons">tag_faces</i></h2>
+	@endif
 
 	<div class="modal fade" id="fullCalModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" >
 				<div class="modal-dialog modal-sm" role="document" id="rubricaCanvas">

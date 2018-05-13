@@ -214,9 +214,5 @@ class controlador_reunion extends Controller
         //return $pdf->download('listado.pdf');
   }
 
-  public function pdf_minuta(){
-    $pdf = PDF::loadView('Paginas.pdf_minuta');
-    return $pdf->stream();
-  }
 
 }

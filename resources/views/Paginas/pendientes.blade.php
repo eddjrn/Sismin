@@ -16,34 +16,43 @@ Pendientes
 
 @section('contenido')
 <!-- Tabs With Icon Title -->
+@if(count(Auth::user()->convocado_en) > 0)
+<?php $icono_vacio = false; ?>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs tab-col-pink" role="tablist">
+                    @if(count($compromisos) > 0)
                     <li role="presentation" class="active">
                         <a href="#home_with_icon_title" data-toggle="tab">
                             <i class="material-icons">list</i> Compromisos.
                         </a>
                     </li>
+                    @endif
+                    @if(count($listado)>0)
                     <li role="presentation">
                         <a href="#profile_with_icon_title" data-toggle="tab">
                             <i class="material-icons">library_books</i> Orden del día.
                         </a>
                     </li>
+                    @endif
+                    @if(count($temas) > 0)
                     <li role="presentation">
                         <a href="#messages_with_icon_title" data-toggle="tab">
                             <i class="material-icons">assignment_turned_in</i> Temas pendientes.
                         </a>
                     </li>
+                    @endif
+                    @if(count(Auth::user()->reuniones_historial()) > 0)
                     <li role="presentation">
                         <a href="#minutas" data-toggle="tab">
                             <i class="material-icons">picture_as_pdf</i>Historial.
                         </a>
                     </li>
+                    @endif
                 </ul>
-
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
@@ -166,6 +175,16 @@ Pendientes
         </div>
     </div>
 </div>
+</div>
+@else
+<?php $icono_vacio = true; ?>
+@endif
+
+@if($icono_vacio)
+  <img src="{{asset('/images/iconoFull_gris.svg')}}" style="display: block; margin: auto;" width="250" height="250"/>
+  <h2 class="align-center col-blue-grey">No tienes pendientes en esta sección</h2>
+  <h2 class="align-center col-blue-grey"><i class="material-icons">tag_faces</i></h2>
+@endif
 <!-- #END# Tabs With Icon Title -->
 
 <div class="modal fade" id="estatusModal" tabindex="-1" role="dialog">

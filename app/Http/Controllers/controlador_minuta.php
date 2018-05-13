@@ -114,23 +114,37 @@ class controlador_minuta extends Controller
         }
       }
 
+      //enviar minuta por correo_electronico
+      for($i=0; $i< count($minuta->reunion->convocados); $i++)
+      {
+        $correo= $minuta->reunion->convocados->get($i)->usuario->correo_electronico;
+        $this->enviarCorreo($minuta->id_minuta,$correo,$minuta->codigo);
+      }
+
+
       return response()->json(['mensaje' => "Minuta realizada correctamente."]);
+    }
+
+    private function enviarCorreo($id,$correo,$codigo)
+    {
+      $usuario = \App\usuario::wherecorreo_electronico($correo)->first();
+      Mail::send('Paginas.link_pdf_minuta',[
+        'id_reunion' => $id,
+        'codigo' => $codigo,
+        'usuario'=>$usuario
+      ], function($mensaje) use ($usuario){
+          $mensaje->to($usuario->correo_electronico);
+          $mensaje->subject("Hola $usuario->nombre minuta de reunión generada  en el sistema SisMin");
+      });
+
     }
 
     public function pdf_minuta($id,$codigo){
       //creación del pdf
-          $reunion= \App\reunion::find($id);
-         if($codigo==($reunion->minuta->codigo)){
+          $minuta= \App\minuta::find($id);
+         if($codigo==($minuta->codigo)){
           $pdf = PDF::loadView('Paginas.pdf_minuta',[
-            'imagen'=>$reunion->tipo_reunion->imagen_logo,
-            'motivo'=>$reunion->motivo,
-            'convocados' =>$reunion->convocados,
-            'reunion_orden_dia'=>$reunion->orden_dia,
-            'fecha_reunion'=>$reunion->fecha_reunion,
-            'lugar'=>$reunion->lugar,
-            'fecha_creacion'=>$reunion->getFecha(),
-            'img'=>$reunion->convocados->get(0)->usuario->rubrica,
-            'tipo'=>$reunion->tipo_reunion->descripcion
+            'minuta'=>$minuta
         ]);
           return $pdf->stream();
         }

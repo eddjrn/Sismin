@@ -16,7 +16,7 @@
 </ol>
   <p class="fecha_hoy"><b>{{$fecha_creacion}}</b></p>
   <div >Atentamente:
-      <center><img src="{{$img}}" class="rubrica" width="150" height="150" /></center>
+      <center><img src="{{$img}}" class="rubrica" width="150" height="100" /></center>
   <hr>
   <h3>{{$convocados->get(0)->usuario}}<br> (Moderador)</h3></div>
 
@@ -36,7 +36,7 @@ padding: 1rem;
 .fecha_hoy{
   margin: 1rem;
   padding: 1rem;
-  font-family: "Times New Roman", Times, serif;
+  font-family:"Verdana";
   font-size: 14px;
   font-style: oblique;
  /* IMPORTANTE */
@@ -44,7 +44,7 @@ padding: 1rem;
 }
 
 .tipo{
-  font-family: "Times New Roman", Times, serif;
+  font-family:"Verdana";
   font-size: 22px;
 }
 h2{
@@ -52,7 +52,7 @@ h2{
   padding-top: 0;
   margin: 1rem;
   padding: 1rem;
-  font-family: "Times New Roman", Times, serif;
+  font-family:"Verdana";
   font-size: 16px;
 }
 .convocado{
@@ -60,7 +60,7 @@ h2{
   margin-left: 2rem;
   padding-top: 0;
   margin-top: 0;
-  font-family: "Times New Roman", Times, serif;
+  font-family:"Verdana";
   font-size: 16px;
   font-style: italic;
 }
@@ -76,7 +76,7 @@ hr{
 }
 
 h3{
-  font-family: "Times New Roman", Times, serif;
+  font-family:"Verdana";
   font-size: 14px;
   font-style: oblique;
    /* IMPORTANTE */
