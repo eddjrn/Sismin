@@ -88,7 +88,7 @@ class reunion extends Model
 
   public function reunion_temas_pendientes(){
     $reunion =$this->tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden')->get(1);
-    $codigo = $reunion->minuta->fecha_elaboracion;
+  //  $codigo = $reunion->minuta->fecha_elaboracion;
     if($reunion == null||$codigo ==""){
         return array();
     }else{

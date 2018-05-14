@@ -1,6 +1,6 @@
  <title>Minuta de la reunión {{$minuta->reunion->tipo_reunion->descripcion}} </title>
  <div align="right"><img src="{{$minuta->reunion->tipo_reunion->imagen_logo}}" class="logo" width="100" height="100"></div>
- <center><h1 class="tipo">"{{$minuta->reunion->tipo_reunion->descripcion}}"</h1></center>
+ <center><h1>"{{$minuta->reunion->tipo_reunion->descripcion}}"</h1></center>
  <div class="DR" align="justify"><b>Datos de la reunión</b><hr>
 <b>Fecha y Hora:</b> {{$minuta->reunion->fecha_reunion}}.<br>
 <b>Lugar:</b> {{$minuta->reunion->lugar}}.<br>
