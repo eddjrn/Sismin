@@ -70,7 +70,7 @@ Página Principal
 <!-- Basic Card -->
 <?php
   $CR= Auth::user()->responsables;
-  $icono_vacio = false;
+  $icono_vacio = true;
 ?>
 @if(count($CR->where('tarea','=', null)) > 0)
 <?php $icono_vacio = false; ?>
@@ -109,8 +109,6 @@ Página Principal
       </div>
   </div>
 </div>
-@else
-<?php $icono_vacio = true; ?>
 @endif
 
 <!-- Basic Card -->
@@ -155,8 +153,6 @@ Página Principal
       </div>
   </div>
 </div>
-@else
-<?php $icono_vacio = true; ?>
 @endif
 
 @if($icono_vacio)
