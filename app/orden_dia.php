@@ -54,4 +54,12 @@ class orden_dia extends Model
    $this->attributes['descripcion_hechos'] = $descripcion;
  }
 
+ public function getDescripcionHechosAttribute($value){
+   if($value == null || $value == " "){
+     return "No especificado";
+   } else{
+     return $value;
+   }
+ }
+
 }
