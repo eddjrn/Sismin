@@ -171,7 +171,7 @@ Página Principal
           </div>
           <div class="body">
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-lg-7">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
@@ -192,21 +192,21 @@ Página Principal
                     </div>
                     <div class="row">
                       <div id="btns">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                          <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)" >Realizar minuta</button>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                          <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)">Realizar minuta</button>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                           <button type="button" class="btn bg-pink waves-effect" id="delegarResp"  onclick="delegarResp()">Delegar responsabilidad</button>
                         </div>
                       </div>
-                      <div class="col-lg-4 col-md-4 col-sm-4" id="eliminarReunion">
+                      <div class="col-lg-3 col-md-3 col-sm-3" id="eliminarReunion">
                         <button type="button" class="btn bg-red waves-effect" onClick="">Eliminar reunión</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-5">
                 <!-- Striped Rows -->
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
