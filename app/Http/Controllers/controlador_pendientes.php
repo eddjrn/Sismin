@@ -32,18 +32,38 @@ class controlador_pendientes extends Controller
 
     public function actualizarEstatus(Request $request){
       $validacion = Validator::make($request->all(), [
-        'id_compromiso'=>'required',
-        'finalizado'=>'required',
+        'id_compromiso_resp'=>'required',
+        'realizado'=>'required',
       ]);
 
       if($validacion->fails()){
         return response()->json(['errores' => $validacion->errors()]);
       }
 
-      $id= $request->id_compromiso;
-      $compromiso =\App\compromiso::find($id);
-      $f=$request->finalizado;
-      $compromiso->update(['finalizado'=>$f]);
+      $id= $request->id_compromiso_resp;
+      $compromiso =\App\compromiso_responsable::find($id);
+      $f=$request->realizado;
+      $compromiso->update(['realizado'=>$f]);
+
+      $rbandera=1;
+
+      $idc= $compromiso->id_compromiso;
+
+      $regidc=$compromiso->where('id_compromiso','=',$idc)->get();
+      $regc= count($regidc);
+      foreach ($regidc as $c) {
+        if($c->realizado==true){
+            $rbandera++;
+        }
+      }
+
+      $compromisoF =\App\compromiso::find($idc);
+
+      if(($rbandera-1) == $regc){
+        $compromisoF->update(['finalizado'=>1]);
+      }else{
+        $compromisoF->update(['finalizado'=>0]);
+      }
 
       // return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->usuario->__toString()]);
      return response()->json(['mensaje' => "Se cambio el estatus de su compromiso a finalizado"]);

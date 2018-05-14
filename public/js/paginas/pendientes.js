@@ -1,4 +1,4 @@
-function actualizarEstatus(id,tarea){
+function actualizarEstatus(tarea,id){
   $('#estatusModal').modal('show');
   var check = $("#estatus_"+id).is(':checked');
   $('#btnCancelarE').attr('onclick',`checkD(${id})`);
@@ -21,8 +21,8 @@ function actualizarE(id){
      url: urlE,
      data:
      {
-       "id_compromiso":id,
-       "finalizado":f
+       "id_compromiso_resp":id,
+       "realizado":f
      },
      success:function(result){
        if(result.errores){
@@ -31,7 +31,7 @@ function actualizarE(id){
            errores += '<li>' + valor + '</li>';
          });
          errores += '</ul>';
-         notificacionAjax('bg-red','Para cambiar el estatus de éste compromiso debe asignarle su respectiva tarea.', 2500,  'bottom', 'center', null, null);
+         notificacionAjax('bg-red',errores, 2500,  'bottom', 'center', null, null);
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
