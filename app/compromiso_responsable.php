@@ -15,6 +15,7 @@ class compromiso_responsable extends Model
     'id_compromiso',
     'id_usuario',
     'tarea',
+    'realizado',
   ];
 
   public function __toString(){

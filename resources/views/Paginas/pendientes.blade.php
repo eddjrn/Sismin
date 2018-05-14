@@ -24,38 +24,38 @@ Pendientes
             <div class="body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs tab-col-pink" role="tablist">
-
+                    @if(count($compromisos) > 0)
                     <li role="presentation" class="active">
                         <a href="#home_with_icon_title" data-toggle="tab">
                             <i class="material-icons">list</i> Compromisos.
                         </a>
                     </li>
-
+                    @endif
+                    @if(count($listado)>0)
                     <li role="presentation">
                         <a href="#profile_with_icon_title" data-toggle="tab">
                             <i class="material-icons">library_books</i> Orden del día.
                         </a>
                     </li>
-
+                    @endif
+                    @if(count($temas) > 0)
                     <li role="presentation">
                         <a href="#messages_with_icon_title" data-toggle="tab">
                             <i class="material-icons">assignment_turned_in</i> Temas pendientes.
                         </a>
                     </li>
-
-
+                    @endif
+                    @if(count(Auth::user()->reuniones_historial()) > 0)
                     <li role="presentation">
                         <a href="#minutas" data-toggle="tab">
                             <i class="material-icons">picture_as_pdf</i>Historial.
                         </a>
                     </li>
-
+                    @endif
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                  @if(count($compromisos) > 0)
-                  <?php $icono_vacio = false; ?>
-                    <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
+                    <div role="tabpanel" class="tab-pane fade" id="home_with_icon_title">
                       <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
                           <table class="table table-striped">
                               <thead>
@@ -76,6 +76,7 @@ Pendientes
                                     <td>
                                   @foreach($compromisos[$c]->responsables as $responsable)
                                          <b>{{$responsable->usuario->__toString()}}:</b> {{$responsable->tarea}}<br>
+                      
                                     @endforeach
                                   </td>
                                   @if($compromiso->finalizado ==1)
@@ -85,8 +86,8 @@ Pendientes
                                     </td>
                                   @else
                                   <td>
-                                    <input type="checkbox" id="estatus_{{$compromiso->id_compromiso}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}},'{{$responsable->tarea}}');" autocomplete="off"/>
-                                    <label for="estatus_{{$compromiso->id_compromiso}}">En proceso</label>
+                                    <input type="checkbox" id="estatus_{{$responsable->id_compromiso_resp}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}},'{{$responsable->tarea}}');" autocomplete="off"/>
+                                    <label for="estatus_{{$responsable->id_compromiso_resp}}">En proceso</label>
                                   </td>
                                   @endif
                                 </tr>
@@ -95,12 +96,6 @@ Pendientes
                           </table>
                       </div>
                     </div>
-                    @else
-                    <?php $icono_vacio = true; ?>
-                    @endif
-
-                    @if(count($listado)>0)
-                    <?php $icono_vacio = false; ?>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
                         <b>El listado de los temas que se muestran a continuación son los que usted tiene que presentar en la reunión correspondiente.</b>
                         <div class="tab-content">
@@ -128,12 +123,6 @@ Pendientes
                             </div>
                     </div>
                     </div>
-                    @else
-                    <?php $icono_vacio = true; ?>
-                    @endif
-
-                    @if(count($temas) > 0)
-                    <?php $icono_vacio = false; ?>
                     <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
                         <b>Listado de los temas que no se pudieron concluir la reunión pasada y que usted tuvo que presentar.</b>
                         <div class="tab-content">
@@ -165,12 +154,6 @@ Pendientes
                             </div>
                     </div>
                 </div>
-                @else
-                <?php $icono_vacio = true; ?>
-                @endif
-
-                    @if(count(Auth::user()->reuniones_historial()) > 0)
-                    <?php $icono_vacio = false; ?>
                     <div role="tabpanel" class="tab-pane fade" id="minutas">
                       <b>A continuación se enlistan las reuniones pasadas con sus respectivas minutas y convocatorias.</b>
                       <ul class="treeview">
@@ -184,15 +167,11 @@ Pendientes
                           <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Secretario: {{$reunion->secretario()}} </span></li>
                           <li><a href="{{asset('/pdf')}}/{{$reunion->id_reunion}}/{{$reunion->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver convocatoria</a></li>
                           <li><a href="{{asset('/pdf_minuta')}}/{{$reunion->minuta->id_minuta}}/{{$reunion->minuta->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver minuta</a></li>
-                          <span>{{asset('/pdf_minuta')}}/{{$reunion->minuta->id_minuta}}/{{$reunion->minuta->codigo}}</span>
                       </ul>
                       </li>
                       @endforeach
                       </ul>
                 </div>
-                @else
-                <?php $icono_vacio = true; ?>
-                @endif
             </div>
         </div>
     </div>
