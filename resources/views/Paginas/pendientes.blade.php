@@ -164,8 +164,8 @@ Pendientes
                           <li><i class="tree-indicator glyphicon glyphicon-calendar"></i><span>Fecha de la reunión: {{$reunion->fecha_reunion}} </span></li>
                           <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Moderador: {{$reunion->moderador()}} </span></li>
                           <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Secretario: {{$reunion->secretario()}} </span></li>
-                          <li><a href="{{asset('/pdf/'.$reunion->minuta->id_reunion.'/'.$reunion->minuta->reunion->codigo)}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver convocatoria</a></li>
-                          <li><a href="{{asset('/pdf_minuta/'.$reunion->minuta->id_minuta.'/'.$reunion->minuta->codigo)}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver minuta</a></li>
+                          <li><a href="{{asset('/pdf_minuta')}}/{{$reunion->minuta->id_reunion}}/{{$reunion->minuta->reunion->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver convocatoria</a></li>
+                          <li><a href="{{asset('/pdf_minuta')}}/{{$reunion->minuta->id_minuta}}/{{$reunion->minuta->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver minuta</a></li>
                         </ul>
                       </li>
                       @endforeach
