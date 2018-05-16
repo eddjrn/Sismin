@@ -235,16 +235,16 @@ Nueva reunión
             </div>
             <div class="modal-footer">
               <div class="row">
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button type="button" class="colorBoton btn-block" onClick="actualizarOrdenDia(5, null);">Cancelar</button>
                 </div>
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button id="btnGuardar" type="button" onClick="actualizarOrdenDia(1, null);" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminar" class="row oculto">
                 <br/>
-                <div class="col-lg-12 col-md-12 text-center">
+                <div class="col-xs-12 text-center">
                   <button id="btnEliminar" type="button" onClick="actualizarOrdenDia(6, null);" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>

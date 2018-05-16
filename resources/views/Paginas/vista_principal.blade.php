@@ -259,10 +259,10 @@ Página Principal
                 </div>
               </div>
               <div class="modal-footer row clearfix">
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                   <button type="button" id="clear" data-dismiss="modal" class="btn bg-pink btn-block waves-effect" onclick="cancelarSecre()">Cancelar</button>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                   <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal" id="actualizarSecre" onclick="actualizarSecre()">Guardar</button>
                 </div>
               </div>
@@ -285,7 +285,7 @@ Página Principal
             <div class="modal-body">
               <div class="input-group">
                   <span class="input-group-addon">
-                      <i class="material-icons">lock</i>
+                      <i class="material-icons">vpn_key</i>
                   </span>
                   <div class="form-line">
                       <input type="password" class="form-control" id="claveDel" name="claveDel" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">

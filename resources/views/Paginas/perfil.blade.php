@@ -68,7 +68,7 @@ Perfil de usuario
                 <div class="col-lg-12">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="material-icons">lock</i>
+                        <i class="material-icons">vpn_key</i>
                     </span>
                     <div class="form-line">
                         <input type="password" class="form-control" id="passwordAnt" name="passwordAnt" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">

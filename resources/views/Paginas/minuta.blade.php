@@ -328,16 +328,16 @@ Nueva Minuta
             </div>
             <div class="modal-footer">
               <div class="row">
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button type="button" class="colorBoton btn-block" onClick="limpiarDialogo();">Cancelar</button>
                 </div>
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button id="btnGuardar" type="button" onClick="" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminar" class="row oculto">
                 <br/>
-                <div class="col-lg-12 col-md-12 text-center">
+                <div class="col-xs-12 text-center">
                   <button id="btnEliminar" type="button" onClick="" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>
@@ -364,16 +364,16 @@ Nueva Minuta
             </div>
             <div class="modal-footer">
               <div class="row">
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button id="btnCancelarhechos" type="button" class="colorBoton btn-block" onClick="ocultarHechosDialogo();">Cancelar</button>
                 </div>
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button id="btnGuardarhechos" type="button" onClick="" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminarHechos" class="row oculto">
                 <br/>
-                <div class="col-lg-12 col-md-12 text-center">
+                <div class="col-xs-12 text-center">
                   <button id="btnEliminarHechos" type="button" onClick="" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>
@@ -400,10 +400,10 @@ Nueva Minuta
             </div>
             <div class="modal-footer">
               <div class="row">
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button type="button" class="colorBoton btn-block" onClick="firmarMinuta(2);">Cancelar</button>
                 </div>
-                <div class="col-lg-6 col-md-6 text-center">
+                <div class="col-xs-6 text-center">
                   <button id="btnFirmarMinuta" type="button" onClick="" class="colorBoton btn-block">Firmar</button>
                 </div>
               </div>
