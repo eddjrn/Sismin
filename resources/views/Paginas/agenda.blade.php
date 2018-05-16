@@ -245,7 +245,7 @@ $(document).ready(function() {
 
 	/* initialize the calendar
 	-----------------------------------------------------------------*/
-
+      $('#calendar').fullCalendar('render');
 	 		$('#calendar').fullCalendar({
 	 			themeSystem: 'bootstrap3',
 				 header: {
