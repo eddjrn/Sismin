@@ -105,13 +105,13 @@ Nueva reunión
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
+                                    <th style="width: 400px !important">Cargo dentro de la reunión</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
+                                    <th style="width: 400px !important">Cargo dentro de la reunión</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -127,7 +127,7 @@ Nueva reunión
                                         </div>
                                         <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
                                           <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick rol" autocomplete="off">
-                                              <option value="0">Seleccionar puesto</option>
+                                              <option value="0">Seleccionar cargo</option>
                                               @foreach($roles as $rol)
                                               <option value="{{$rol->id_rol}}" class="control_rol_{{$rol->id_rol}}">{{$rol->descripcion}}</option>
                                               @endforeach

@@ -221,7 +221,7 @@ Página Principal
                               <thead>
                                   <tr>
                                       <th>Nombre</th>
-                                      <th>Rol</th>
+                                      <th>Cargo dentro de la reunión</th>
                                   </tr>
                               </thead>
                               <tbody id="listaConvocados">
