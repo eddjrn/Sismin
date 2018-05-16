@@ -61,15 +61,34 @@ function actualizarRol(boton){
   var descripcion_rol = $(`#${boton.id} option:selected`).html();
   // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
   var indice = convocados.indexOf(id_usuario);
-  if(indice!=-1){
-     roles[indice] = id_rol;
-     $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
+
+  if(roles[indice] == 1){
+    roles[indice] = id_rol;
+    roles[0] = 1;
+    $('.control_rol_1').prop("disabled", false);
+    $('.rol').selectpicker('refresh');
+    descripcion_rol = $(`#${boton.id} option:selected`).html();
+    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
+    descripcion_rol2 = $(`#${boton.id} option:eq(1)`).html();
+    $('#rol_texto_auth').html(descripcion_rol2);
   }
   if(id_rol == 0){
     roles[indice] = 2;
-    descripcion_rol = $(`#${boton.id} option:eq(1)`).html();
+    descripcion_rol = $(`#${boton.id} option:eq(2)`).html();
     $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
     notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
+  } else if (id_rol == 1) {
+    roles[indice] = 1;
+    roles[0] = 2;
+    $('.control_rol_1').prop("disabled", true);
+    $('.rol').selectpicker('refresh');
+    descripcion_rol = $(`#${boton.id} option:eq(1)`).html();
+    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
+    descripcion_rol2 = $(`#${boton.id} option:eq(2)`).html();
+    $('#rol_texto_auth').html(descripcion_rol2);
+  } else if(indice!=-1){
+       roles[indice] = id_rol;
+       $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
   }
 }
 
@@ -79,7 +98,7 @@ function actualizarLista(boton){
   if(boton.checked){
     var nombre = $(`#n${boton.id}`).html();
     var id_usuario = boton.id.split("_");
-    var descripcion_rol = $(`#rol_seleccion_${id_usuario[2]} option:eq(1)`).html();
+    var descripcion_rol = $(`#rol_seleccion_${id_usuario[2]} option:eq(2)`).html();
 
     convocados.push(id_usuario[2]);
     roles.push(2);
@@ -455,8 +474,6 @@ $(function () {
     });
 
     $('#icono').animateCss('bounceIn');
-
-    // $(".rol option[value='1']").remove();
 });
 
 //Copied from https://github.com/daneden/animate.css

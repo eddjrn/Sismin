@@ -105,13 +105,13 @@ Nueva reunión
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Rol dentro de la reunión</th>
+                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Rol dentro de la reunión</th>
+                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -127,9 +127,9 @@ Nueva reunión
                                         </div>
                                         <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
                                           <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick rol" autocomplete="off">
-                                              <option value="0">Seleccionar rol</option>
+                                              <option value="0">Seleccionar puesto</option>
                                               @foreach($roles as $rol)
-                                              <option value="{{$rol->id_rol}}">{{$rol->descripcion}}</option>
+                                              <option value="{{$rol->id_rol}}" class="control_rol_{{$rol->id_rol}}">{{$rol->descripcion}}</option>
                                               @endforeach
                                           </select>
                                         </div>
@@ -161,7 +161,7 @@ Nueva reunión
                     </div>
                     <div class="row">
                       <div class="col-lg-12 text-center">
-                        <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema</button>
+                        <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema para la orden del día</button>
                       </div>
                     </div>
                   </div>
@@ -179,7 +179,7 @@ Nueva reunión
                       <br/>
                       <h5>Convocados</h5>
                       <ul id="convocados_texto">
-                        <li>Secretario: {{Auth::user()}}</li>
+                        <li><span id="rol_texto_auth">Secretario</span>: {{Auth::user()}}</li>
                       </ul>
                       <h5>Para tratar los siguientes temas:</h5>
                       <ol id="lista_texto"></ol>
@@ -216,7 +216,7 @@ Nueva reunión
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Tema de la reunión</h4>
+                <h4 class="modal-title" id="smallModalLabel">Tema para reunión</h4>
             </div>
             <div class="modal-body">
               <div class="input-group">

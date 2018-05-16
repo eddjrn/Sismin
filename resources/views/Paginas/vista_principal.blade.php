@@ -43,7 +43,7 @@ Página Principal
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count(Auth::user()->reuniones_historial())}}">
+        <div class="info-box bg-light-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count(Auth::user()->reuniones_historial())}}">
             <div class="icon">
                 <i class="material-icons">description</i>
             </div>
