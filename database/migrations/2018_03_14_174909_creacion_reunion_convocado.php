@@ -21,10 +21,8 @@ class CreacionReunionConvocado extends Migration
         $table->integer('id_usuario')->unsigned()->index();
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('cascade');
         $table->boolean('asistencia')->default(false);
-        $table->integer('id_rol')->unsigned()->index();
-        $table->foreign('id_rol')->references('id_rol')->on('rol_usuario')->onDelete('cascade');
-        $table->integer('id_tipo_usuario')->unsigned()->index();
-        $table->foreign('id_tipo_usuario')->references('id_tipo_usuario')->on('tipo_usuario')->onDelete('cascade');
+        $table->integer('id_puesto')->unsigned()->index();
+        $table->foreign('id_puesto')->references('id_puesto')->on('puesto_usuario')->onDelete('cascade');
         $table->boolean('enterado')->default(false);
       });
     }
@@ -39,8 +37,7 @@ class CreacionReunionConvocado extends Migration
       Schema::table('reunion_convocado', function(Blueprint $table){
         $table->dropForeign(['id_usuario']);
         $table->dropForeign(['id_reunion']);
-        $table->dropForeign(['id_rol']);
-        $table->dropForeign(['id_tipo_usuario']);
+        $table->dropForeign(['id_puesto']);
       });
       Schema::drop('reunion_convocado');
     }

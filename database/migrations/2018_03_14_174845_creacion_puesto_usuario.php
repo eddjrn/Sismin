@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreacionRolUsuario extends Migration
+class CreacionPuestoUsuario extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreacionRolUsuario extends Migration
      */
     public function up()
     {
-      Schema::create('rol_usuario',function(Blueprint $table){
-        $table->increments('id_rol');
+      Schema::create('puesto_usuario',function(Blueprint $table){
+        $table->increments('id_puesto');
         $table->timestamps();
         $table->string('descripcion',50);
       });
@@ -28,6 +28,6 @@ class CreacionRolUsuario extends Migration
      public function down()
      {
          //
-         Schema::drop('rol_usuario');
+         Schema::drop('puesto_usuario');
      }
 }

@@ -203,8 +203,9 @@ class controlador_reunion extends Controller
           'fecha_reunion'=>$reunion->fecha_reunion,
           'lugar'=>$reunion->lugar,
           'fecha_creacion'=>$reunion->getFecha(),
-          'img'=>$reunion->convocados->get(0)->usuario->rubrica,
-          'tipo'=>$reunion->tipo_reunion->descripcion
+          'img'=>$reunion->moderador->rubrica,
+          'tipo'=>$reunion->tipo_reunion->descripcion,
+          'reunion'=>$reunion
       ]);
         return $pdf->stream();
       }

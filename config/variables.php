@@ -5,8 +5,7 @@ return [
   'tipos_de_reunionDB' => 5,
   'reunionDB' => 10,
   'orden_del_diaDB' => 10,
-  'rol_usuarioDB' => 4,
-  'tipo_usuarioDB' => 2,
+  'puesto_usuarioDB' => 4,
   'reunion_convocadoDB' => 30,
   'tema_pendienteDB' => 20,
 ];

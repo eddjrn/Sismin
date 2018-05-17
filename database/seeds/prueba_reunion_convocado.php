@@ -17,8 +17,7 @@ class prueba_reunion_convocado extends Seeder
         'id_reunion' => 1,
         'id_usuario' => 1,
         'asistencia' => true,
-        'id_rol' => 1,
-        'id_tipo_usuario' => 1,
+        'id_puesto' => 1,
       ]);
 
       for($i=2; $i <= config('variables.reunion_convocadoDB'); $i++){
@@ -28,8 +27,7 @@ class prueba_reunion_convocado extends Seeder
           'id_reunion' =>rand(1,config('variables.reunionDB')),
           'id_usuario' =>rand(1,config('variables.usuariosDB')),
           'asistencia' => false,
-          'id_rol' =>rand(1,config('variables.rol_usuarioDB')),
-          'id_tipo_usuario' =>rand(1,config('variables.tipo_usuarioDB')),
+          'id_puesto' =>rand(1,config('variables.puesto_usuarioDB')),
         ]);
       }
     }

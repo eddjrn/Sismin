@@ -16,8 +16,7 @@ class reunion_convocado extends Model
     'id_reunion',
     'id_usuario',
     'asistencia',
-    'id_rol',
-    'id_tipo_usuario',
+    'id_puesto',
     'enterado',
   ];
 
@@ -37,17 +36,48 @@ class reunion_convocado extends Model
     return $this->belongsTo(reunion::class,'id_reunion');
   }
 
-  public function rol(){
-    return $this->belongsTo(rol_usuario::class,'id_rol');
-  }
-
-  public function tipo(){
-    return $this->belongsTo(tipo_usuario::class,'id_tipo_usuario');
+  public function puesto(){
+    return $this->belongsTo(puesto_usuario::class,'id_puesto');
   }
 
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('j \\d\\e F \\d\\e\\l Y \\a \\l\\a\\s h:i:s A');
+ }
+
+ public function es_secretario(){
+   $us=$this->usuario->id_usuario;
+   $rs=$this->reunion->secretario->id_usuario;
+   if($us==$rs){
+     return true;
+   }else{
+     return false;
+   }
+ }
+
+ public function es_moderador(){
+   $um=$this->usuario->id_usuario;
+   $rm=$this->reunion->moderador->id_usuario;
+   if($um==$rm){
+     return true;
+   }else{
+     return false;
+   }
+ }
+
+ public function rol(){
+   if($this->es_moderador() && $this->es_secretario()){
+       return 'Moderador y Secretario';
+   }
+   else if($this->es_moderador()){
+       return 'Moderador';
+   }
+   else if($this->es_secretario()){
+       return 'Secretario';
+   }
+   else{
+     return 'Convocado';
+   }
  }
 
 }

@@ -79,6 +79,14 @@ class usuario extends Authenticatable
      return $this->hasMany(compromiso_responsable::class,'id_usuario');
    }
 
+   public function secretario_de(){
+     return $this->hasMany(reunion::class,'id_secretario');
+   }
+
+   public function moderador_de(){
+     return $this->hasMany(reunion::class,'id_moderador');
+   }
+
    public function reuniones_pendientes(){
      $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
 
@@ -110,39 +118,39 @@ class usuario extends Authenticatable
      return $reuniones_historial;
    }
 
-   public function reuniones_moderadas(){
-    $reuniones=$this->convocado_en->where('id_tipo_usuario','=','1');
-    $id_reuniones =  array();
-    $reuniones_moderadas = array();
+  //  public function reuniones_moderadas(){
+  //   $reuniones=$this->convocado_en->where('id_tipo_usuario','=','1');
+  //   $id_reuniones =  array();
+  //   $reuniones_moderadas = array();
+  //
+  //   foreach ($reuniones as $reunionMod) {
+  //     $id =$reunionMod->reunion->id_tipo_reunion;
+  //
+  //     if(!(in_array($id,$id_reuniones)) && $reunionMod->reunion->minuta->existe() == false){
+  //       array_push($id_reuniones,$id);
+  //       array_push($reuniones_moderadas, $reunionMod->reunion);
+  //     }
+  //   }
+  //   return $reuniones_moderadas;
+  // }
 
-    foreach ($reuniones as $reunionMod) {
-      $id =$reunionMod->reunion->id_tipo_reunion;
+  // public function es_secretario($id_reunion){
+  //   $reunion_secretario = \App\reunion::find($id_reunion)->secretario();
+  //   if($this->id_usuario == $reunion_secretario->id_usuario){
+  //     return true;
+  //   } else{
+  //     return false;
+  //   }
+  // }
 
-      if(!(in_array($id,$id_reuniones)) && $reunionMod->reunion->minuta->existe() == false){
-        array_push($id_reuniones,$id);
-        array_push($reuniones_moderadas, $reunionMod->reunion);
-      }
-    }
-    return $reuniones_moderadas;
-  }
-
-  public function es_secretario($id_reunion){
-    $reunion_secretario = \App\reunion::find($id_reunion)->secretario();
-    if($this->id_usuario == $reunion_secretario->id_usuario){
-      return true;
-    } else{
-      return false;
-    }
-  }
-
-  public function es_moderador($id_reunion){
-    $reunion_secretario = \App\reunion::find($id_reunion)->moderador();
-    if($this->id_usuario == $reunion_secretario->id_usuario){
-      return true;
-    } else{
-      return false;
-    }
-  }
+  // public function es_moderador($id_reunion){
+  //   $reunion_secretario = \App\reunion::find($id_reunion)->moderador();
+  //   if($this->id_usuario == $reunion_secretario->id_usuario){
+  //     return true;
+  //   } else{
+  //     return false;
+  //   }
+  // }
 
   public function minutas_recientes(){
     $minutas_recientes = array();

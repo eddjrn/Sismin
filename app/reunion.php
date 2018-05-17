@@ -13,18 +13,18 @@ class reunion extends Model
 
   protected $fillable = [
     'fecha_reunion',
-    'fecha_reunion_orden',
     'id_tipo_reunion',
     'motivo',
     'lugar',
-    'codigo'
+    'codigo',
+    'id_secretario',
+    'id_moderador'
   ];
 
   protected $dates = [
    'created_at', // Add if you're using timestamps on the model
    'updated_at', // Add if you're using timestamps on the model
    'fecha_reunion',
-   'fecha_reunion_orden',
   ];
 
   public function __toString(){
@@ -47,6 +47,14 @@ class reunion extends Model
   return $this->hasOne(minuta::class,'id_reunion')->orderBy('id_minuta', 'desc');
  }
 
+ public function moderador(){
+  return $this->belongsTo(usuario::class,'id_moderador');
+ }
+
+ public function secretario(){
+  return $this->belongsTo(usuario::class,'id_secretario');
+ }
+
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');
@@ -57,14 +65,13 @@ class reunion extends Model
     return $fecha->diffForHumans();
   }
 
-  public function getFechaReunionAttribute($value){
+  public function getFechaReunionLegible(){
    Date::setLocale('es');
-   return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
+   return Date::parse($this->fecha_reunion)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
   }
 
   public function setFechaReunionAttribute($value){
     $this->attributes['fecha_reunion'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
-    $this->attributes['fecha_reunion_orden'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
   }
 
   public function setMotivoAttribute($value){
@@ -77,13 +84,6 @@ class reunion extends Model
    $con = strtolower($value);
    $lugar = ucfirst($con);
    $this->attributes['lugar'] = $lugar;
-  }
-  public function moderador(){
-    return $this->convocados->where('id_tipo_usuario','=','1')->first()->usuario;
-  }
-
-  public function secretario(){
-    return $this->convocados->where('id_rol','=','1')->first()->usuario;
   }
 
   public function reunion_temas_pendientes(){

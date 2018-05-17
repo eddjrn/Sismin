@@ -2,24 +2,28 @@
    <div align="right"><img src="{{$imagen}}" class="logo" width="100" height="100"></div>
   <div class="DR" align="justify">
       <center><h1>"{{$tipo}}"</h1></center>
-    <b>Por medio de la presente, se le convoca a {{$motivo}} para el día {{$fecha_reunion}}, en {{$lugar}}.</b><br><br>
+    <b>Por medio de la presente, se le convoca a {{$motivo}} para el día {{$reunion->getFechaReunionLegible()}}, en {{$lugar}}.</b><br><br>
 <b>Convocados:</b><hr>
   <table>
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Rol dentro de la reunión</th>
+          <th>Puesto</th>
+          <th>Rol</th>
         </tr>
       </thead>
       <tbody>
         @foreach($convocados as $convocado)
         <tr>
           <td>{{$convocado->usuario->__toString()}}</td>
-          <td>{{$convocado->rol->descripcion}}</td>
+          <td>{{$convocado->puesto->descripcion}}</td>
+          <td>{{$convocado->rol()}}</td>
         @endforeach
+
       </tbody>
   </table>
-
+Secretario:{{$reunion->secretario->id_usuario}}
+Moderador:{{$reunion->moderador->id_usuario}}
   <b>Para tratar los siguientes temas:</b><hr>
   <ol>
       @foreach($reunion_orden_dia as $tema)
@@ -35,7 +39,7 @@
   Atentamente:
       <center><img src="{{$img}}" class="rubrica" width="150" height="150" /></center>
   <hr class="hrR">
-  <h3>{{$convocados->get(0)->usuario}}<br> (Moderador)</h3></div>
+  <h3>{{$reunion->moderador}}<br> (Moderador)</h3></div>
 
 <style>
 .logo{

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 
 
-class tipo_usuario extends Model
+class puesto_usuario extends Model
 {
-  protected $table = 'tipo_usuario';
+  protected $table = 'puesto_usuario';
 
-  protected $primaryKey = 'id_tipo_usuario';
+  protected $primaryKey = 'id_puesto';
 
   protected $fillable = [
     'descripcion',
@@ -21,9 +21,8 @@ class tipo_usuario extends Model
   }
 
   public function convocados(){
-    return $this->hasMany(reunion_convocado::class,'id_tipo_usuario');
+    return $this->hasMany(reunion_convocado::class,'id_puesto');
   }
-
 
   public function getFecha(){
    Date::setLocale('es');

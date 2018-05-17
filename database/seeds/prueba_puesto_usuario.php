@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class prueba_tipo_usuario extends Seeder
+class prueba_puesto_usuario extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,15 +11,14 @@ class prueba_tipo_usuario extends Seeder
      */
     public function run()
     {
-      DB::table('tipo_usuario')->insert([
+      DB::table('puesto_usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
-        'descripcion' => 'Moderador',
-
+        'descripcion' => 'Secretario',
       ]);
 
-      for($i=0; $i<= config('variables.tipo_usuarioDB'); $i++){
-        DB::table('tipo_usuario')->insert([
+      for($i=0; $i<= config('variables.puesto_usuarioDB'); $i++){
+        DB::table('puesto_usuario')->insert([
           'created_at'=> now(),
           'updated_at' => now(),
           'descripcion' => str_random(30),
