@@ -10,7 +10,7 @@ class controlador_pendientes extends Controller
 {
     public function mostrar_vista_pendientes(){
       $usuario = Auth::user();
-      $CR = $usuario->responsables->all();
+      $CR = $usuario->responsable_en->All();
       $temas =$usuario->orden_dia;
       $temas2 =$usuario->temas_pendientes;
       $compromisos = array();
@@ -26,6 +26,7 @@ class controlador_pendientes extends Controller
       foreach ($temas2 as $key => $tema) {
         array_push($datosR,$tema);
       }
+
 
      return view('Paginas.pendientes',['compromisos'=>$compromisos,'listado'=>$temas,'temas'=>$datosR]);
     }

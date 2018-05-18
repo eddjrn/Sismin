@@ -75,20 +75,20 @@ Pendientes
                                     <td>{{$compromiso->descripcion}}</td>
                                     <td>{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}</td>
                                     <td>
-                                  @foreach($compromisos[$c]->responsables as $responsable)
-                                         <b>{{$responsable->usuario->__toString()}}:</b> {{$responsable->tarea}}<br>
+                                  @foreach($compromisos[$c]->responsables as $rsp)
+                                         <b>{{$rsp->usuario->__toString()}}:</b> {{$rsp->tarea}}<br>
 
                                     @endforeach
                                   </td>
-                                  @if(Auth::User()->responsables[$c]->realizado ==1)
+                                  @if(Auth::User()->responsable_en[$c]->realizado ==1)
                                     <td>
-                                      <input type="checkbox" id="estatus_{{Auth::User()->responsables[$c]->id_compromiso_resp}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}});" checked disabled/>
-                                      <label for="estatus_{{Auth::User()->responsables[$c]->id_compromiso_resp}}">Finalizado</label>
+                                      <input type="checkbox" id="estatus_{{Auth::User()->responsable_en[$c]->id_compromiso_resp}}" class="chk-col-pink" onclick="actualizarEstatus({{$compromiso->id_compromiso}});" checked disabled/>
+                                      <label for="estatus_{{Auth::User()->responsable_en[$c]->id_compromiso_resp}}">Finalizado</label>
                                     </td>
                                   @else
                                   <td>
-                                    <input type="checkbox" id="estatus_{{Auth::User()->responsables[$c]->id_compromiso_resp}}" class="chk-col-pink" onclick="actualizarEstatus('{{Auth::User()->responsables[$c]->tarea}}',{{Auth::User()->responsables[$c]->id_compromiso_resp}});" autocomplete="off"/>
-                                    <label for="estatus_{{Auth::User()->responsables[$c]->id_compromiso_resp}}">En proceso</label>
+                                    <input type="checkbox" id="estatus_{{Auth::User()->responsable_en[$c]->id_compromiso_resp}}" class="chk-col-pink" onclick="actualizarEstatus('{{Auth::User()->responsable_en[$c]->tarea}}',{{Auth::User()->responsable_en[$c]->id_compromiso_resp}});" autocomplete="off"/>
+                                    <label for="estatus_{{Auth::User()->responsable_en[$c]->id_compromiso_resp}}">En proceso</label>
                                   </td>
                                   @endif
                                 </td>
@@ -99,7 +99,7 @@ Pendientes
                                   </td>
                                 @else
                                 <td>
-                                
+
                                   <label>En proceso</label>
                                 </td>
                                 @endif
