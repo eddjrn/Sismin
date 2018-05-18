@@ -10,12 +10,21 @@ use Hash;
 
 class controlador_vista_general extends Controller
 {
-    //
     public function mostrar_vista_principal(){
-      $reuniones_recientes = Auth::user()->reuniones_pendientes();
-      
+      $reuniones_pendientes = Auth::user()->reuniones_pendientes();
+      $convocado_en = Auth::user()->convocado_en;
+      $responsable_en = Auth::user()->responsable_en;
+      $reuniones_historial = Auth::user()->reuniones_historial();
+      $minutas_recientes = Auth::user()->minutas_recientes();
+      $temas_pendientes = Auth::user()->temas_pendientes;
+
       return view('Paginas.vista_principal',[
-        'reuniones'=>$reuniones_recientes
+        'reuniones_pendientes' => $reuniones_pendientes,
+        'convocado_en' => $convocado_en,
+        'responsable_en' => $responsable_en,
+        'reuniones_historial' => $reuniones_historial,
+        'minutas_recientes' => $minutas_recientes,
+        'temas_pendientes' => $temas_pendientes,
       ]);
     }
 
@@ -26,25 +35,25 @@ class controlador_vista_general extends Controller
       $rol = array();
       $datosReunion = array();
       $idConvocados = array();
-      $idSecre= $reunion->convocados->where('id_rol','=','1')->first()->usuario->id_usuario;
+      $idSecre= $reunion->secretario->id_usuario;
       $idMod = Auth::user()->id_usuario;
 
-      array_push($datosReunion,$reunion->moderador()->__toString());
+      array_push($datosReunion,$reunion->moderador->__toString());
       array_push($datosReunion,$reunion->fecha_reunion);
       array_push($datosReunion,$reunion->getLimite());
       array_push($datosReunion,$reunion->tipo_reunion);
       array_push($datosReunion,$reunion->tipo_reunion->imagen_logo);
-      array_push($datosReunion,$reunion->secretario()->__toString());
+      array_push($datosReunion,$reunion->secretario->__toString());
       array_push($datosReunion,$idSecre);
       array_push($datosReunion,$idMod);
       array_push($datosReunion,$reunion->tipo_reunion->descripcion);
       array_push($datosReunion,$reunion->minuta->codigo);
       array_push($datosReunion,$reunion->minuta->id_minuta);
-      array_push($datosReunion,$reunion->moderador()->id_usuario);
+      array_push($datosReunion,$reunion->moderador->id_usuario);
 
       foreach($reunion->convocados as $convocado){
         array_push($convocadosData,$convocado->usuario->__toString());
-        array_push($rol,$convocado->rol->descripcion);
+        array_push($rol,$convocado->puesto->descripcion);
         array_push($idConvocados,$convocado->usuario->id_usuario);
       }
 
@@ -66,17 +75,13 @@ class controlador_vista_general extends Controller
         return response()->json(['errores' => $validacion->errors()]);
       }
       $id= $request->id_reunion;
+      $idC = $request->id_convocado;
       $reunion =\App\reunion::find($id);
-      $idMod = $reunion->convocados->where('id_rol','=','1')->first();
-      $idU = $reunion->convocados->where('id_usuario','=',$request->id_convocado)->first();
-
-      $idMod->update([
-        "id_rol"=>2
+      $reunion->update([
+        'id_secretario' => $idC,
       ]);
-      $idU->update([
-        "id_rol"=>1
-      ]);
-      return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->usuario->__toString()]);
+      $idU = \App\usuario::find($idC);
+      return response()->json(['mensaje' => "Se asigno como secretario a ".$idU->__toString()]);
     }
 
     public function eliminarReunion(Request $request, $id, $codigo){

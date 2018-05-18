@@ -75,7 +75,7 @@ class usuario extends Authenticatable
      return $this->hasMany(reunion_convocado::class,'id_usuario')->orderBy('created_at', 'desc');
    }
 
-   public function responsables(){
+   public function responsable_en(){
      return $this->hasMany(compromiso_responsable::class,'id_usuario');
    }
 
@@ -88,7 +88,7 @@ class usuario extends Authenticatable
    }
 
    public function reuniones_pendientes(){
-     $reuniones = $this->convocado_en->sortByDesc('fecha_reunion_orden');
+     $reuniones = $this->convocado_en->sortByDesc('fecha_reunion');
 
      $reuniones_recientes =  array();
 

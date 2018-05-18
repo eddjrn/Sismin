@@ -49,7 +49,7 @@ class minuta extends Model
     }
   }
 
-  public function getFechaElaboracionAttribute($value){
+  public function getFechaElaboracionLegible($value){
    Date::setLocale('es');
    return Date::parse($value)->format('l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s \\h\\o\\r\\a\\s ');
   }

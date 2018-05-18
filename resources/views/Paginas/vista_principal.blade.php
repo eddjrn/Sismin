@@ -21,46 +21,46 @@ Página Principal
 @section('contenido')
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{Auth::user()->convocado_en->count()}}">
+        <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{$convocado_en->count()}}">
             <div class="icon">
                 <i class="material-icons">today</i>
             </div>
             <div class="content">
                 <div class="text">Reuniones pendientes</div>
-                <div class="number count-to" data-from="0" data-to="{{count($reuniones)}}" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{count($reuniones_pendientes)}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{Auth::user()->responsables->count()}}">
+        <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{$responsable_en->count()}}">
             <div class="icon">
                 <i class="material-icons">assignment_turned_in</i>
             </div>
             <div class="content">
                 <div class="text">Compromisos pendientes</div>
-                <div class="number count-to" data-from="0" data-to="{{Auth::user()->responsables->count()}}" data-speed="15" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{$responsable_en->count()}}" data-speed="15" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-light-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count(Auth::user()->reuniones_historial())}}">
+        <div class="info-box bg-light-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count($reuniones_historial)}}">
             <div class="icon">
                 <i class="material-icons">description</i>
             </div>
             <div class="content">
                 <div class="text">Nuevas minutas</div>
-                <div class="number count-to" data-from="0" data-to="{{count(Auth::user()->minutas_recientes())}}" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{count($minutas_recientes)}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{Auth::user()->temas_pendientes->count()}}">
+        <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{$temas_pendientes->count()}}">
             <div class="icon">
                 <i class="material-icons">format_list_numbered</i>
             </div>
             <div class="content">
                 <div class="text">Temas pendientes</div>
-                <div class="number count-to" data-from="0" data-to="{{Auth::user()->temas_pendientes->where('expirado','=','false')->count()}}" data-speed="1000" data-fresh-interval="20"></div>
+                <div class="number count-to" data-from="0" data-to="{{$temas_pendientes->where('expirado','=','false')->count()}}" data-speed="1000" data-fresh-interval="20"></div>
             </div>
         </div>
     </div>
@@ -69,10 +69,9 @@ Página Principal
 
 <!-- Basic Card -->
 <?php
-  $CR= Auth::user()->responsables;
   $icono_vacio = true;
 ?>
-@if(count($CR->where('tarea','=', null)) > 0)
+@if($responsable_en->where('tarea','=', null)->count() > 0)
 <?php $icono_vacio = false; ?>
 <div class="row clearfix">
   <div class="col-lg-12">
@@ -93,7 +92,7 @@ Página Principal
                       </tr>
                   </thead>
                   <tbody>
-                    @foreach($CR as $resp)
+                    @foreach($responsable_en as $resp)
                     @if($resp->tarea==null)
                     <tr>
                         <td>{{$resp->compromisos->minuta->reunion->tipo_reunion->descripcion}}</td>
@@ -112,14 +111,14 @@ Página Principal
 @endif
 
 <!-- Basic Card -->
-@if(count(Auth::user()->reuniones_pendientes()) > 0)
+@if(count($reuniones_pendientes) > 0)
 <?php $icono_vacio = false; ?>
 <div class="row clearfix">
   <div class="col-lg-12">
       <div class="card">
           <div class="header">
               <h2>
-                  Mis reuniones <small>Soy moderador de {{count(Auth::user()->reuniones_moderadas())}} reuniones.</small>
+                  Mis reuniones <small>Soy moderador de {{Auth::user()->moderador_de->count()}} reuniones.</small>
               </h2>
           </div>
           <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">
@@ -135,17 +134,17 @@ Página Principal
                       </tr>
                   </thead>
                   <tbody>
-                    @foreach($reuniones as $reunion)
-                    @if($reunion->minuta->getOriginal()['fecha_elaboracion'] == null)
-                    <tr>
-                        <th scope="row">{{$reunion->id_reunion}}</th>
-                        <td>{{$reunion->motivo}}</td>
-                        <td>{{$reunion->moderador()}}</td>
-                        <td>{{$reunion->tipo_reunion}}</td>
-                        <td>{{$reunion->getLimite()}}</td>
-                        <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
-                    </tr>
-                    @endif
+                    @foreach($reuniones_pendientes as $reunion)
+                      @if($reunion->minuta->fecha_elaboracion == null)
+                      <tr>
+                          <th scope="row">{{$reunion->id_reunion}}</th>
+                          <td>{{$reunion->motivo}}</td>
+                          <td>{{$reunion->moderador->__toString()}}</td>
+                          <td>{{$reunion->tipo_reunion}}</td>
+                          <td>{{$reunion->getLimite()}}</td>
+                          <td><button class="btn bg-pink waves-effect" type="button" onclick="mostrar({{$reunion->id_reunion}})" >Mostrar</button></td>
+                      </tr>
+                      @endif
                     @endforeach
                   </tbody>
               </table>
@@ -221,7 +220,7 @@ Página Principal
                               <thead>
                                   <tr>
                                       <th>Nombre</th>
-                                      <th>Cargo dentro de la reunión</th>
+                                      <th>Puesto dentro de la reunión</th>
                                   </tr>
                               </thead>
                               <tbody id="listaConvocados">
@@ -356,8 +355,4 @@ var urlD = "{{asset('/vista_principal_eliminar/')}}";
 
 var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";
 </script>
-
-
-
-
 @stop
