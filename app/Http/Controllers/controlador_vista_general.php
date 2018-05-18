@@ -39,7 +39,7 @@ class controlador_vista_general extends Controller
       $idMod = Auth::user()->id_usuario;
 
       array_push($datosReunion,$reunion->moderador->__toString());
-      array_push($datosReunion,$reunion->fecha_reunion);
+      array_push($datosReunion,$reunion->getFechaReunionLegible());
       array_push($datosReunion,$reunion->getLimite());
       array_push($datosReunion,$reunion->tipo_reunion);
       array_push($datosReunion,$reunion->tipo_reunion->imagen_logo);
