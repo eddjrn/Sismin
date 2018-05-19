@@ -11,7 +11,7 @@ class controlador_agenda extends Controller
   public function mostrar_vista_agenda(){
   $usuario = Auth::user();
   $reunionesC = $usuario->convocado_en;
-  $CR = $usuario->responsables->all();
+  $CR = $usuario->responsable_en->all();
   $reuniones = array();
   $datosR = array();
   $tareaResp= array();
@@ -30,7 +30,8 @@ class controlador_agenda extends Controller
  }
 
 
-//return $datosR;
+//return $datosR[0];
+//return view('Paginas.agenda',['eventos'=>$reuniones]);
 return view('Paginas.agenda',['eventos'=>$reuniones, 'compromisos'=>$compromisos,'CR'=>$CR,'datos'=>$datosR]);
 }
 

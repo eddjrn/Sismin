@@ -164,10 +164,10 @@ Agenda
 									<div align="justify"><h4> Secretario:</h4> <span id="secretario"></span></div>
 									<div align="justify"><h4>Fecha:</h4> <span id="eventStart"></span></div>
 									<div class="modal-footer row clearfix">
-										<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="col-md-6 col-sm-6 col-xs-6">
 											<a class="colorBoton" id="modalURLM" target="_blank">ver minuta</a>
 										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="col-md-6 col-sm-6 col-xs-6">
 											<a class="colorBoton" id="modalURLC" target="_blank">ver convocatoria</a>
 										</div>
 									</div>
@@ -245,7 +245,6 @@ $(document).ready(function() {
 
 	/* initialize the calendar
 	-----------------------------------------------------------------*/
-      $('#calendar').fullCalendar('render');
 	 		$('#calendar').fullCalendar({
 	 			themeSystem: 'bootstrap3',
 				 header: {
@@ -259,107 +258,108 @@ $(document).ready(function() {
 				 editable: false,
 				 eventLimit: true, // allow "more" link when too many events
 				 timeFormat: 'h(:mm)a',
-		  events: [
-				@foreach($eventos as $e=>$evento)
-				{
-					id: '{{$evento->id_reunion}}',
-					title:'{{$evento->tipo_reunion->descripcion}}',
-					description:'{{$evento->motivo}}',
-					start: new Date("{{$evento->getOriginal()['fecha_reunion']}}"),
-					moderador: '{{$evento->moderador()->__toString()}}',
-					secretario: '{{$evento->secretario()->__toString()}}',
-					convocados: [
-					@foreach($evento->convocados as $convocado)
-						{
-							con: '{{$convocado->usuario->__toString()}}',
-						},
-					@endforeach
-					],
-				  temasPendientes:[
-						@if(empty($datos[$e]))
-						{
-							tem: 'esta reunion no tiene temas pendientes',
-						},
-						@endif
-						@foreach($datos[$e] as $tema)
-							{
-								tem: '{{$tema->descripcion}}',
-							},
-						@endforeach
-						],
-					convocatoria: "/pdf/"+'{{$evento->minuta->id_reunion}}'+"/"+'{{$evento->minuta->reunion->codigo}}',
-					minuta: "/pdf_minuta/"+'{{$evento->minuta->id_minuta}}'+"/"+'{{$evento->minuta->codigo}}',
-					codigo:'{{$evento->minuta->getOriginal()["fecha_elaboracion"]}}',
-					hora: '{{$evento->fecha_reunion}}',
-					allDay: false,
-					backgroundColor: '#A6113C',
-					borderColor:'#820F20',
-					color:'#ffffff',
-					className:'info',
-				},
-				@endforeach
-				@foreach($compromisos as $key=>$compromiso)
-				{
-					title:'{{$compromiso->descripcion}}',
-					tarea:'{{$CR[$key]->tarea}}',
-					start: new Date("{{$compromiso->getOriginal()['fecha_limite']}}"),
-					hora: '{{$compromiso->fecha_limite}}',
-					status: '{{$compromiso->finalizado}}',
-					reunion:'{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}',
-					temaOD:'{{$compromiso->orden_dia->descripcion}}',
-					allDay: false,
-					backgroundColor: '#3498db',
-					borderColor:'#aed6f1',
-					color:'#ffffff',
-					className:'info',
-				},
-				@endforeach
-			],
-			eventClick:  function(event, jsEvent, view) {
-			if(event.convocados != null){
-			 $('#modalTitle').html(event.title);
-				for (var i = 0; i < event.convocados.length; i++) {
-					 $('#convocados').html($('#convocados').html()+"<b>"+(i+1)+": "+`${event.convocados[i].con}`+"</b></br>");
-				}
+				 events: [
+ 				  @foreach($eventos as $e=>$evento)
+ 				  {
+ 				    id: '{{$evento->id_reunion}}',
+ 				    title:'{{$evento->tipo_reunion->descripcion}}',
+ 				    description:'{{$evento->motivo}}',
+ 				    start: moment('{{$evento->fecha_reunion}}'),
+ 				    moderador: '{{$evento->moderador}}',
+ 				    secretario: '{{$evento->secretario}}',
+ 				    convocados: [
+ 				    @foreach($evento->convocados as $convocado)
+ 				      {
+ 				        con: '{{$convocado->usuario->__toString()}}',
+ 				      },
+ 				    @endforeach
+ 				    ],
+ 				    temasPendientes:[
+ 				      @if(empty($datos[$e]))
+ 				      {
+ 				        tem: 'esta reunion no tiene temas pendientes',
+ 				      },
+ 				      @else
+ 				      @foreach($datos[$e] as $tema)
+ 				        {
+ 				          tem: '{{$tema->descripcion}}',
+ 				        },
+ 				      @endforeach
+ 				      @endif
 
-				for (var k = 0; k < event.temasPendientes.length; k++) {
-					 $('#temas_pendientes').html($('#temas_pendientes').html()+`${event.temasPendientes[k].tem}`+"</b></br>");
-				}
-			 $('#moderador').html(event.moderador);
-			 $('#secretario').html(event.secretario);
-			 $('#eventStart').html(event.hora);
-			 $('#modalURLC').attr('href',event.convocatoria);
-			 if(event.codigo == null || event.codigo =="")
-			 {
-				  $('#modalURLM').hide();
-			 }else{
-					$('#modalURLM').show();
-				   $('#modalURLM').attr('href',event.minuta);
-			 }
-			 $('#fullCalModal').modal();
-		 }else{
-		 $('#modalTitleC').html(event.title);
-		 if(event.status ==1){
-		 	$('#modalStatus').html('Finalizado');
-		 }else{
-			 $('#modalStatus').html('En proceso');
-		 }
-		 $('#modalMinuta').html(event.reunion);
-		 $('#modalResponsabilidad').html(event.tarea);
-		 $('#modalTema').html(event.temaOD);
-		 $('#modalFecha').html(event.hora);
-		 $('#fullCalModalC').modal();
-	 }
-			 return false;
-			 },
-		eventAfterRender: function(event, element, view) {
-     var width = $(element).height();
-     // Check which class the event has so you know whether it's half or quarter width
-      $(element).hasClass(".fc-widget-content")
-        cellheight = 30;
+ 				      ],
+ 				    convocatoria: "{{asset('/pdf')}}/{{$evento->id_reunion}}/{{$evento->codigo}}",
+ 				    minuta: "{{asset('/pdf_minuta')}}/{{$evento->minuta->id_minuta}}/{{$evento->minuta->codigo}}",
+ 				    codigo:'{{$evento->minuta->getOriginal()["fecha_elaboracion"]}}',
+ 				    hora: '{{$evento->getFechaReunionLegible()}}',
+ 				    allDay: false,
+ 				    backgroundColor: '#A6113C',
+ 				    borderColor:'#820F20',
+ 				    color:'#ffffff',
+ 				    className:'info',
+ 				  },
+ 				  @endforeach
+ 				  @foreach($compromisos as $key=>$compromiso)
+ 				  {
+ 				    title:'{{$compromiso->descripcion}}',
+ 				    tarea:'{{$CR[$key]->tarea}}',
+ 				    start: new Date("{{$compromiso->getOriginal()['fecha_limite']}}"),
+ 				    hora: '{{$compromiso->fecha_limite}}',
+ 				    status: '{{$compromiso->finalizado}}',
+ 				    reunion:'{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}',
+ 				    temaOD:'{{$compromiso->orden_dia->descripcion}}',
+ 				    allDay: false,
+ 				    backgroundColor: '#3498db',
+ 				    borderColor:'#aed6f1',
+ 				    color:'#ffffff',
+ 				    className:'info',
+ 				  },
+ 				  @endforeach
+ 				],
+ 				eventClick:  function(event, jsEvent, view) {
+ 				if(event.convocados != null){
+ 				 $('#modalTitle').html(event.title);
+ 				  for (var i = 0; i < event.convocados.length; i++) {
+ 				     $('#convocados').html($('#convocados').html()+"<b>"+(i+1)+": "+`${event.convocados[i].con}`+"</b></br>");
+ 				  }
+
+ 				  for (var k = 0; k < event.temasPendientes.length; k++) {
+ 				     $('#temas_pendientes').html($('#temas_pendientes').html()+`${event.temasPendientes[k].tem}`+"</b></br>");
+ 				  }
+ 				 $('#moderador').html(event.moderador);
+ 				 $('#secretario').html(event.secretario);
+ 				 $('#eventStart').html(event.hora);
+ 				 $('#modalURLC').attr('href',event.convocatoria);
+ 				 if(event.codigo == null || event.codigo =="")
+ 				 {
+ 				    $('#modalURLM').hide();
+ 				 }else{
+ 				    $('#modalURLM').show();
+ 				     $('#modalURLM').attr('href',event.minuta);
+ 				 }
+ 				 $('#fullCalModal').modal();
+ 				}else{
+ 				$('#modalTitleC').html(event.title);
+ 				if(event.status ==1){
+ 				$('#modalStatus').html('Finalizado');
+ 				}else{
+ 				 $('#modalStatus').html('En proceso');
+ 				}
+ 				$('#modalMinuta').html(event.reunion);
+ 				$('#modalResponsabilidad').html(event.tarea);
+ 				$('#modalTema').html(event.temaOD);
+ 				$('#modalFecha').html(event.hora);
+ 				$('#fullCalModalC').modal();
+ 				}
+ 				 return false;
+ 				 },
+		 eventAfterRender: function(event, element, view) {
+		 var width = $(element).height();
+		 // Check which class the event has so you know whether it's half or quarter width
+		 $(element).hasClass(".fc-widget-content")
+		   cellheight = 30;
 		 $(element).css('height', cellheight + 'px');
-  },
-
+		 }
 	});
 
 });
