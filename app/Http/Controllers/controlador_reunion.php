@@ -111,10 +111,12 @@ class controlador_reunion extends Controller
     }
 
     $lista_convocados = json_decode($request->convocados);
-    $roles = json_decode($request->roles);
+    $puestos = json_decode($request->puestos);
     $orden = json_decode($request->orden_dia);
     $responsables = json_decode($request->responsables);
     $pendientes = json_decode($request->pendientes);
+    $secretario = json_decode($request->secretario);
+    $moderador = json_decode($request->moderador);
 
     if(count($lista_convocados) < 2){
       return response()->json(['errores' => ["Tiene agregar por lo menos un convocado."]]);
@@ -130,6 +132,8 @@ class controlador_reunion extends Controller
       'motivo' => $request->motivo,
       'lugar' => $request->lugar,
       'codigo'=> $c,
+      'id_secretario' => $secretario,
+      'id_moderador' => $moderador,
     ]);
 
     $c2 = str_random(10);
@@ -145,19 +149,12 @@ class controlador_reunion extends Controller
         'descripcion' => $orden[$i],
       ]);
     }
-    $convocado = \App\reunion_convocado::create([
-      'id_reunion' => $reunion->id_reunion,
-      'id_usuario' => $lista_convocados[0],
-      'id_rol' => $roles[0],
-      'id_tipo_usuario' => 1,
-    ]);
 
-    for($i = 1; $i < count($lista_convocados); $i++){
+    for($i = 0; $i < count($lista_convocados); $i++){
       $convocados = \App\reunion_convocado::create([
         'id_reunion' => $reunion->id_reunion,
         'id_usuario' => $lista_convocados[$i],
-        'id_rol' => $roles[$i],
-        'id_tipo_usuario' => 2,
+        'id_puesto' => $puestos[$i],
       ]);
     }
 

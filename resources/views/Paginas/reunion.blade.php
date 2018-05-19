@@ -66,7 +66,7 @@ Nueva reunión
                         <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1">
                           <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" onfocusout="actualizarFecha(this);" data-fecha="" class="datetimepicker form-control" id="fecha" name="fecha" autocomplete="off">
+                                <input type="text" data-fecha="" class="datetimepicker form-control" id="fecha" name="fecha" autocomplete="off">
                                 <label class="form-label">Fecha y hora</label>
                             </div>
                           </div>
@@ -118,18 +118,17 @@ Nueva reunión
                                 @foreach($convocados as $convocado)
                                 @unless($convocado->id_usuario == Auth::user()->id_usuario)
                                   <tr>
-                                    <td id="nmd_checkbox_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
+                                    <td id="nombre_convocado_tabla_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
                                     <td>
                                       <div class="row">
                                         <div class="col-lg-2 col-md-2">
-                                          <input type="checkbox" onClick="actualizarLista(this);" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
+                                          <input type="checkbox" onClick="actualizarLista({{$convocado->id_usuario}});" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
                                           <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
                                         </div>
-                                        <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
-                                          <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick rol" autocomplete="off">
-                                              <option value="0">Seleccionar puesto</option>
+                                        <div id="area_puesto_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
+                                          <select id="puesto_seleccion_{{$convocado->id_usuario}}" onChange="actualizarPuesto({{$convocado->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
                                               @foreach($puestos as $puesto)
-                                              <option value="{{$puesto->id_puesto}}" class="control_rol_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
+                                                <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
                                               @endforeach
                                           </select>
                                         </div>
@@ -167,7 +166,7 @@ Nueva reunión
                     </div>
                     <div class="row">
                       <div class="col-lg-12 text-center">
-                        <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4, null);">Nuevo tema para la orden del día</button>
+                        <button type="button" class="colorBoton" onClick="actualizarOrdenDia(4);">Nuevo tema para la orden del día</button>
                       </div>
                     </div>
                   </div>
@@ -196,7 +195,13 @@ Nueva reunión
                             <tbody id="lista_convocados_resumen">
                                 <tr>
                                     <td>{{Auth::user()}}</td>
-                                    <td id="puesto_resumen_{{Auth::user()->id_usuario}}"></td>
+                                    <td id="puesto_resumen_{{Auth::user()->id_usuario}}">
+                                      <select id="puesto_seleccion_{{Auth::user()->id_usuario}}" onChange="actualizarPuesto({{Auth::user()->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
+                                          @foreach($puestos as $puesto)
+                                            <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
+                                          @endforeach
+                                      </select>
+                                    </td>
                                     <td id="rol_resumen_{{Auth::user()->id_usuario}}">Moderador y secretario</td>
                                 </tr>
                             </tbody>

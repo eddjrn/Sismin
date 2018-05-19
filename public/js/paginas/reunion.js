@@ -4,7 +4,7 @@ var candado = false;
 var formulario = new FormData();
 // Se agrega al usuario logueado a la nueva lista
 var convocados = [moderador];
-var roles = [1];
+var puestos = [1];
 
 var orden_dia = [];
 var responsables = [];
@@ -18,10 +18,12 @@ function finalizar(){
   inicioSpinner();
   // Se agregan los datos faltantes al formulario y se codifican para el envío
   formulario.append('convocados', JSON.stringify(convocados));
-  formulario.append('roles', JSON.stringify(roles));
+  formulario.append('puestos', JSON.stringify(puestos));
   formulario.append('orden_dia', JSON.stringify(orden_dia));
   formulario.append('responsables', JSON.stringify(responsables));
   formulario.append('pendientes', JSON.stringify(pendientes));
+  formulario.append('secretario', JSON.stringify(secretario));
+  formulario.append('moderador', JSON.stringify(moderador));
   // Se hace la petición al servidor
   $.ajax({
      type:'POST',
@@ -54,76 +56,53 @@ function finalizar(){
 }
 
 // Función que se ejecuta al seleccionar un rol para el usuario
-function actualizarRol(boton){
-  var id_seleccion = boton.id.split("_");
-  var id_usuario = id_seleccion[2];
-  var id_rol = $(`#${boton.id} option:selected`).val();
-  var descripcion_rol = $(`#${boton.id} option:selected`).html();
+function actualizarPuesto(id){
+  alert(id);
+  var id_puesto = $(`#puesto_seleccion_${id} option:selected`).val();
   // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
-  var indice = convocados.indexOf(id_usuario);
+  var indice = convocados.indexOf(id);
+  puestos[indice] = id_puesto;
 
-  if(roles[indice] == 1){
-    roles[indice] = id_rol;
-    roles[0] = 1;
-    $('.control_rol_1').prop("disabled", false);
-    $('.rol').selectpicker('refresh');
-    descripcion_rol = $(`#${boton.id} option:selected`).html();
-    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
-    descripcion_rol2 = $(`#${boton.id} option:eq(1)`).html();
-    $('#rol_texto_auth').html(descripcion_rol2);
-  }
-  if(id_rol == 0){
-    roles[indice] = 2;
-    descripcion_rol = $(`#${boton.id} option:eq(2)`).html();
-    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
-    notificacionAjax('bg-red', "Debe de elegir un rol para el usuario.", 2500,  'bottom', 'center', null, null);
-  } else if (id_rol == 1) {
-    roles[indice] = 1;
-    roles[0] = 2;
-    $('.control_rol_1').prop("disabled", true);
-    $('.rol').selectpicker('refresh');
-    descripcion_rol = $(`#${boton.id} option:eq(1)`).html();
-    $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
-    descripcion_rol2 = $(`#${boton.id} option:eq(2)`).html();
-    $('#rol_texto_auth').html(descripcion_rol2);
-  } else if(indice!=-1){
-       roles[indice] = id_rol;
-       $(`#rol_texto_${id_usuario}`).html(descripcion_rol);
+  if(id != moderador){
+    var descripcion_puesto = $(`#puesto_seleccion_${id} option:selected`).html();
+    $(`#puesto_resumen_${id}`).html(descripcion_puesto);
   }
 }
 
 // Función que se ejecuta al palomear un usuario
-function actualizarLista(boton){
+function actualizarLista(id){
   // Checa si esta palomeado el usuario
-  if(boton.checked){
-    var nombre = $(`#n${boton.id}`).html();
-    var id_usuario = boton.id.split("_");
-    var descripcion_rol = $(`#rol_seleccion_${id_usuario[2]} option:eq(2)`).html();
+  var boton = $(`#md_checkbox_${id}`);
+  if(boton.prop('checked')){
+    var nombre = $(`#nombre_convocado_tabla_${id}`).html();
+    var descripcion_puesto = $(`#puesto_seleccion_${id} option:eq(0)`).html();
+    var id_puesto = $(`#puesto_seleccion_${id} option:eq(0)`).val();
 
-    convocados.push(id_usuario[2]);
-    roles.push(2);
+    convocados.push(id);
+    puestos.push(id_puesto);
     // Muestra el boton de rol y hace cambios en el resumen
-    $(`#a${boton.id}`).show();
-    $('#convocados_texto').html($('#convocados_texto').html() + `\
-      <li id="nombre_texto${boton.id}"><span id="rol_texto_${id_usuario[2]}">${descripcion_rol}</span>: ${nombre}</li>\
-    `);
+    $(`#area_puesto_${id}`).show();
+    $('#lista_convocados_resumen').html($('#lista_convocados_resumen').html() + `\
+      <tr id="nombre_texto_${id}">\
+        <td>${nombre}</td>\
+        <td id="puesto_resumen_${id}">${descripcion_puesto}</td>\
+        <td id="rol_resumen_${id}">Convocado</td>\
+      </tr>`);
     $('#responsable_nuevo_tema').html($('#responsable_nuevo_tema').html() + `\
-      <option id="convocado${boton.id}" value="${id_usuario[2]}">${nombre}</option>\
-    `);
+      <option id="convocado_opcion_${id}" value="${id}">${nombre}</option>`);
   } else{
     // Elimina a el usuario de la lista si existe
-    var id_usuario = boton.id.split("_");
-    var indice = convocados.indexOf(id_usuario[2]);
+    var indice = convocados.indexOf(id);
     if(indice!=-1){
        convocados.splice(indice, 1);
-       roles.splice(indice, 1);
+       puestos.splice(indice, 1);
     }
     // Oculta el boton de rol y actualiza el resumen de la página
-    $(`#a${boton.id}`).hide();
-    $(`#nombre_texto${boton.id}`).remove();
-    $(`#convocado${boton.id}`).remove();
-    $(`#rol_seleccion_${id_usuario[2]}`).val(0);
-    $(`#rol_seleccion_${id_usuario[2]}`).selectpicker('refresh');
+    $(`#area_puesto_${id}`).hide();
+    $(`#nombre_texto_${id}`).remove();
+    $(`#convocado_opcion_${id}`).remove();
+    $(`#puesto_seleccion_${id}`).val(0);
+    $(`#puesto_seleccion_${id}`).selectpicker('refresh');
   }
   $(`#responsable_nuevo_tema`).selectpicker('refresh');
 }
@@ -138,7 +117,7 @@ function actualizarOrdenDia(opc, boton){
       var nombres = $('#responsable_nuevo_tema option:selected').html();
       var nombre = nombres.split(" ");
       // checa si el campo de descripcion esta vacio
-      if(descripcion == "" || seleccion == 0){
+      if(descripcion == ""){
         $('#temasModal').modal('hide');
         notificacionAjax('bg-red', "Los campos no pueden estar vacíos", 2500,  'bottom', 'center', null, null);
         break;
@@ -167,7 +146,7 @@ function actualizarOrdenDia(opc, boton){
       var nombres = $('#responsable_nuevo_tema option:selected').html();
       var nombre = nombres.split(" ");
       // checa si el campo de descripcion esta vacio
-      if(descripcion == "" || seleccion == 0){
+      if(descripcion == ""){
         $('#temasModal').modal('hide');
         $('#filaEliminar').hide();
         $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
@@ -198,14 +177,15 @@ function actualizarOrdenDia(opc, boton){
       // cambia la accion de guardar en el modal dialog para que se pueda editar un campo
       $('#btnGuardar').attr("onClick",`actualizarOrdenDia(2, ${boton});`);
       $('#btnEliminar').attr("onClick",`actualizarOrdenDia(6, ${boton});`);
-      $('#titulo_convocados').html("Editar tema para la reunión");
+      $('#titulo_modal_convocados').html("Editar tema para la reunión");
       $('#filaEliminar').show();
-      $('#temasModal').modal('show');
+      $('#convocadosModal').modal('show');
       break;
     // mostrar dialogo vacío
     case 4:
-      $('#titulo_convocados').html("Nuevo tema para la reunión");
-      $('#temasModal').modal('show');
+      $('#titulo_modal_convocados').html("Nuevo tema para la reunión");
+      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1);`);
+      $('#convocadosModal').modal('show');
       break;
     // boton de cancelar
     case 5:
@@ -214,7 +194,6 @@ function actualizarOrdenDia(opc, boton){
     // boton de eliminar registro
     case 6:
       mensajeAjax('Eliminando', 'Borrando registro','warning');
-      $('#temasModal').modal('hide');
       $(`#ordenDia_texto${boton}`).remove();
       $(`#ordenDia${boton}`).remove();
       // Busca el valor en un indice y lo elimina de la lista
@@ -235,8 +214,9 @@ function actualizarSecretario(opc){
     // Actualizar secretario de la reunion
     case 1:
       var id_usuario = $('#responsable_nuevo_tema').val();
-      if(secretario == moderador && secretario == id_usuario){
-        $(`#rol_resumen_${secretario}`).html("Moderador y secretario");
+      if(moderador == id_usuario){
+        $(`#rol_resumen_${id_usuario}`).html("Moderador y secretario");
+        $(`#rol_resumen_${secretario}`).html("Convocado");
       } else if(secretario == moderador){
         $(`#rol_resumen_${secretario}`).html("Moderador");
         $(`#rol_resumen_${id_usuario}`).html("Secretario");
@@ -245,8 +225,6 @@ function actualizarSecretario(opc){
         $(`#rol_resumen_${id_usuario}`).html("Secretario");
       }
       secretario = id_usuario;
-      nombre = $('#responsable_nuevo_tema option:selected').html();
-      alert(secretario + " " + moderador + " " + id_usuario);
       ocultarDialogo();
       break;
     // Mostrar dialogo para actualizar secretario
