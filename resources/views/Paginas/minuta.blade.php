@@ -27,7 +27,6 @@ Nueva minuta
 Nueva Minuta
 @stop
 
-
 @section('contenido')
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -84,14 +83,14 @@ Nueva Minuta
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Rol dentro de la reunión</th>
+                                    <th>Puesto dentro de la reunión</th>
                                     <th style="width: 400px !important">Asistencia</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Rol dentro de la reunión</th>
+                                    <th>Puesto dentro de la reunión</th>
                                     <th style="width: 300px !important">Asistencia</th>
                                 </tr>
                             </tfoot>
@@ -106,7 +105,7 @@ Nueva Minuta
                                 ?>
                                   <tr>
                                     <td id="nmd_checkbox_{{$convocado->usuario->id_usuario}}">{{$convocado->usuario->__toString()}}</td>
-                                    <td>{{$convocado->rol->descripcion}}</td>
+                                    <td>{{$convocado->puesto->descripcion}}</td>
                                     <td>
                                       <div class="row">
                                         <div class="col-lg-12" data-asistencia="{{$indice_asistencia}}">
@@ -192,7 +191,7 @@ Nueva Minuta
                       <h4>Fecha: <span id="fecha_hoy"></span></h4>
                       <h4>Lugar: {{$minuta->reunion->lugar}}</h4>
                       <h4>Motivo: {{$minuta->reunion->motivo}}</h4>
-                      <h4>Reunión convocada por: {{$minuta->reunion->moderador()->__toString()}}</h4>
+                      <h4>Reunión convocada por: {{$minuta->reunion->moderador->__toString()}}</h4>
                       <hr/>
                       <h3>Participantes</h3>
                       <hr/>
@@ -200,7 +199,7 @@ Nueva Minuta
                           <thead>
                             <tr>
                               <th>Nombre</th>
-                              <th>Rol dentro de la reunión</th>
+                              <th>Puesto dentro de la reunión</th>
                               <th>Asistencia</th>
                             </tr>
                           </thead>
@@ -208,7 +207,7 @@ Nueva Minuta
                             @foreach($minuta->reunion->convocados as $convocado)
                             <tr>
                               <td id="convocado_resumen_nombre_{{$convocado->id_convocado}}">{{$convocado->usuario->__toString()}}</td>
-                              <td>{{$convocado->rol->descripcion}}</td>
+                              <td>{{$convocado->puesto->descripcion}}</td>
                               <td id="resumen_convocado_asistencia_{{$convocado->id_convocado}}">
                                 @if($convocado->id_usuario == Auth::user()->id_usuario)
                                 Presente
