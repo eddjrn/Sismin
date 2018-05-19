@@ -3,7 +3,8 @@ var candado = false;
 // Listas de datos a llenar
 var formulario = new FormData();
 // Se agrega al usuario logueado a la nueva lista
-var convocados = [moderador];
+var convocados = [];
+convocados.push(moderador);
 var puestos = [1];
 
 var orden_dia = [];
@@ -57,20 +58,18 @@ function finalizar(){
 
 // Función que se ejecuta al seleccionar un rol para el usuario
 function actualizarPuesto(id){
-  alert(id);
   var id_puesto = $(`#puesto_seleccion_${id} option:selected`).val();
+  var descripcion_puesto = $(`#puesto_seleccion_${id} option:selected`).html();
   // Cambia el id del rol dentro de la lista de registros creada a la hora de palomear un usuario
   var indice = convocados.indexOf(id);
   puestos[indice] = id_puesto;
 
-  if(id != moderador){
-    var descripcion_puesto = $(`#puesto_seleccion_${id} option:selected`).html();
-    $(`#puesto_resumen_${id}`).html(descripcion_puesto);
-  }
+  $(`#puesto_resumen_${id}`).html(descripcion_puesto);
 }
 
 // Función que se ejecuta al palomear un usuario
 function actualizarLista(id){
+  $(`#puesto_seleccion_${id}`).selectpicker();
   // Checa si esta palomeado el usuario
   var boton = $(`#md_checkbox_${id}`);
   if(boton.prop('checked')){

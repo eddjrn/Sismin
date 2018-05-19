@@ -82,10 +82,22 @@ Nueva reunión
                                   <label class="form-label">Lugar de la reunión</label>
                               </div>
                           </div>
+                          <div class="form-group">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <p class="col-grey">Mi puesto en reunión: </p>
+                                <select id="puesto_seleccion_{{Auth::user()->id_usuario}}" onChange="actualizarPuesto({{Auth::user()->id_usuario}});" data-container="body" data-size="5" class="form-control show-tick" autocomplete="off" data-live-search="true">
+                                    @foreach($puestos as $puesto)
+                                      <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
+                                    @endforeach
+                                </select>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-lg-offset-2 col-md-offset-2">
                           <p class="col-grey">Grupo de la reunión</p>
-                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-container="body" data-live-search="true" autocomplete="off">
+                          <select id="tipo_reunion" onChange="actualizarTipo(this);" class="form-control show-tick" data-container="body" data-size="5" data-live-search="true" autocomplete="off">
                               <option value="0">Seleccionar</option>
                               @foreach($tipos as $tipo)
                               <option value="{{$tipo->id_tipo_reunion}}" data-imagen="{{$tipo->imagen_logo}}">{{$tipo->descripcion}}</option>
@@ -126,7 +138,7 @@ Nueva reunión
                                           <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
                                         </div>
                                         <div id="area_puesto_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
-                                          <select id="puesto_seleccion_{{$convocado->id_usuario}}" onChange="actualizarPuesto({{$convocado->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
+                                          <select id="puesto_seleccion_{{$convocado->id_usuario}}" onChange="actualizarPuesto({{$convocado->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off" data-live-search="true">
                                               @foreach($puestos as $puesto)
                                                 <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
                                               @endforeach
@@ -196,11 +208,7 @@ Nueva reunión
                                 <tr>
                                     <td>{{Auth::user()}}</td>
                                     <td id="puesto_resumen_{{Auth::user()->id_usuario}}">
-                                      <select id="puesto_seleccion_{{Auth::user()->id_usuario}}" onChange="actualizarPuesto({{Auth::user()->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off">
-                                          @foreach($puestos as $puesto)
-                                            <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
-                                          @endforeach
-                                      </select>
+
                                     </td>
                                     <td id="rol_resumen_{{Auth::user()->id_usuario}}">Moderador y secretario</td>
                                 </tr>
@@ -314,8 +322,8 @@ var colorSpinner = '#00BCD4';
 var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
-var moderador = "{{Auth::user()->id_usuario}}";
-var secretario = "{{Auth::user()->id_usuario}}";
+var moderador = {{Auth::user()->id_usuario}};
+var secretario = {{Auth::user()->id_usuario}};
 
 $.ajaxSetup({
     headers: {
