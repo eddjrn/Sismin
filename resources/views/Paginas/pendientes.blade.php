@@ -172,12 +172,12 @@ Pendientes
                       <ul class="treeview">
                       <?php $reuniones=  Auth::user()->reuniones_historial(); ?>
                       @foreach($reuniones as $reunion)
-                      <li><a class="col-black label fondo">Reunión:</a><span> {{$reunion->tipo_reunion->descripcion}}</span>
-                        <ul id="minutasLista_$reunion->minuta->id_minuta">
+                      <li><a class="col-black label bg-pink">Reunión:</a><span> {{$reunion->tipo_reunion->descripcion}}</span>
+                        <ul id="minutasLista_{{$reunion->minuta->id_minuta}}">
                           <li><i class="tree-indicator glyphicon glyphicon-info-sign"></i><span>Motivo: {{$reunion->motivo}} </span></li>
-                          <li><i class="tree-indicator glyphicon glyphicon-calendar"></i><span>Fecha de la reunión: {{$reunion->fecha_reunion}} </span></li>
-                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Moderador: {{$reunion->moderador()}} </span></li>
-                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Secretario: {{$reunion->secretario()}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-calendar"></i><span>Fecha de la reunión: {{$reunion->getFechaReunionLegible()}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Moderador: {{$reunion->moderador}} </span></li>
+                          <li><i class="tree-indicator glyphicon glyphicon-user"></i><span>Secretario: {{$reunion->secretario}} </span></li>
                           <li><a href="{{asset('/pdf')}}/{{$reunion->id_reunion}}/{{$reunion->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver convocatoria</a></li>
                           <li><a href="{{asset('/pdf_minuta')}}/{{$reunion->minuta->id_minuta}}/{{$reunion->minuta->codigo}}" class="font-bold texto" target="_blank"><i class="tree-indicator glyphicon glyphicon-file"></i>Ver minuta</a></li>
                       </ul>

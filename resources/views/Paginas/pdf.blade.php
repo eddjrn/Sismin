@@ -1,7 +1,6 @@
    <title>Convocatoria de la reunión {{$tipo}} </title>
    <div align="right"><img src="{{$imagen}}" class="logo" width="100" height="100"></div>
-  <div class="DR" align="justify">
-      <center><h1>"{{$tipo}}"</h1></center>
+   <div class="DR"><center><h1>"{{$tipo}}"</h1></center>
     <b>Por medio de la presente, se le convoca a {{$motivo}} para el día {{$reunion->getFechaReunionLegible()}}, en {{$lugar}}.</b><br><br>
 <b>Convocados:</b><hr>
   <table>
@@ -18,12 +17,10 @@
           <td>{{$convocado->usuario->__toString()}}</td>
           <td>{{$convocado->puesto->descripcion}}</td>
           <td>{{$convocado->rol()}}</td>
+       </tr>
         @endforeach
-
       </tbody>
   </table>
-Secretario:{{$reunion->secretario->id_usuario}}
-Moderador:{{$reunion->moderador->id_usuario}}
   <b>Para tratar los siguientes temas:</b><hr>
   <ol>
       @foreach($reunion_orden_dia as $tema)
@@ -37,18 +34,34 @@ Moderador:{{$reunion->moderador->id_usuario}}
 
   <p class="fecha_hoy"><b>{{$fecha_creacion}}</b></p>
   Atentamente:
-      <center><img src="{{$img}}" class="rubrica" width="150" height="150" /></center>
-  <hr class="hrR">
-  <h3>{{$reunion->moderador}}<br> (Moderador)</h3></div>
+
+  <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <center><img src="{{$img}}" class="rubrica" width="120" height="120" />
+             <hr class="hrR"><h3>{{$reunion->moderador}}<br> (Moderador)</h3></center>
+          </td>
+       </tr>
+      </tbody>
+  </table>
+</div>
+
 
 <style>
 .logo{
-  margin-top: 0;
-  padding-top: 0;
-  margin: 1rem;
-  padding: 1rem;
   border-radius:50%;
 -webkit-border-radius:50%;
+margin-bottom: 0px;
+margin-left: 1rem;
+margin-right: 1rem;
+margin-top: 1rem;
+padding-top: 1rem;
+padding-left: 1rem;
+padding-right: 1rem;
+padding-bottom: 0px;
 }
 .fecha_hoy{
   font-family:"Verdana";
@@ -58,10 +71,14 @@ Moderador:{{$reunion->moderador->id_usuario}}
  text-align: right;
 }
 .DR{
-  margin-top: 0;
-  padding-top: 0;
-  margin: 1rem;
-  padding: 1rem;
+  margin-bottom: 0px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0px;
+  padding-top: 0px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0rem;
   font-size: 16px;
 }
 
