@@ -14,7 +14,9 @@ class controlador_reunion extends Controller
     public function mostrar_vista_tipo_reunion(){
       $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
 
-      return view('Paginas.tipo_reunion', ['tipos' => $tipos]);
+      return view('Paginas.tipo_reunion', [
+        'tipos' => $tipos,
+      ]);
     }
 
     public function registrar_tipo_reunion(Request $request){
@@ -39,12 +41,12 @@ class controlador_reunion extends Controller
       return response()->json(['mensaje' => $msg]);
     }
 
-    public function mostrar_vista_rol_usuario(){
-      $tipos = \App\rol_usuario::orderBy('updated_at', 'desc')->get();
-      return view('Paginas.rolUsuario', ['tipos' => $tipos]);
+    public function mostrar_vista_puesto_usuario(){
+      $tipos = \App\puesto_usuario::orderBy('updated_at', 'desc')->get();
+      return view('Paginas.puesto_usuario', ['tipos' => $tipos]);
     }
 
-  public function registrar_rol_usuario(Request $request){
+  public function registrar_puesto_usuario(Request $request){
     $validacion = Validator::make($request->all(), [
       'descripcion'=>'required',
     ]);
@@ -52,28 +54,28 @@ class controlador_reunion extends Controller
     if($validacion->fails()){
       return response()->json(['errores' => $validacion->errors()]);
     }
-    $tipo = \App\rol_usuario::create([
+    $tipo = \App\puesto_usuario::create([
       'descripcion'=>$request->descripcion,
     ]);
-    $msg = 'Se registro el rol de usuario exitosamente: '.$request->descripcion;
+    $msg = 'Se registro el puesto de usuario exitosamente: '.$request->descripcion;
     return response()->json(['mensaje' => $msg]);
   }
 
   public function mostrar_vista_reunion(){
     $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
     $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
-    $roles = \App\rol_usuario::orderBy('updated_at', 'asc')->get();
+    $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
     return view('Paginas.reunion', [
       'tipos'=>$tipos,
       'convocados'=>$convocados,
-      'roles'=>$roles,
+      'puestos'=>$puestos,
     ]);
   }
 
-  public function actualizar_vista(Request $request, $opc){
+  public function actualizar_vista(Request $request){
       $tipo_reunion = \App\tipo_reunion::find($request->id);
-      $reuniones = $tipo_reunion->reuniones->sortByDesc('fecha_reunion_orden');
+      $reuniones = $tipo_reunion->reuniones->sortByDesc('fecha_reunion');
       $temas = null;
       if($reuniones != null){
         foreach($reuniones as $reunion){

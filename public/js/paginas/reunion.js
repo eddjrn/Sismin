@@ -155,12 +155,10 @@ function actualizarOrdenDia(opc, boton){
       $('#lista_orden').html($('#lista_orden').html() + `\
       <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
       style="word-wrap: break-word;" data-usuario="${seleccion}">${descripcion}</button>`);
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
+
       $('#lista_texto').html($('#lista_texto').html() + `\
         <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
+      ocultarDialogo();
       break;
     // editar tema existente
     case 2:
@@ -188,13 +186,7 @@ function actualizarOrdenDia(opc, boton){
       $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
       $(`#ordenDia_texto${boton}`).html(descripcion + " => " + nombre[0] + " " + nombre[1]);
 
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
+      ocultarDialogo();
       break;
     // mostrar dialogo con campos
     case 3:
@@ -206,22 +198,18 @@ function actualizarOrdenDia(opc, boton){
       // cambia la accion de guardar en el modal dialog para que se pueda editar un campo
       $('#btnGuardar').attr("onClick",`actualizarOrdenDia(2, ${boton});`);
       $('#btnEliminar').attr("onClick",`actualizarOrdenDia(6, ${boton});`);
+      $('#titulo_convocados').html("Editar tema para la reunión");
       $('#filaEliminar').show();
       $('#temasModal').modal('show');
       break;
     // mostrar dialogo vacío
     case 4:
+      $('#titulo_convocados').html("Nuevo tema para la reunión");
       $('#temasModal').modal('show');
       break;
     // boton de cancelar
     case 5:
-      $('#temasModal').modal('hide');
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
+      ocultarDialogo();
       break;
     // boton de eliminar registro
     case 6:
@@ -237,14 +225,52 @@ function actualizarOrdenDia(opc, boton){
          orden_dia_control.splice(indice, 1);
       }
       // Pone los valores en vacío
-      $('#descripcion_nuevo_tema').val(null);
-      $('#responsable_nuevo_tema').val(0);
-      $(`#responsable_nuevo_tema`).selectpicker('refresh');
-      $('#filaEliminar').hide();
-      $('#btnGuardar').attr("onClick",`actualizarOrdenDia(1, null);`);
-      $('#btnEliminar').attr("onClick",`actualizarOrdenDia(1, null);`);
+      ocultarDialogo();
       break;
   }
+}
+
+function actualizarSecretario(opc){
+  switch (opc) {
+    // Actualizar secretario de la reunion
+    case 1:
+      var id_usuario = $('#responsable_nuevo_tema').val();
+      if(secretario == moderador && secretario == id_usuario){
+        $(`#rol_resumen_${secretario}`).html("Moderador y secretario");
+      } else if(secretario == moderador){
+        $(`#rol_resumen_${secretario}`).html("Moderador");
+        $(`#rol_resumen_${id_usuario}`).html("Secretario");
+      } else{
+        $(`#rol_resumen_${secretario}`).html("Convocado");
+        $(`#rol_resumen_${id_usuario}`).html("Secretario");
+      }
+      secretario = id_usuario;
+      nombre = $('#responsable_nuevo_tema option:selected').html();
+      alert(secretario + " " + moderador + " " + id_usuario);
+      ocultarDialogo();
+      break;
+    // Mostrar dialogo para actualizar secretario
+    case 2:
+      $('#responsable_nuevo_tema').val(secretario);
+      $(`#responsable_nuevo_tema`).selectpicker('refresh');
+      $('#titulo_modal_convocados').html("Actualizar secretario de la reunión");
+      $('#cuerpo_descripcion').hide();
+      $('#btnGuardar').attr("onClick", 'actualizarSecretario(1);');
+      $('#convocadosModal').modal('show');
+      break;
+  }
+}
+
+function ocultarDialogo(){
+  $('#convocadosModal').modal('hide');
+  $('#descripcion_nuevo_tema').val(null);
+  $('#responsable_nuevo_tema').val(0);
+  $(`#responsable_nuevo_tema`).selectpicker('refresh');
+  $('#filaEliminar').hide();
+  $('#btnGuardar').attr("onClick",'');
+  $('#btnEliminar').attr("onClick",'');
+  $('#titulo_modal_convocados').html("");
+  $('#cuerpo_descripcion').show();
 }
 
 // Función que se ejecuta al escribir el motivo
@@ -276,7 +302,7 @@ function actualizarTipo(opcion){
   $('#imagen_tipo_reunion_texto').attr("src", imagen);
 
   formulario.set('tipo_de_reunion', id_tipo_reunion);
-  var url = urlToCancelPage + "reunion/1";
+  var url = urlToCancelPage + "reunion_especifica";
   // Se sacan los datos del servidor
   var formdata = new FormData();
   formdata.append('id', id_tipo_reunion);

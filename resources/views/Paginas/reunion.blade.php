@@ -12,10 +12,10 @@ Nueva reunión
 <link href="{{asset('/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}" rel="stylesheet" />
 
 <!-- Wait Me Css -->
-<link href="{{asset('/plugins/waitme/waitMe.css')}}" rel="stylesheet" />
+<link href="{{asset('/plugins/waitme/waitMe.css')}}" rel="stylesheet"/>
 
 <!-- Bootstrap Select Css -->
-<link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
+<link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet"/>
 
 <!-- JQuery DataTable Css -->
 <link href="{{asset('/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
@@ -105,13 +105,13 @@ Nueva reunión
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Cargo dentro de la reunión</th>
+                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th style="width: 400px !important">Cargo dentro de la reunión</th>
+                                    <th style="width: 400px !important">Puesto dentro de la reunión</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -127,9 +127,9 @@ Nueva reunión
                                         </div>
                                         <div id="amd_checkbox_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
                                           <select id="rol_seleccion_{{$convocado->id_usuario}}" onChange="actualizarRol(this);" data-container="body" data-width="300px" data-size="5" class="show-tick rol" autocomplete="off">
-                                              <option value="0">Seleccionar cargo</option>
-                                              @foreach($roles as $rol)
-                                              <option value="{{$rol->id_rol}}" class="control_rol_{{$rol->id_rol}}">{{$rol->descripcion}}</option>
+                                              <option value="0">Seleccionar puesto</option>
+                                              @foreach($puestos as $puesto)
+                                              <option value="{{$puesto->id_puesto}}" class="control_rol_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
                                               @endforeach
                                           </select>
                                         </div>
@@ -140,6 +140,12 @@ Nueva reunión
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <br/>
+                    <div class="row">
+                      <div class="col-lg-12 text-center">
+                        <button type="button" class="colorBoton" onClick="actualizarSecretario(2);">Asignar secretario de la reunión</button>
+                      </div>
                     </div>
                   </div>
                   <div id="menu3" class="oculto">
@@ -178,9 +184,24 @@ Nueva reunión
                       <span>Por  medio  de  la  presente,  se  le  convoca  a </span><span id="motivo_texto"></span><span>para  el  día </span><span id="fecha_texto"></span> , en <span id="lugar_texto"></span>.
                       <br/>
                       <h5>Convocados</h5>
-                      <ul id="convocados_texto">
-                        <li><span id="rol_texto_auth">Secretario</span>: {{Auth::user()}}</li>
-                      </ul>
+                      <div class="well bar" style="height: 300px; overflow-y: scroll;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Puesto dentro de la reunión</th>
+                                    <th>Rol dentro de la reunión</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista_convocados_resumen">
+                                <tr>
+                                    <td>{{Auth::user()}}</td>
+                                    <td id="puesto_resumen_{{Auth::user()->id_usuario}}"></td>
+                                    <td id="rol_resumen_{{Auth::user()->id_usuario}}">Moderador y secretario</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
                       <h5>Para tratar los siguientes temas:</h5>
                       <ol id="lista_texto"></ol>
                       <br/>
@@ -212,14 +233,14 @@ Nueva reunión
     </div>
 </div>
 
-<div class="modal fade" id="temasModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="convocadosModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="smallModalLabel">Tema para reunión</h4>
+                <h4 class="modal-title" id="smallModalLabel"><span id="titulo_modal_convocados"></span></h4>
             </div>
             <div class="modal-body">
-              <div class="input-group">
+              <div class="input-group" id="cuerpo_descripcion">
                   <span class="input-group-addon">
                       <i class="material-icons">subject</i>
                   </span>
@@ -229,7 +250,6 @@ Nueva reunión
               </div>
               <p class="col-grey">Responsable</p>
               <select id="responsable_nuevo_tema" class="form-control show-tick" data-live-search="true">
-                  <option value="0">Seleccionar</option>
                   <option id="convocado{{Auth::user()->id_usuario}}" value="{{Auth::user()->id_usuario}}">{{Auth::user()}}</option>
               </select>
             </div>
@@ -290,6 +310,7 @@ var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var moderador = "{{Auth::user()->id_usuario}}";
+var secretario = "{{Auth::user()->id_usuario}}";
 
 $.ajaxSetup({
     headers: {

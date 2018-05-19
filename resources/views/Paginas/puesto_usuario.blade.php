@@ -1,7 +1,7 @@
 @extends('Layout.layout2')
 
 @section('titulo')
-Registro de un rol de usuario
+Registro de un puesto de usuario
 @stop
 
 @section('estilos')
@@ -25,7 +25,7 @@ Registro de un rol de usuario
     <div class="card">
         <div class="body">
             <form>
-                <div class="msg">Dar de alta rol de reunión</div>
+                <div class="msg">Dar de alta puesto de reunión</div>
 
                 @if(isset($tipos))
                 <div class="input-group">
@@ -53,7 +53,7 @@ Registro de un rol de usuario
                         <i class="material-icons">description</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" required data-toggle="tooltip" data-placement="top" title="Ingrese la desdcripción de el rol de usuario">
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripción" required data-toggle="tooltip" data-placement="top" title="Ingrese la desdcripción de el puesto de usuario">
                     </div>
                 </div>
                 <div class="row">
@@ -83,8 +83,8 @@ $.ajaxSetup({
 });
 
 function guardar(){
-  var url = "{{asset('/rolUsuario')}}";
-  var urlToRedirectPage = "{{asset('/rolUsuario')}}";
+  var url = "{{asset('/puesto_usuario')}}";
+  var urlToRedirectPage = "{{asset('/puesto_usuario')}}";
   var descripcion = document.getElementById('descripcion').value;
   var formdata = new FormData();
   formdata.append('descripcion', descripcion);

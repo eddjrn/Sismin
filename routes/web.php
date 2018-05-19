@@ -44,11 +44,11 @@ Route::post('/vista_principal_tarea','controlador_vista_general@actualizarTarea'
 Route::get('/tipo_reunion','controlador_reunion@mostrar_vista_tipo_reunion')->middleware('sesion');
 Route::post('/tipo_reunion','controlador_reunion@registrar_tipo_reunion')->middleware('sesion');
 
-Route::get('/rolUsuario','controlador_reunion@mostrar_vista_rol_usuario')->middleware('sesion');
-Route::post('/rolUsuario','controlador_reunion@registrar_rol_usuario')->middleware('sesion');
+Route::get('/puesto_usuario','controlador_reunion@mostrar_vista_puesto_usuario')->middleware('sesion');
+Route::post('/puesto_usuario','controlador_reunion@registrar_puesto_usuario')->middleware('sesion');
 
 Route::get('/reunion','controlador_reunion@mostrar_vista_reunion')->middleware('sesion');
-Route::post('/reunion/{opc}', 'controlador_reunion@actualizar_vista')->middleware('sesion');
+Route::post('/reunion_especifica', 'controlador_reunion@actualizar_vista')->middleware('sesion');
 Route::post('/reunion','controlador_reunion@crear_reunion')->middleware('sesion');
 
 Route::get('/pdf/{id}/{codigo}','controlador_reunion@pdf');

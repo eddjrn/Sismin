@@ -22,7 +22,7 @@ class tipo_reunion extends Model
   }
 
   public function reuniones(){
-    return $this->hasMany(reunion::class,'id_tipo_reunion')->orderBy('fecha_reunion_orden', 'desc');
+    return $this->hasMany(reunion::class,'id_tipo_reunion')->orderBy('fecha_reunion', 'desc');
   }
 
   public function getFecha(){

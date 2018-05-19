@@ -22,7 +22,7 @@ Registro del motivo de una reunión
     <div class="card">
         <div class="body">
             <form>
-                <div class="msg">Dar de alta tipo de reunión</div>
+                <div class="msg">Dar de alta grupo de reunión</div>
 
                 @if(isset($tipos))
                 <div class="input-group">
@@ -65,7 +65,7 @@ Registro del motivo de una reunión
                         <i class="material-icons">description</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" id="descripcion" class="form-control" name="descripcion" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el tipo de reunión">
+                        <input type="text" id="descripcion" class="form-control" name="descripcion" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el grupo de reunión">
                     </div>
                 </div>
                 <div class="row">

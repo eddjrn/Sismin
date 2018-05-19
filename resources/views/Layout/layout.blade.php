@@ -137,13 +137,13 @@
                    <a href="{{asset('/tipo_reunion')}}">
                       <li data-theme="red">
                           <i class="material-icons">note_add</i>
-                          <span>Dar de alta un nuevo tipo de reunión</span>
+                          <span>Dar de alta un grupo de reunión</span>
                       </li>
                     </a>
-                    <a href="{{asset('/rolUsuario')}}">
+                    <a href="{{asset('/puesto_usuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>
-                           <span>Dar de alta un rol de usuario</span>
+                           <span>Dar de alta un puesto de usuario</span>
                        </li>
                      </a>
                       <a href="{{asset('/acercade')}}">
