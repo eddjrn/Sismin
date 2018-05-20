@@ -25,7 +25,7 @@ Pendientes
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs tab-col-pink" role="tablist">
                     @if(count($compromisos) > 0)
-                    <li role="presentation" class="active">
+                    <li role="presentation">
                         <a href="#home_with_icon_title" data-toggle="tab">
                             <i class="material-icons">list</i> Compromisos.
                         </a>

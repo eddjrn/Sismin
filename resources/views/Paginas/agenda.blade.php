@@ -72,7 +72,7 @@ Agenda
 
 @section('contenido')
 <!-- Basic Card -->
-@if(count($eventos) > 0)
+@if((count($eventos) > 0) || (count($eventoshs) > 0))
 <?php $icono_vacio = false; ?>
 <div class="row clearfix">
     <div class="col-lg-12">
@@ -275,12 +275,12 @@ $(document).ready(function() {
  				    @endforeach
  				    ],
  				    temasPendientes:[
- 				      @if(empty($datos[$e]))
+ 				      @if(empty($evento->reunion_temas_pendientes()))
  				      {
  				        tem: 'esta reunion no tiene temas pendientes',
  				      },
  				      @else
- 				      @foreach($datos[$e] as $tema)
+ 				      @foreach($evento->reunion_temas_pendientes() as $tema)
  				        {
  				          tem: '{{$tema->descripcion}}',
  				        },
@@ -302,7 +302,7 @@ $(document).ready(function() {
  				  @foreach($compromisos as $key=>$compromiso)
  				  {
  				    title:'{{$compromiso->descripcion}}',
- 				    tarea:'{{$CR[$key]->tarea}}',
+ 				    tarea:'{{$tareaP[$key]->tarea}}',
  				    start: new Date("{{$compromiso->getOriginal()['fecha_limite']}}"),
  				    hora: '{{$compromiso->fecha_limite}}',
  				    status: '{{$compromiso->finalizado}}',
@@ -315,6 +315,62 @@ $(document).ready(function() {
  				    className:'info',
  				  },
  				  @endforeach
+					//Reuniones y compromisos pasados
+					@foreach($eventoshs as $e=>$eventohs)
+ 				  {
+ 				    id: '{{$eventohs->id_reunion}}',
+ 				    title:'{{$eventohs->tipo_reunion->descripcion}}',
+ 				    description:'{{$eventohs->motivo}}',
+ 				    start: moment('{{$eventohs->fecha_reunion}}'),
+ 				    moderador: '{{$eventohs->moderador}}',
+ 				    secretario: '{{$eventohs->secretario}}',
+ 				    convocados: [
+ 				    @foreach($eventohs->convocados as $convocado)
+ 				      {
+ 				        con: '{{$convocado->usuario->__toString()}}',
+ 				      },
+ 				    @endforeach
+ 				    ],
+ 				    temasPendientes:[
+ 				      @if(empty($eventohs->reunion_temas_pendientes()))
+ 				      {
+ 				        tem: 'esta reunion no tiene temas pendientes',
+ 				      },
+ 				      @else
+ 				      @foreach($eventohs->reunion_temas_pendientes() as $tema)
+ 				        {
+ 				          tem: '{{$tema->descripcion}}',
+ 				        },
+ 				      @endforeach
+ 				      @endif
+ 				      ],
+ 				    convocatoria: "{{asset('/pdf')}}/{{$eventohs->id_reunion}}/{{$eventohs->codigo}}",
+ 				    minuta: "{{asset('/pdf_minuta')}}/{{$eventohs->minuta->id_minuta}}/{{$eventohs->minuta->codigo}}",
+ 				    codigo:'{{$eventohs->minuta->getOriginal()["fecha_elaboracion"]}}',
+ 				    hora: '{{$eventohs->getFechaReunionLegible()}}',
+ 				    allDay: false,
+ 				    backgroundColor: '#717d7e',
+ 				    borderColor:'#566573',
+ 				    color:'#000000',
+ 				    className:'info',
+ 				  },
+ 				  @endforeach
+					@foreach($compromisosh as $k=>$compromisoh)
+					{
+						title:'{{$compromisoh->descripcion}}',
+						tarea:'{{$tareaH[$k]->tarea}}',
+						start: new Date("{{$compromisoh->getOriginal()['fecha_limite']}}"),
+						hora: '{{$compromisoh->fecha_limite}}',
+						status: '{{$compromisoh->finalizado}}',
+						reunion:'{{$compromisoh->minuta->reunion->tipo_reunion->descripcion}}',
+						temaOD:'{{$compromisoh->orden_dia->descripcion}}',
+						allDay: false,
+						backgroundColor: '#717d7e',
+ 				    borderColor:'#566573',
+ 				    color:'#000000',
+ 				    className:'info',
+					},
+					@endforeach
  				],
  				eventClick:  function(event, jsEvent, view) {
  				if(event.convocados != null){
