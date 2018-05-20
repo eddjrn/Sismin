@@ -20,7 +20,7 @@ Página Principal
 
 @section('contenido')
 <div class="row clearfix">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{$convocado_en->count()}}">
             <div class="icon">
                 <i class="material-icons">today</i>
@@ -31,7 +31,7 @@ Página Principal
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{$responsable_en->count()}}">
             <div class="icon">
                 <i class="material-icons">assignment_turned_in</i>
@@ -42,7 +42,7 @@ Página Principal
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-light-green hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de minutas: {{count($reuniones_historial)}}">
             <div class="icon">
                 <i class="material-icons">description</i>
@@ -53,7 +53,7 @@ Página Principal
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{$temas_pendientes->count()}}">
             <div class="icon">
                 <i class="material-icons">format_list_numbered</i>

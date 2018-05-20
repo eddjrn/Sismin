@@ -276,7 +276,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="363.65137"
+     inkscape:cx="-69.205771"
      inkscape:cy="267.21022"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -306,7 +306,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -322,17 +322,15 @@
        id="path4528"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="scsss" />
-    <text
-       xml:space="preserve"
+    <g
+       aria-label="!"
+       transform="matrix(2.810989,0,0,2.810989,-113.27521,-378.98121)"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#e000a4;fill-opacity:1;stroke:#ffb5df;stroke-width:1.32291663;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter5457)"
-       x="66.875938"
-       y="224.44185"
-       id="text4761"
-       transform="matrix(2.810989,0,0,2.810989,-113.27521,-378.98121)"><tspan
-         sodipodi:role="line"
-         id="tspan4759"
-         x="66.875938"
-         y="224.44185"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:35.27777863px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold';text-align:center;text-anchor:middle;fill:#e000a4;fill-opacity:1;stroke:#ffb5df;stroke-width:1.32291663;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">!</tspan></text>
+       id="text4761">
+      <path
+         d="m 68.822417,217.1038 h -3.961859 l -0.551216,-16.93265 h 5.064291 z m -4.513075,7.33805 v -4.65088 h 4.960938 v 4.65088 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:35.27777863px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Bold';text-align:center;text-anchor:middle;fill:#e000a4;fill-opacity:1;stroke:#ffb5df;stroke-width:1.32291663;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path4532" />
+    </g>
   </g>
 </svg>

@@ -8,8 +8,8 @@
     <title>
       @yield('titulo')
     </title>
-    <!-- Favicon-->
-    <link rel="icon" href="{{asset('/images/iconoMin.svg')}}" type="image/x-icon">
+    
+    @include('Layout.layoutConfigIconos')
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
