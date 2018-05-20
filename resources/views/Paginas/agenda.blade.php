@@ -303,7 +303,7 @@ $(document).ready(function() {
  				  {
  				    title:'{{$compromiso->descripcion}}',
  				    tarea:'{{$tareaP[$key]->tarea}}',
- 				    start: new Date("{{$compromiso->getOriginal()['fecha_limite']}}"),
+ 				    start:  moment("{{$compromiso->getOriginal()['fecha_limite']}}"),
  				    hora: '{{$compromiso->fecha_limite}}',
  				    status: '{{$compromiso->finalizado}}',
  				    reunion:'{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}',
@@ -359,7 +359,7 @@ $(document).ready(function() {
 					{
 						title:'{{$compromisoh->descripcion}}',
 						tarea:'{{$tareaH[$k]->tarea}}',
-						start: new Date("{{$compromisoh->getOriginal()['fecha_limite']}}"),
+						start:  moment("{{$compromisoh->getOriginal()['fecha_limite']}}"),
 						hora: '{{$compromisoh->fecha_limite}}',
 						status: '{{$compromisoh->finalizado}}',
 						reunion:'{{$compromisoh->minuta->reunion->tipo_reunion->descripcion}}',
