@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
             $usuarios = \App\usuario::all();
             foreach($usuarios as $usuario){
                 $correo = $usuario->correo_electronico;
-                $compromisos_responsables = $usuario->responsables;
+                $compromisos_responsables = $usuario->responsable_en;
                 $compromisos = array();
                 $fechaHoy = Date::now();
                 $ejecutarCorreo = false;
@@ -60,7 +60,7 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Register the commands for the application.
+     * Register the commands for the application.everyMinute
      *
      * @return void
      */
