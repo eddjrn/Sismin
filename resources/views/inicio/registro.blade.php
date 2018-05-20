@@ -107,10 +107,10 @@ Registrar a un nuevo usuario
                   </div>
                 </div>
                 <div class="modal-footer row clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-xs-6">
                     <button type="button" id="clear" onclick="event.preventDefault(); atrament.clear();" class="btn bg-pink btn-block waves-effect">Borrar</button>
                   </div>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-xs-6">
                     <button type="button" class="btn bg-pink btn-block waves-effect" data-dismiss="modal">Guardar</button>
                   </div>
                 </div>
