@@ -357,7 +357,7 @@ Nueva Minuta
                       <i class="material-icons">subject</i>
                   </span>
                   <div class="form-line">
-                      <textarea id="hechosDescripcion" rows="4" class="form-control no-resize" placeholder="Descripción." data-toggle="tooltip" data-placement="top" title="Cada tema pendiente deberá de separarlo con el caracter de coma (,)"></textarea>
+                      <textarea id="hechosDescripcion" rows="4" class="form-control no-resize" placeholder="Descripción." data-toggle="tooltip" data-placement="bottom" title="Cada tema pendiente deberá de separarlo con el caracter de coma (,)"></textarea>
                   </div>
               </div>
             </div>
