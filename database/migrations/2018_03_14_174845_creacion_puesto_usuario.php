@@ -16,7 +16,7 @@ class CreacionPuestoUsuario extends Migration
       Schema::create('puesto_usuario',function(Blueprint $table){
         $table->increments('id_puesto');
         $table->timestamps();
-        $table->string('descripcion',50);
+        $table->string('descripcion',50)->unique();
       });
     }
 

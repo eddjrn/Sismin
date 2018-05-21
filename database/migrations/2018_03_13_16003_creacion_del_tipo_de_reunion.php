@@ -16,7 +16,7 @@ class CreacionDelTipoDeReunion extends Migration
         Schema::create('tipo_reunion', function (Blueprint $table) {
             $table->increments('id_tipo_reunion');
             $table->timestamps();
-            $table->text('descripcion',100);
+            $table->string('descripcion',100)->unique();
             $table->binary('imagen_logo');
         });
     }
