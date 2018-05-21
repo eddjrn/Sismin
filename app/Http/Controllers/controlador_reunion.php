@@ -21,7 +21,7 @@ class controlador_reunion extends Controller
 
     public function registrar_tipo_reunion(Request $request){
       $validacion = Validator::make($request->all(), [
-        'descripcion'=>'required|min:4',
+        'descripcion'=>'required|min:3|unique:tipo_reunion,descripcion',
       ]);
 
       if($validacion->fails()){
@@ -48,7 +48,7 @@ class controlador_reunion extends Controller
 
   public function registrar_puesto_usuario(Request $request){
     $validacion = Validator::make($request->all(), [
-      'descripcion'=>'required',
+      'descripcion'=>'required|min:3|unique:puesto_usuario,descripcion',
     ]);
 
     if($validacion->fails()){
