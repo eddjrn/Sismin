@@ -54,7 +54,7 @@ class controlador_vista_general extends Controller
       array_push($datosReunion,$reunion->minuta->id_minuta);
       array_push($datosReunion,$reunion->moderador->id_usuario);
 
-      if($fechaR.diffInDays($fechaHoy) <= 1){
+      if($fechaR->diffInHours($fechaHoy) <= 12){
         array_push($datosReunion,1);
       }else{
         array_push($datosReunion,0);
