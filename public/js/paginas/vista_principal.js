@@ -30,7 +30,12 @@ function mostrar(id_reunion){
           $('#btns').show();
           var id_convocados = [];
           id_convocados = result.datos[4];
+        if(result.datos[3][12]== 1){
+          $('#realizarMinuta').show();
           $('#realizarMinuta').attr('onClick',`realizarMinuta(${result.datos[3][10]},"${result.datos[3][9]}")`);
+        }else{
+          $('#realizarMinuta').hide();
+        }
           $('#delegarResp').attr('onClick',`delegarResp(\
             ${result.datos[0]['id_reunion']},\
             "${result.datos[3][8]}",\

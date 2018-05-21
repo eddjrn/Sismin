@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hash;
 use Mail;
+use Jenssegers\Date\Date;
 
 class controlador_vista_general extends Controller
 {
@@ -37,6 +38,8 @@ class controlador_vista_general extends Controller
       $idConvocados = array();
       $idSecre= $reunion->secretario->id_usuario;
       $idMod = Auth::user()->id_usuario;
+      $fechaR = new Date($reunion->fecha_reunion);
+      $fechaHoy = Date::now();
 
       array_push($datosReunion,$reunion->moderador->__toString());
       array_push($datosReunion,$reunion->getFechaReunionLegible());
@@ -50,6 +53,12 @@ class controlador_vista_general extends Controller
       array_push($datosReunion,$reunion->minuta->codigo);
       array_push($datosReunion,$reunion->minuta->id_minuta);
       array_push($datosReunion,$reunion->moderador->id_usuario);
+
+      if($fechaR.diffInDays($fechaHoy) <= 1){
+        array_push($datosReunion,1);
+      }else{
+        array_push($datosReunion,0);
+      }
 
       foreach($reunion->convocados as $convocado){
         array_push($convocadosData,$convocado->usuario->__toString());
