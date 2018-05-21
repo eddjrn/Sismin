@@ -6,6 +6,6 @@
       font-weight: 600;
       font-size: 20px;
       color: white;
-      background-color:#FA8072;
+      background-color:#E91E63;
       border-radius: 6px;
-      border: 2px solid #FA8072;"> ver minuta</a><br><br><br>
+      border: 2px solid #E91E63;"> ver minuta</a><br><br><br>

@@ -1,7 +1,6 @@
 var convocados = [];
 function mostrar(id_reunion){
 //  alert(reunion);
-
     $.ajax({
      type:'POST',
      url: url,
@@ -111,6 +110,7 @@ function realizarMinuta(id,codigo){
 function eliminarReunion(opcion, id_reunion, codigo){
   switch(opcion){
     case 1:
+    inicioSpinner();
     urlD2 = urlD + "/" + id_reunion + "/" + codigo;
     $.ajax({
        type:'POST',
@@ -121,6 +121,7 @@ function eliminarReunion(opcion, id_reunion, codigo){
        },
        success:function(result){
          if(result.errores){
+            finSpinner();
            var errores = '<ul>';
            $.each(result.errores,function(indice,valor){
              errores += '<li>' + valor + '</li>';
@@ -135,6 +136,7 @@ function eliminarReunion(opcion, id_reunion, codigo){
          }
       },
         error: function (jqXHR, status, error) {
+          finSpinner();
          mensajeAjax('Error', error, 'error');
         }
       });

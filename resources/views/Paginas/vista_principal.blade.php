@@ -352,7 +352,10 @@ var urlToRedirectPage = "{{asset('/')}}";
 var urlS = "{{asset('/vista_principal_select')}}";
 var urlT = "{{asset('/vista_principal_tarea')}}";
 var urlD = "{{asset('/vista_principal_eliminar/')}}";
-
+var colorSpinner = '#E91E63';
 var imagenRedireccionar = "{{asset('/images/redireccionar.svg')}}";
+// $(function(){
+//   inicioSpinner();
+// })
 </script>
 @stop
