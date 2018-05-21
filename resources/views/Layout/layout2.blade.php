@@ -7,7 +7,7 @@
     <title>
       @yield('titulo')
     </title>
-    
+
     @include('Layout.layoutConfigIconos')
 
     <!-- Google Fonts -->
