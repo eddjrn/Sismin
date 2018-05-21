@@ -173,7 +173,7 @@ Agenda
 									</div>
 									<div class="modal-footer row clearfix">
 										<div class="col-xs-6 col-xs-offset-3">
-										<button type="button" id="clear" data-dismiss="modal" class="colorBoton" onClick="limpiarDialogo();">Cerrar</button>
+										<button type="button" id="clear" data-dismiss="modal" class="colorBoton btn-block" onClick="limpiarDialogo();">Cerrar</button>
 									</div>
 									</div>
 								</div>
@@ -194,7 +194,7 @@ Agenda
 										<div align="justify"><h4>Fecha: </h4><span id="modalFecha"></span>.</div>
 										<div class="modal-footer row clearfix">
 											<div class="col-xs-6 col-xs-offset-3">
-											<button type="button" id="clear" data-dismiss="modal" class="colorBoton">Cerrar</button>
+											<button type="button" id="clear" data-dismiss="modal" class="colorBoton btn-block">Cerrar</button>
 										</div>
 										</div>
 									</div>
