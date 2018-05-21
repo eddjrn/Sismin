@@ -172,7 +172,9 @@ Agenda
 										</div>
 									</div>
 									<div class="modal-footer row clearfix">
+										<div class="col-xs-6 col-xs-offset-3">
 										<button type="button" id="clear" data-dismiss="modal" class="colorBoton" onClick="limpiarDialogo();">Cerrar</button>
+									</div>
 									</div>
 								</div>
 						</div>
@@ -191,7 +193,9 @@ Agenda
 										<div align="justify"><h4>Responsabilidad: </h4><span id="modalTema"> </span>: <span id="modalResponsabilidad"></span>.</div>
 										<div align="justify"><h4>Fecha: </h4><span id="modalFecha"></span>.</div>
 										<div class="modal-footer row clearfix">
+											<div class="col-xs-6 col-xs-offset-3">
 											<button type="button" id="clear" data-dismiss="modal" class="colorBoton">Cerrar</button>
+										</div>
 										</div>
 									</div>
 							</div>
@@ -253,6 +257,7 @@ $(document).ready(function() {
 					 right: 'month,agendaWeek,agendaDay,listMonth'
 				 },
 				 defaultDate: dateString,
+				 defaultView: 'listMonth',
 				 weekNumbers: true,
 				 navLinks: true, // can click day/week names to navigate views
 				 editable: false,
