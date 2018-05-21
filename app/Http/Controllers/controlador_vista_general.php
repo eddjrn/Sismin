@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hash;
-
+use Mail;
 
 class controlador_vista_general extends Controller
 {
@@ -85,6 +85,7 @@ class controlador_vista_general extends Controller
     }
 
     public function eliminarReunion(Request $request, $id, $codigo){
+
       $validacion = Validator::make($request->all(), [
         'clave'=>'required',
       ]);
@@ -101,9 +102,30 @@ class controlador_vista_general extends Controller
         return response()->json(['errores' => ["No existe la reunión"]]);
       }
 
+      //enviar convocatoria por correo_electronico
+      $c = str_random(10);
+      for($i=0; $i< count($reunion->convocados); $i++)
+      {
+        $correo= $reunion->convocados->get($i)->usuario->correo_electronico;
+        $this->enviarCorreo($reunion,$correo);
+      }
+
       $reunion->delete();
 
       return response()->json(['mensaje' => "Limpiando registros"]);
+    }
+
+    private function enviarCorreo($reunion,$correo)
+    {
+      $usuario = \App\usuario::wherecorreo_electronico($correo)->first();
+      Mail::send('Paginas.link_reunion',[
+        'reunion' => $reunion,
+        'usuario'=>$usuario
+      ], function($mensaje) use ($usuario){
+          $mensaje->to($usuario->correo_electronico);
+          $mensaje->subject("Reunión eliminada");
+      });
+
     }
 
     public function actualizarTarea(Request $request){
