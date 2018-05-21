@@ -30,7 +30,7 @@ Registrar a un nuevo usuario
               <i class="material-icons">person</i>
             </span>
             <div class="form-line">
-              <input type="text" class="form-control nombre" name="nombre" id="nombre" placeholder="Nombre">
+              <input type="text" class="form-control nombre" name="nombre" id="nombre"  onkeypress="return validar(event)" placeholder="Nombre">
             </div>
           </div>
 
@@ -129,7 +129,7 @@ $(function () {
   //Masked Input ============================================================================================================================
   var $demoMaskedInput = $('.demo-masked-input');
   //Nombre
-  $demoMaskedInput.find('.nombre').inputmask('aaaaaaaaaaaaaaaaaaaa',{ placeholder: ''});
+  //$demoMaskedInput.find('.nombre').inputmask('aaaaaaaaaaaaaaaaaaaa',{ placeholder: ''});
   //Apellido_Paterno
   $demoMaskedInput.find('.apellido_paterno').inputmask('aaaaaaaaaaaaaaaaaaaa',{ placeholder: ''});
   //apellido_materno
@@ -137,6 +137,15 @@ $(function () {
   //Email
   $demoMaskedInput.find('.email').inputmask({ alias: "email" });
 });
+function validar(e) {
+tecla = (document.all) ? e.keyCode : e.which;
+if (tecla==8) return true; //Tecla de retroceso (para poder borrar)
+// dejar la línea de patron que se necesite y borrar el resto
+patron =/[A-Za-z\s]/;
+//
+te = String.fromCharCode(tecla);
+return patron.test(te);
+}
 </script>
 
 <!-- Script de las opciones del plugin de dibujo -->
