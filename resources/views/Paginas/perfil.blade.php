@@ -59,7 +59,7 @@ Perfil de usuario
                     <img src="{{asset('/images/cambiar_perfil.svg')}}" width="150" height="150"/>
                   </div>
                 </div>
-                <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña o corroe electrónico</h4>
+                <h4 class="modal-title" id="largeModalLabel">Cambiar correo electrónico y/o contraseña</h4>
             </div>
             <div class="modal-body">
               <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" autocomplete="off">
@@ -79,7 +79,7 @@ Perfil de usuario
                         <i class="material-icons">email</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su nuevo correo electrónico" data-toggle="tooltip" data-placement="top" title="Debe ser un correo real" value="{{Auth::user()->correo_electronico}}">
+                        <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su nuevo correo electrónico" data-toggle="tooltip" data-placement="top" title="Debe ser un correo real y que nadie más lo este usando" value="{{Auth::user()->correo_electronico}}">
                     </div>
                   </div>
                   <hr/>
