@@ -133,7 +133,7 @@ function actualizarOrdenDia(opc, boton){
       $('#lista_orden').html($('#lista_orden').html() + `\
       <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item tooltips" \
       style="word-wrap: break-word;" data-usuario="${seleccion}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body" data-trigger="hover">${descripcion}</button>`);
-      $('.tooltips').tooltip();
+      $(`#${boton_id}`).tooltip();
       $('#lista_texto').html($('#lista_texto').html() + `\
         <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
       ocultarDialogo();
@@ -196,6 +196,7 @@ function actualizarOrdenDia(opc, boton){
     case 6:
       mensajeAjax('Eliminando', 'Borrando registro','warning');
       $(`#ordenDia_texto${boton}`).remove();
+      $(`#ordenDia${boton}`).tooltip('destroy');
       $(`#ordenDia${boton}`).remove();
       // Busca el valor en un indice y lo elimina de la lista
       var indice = convocados.indexOf(boton);
@@ -331,11 +332,13 @@ function agregarTemaPendiente(id_tema, descripcion){
 
   notificacionAjax('bg-blue-grey', "Debe seleccionar un responsable.", 2500,  'bottom', 'center', null, null);
   // Se elimina de temas pendientes
+  $(`#pendiente_${id_tema}`).tooltip('destroy');
   $(`#pendiente_${id_tema}`).remove();
   // Se genera el codigo HTML correspondiente de los botones
   $('#lista_orden').html($('#lista_orden').html() + `\
   <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
-  style="word-wrap: break-word;" data-usuario="${moderador}">${descripcion}</button>`);
+  style="word-wrap: break-word;" data-usuario="${moderador}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body" data-trigger="hover">${descripcion}</button>`);
+  $(`#${boton_id}`).tooltip();
   $('#lista_texto').html($('#lista_texto').html() + `\
     <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
 }

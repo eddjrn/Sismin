@@ -9,14 +9,24 @@ font-weight:bold;color:#292f33;text-align:left;text-decoration:none"> ¿Restable
   Hemos recibido una petición para restablecer la contraseña de tu cuenta en SisMin, haz clic en el botón que aparece a continuación para restablecer tu contraseña.<br>
 </p><br><br><br>
 
-  <a href="{{asset('/cambiar_password')}}/{{$usuario->correo_electronico}}/{{$codigo}}" style="  text-decoration: none;
-    padding: 10px;
-    font-weight: 600;
-    font-size: 20px;
-    color: white;
-    background-color:#E91E63;
-    border-radius: 6px;
-    border: 2px solid #E91E63;"> Restablecer contraseña </a><br><br><br>
+  <div align="center">
+    <a href="{{asset('/cambiar_password')}}/{{$usuario->correo_electronico}}/{{$codigo}}" style="  text-decoration: none;
+      padding: 10px;
+      font-weight: 60;
+      font-size: 20px;
+      color: white;
+      background-color:#E91E63;
+      border-radius: 2px;
+      border: 2px solid #E91E63;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.12);
+      "> Restablecer contraseña </a>
+    <br><br><br>
 
-  <h3>Gracias,<br>
-  Sistema auxiliar en la elaboración y seguimiento de las minutas de reuniones de trabajo.<h3>
+    <h5>Gracias,<br>
+    Sistema auxiliar en la elaboración y seguimiento de las minutas de reuniones de trabajo.
+    </h5>
+  </div>
+
+  <br>
+      <img src="{{asset('/images/correo.svg')}}" width="150" height="150" style="display: block; margin-left: auto; margin-right: auto;"/>
+  <br>
