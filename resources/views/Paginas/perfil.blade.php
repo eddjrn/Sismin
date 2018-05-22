@@ -38,7 +38,7 @@ Perfil de usuario
             <img src="{{Auth::user()->rubrica}}" class="thumbnail"/>
           </div>
 
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#cambiarCModal">Cambiar contraseña</button>
+          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#cambiarCModal">Cambiar datos</button>
           <a href="{{asset('/')}}" class="btn btn-block btn-lg bg-pink waves-effect">Regresar</a>
         </form>
       </div>
@@ -59,10 +59,10 @@ Perfil de usuario
                     <img src="{{asset('/images/cambiar_perfil.svg')}}" width="150" height="150"/>
                   </div>
                 </div>
-                <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña</h4>
+                <h4 class="modal-title" id="largeModalLabel">Cambiar contraseña o corroe electrónico</h4>
             </div>
             <div class="modal-body">
-              <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" >
+              <form id="forgot_password" method="POST" route = "{{asset('/perfil')}}" autocomplete="off">
                 {{csrf_field()}}
               <div class="row">
                 <div class="col-lg-12">
@@ -74,6 +74,15 @@ Perfil de usuario
                         <input type="password" class="form-control" id="passwordAnt" name="passwordAnt" placeholder="Ingrese su contraseña actual" ata-toggle="tooltip" data-placement="top" title="Ingrese su contraseña actual">
                     </div>
                   </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">email</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su nuevo correo electrónico" data-toggle="tooltip" data-placement="top" title="Debe ser un correo real" value="{{Auth::user()->correo_electronico}}">
+                    </div>
+                  </div>
+                  <hr/>
                   <div class="input-group">
                     <span class="input-group-addon">
                         <i class="material-icons">lock</i>
@@ -120,15 +129,17 @@ $.ajaxSetup({
 
 function cambiar(){
   var url = "{{asset('/perfil')}}";
-  var urlToRedirectPage = "{{asset('/login')}}";
+  var urlToRedirectPage = "{{asset('/logout')}}";
 
   var correo_electronico = document.getElementById('correo_electronico').value;
+  var correo = document.getElementById('correo').value;
   var password = document.getElementById('password').value;
   var confirm = document.getElementById('confirm').value;
   var passwordAnt = document.getElementById('passwordAnt').value;
 
   var formdata = new FormData();
   formdata.append('correo_electronico', correo_electronico);
+  formdata.append('correo', correo);
   formdata.append('password', password);
   formdata.append('confirm', confirm);
   formdata.append('passwordAnt', passwordAnt);
@@ -150,11 +161,11 @@ function cambiar(){
        errores += '</ul>';
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
      } else{
-       notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
-       //mensajeAjax('Registro correcto', result.mensaje,'success');
+       // notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
+       mensajeAjax('Registro correcto', result.mensaje,'success');
        window.setTimeout(function(){
          location.href = urlToRedirectPage;
-       } ,1500);
+       } ,2000);
      }
     },
     error: function (jqXHR, status, error) {

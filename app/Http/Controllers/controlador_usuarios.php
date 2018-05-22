@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Image;
 use Mail;
 
@@ -172,32 +173,62 @@ class controlador_usuarios extends Controller
 
   public function reestablecer_password_perfil(Request $request)
   {
-    $validacion = Validator::make($request->all(), [
-      'passwordAnt'=>'required',
-      'password'=>'required|same:confirm|min:6',
-      'confirm'=>'required',
-    ]);
+    if($request->password == null){
+      $validacion = Validator::make($request->all(), [
+        'passwordAnt'=>'required',
+        'correo'=>'required|email|unique:usuario,correo_electronico,'. Auth::user()->id_usuario. ',id_usuario',
+      ]);
 
-    if($validacion->fails()){
-      return response()->json(['errores' => $validacion->errors()]);
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+      else{
+        $pass = Hash::make($request->passwordAnt);
+        if (Hash::check($request->passwordAnt,Auth::user()->password))
+        {
+          $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
+          $usuario->update([
+            'correo_electronico' => $request->correo,
+          ]);
+          // Auth::logout();
+          $msg = 'Se cambio el correo electrónico exitosamente, por favor inicie sesión para continuar '.$request->nombre;
+          return response()->json(['mensaje' => $msg]);
+        }
+        else
+        {
+          return response()->json(['errores' => ['La contraseña no es correcta']]);
+        }
+      }
+    } else{
+      $validacion = Validator::make($request->all(), [
+        'passwordAnt'=>'required',
+        'correo'=>'required|email|unique:usuario,correo_electronico,'. Auth::user()->id_usuario. ',id_usuario',
+        'password'=>'required|same:confirm|min:6',
+        'confirm'=>'required',
+      ]);
+
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+      else{
+        $pass = Hash::make($request->passwordAnt);
+        if (Hash::check($request->passwordAnt,Auth::user()->password))
+        {
+          $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
+          $usuario->update([
+            'password'=>Hash::make($request->password),
+            'correo_electronico' => $request->correo,
+          ]);
+          // Auth::logout();
+          $msg = 'Se cambiaron los datos exitosamente, por favor inicie sesión para continuar '.$request->nombre;
+          return response()->json(['mensaje' => $msg]);
+        }
+        else
+        {
+          return response()->json(['errores' => ['La contraseña no es correcta']]);
+        }
+      }
     }
-    else{
-      $pass = Hash::make($request->passwordAnt);
-      if (Hash::check($request->passwordAnt,Auth::user()->password))
-      {
-        $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
-        $usuario->update([
-          'password'=>Hash::make($request->password)
-        ]);
-        Auth::logout();
-        $msg = 'Se cambio la contraseña exitosamente, por favor inicie sesion para continuar '.$request->nombre;
-        return response()->json(['mensaje' => $msg]);
-    }
-    else
-    {
-      return response()->json(['errores' => ['La contraseña no es correcta']]);
-    }
-  }
   }
 
 }
