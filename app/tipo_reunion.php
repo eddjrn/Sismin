@@ -40,4 +40,18 @@ class tipo_reunion extends Model
    return "data:image/jpeg;base64,".base64_encode($value);
  }
 
+ public function temas_pendientes(){
+   $reuniones = $this->reuniones;
+   $arreglo_pendientes = array();
+   foreach($reuniones as $reunion){
+     $temas = \App\tema_pendiente::all()->where('id_minuta', '=', $reunion->id_reunion)->where('expirado', '=', 'false');
+     if($temas->count() > 0){
+       foreach($temas as $tema){
+         array_push($arreglo_pendientes, $tema);
+       }
+     }
+   }
+   return $arreglo_pendientes;
+ }
+
 }

@@ -75,26 +75,14 @@ class controlador_reunion extends Controller
 
   public function actualizar_vista(Request $request){
       $tipo_reunion = \App\tipo_reunion::find($request->id);
-      $reuniones = $tipo_reunion->reuniones->sortByDesc('fecha_reunion');
+      $reuniones = $tipo_reunion->temas_pendientes();
       $temas = null;
       if($reuniones != null){
-        foreach($reuniones as $reunion){
-          $temas = $reunion->minuta->temas_pendientes;
-          if($temas->count() == 0){
-            break;
-          }
-          // Si el primer tema pendiente esta expirado, los demas lo estan
-          if($temas->first()->expirado){
-            $temas = null;
-            break;
-          } else{
-            break;
-          }
-        }
+
       }
       return response()->json([
         'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
-        'datos' => $temas,
+        'datos' => $reuniones,
       ]);
   }
 

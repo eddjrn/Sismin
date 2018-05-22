@@ -151,6 +151,7 @@ Nueva reunión
                                 @endforeach
                             </tbody>
                         </table>
+                        <div id="nombre_convocado_tabla_{{Auth::user()->id_usuario}}" class="hidden">{{Auth::user()}}</div>
                     </div>
                     <br/>
                     <div class="row">

@@ -11,7 +11,7 @@ var orden_dia = [];
 var responsables = [];
 // Control del la orden del día y sus responsables
 var orden_dia_control = [];
-// Arreglos de los temas pendientes (Una vez creada la nueva convocatoria sera eliminados)
+// Arreglos de los temas pendientes (Una vez creada la nueva convocatoria ya no seran pendientes)
 var pendientes = [];
 
 // Función que se ejecutara cuando se finalice el formulario
@@ -131,9 +131,9 @@ function actualizarOrdenDia(opc, boton){
       orden_dia_control.push(idRand);
       // Se genera el codigo HTML correspondiente de los botones
       $('#lista_orden').html($('#lista_orden').html() + `\
-      <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
-      style="word-wrap: break-word;" data-usuario="${seleccion}">${descripcion}</button>`);
-
+      <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item tooltips" \
+      style="word-wrap: break-word;" data-usuario="${seleccion}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body">${descripcion}</button>`);
+      $('.tooltips').tooltip();
       $('#lista_texto').html($('#lista_texto').html() + `\
         <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
       ocultarDialogo();
@@ -161,6 +161,8 @@ function actualizarOrdenDia(opc, boton){
       }
       // limpia los campos, los datos y hace los cambios
       $(`#ordenDia${boton}`).html(descripcion);
+      $(`#ordenDia${boton}`).attr('data-original-title', 'Responsable: ' + nombres);
+      $(`#ordenDia${boton}`).tooltip();
       $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
       $(`#ordenDia_texto${boton}`).html(descripcion + " => " + nombre[0] + " " + nombre[1]);
 
@@ -298,11 +300,12 @@ function actualizarTipo(opcion){
          $('#lista_pendientes').html('');
          if(result.datos.length > 0){
            for(var i = 0; i < result.datos.length; i++){
+             var nombre_usuario = $(`#nombre_convocado_tabla_${result.datos[i]['id_usuario']}`).html();
              $('#lista_pendientes').html($('#lista_pendientes').html() + `\
-             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item" \
-             style="word-wrap: break-word;" data-usuario="">${result.datos[i]['descripcion']}</button>`);
-             pendientes.push(result.datos[i]['id_tema_pendiente']);
+             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item tooltips" \
+             style="word-wrap: break-word;" data-usuario="" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombre_usuario}" data-container="body">${result.datos[i]['descripcion']}</button>`);
            }
+           $('.tooltips').tooltip();
          } else{
            notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
          }
@@ -318,12 +321,13 @@ function agregarTemaPendiente(id_tema, descripcion){
   var idRand = Math.floor(Math.random() * 99);
   var lista_texto_id = 'ordenDia_texto' + idRand;
   var boton_id = 'ordenDia' + idRand;
-  var nombres = $('#responsable_nuevo_tema option:eq(1)').html();
+  var nombres = $('#responsable_nuevo_tema option:eq(0)').html();
   var nombre = nombres.split(" ");
 
   orden_dia.push(descripcion);
   responsables.push(moderador);
   orden_dia_control.push(idRand);
+  pendientes.push(id_tema);
 
   notificacionAjax('bg-blue-grey', "Debe seleccionar un responsable.", 2500,  'bottom', 'center', null, null);
   // Se elimina de temas pendientes
