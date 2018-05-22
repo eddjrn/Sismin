@@ -5,31 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Jenssegers\Date\Date;
 
 class controlador_pendientes extends Controller
 {
     public function mostrar_vista_pendientes(){
       $usuario = Auth::user();
-      $CR = $usuario->responsable_en->All();
-      $temas =$usuario->orden_dia;
-      $temas2 =$usuario->temas_pendientes;
+      $CRs = $usuario->responsable_en->All();
       $compromisos = array();
       $datosR = array();
-      $datosR2 = array();
+      $ordenD = array();
+      $temas = array();
+      $fechaHoy= Date::now();
 
-
-     for($j=0; $j<count($CR); $j++)
-     {
-       array_push($compromisos,$CR[$j]->compromisos);
-     }
-
-      foreach ($temas2 as $key => $tema) {
-        array_push($datosR,$tema);
+     //compromisos pendientes
+      foreach ($CRs as $CR) {
+        $fecha_limite =Date::parse($CR->compromisos->getOriginal()['fecha_limite']);
+        if($fecha_limite->greaterThan($fechaHoy)){
+          array_push($compromisos,$CR->compromisos);
+        }
       }
 
+      //orden del día pendiente
+      foreach($usuario->reuniones_pendientes() as $rpu){
+        foreach ($rpu->orden_dia as  $usrOD) {
+          if($usrOD->id_usuario == $usuario->id_usuario)
+          array_push($ordenD,$usrOD);
+        }
+      }
 
-     return view('Paginas.pendientes',['compromisos'=>$compromisos,'listado'=>$temas,'temas'=>$datosR]);
-    }
+      //temas pendientes
+      foreach($usuario->reuniones_historial() as $rhu){
+        foreach ($rhu->minuta->temas_pendientes as $usrTP) {
+          if(($usrTP->id_usuario == $usuario->id_usuario) && $usrTP->expirado == 0)
+          array_push($temas,$usrTP);
+        }
+      }
+
+     return view('Paginas.pendientes',['compromisos'=>$compromisos,'listado'=>$ordenD,'temas'=>$temas]);
+  }
 
     public function actualizarEstatus(Request $request){
       $validacion = Validator::make($request->all(), [

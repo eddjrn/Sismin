@@ -134,7 +134,7 @@
       </thead>
       <tbody>
         @foreach($minuta->reunion->convocados as $convocado)
-        @if($convocado->asistencia==1)
+        @if($convocado->enterado==1)
         <tr>
           <td>{{$convocado->usuario->__toString()}}</td>
           <td>{{$convocado->rol()}}</td>

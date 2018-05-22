@@ -34,9 +34,6 @@ class controlador_agenda extends Controller
   }
 
 
-
-
-
 //return count($rh);
 return view('Paginas.agenda',['eventoshs'=>$rh,'eventos'=>$rp,'compromisos'=>$crp,'compromisosh'=>$crh,'tareaP'=>$crpT,'tareaH'=>$crhT]);
 //return view('Paginas.agenda',['ep'=>$rp,'eventos'=>$reuniones, 'compromisos'=>$compromisos,'CR'=>$CR,'datos'=>$datosR]);

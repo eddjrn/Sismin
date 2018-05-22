@@ -125,7 +125,7 @@ Pendientes
                                       <tbody>
                                         @foreach($listado as $orden)
                                         <tr>
-                                            <th scope="row">{{$orden->reunion->fecha_reunion}}</th>
+                                            <th scope="row">{{$orden->reunion->getFechaReunionLegible()}}</th>
                                             <td>{{$orden->reunion->tipo_reunion->descripcion}}</td>
                                             <td>{{$orden->descripcion}}</td>
                                         </tr>
@@ -154,7 +154,7 @@ Pendientes
                                       <tbody>
                                         @foreach($temas as $temaP)
                                         <tr>
-                                            <th scope="row">{{$temaP->minuta->reunion->fecha_reunion}}</th>
+                                            <th scope="row">{{$temaP->minuta->reunion->getFechaReunionLegible()}}</th>
                                             <td>{{$temaP->minuta->reunion->tipo_reunion->descripcion}}</td>
                                             <td>{{$temaP->orden_dia->descripcion}}</td>
                                             <td>{{$temaP->descripcion}}</td>
