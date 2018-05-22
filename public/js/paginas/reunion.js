@@ -132,7 +132,7 @@ function actualizarOrdenDia(opc, boton){
       // Se genera el codigo HTML correspondiente de los botones
       $('#lista_orden').html($('#lista_orden').html() + `\
       <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item tooltips" \
-      style="word-wrap: break-word;" data-usuario="${seleccion}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body">${descripcion}</button>`);
+      style="word-wrap: break-word;" data-usuario="${seleccion}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body" data-trigger="hover">${descripcion}</button>`);
       $('.tooltips').tooltip();
       $('#lista_texto').html($('#lista_texto').html() + `\
         <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
@@ -303,7 +303,7 @@ function actualizarTipo(opcion){
              var nombre_usuario = $(`#nombre_convocado_tabla_${result.datos[i]['id_usuario']}`).html();
              $('#lista_pendientes').html($('#lista_pendientes').html() + `\
              <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item tooltips" \
-             style="word-wrap: break-word;" data-usuario="" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombre_usuario}" data-container="body">${result.datos[i]['descripcion']}</button>`);
+             style="word-wrap: break-word;" data-usuario="" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombre_usuario}" data-container="body" data-trigger="hover">${result.datos[i]['descripcion']}</button>`);
            }
            $('.tooltips').tooltip();
          } else{
