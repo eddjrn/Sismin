@@ -134,11 +134,13 @@
       </thead>
       <tbody>
         @foreach($minuta->reunion->convocados as $convocado)
+        @if($convocado->asistencia==1)
         <tr>
           <td>{{$convocado->usuario->__toString()}}</td>
           <td>{{$convocado->rol()}}</td>
           <td><img src="{{$convocado->usuario->rubrica}}" class="rubrica" width="100" height="100" /></td>
         </tr>
+        @endif
         @endforeach
       </tbody>
   </table>
