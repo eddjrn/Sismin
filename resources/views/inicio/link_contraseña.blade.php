@@ -14,9 +14,9 @@ font-weight:bold;color:#292f33;text-align:left;text-decoration:none"> ¿Restable
     font-weight: 600;
     font-size: 20px;
     color: white;
-    background-color:#FA8072;
+    background-color:#E91E63;
     border-radius: 6px;
-    border: 2px solid #FA8072;"> Restablecer contraseña </a><br><br><br>
+    border: 2px solid #E91E63;"> Restablecer contraseña </a><br><br><br>
 
   <h3>Gracias,<br>
   Sistema auxiliar en la elaboración y seguimiento de las minutas de reuniones de trabajo.<h3>
