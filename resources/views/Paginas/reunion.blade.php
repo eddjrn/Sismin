@@ -313,12 +313,12 @@ Nueva reunión
 <script src="{{asset('/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
 <script>
-var colorCheck = "chk-col-cyan";
-var colorBtn = "btn bg-cyan waves-effect";
+var colorCheck = "chk-col-orange";
+var colorBtn = "btn bg-orange waves-effect";
 var colorBtnDis = "btn btn-default waves-effect";
-var fondo = "bg-cyan";
-var tema = "theme-cyan";
-var colorSpinner = '#00BCD4';
+var fondo = "bg-orange";
+var tema = "theme-orange";
+var colorSpinner = '#FF9800';
 
 var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";

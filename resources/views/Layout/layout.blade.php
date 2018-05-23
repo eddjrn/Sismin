@@ -130,7 +130,7 @@
                     <!-- <li data-theme="red" class="active"> -->
                     <a href="{{asset('/reunion')}}">
                       <li data-theme="red">
-                          <i class="material-icons">add</i>
+                          <i class="material-icons">group_add</i>
                           <span>Nueva reunión</span>
                       </li>
                     </a>

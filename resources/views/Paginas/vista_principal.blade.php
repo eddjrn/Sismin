@@ -21,9 +21,9 @@ Página Principal
 @section('contenido')
 <div class="row clearfix">
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{$convocado_en->count()}}">
+        <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de reuniones: {{$convocado_en->count()}}">
             <div class="icon">
-                <i class="material-icons">today</i>
+                <i class="material-icons">group</i>
             </div>
             <div class="content">
                 <div class="text">Reuniones pendientes</div>
@@ -32,9 +32,9 @@ Página Principal
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{$responsable_en->count()}}">
+        <div class="info-box bg-cyan hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de compromisos: {{$responsable_en->count()}}">
             <div class="icon">
-                <i class="material-icons">assignment_turned_in</i>
+                <i class="material-icons">today</i>
             </div>
             <div class="content">
                 <div class="text">Compromisos pendientes</div>
@@ -54,7 +54,7 @@ Página Principal
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div class="info-box bg-orange hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{$temas_pendientes->count()}}">
+        <div class="info-box bg-pink hover-zoom-effect" data-trigger="hover" data-container="body" data-toggle="tooltip" data-placement="top" title="Total de temas pendientes: {{$temas_pendientes->count()}}">
             <div class="icon">
                 <i class="material-icons">format_list_numbered</i>
             </div>
