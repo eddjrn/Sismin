@@ -165,10 +165,10 @@ Agenda
 									<div align="justify"><h4>Fecha:</h4> <span id="eventStart"></span></div>
 									<div class="modal-footer row clearfix">
 										<div class="col-md-6 col-sm-6 col-xs-6">
-											<a class="colorBoton" id="modalURLM" target="_blank">ver minuta</a>
+											<a class="colorBoton btn-block" id="modalURLM" target="_blank">ver minuta</a>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
-											<a class="colorBoton" id="modalURLC" target="_blank">ver convocatoria</a>
+											<a class="colorBoton btn-block" id="modalURLC" target="_blank">ver convocatoria</a>
 										</div>
 									</div>
 									<div class="modal-footer row clearfix">
