@@ -667,6 +667,11 @@ function navegarBotones(numero){
     $('#anterior').addClass(colorBtn);
     $('#anterior').prop( "disabled", false );
   }
+  if(numero == 5){
+    $('#siguiente').html('Finalizar');
+  } else{
+    $('#siguiente').html('Siguiente');
+  }
   for(var i = 1; i <= 5; i++){
     $(`#menu${i}`).hide();
     $(`#paso${i}`).addClass(fondo);

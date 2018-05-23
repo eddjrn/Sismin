@@ -418,6 +418,11 @@ function navegarBotones(numero){
     $('#anterior').addClass(colorBtn);
     $('#anterior').prop( "disabled", false );
   }
+  if(numero == 4){
+    $('#siguiente').html('Finalizar');
+  } else{
+    $('#siguiente').html('Siguiente');
+  }
   for(var i = 1; i <= 4; i++){
     $(`#menu${i}`).hide();
     $(`#paso${i}`).addClass(fondo);
