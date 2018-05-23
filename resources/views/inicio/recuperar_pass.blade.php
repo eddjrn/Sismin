@@ -36,9 +36,13 @@ Recuperar contraseña
                 </div>
             </div>
               <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Enviar</button>
-
-              <div class="row m-t-20 m-b--5 align-center">
-                  <a href="{{asset('/registro')}}">¡Registrarse!</a>
+              <div class="row m-t-15 m-b--20">
+                  <div class="col-xs-6">
+                      <a href="{{asset('/registro')}}">Registrarse</a>
+                  </div>
+                  <div class="col-xs-6 align-right">
+                      <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
+                  </div>
               </div>
           </form>
       </div>

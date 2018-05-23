@@ -18,6 +18,13 @@ class controlador_vista_general extends Controller
       $reuniones_historial = Auth::user()->reuniones_historial();
       $minutas_recientes = Auth::user()->minutas_recientes();
       $temas_pendientes = Auth::user()->temas_pendientes;
+      $conteo_reunion = 0;
+
+      foreach ($reuniones_pendientes as $reunion) {
+        if($reunion->moderador->id_usuario == Auth::user()->id_usuario){
+          $conteo_reunion++;
+        }
+      }
 
       return view('Paginas.vista_principal',[
         'reuniones_pendientes' => $reuniones_pendientes,
@@ -26,6 +33,7 @@ class controlador_vista_general extends Controller
         'reuniones_historial' => $reuniones_historial,
         'minutas_recientes' => $minutas_recientes,
         'temas_pendientes' => $temas_pendientes,
+        'conteo_reunion' => $conteo_reunion,
       ]);
     }
 

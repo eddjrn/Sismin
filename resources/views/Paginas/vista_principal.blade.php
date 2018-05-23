@@ -118,7 +118,7 @@ Página Principal
       <div class="card">
           <div class="header">
               <h2>
-                  Mis reuniones <small>Soy moderador de {{Auth::user()->moderador_de->count()}} reuniones.</small>
+                  Mis reuniones <small>Soy moderador de {{$conteo_reunion}} reuniones recientes.</small>
               </h2>
           </div>
           <div class="body table-responsive bar" style="height: 300px; overflow-y: scroll;">

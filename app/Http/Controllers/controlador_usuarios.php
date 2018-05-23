@@ -129,10 +129,15 @@ class controlador_usuarios extends Controller
   private function enviarCorreo($usuario)
   {
     $codigo = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-    $registro = \App\clave_usuarios::create([
-      'correo_electronico' => $usuario->correo_electronico,
-      'codigo' =>$codigo,
-    ]);
+    $clave = \App\clave_usuarios::where('correo_electronico', '=', $usuario->correo_electronico)->first();
+    if($clave == null){
+      $registro = \App\clave_usuarios::create([
+        'correo_electronico' => $usuario->correo_electronico,
+        'codigo' =>$codigo,
+      ]);
+    } else{
+      $codigo = $clave->codigo;
+    }
 
     Mail::send('inicio.link_contraseña',[
       'usuario' => $usuario,
