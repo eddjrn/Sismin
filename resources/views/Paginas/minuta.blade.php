@@ -37,27 +37,27 @@ Nueva Minuta
               ?>
               <div class="row text-center">
                 <div class="{{$tamanioPasos}} col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-2">
-                  <button type="button" id="paso1" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Detalles de la reunión">
+                  <button type="button" id="paso1" onClick="navegarBotones(1);" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Detalles de la reunión">
                     <i class="material-icons">library_books</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso2" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Asistencia">
+                  <button type="button" id="paso2" onClick="navegarBotones(2);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Asistencia">
                     <i class="material-icons">contacts</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso3" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Temas tratados y pendientes">
+                  <button type="button" id="paso3" onClick="navegarBotones(3);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Temas tratados y pendientes">
                     <i class="material-icons">assignment_turned_in</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso4" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Compromisos">
+                  <button type="button" id="paso4" onClick="navegarBotones(4);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Compromisos">
                     <i class="material-icons">list</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso5" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la minuta">
+                  <button type="button" id="paso5" onClick="navegarBotones(5);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la minuta">
                     <i class="material-icons">subject</i>
                   </button>
                 </div>

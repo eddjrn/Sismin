@@ -407,6 +407,35 @@ function siguiente(){
   }
 }
 
+function navegarBotones(numero){
+  indice = numero;
+  if(numero == 1){
+    $('#anterior').removeClass(colorBtn);
+    $('#anterior').addClass(colorBtnDis);
+    $('#anterior').prop( "disabled", true );
+  } else{
+    $('#anterior').removeClass(colorBtnDis);
+    $('#anterior').addClass(colorBtn);
+    $('#anterior').prop( "disabled", false );
+  }
+  for(var i = 1; i <= 4; i++){
+    $(`#menu${i}`).hide();
+    $(`#paso${i}`).addClass(fondo);
+    $(`#paso${i}`).removeClass("bg-pink");
+    $(`#paso${i}`).removeClass("bg-grey");
+  }
+  for(var i = 1; i < numero; i++){
+    $(`#paso${i}`).removeClass(fondo);
+    $(`#paso${i}`).removeClass("bg-pink");
+    $(`#paso${i}`).addClass("bg-grey");
+  }
+  $(`#paso${numero}`).addClass("bg-pink");
+  $(`#paso${numero}`).removeClass(fondo);
+  $(`#paso${numero}`).removeClass("bg-grey");
+
+  $(`#menu${numero}`).show(200);
+}
+
 // Función al recargar la página, cambia estilos e inicaliza scripts en español
 $(function () {
     // Cambia estilos

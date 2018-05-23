@@ -36,22 +36,22 @@ Nueva reunión
               ?>
               <div class="row text-center">
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso1" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Dar de alta una reunión">
+                  <button type="button" id="paso1" onClick="navegarBotones(1);" class="btn bg-pink btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Dar de alta una reunión">
                     <i class="material-icons">event</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso2" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Agregar los convocados de la reunión">
+                  <button type="button" id="paso2" onClick="navegarBotones(2);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Agregar los convocados de la reunión">
                     <i class="material-icons">contacts</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso3" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Crear la orden del día de la reunión">
+                  <button type="button" id="paso3" onClick="navegarBotones(3);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Crear la orden del día de la reunión">
                     <i class="material-icons">assignment</i>
                   </button>
                 </div>
                 <div class="{{$tamanioPasos}}">
-                  <button type="button" id="paso4" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la reunión">
+                  <button type="button" id="paso4" onClick="navegarBotones(4);" class="btn fondo btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="top" title="Resumen final de la reunión">
                     <i class="material-icons">subject</i>
                   </button>
                 </div>
