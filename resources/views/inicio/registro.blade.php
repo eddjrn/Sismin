@@ -24,13 +24,13 @@ Registrar a un nuevo usuario
     <div class="card">
       <div class="body">
         <form id="sign_up" class="demo-masked-input">
-          <div class="msg">Registrar un nuevo usuario</div>
+          <div class="msg">Registrar un nuevo usuario con el correo electrónico: {{$correo}}</div>
           <div class="input-group">
             <span class="input-group-addon">
               <i class="material-icons">person</i>
             </span>
             <div class="form-line">
-              <input type="text" class="form-control nombre" name="nombre" id="nombre"  onkeypress="return validar(event)" placeholder="Nombre">
+              <input type="text" class="form-control nombre" name="nombre" id="nombre"  onkeypress="return validar(event)" placeholder="Nombre" autocomplete="off">
             </div>
           </div>
 
@@ -39,7 +39,7 @@ Registrar a un nuevo usuario
               <i class="material-icons">person</i>
             </span>
             <div class="form-line">
-              <input type="text" class="form-control apellido_paterno" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido paterno">
+              <input type="text" class="form-control apellido_paterno" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido paterno" autocomplete="off">
             </div>
           </div>
 
@@ -48,16 +48,16 @@ Registrar a un nuevo usuario
                   <i class="material-icons">person</i>
               </span>
               <div class="form-line">
-                <input type="text" class="form-control apellido_materno" id="apellido_materno" name="apellido_materno" placeholder="Apellido materno">
+                <input type="text" class="form-control apellido_materno" id="apellido_materno" name="apellido_materno" placeholder="Apellido materno" autocomplete="off">
               </div>
           </div>
 
           <div class="input-group">
             <span class="input-group-addon">
-                <i class="material-icons">email</i>
+                <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="text" class="form-control email" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres" autocomplete="off">
             </div>
           </div>
 
@@ -66,16 +66,7 @@ Registrar a un nuevo usuario
                 <i class="material-icons">lock</i>
             </span>
             <div class="form-line">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" data-toggle="tooltip" data-placement="top" title="Mínimo seis caracteres">
-            </div>
-          </div>
-
-          <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">lock</i>
-            </span>
-            <div class="form-line">
-                <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
+                <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña" autocomplete="off">
             </div>
           </div>
 
@@ -134,8 +125,6 @@ $(function () {
   $demoMaskedInput.find('.apellido_paterno').inputmask('aaaaaaaaaaaaaaaaaaaa',{ placeholder: ''});
   //apellido_materno
   $demoMaskedInput.find('.apellido_materno').inputmask('aaaaaaaaaaaaaaaaaaaa',{ placeholder: ''});
-  //Email
-  $demoMaskedInput.find('.email').inputmask({ alias: "email" });
 });
 function validar(e) {
 tecla = (document.all) ? e.keyCode : e.which;
@@ -168,13 +157,13 @@ $.ajaxSetup({
 });
 
 function guardar(){
-  var url = "{{asset('/registro')}}";
+  var url = "{{asset('/registro')}}/{{$correo}}/{{$codigo}}";
   var urlToRedirectPage = "{{asset('/')}}";
 
   var nombre = document.getElementById('nombre').value;
   var apellido_paterno = document.getElementById('apellido_paterno').value;
   var apellido_materno = document.getElementById('apellido_materno').value;
-  var correo_electronico = document.getElementById('correo_electronico').value;
+  var correo_electronico = "{{$correo}}";
   var password = document.getElementById('password').value;
   var confirm = document.getElementById('confirm').value;
 

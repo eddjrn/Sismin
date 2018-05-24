@@ -31,14 +31,14 @@ Recuperar contraseña
                         <i class="material-icons">email</i>
                     </span>
                     <div class="form-line">
-                        <input type="text" class="form-control email" name="correo_electronico" placeholder="Correo electrónico" required autofocus>
+                        <input type="text" class="form-control email" name="correo_electronico" id="correo_electronico" placeholder="Correo electrónico">
                     </div>
                 </div>
             </div>
-              <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Enviar</button>
+              <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit" id="btnEnviar">Enviar</button>
               <div class="row m-t-15 m-b--20">
                   <div class="col-xs-6">
-                      <a href="{{asset('/registro')}}">Registrarse</a>
+                      <a href="{{asset('/solicitud_registro')}}">Registrarse</a>
                   </div>
                   <div class="col-xs-6 align-right">
                       <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
@@ -60,11 +60,19 @@ Recuperar contraseña
 
 <script>
 $(function () {
-
   //Masked Input ============================================================================================================================
   var $demoMaskedInput = $('.demo-masked-input');
-//Email
+  //Email
   $demoMaskedInput.find('.email').inputmask({ alias: "email" });
+
+  $("#btnEnviar").click(function(event){
+      var registro = $('#correo_electronico').val();
+      if(registro != ""){
+        $('#btnEnviar').hide(200);
+      } else{
+        event.preventDefault();
+      }
+  });
 });
 </script>
 @stop

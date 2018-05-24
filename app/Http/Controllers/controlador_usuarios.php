@@ -19,15 +19,60 @@ class controlador_usuarios extends Controller
     return view('inicio.login');
   }
 
-  public function validar(){
-
+  public function mostrar_solicitud_registro(){
+    return view('inicio.solicitud_registro');
   }
 
-  public function mostrar_registro(){
-    return view('inicio.registro');
+  public function mostrar_registro($correo, $codigo){
+    $clave = \App\clave_usuarios::where('correo_electronico', '=', $correo)->first();
+    if($clave == null || $codigo != $clave->codigo){
+      abort(404);
+    } else{
+      return view('inicio.registro', [
+        'correo' => $correo,
+        'codigo' => $codigo,
+      ]);
+    }
   }
 
-  public function crear(Request $request){
+  public function solicitar_registro(Request $request){
+    $validacion = Validator::make($request->all(), [
+      'correo_electronico'=>'required|min:3|email|unique:usuario,correo_electronico',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+
+    $codigo = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
+    $correo = $request->correo_electronico;
+    $clave = \App\clave_usuarios::where('correo_electronico', '=', $correo)->first();
+    if($clave == null){
+      $registro = \App\clave_usuarios::create([
+        'correo_electronico' => $correo,
+        'codigo' =>$codigo,
+      ]);
+    } else{
+      $codigo = $clave->codigo;
+    }
+
+    Mail::send('inicio.link_solicitud',[
+      'correo' => $correo,
+      'codigo' => $codigo
+    ], function($mensaje) use ($correo){
+        $mensaje->to($correo);
+        $mensaje->subject("Hola solicitante para registro en SisMin");
+    });
+
+    return response()->json(['mensaje' => "El link para registrarse en el sistema fue enviado a su correo electrónico."]);
+  }
+
+  public function crear(Request $request, $correo, $codigo){
+    $clave = \App\clave_usuarios::where('correo_electronico', '=', $correo)->first();
+    if($clave == null || $codigo != $clave->codigo){
+      return response()->json(['errores' => ['Url inválida']]);
+    }
+
     $validacion = Validator::make($request->all(), [
       'nombre'=>'required|min:3',
       'apellido_paterno'=>'required|min:3',
@@ -59,10 +104,13 @@ class controlador_usuarios extends Controller
       'rubrica' => $imagen,
     ]);
 
-    $correo = $request->correo_electronico;
+    $correoR = $request->correo_electronico;
     $pass = $request->password;
 
-    if(Auth::attempt(['correo_electronico' => $correo,'password' => $pass])){
+    $registro = 'DELETE FROM clave_usuario  WHERE correo_electronico = ?';
+    \DB::delete($registro, [$correo]);
+
+    if(Auth::attempt(['correo_electronico' => $correoR,'password' => $pass])){
       $msg = 'Iniciando sesión como '.$request->nombre;
       return response()->json(['mensaje' => $msg]);
     } else{
@@ -145,9 +193,8 @@ class controlador_usuarios extends Controller
     ], function($mensaje) use ($usuario){
         $mensaje->to($usuario->correo_electronico);
         $mensaje->subject("Hola $usuario->nombre
-        Solicitud de restablecimiento de contraseña.-SISMIN");
+        Solicitud de restablecimiento de contraseña.- SisMin");
     });
-
   }
 
   public function mostrar_cambiar_password($correo, $codigo)

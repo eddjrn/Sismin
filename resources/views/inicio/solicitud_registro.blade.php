@@ -1,7 +1,7 @@
 @extends('Layout.layout2')
 
 @section('titulo')
-Inicio de sesión de usuarios
+Solicitud de registro
 @stop
 
 @section('estilos')
@@ -14,48 +14,34 @@ Inicio de sesión de usuarios
     <div class="logo">
         <div class="row">
           <div class="col-xs-6 col-xs-offset-3">
-            <img src="{{asset('/images/iconoFull.svg')}}" width="150" height="150"/>
+            <img src="{{asset('/images/nuevo_perfil.svg')}}" width="150" height="150"/>
           </div>
         </div>
         <a href="javascript:void(0);"><b>SisMin</b></a>
     </div>
     <div class="card">
-        <div class="body">
-            <form id="sign_in">
-                <div class="msg">Inicio de sesión</div>
-                <div class="demo-masked-input">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">person</i>
-                    </span>
-                    <div class="form-line">
-                        <input type="text" class="form-control email" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico">
-                    </div>
-                </div>
+      <div class="body">
+            <form>
+              <div class="msg">
+                  Ingrese su dirección de correo electrónico para solicitar su registro en SisMin.
+                  Le enviaremos un correo electrónico para que pueda registrarse en el sistema..
               </div>
+              <div class="demo-masked-input">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="material-icons">lock</i>
+                        <i class="material-icons">email</i>
                     </span>
                     <div class="form-line">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
+                        <input type="text" class="form-control email" name="correo_electronico" id="correo_electronico" placeholder="Correo electrónico" autocomplete="off">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-xs-offset-3">
-                        <button class="btn btn-block bg-pink waves-effect" type="button" onclick="guardar();">Iniciar sesión</button>
-                    </div>
-                </div>
-                <div class="row m-t-15 m-b--20">
-                    <div class="col-xs-6">
-                        <a href="{{asset('/solicitud_registro')}}">Registrarse</a>
-                    </div>
-                    <div class="col-xs-6 align-right">
-                        <a href="{{asset('/recuperar_pass')}}">¿Olvidó su contraseña?</a>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+              <button class="btn btn-block btn-lg bg-pink waves-effect" type="button" onClick="enviar();" id="btnEnviar">Enviar</button>
+              <div class="m-t-25 m-b--5 align-center">
+                <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
+              </div>
+          </form>
+      </div>
     </div>
 
     <div class="logo">
@@ -69,12 +55,13 @@ Inicio de sesión de usuarios
 <script src="{{asset('/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
 
 <script>
-  $(function () {
-    //Masked Input ============================================================================================================================
-    var $demoMaskedInput = $('.demo-masked-input');
-  //Email
-    $demoMaskedInput.find('.email').inputmask({ alias: "email" });
-  });
+$(function () {
+
+  //Masked Input ============================================================================================================================
+  var $demoMaskedInput = $('.demo-masked-input');
+//Email
+  $demoMaskedInput.find('.email').inputmask({ alias: "email" });
+});
 </script>
 
 <script>
@@ -84,16 +71,16 @@ $.ajaxSetup({
     }
 });
 
-function guardar(){
-  var url = "{{asset('/login')}}";
-  var urlToRedirectPage = "{{asset('/')}}";
+function enviar(){
+  var url = "{{asset('/solicitud_registro')}}";
+  var urlToRedirectPage = "{{asset('/login')}}";
+  $('#correo_electronico').prop('disabled', true);
+  $('#btnEnviar').hide(200);
 
   var correo_electronico = document.getElementById('correo_electronico').value;
-  var password = document.getElementById('password').value;
 
   var formdata = new FormData();
   formdata.append('correo_electronico', correo_electronico);
-  formdata.append('password', password);
 
   $.ajax({
    type:'POST',
@@ -111,9 +98,11 @@ function guardar(){
        });
        errores += '</ul>';
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       $('#correo_electronico').prop('disabled', false);
+       $('#correo_electronico').val('');
+       $('#btnEnviar').show(200);
      } else{
        notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
-       //mensajeAjax('Registro correcto', result.mensaje,'success');
        window.setTimeout(function(){
          location.href = urlToRedirectPage;
        } ,1500);
@@ -121,8 +110,11 @@ function guardar(){
     },
     error: function (jqXHR, status, error) {
      mensajeAjax('Error', error, 'error');
+     $('#correo_electronico').prop('disabled', false);
+     $('#correo_electronico').val('');
+     $('#btnEnviar').show(200);
     }
-  })
+  });
 }
 </script>
 @stop

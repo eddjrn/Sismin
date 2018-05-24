@@ -21,8 +21,10 @@ Route::get('/t', function(){
 });
 
 Route::get('/login','controlador_usuarios@mostrar_login')->middleware('publica');
-Route::get('/registro','controlador_usuarios@mostrar_registro')->middleware('publica');
-Route::post('/registro','controlador_usuarios@crear')->middleware('publica');
+Route::get('/registro/{correo}/{codigo}','controlador_usuarios@mostrar_registro')->middleware('publica');
+Route::post('/registro/{correo}/{codigo}','controlador_usuarios@crear')->middleware('publica');
+Route::get('/solicitud_registro','controlador_usuarios@mostrar_solicitud_registro')->middleware('publica');
+Route::post('/solicitud_registro','controlador_usuarios@solicitar_registro')->middleware('publica');
 
 Route::get('/recuperar_pass','controlador_usuarios@mostrar_recuperar_password')->middleware('publica');
 Route::post('/recuperar_pass','controlador_usuarios@cambiar_password')->middleware('publica');

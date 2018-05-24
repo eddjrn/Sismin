@@ -47,7 +47,7 @@ Cambiar contraseña
               <button class="btn btn-block btn-lg bg-pink waves-effect" type="button" onclick="guardar()">Restablecer mi contraseña</button>
 
               <div class="row m-t-20 m-b--5 align-center">
-                  <a href="{{asset('/registro')}}">Registrarse!</a>
+                  <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
               </div>
           </form>
       </div>
