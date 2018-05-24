@@ -1,4 +1,3 @@
-
 <strong style="padding:0;margin:0;line-height:1px;font-size:1px;font-family:'HelveticaNeue',
 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:24px;line-height:32px;
 font-weight:bold;color:#292f33;text-align:left;text-decoration:none"> ¿Restablecer tu contraseña?</strong>
