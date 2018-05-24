@@ -209,7 +209,7 @@ Nueva reunión
                                 <tr>
                                     <td>{{Auth::user()}}</td>
                                     <td id="puesto_resumen_{{Auth::user()->id_usuario}}">
-
+                                      {{$puestos->first()->descripcion}}
                                     </td>
                                     <td id="rol_resumen_{{Auth::user()->id_usuario}}">Moderador y secretario</td>
                                 </tr>
@@ -325,6 +325,7 @@ var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
 var moderador = {{Auth::user()->id_usuario}};
 var secretario = {{Auth::user()->id_usuario}};
+var puesto = {{$puestos->first()->id_puesto}};
 
 $.ajaxSetup({
     headers: {

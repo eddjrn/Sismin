@@ -5,7 +5,7 @@ var formulario = new FormData();
 // Se agrega al usuario logueado a la nueva lista
 var convocados = [];
 convocados.push(moderador);
-var puestos = [1];
+var puestos = [puesto];
 
 var orden_dia = [];
 var responsables = [];

@@ -114,14 +114,8 @@ Agenda
 																</button>
 															</div>
 															<div class="collapse" id="collapseExample">
-																	<div class="well bar" style="height: 200px; overflow-y: scroll;">
-																		<div class="list-group">
-																				<button type="button" class="list-group-item" style="word-wrap: break-word;">
-																					<div class="media">
-																							<div class="media-body"><span id="convocados"> </span></div>
-																					</div>
-																				</button>
-																		</div>
+																	<div class="well bar" style="height: 150px; overflow-y: scroll; word-wrap: break-word;">
+																		<span id="convocados"> </span>
 																	</div>
 															</div>
 															<br/>
@@ -144,14 +138,8 @@ Agenda
 																</button>
 															</div>
 															<div class="collapse" id="collapseExample2">
-																	<div class="well bar" style="height: 200px; overflow-y: scroll;">
-																		<div class="list-group">
-																				<button type="button" class="list-group-item" style="word-wrap: break-word;">
-																					<div class="media">
-																							<div class="media-body"><span id="temas_pendientes"> </span></div>
-																					</div>
-																				</button>
-																		</div>
+																	<div class="well bar" style="height: 150px; overflow-y: scroll; word-wrap: break-word;">
+																		<span id="temas_pendientes"> </span>
 																	</div>
 															</div>
 															<br/>
@@ -165,15 +153,15 @@ Agenda
 									<div align="justify"><h4>Fecha:</h4> <span id="eventStart"></span></div>
 									<div class="modal-footer row clearfix">
 										<div class="col-md-6 col-sm-6 col-xs-6">
-											<a class="colorBoton btn-block" id="modalURLM" target="_blank">ver minuta</a>
+											<a class="colorBoton btn-block" id="modalURLM" target="_blank">Minuta</a>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
-											<a class="colorBoton btn-block" id="modalURLC" target="_blank">ver convocatoria</a>
+											<a class="colorBoton btn-block" id="modalURLC" target="_blank">Convocatoria</a>
 										</div>
 									</div>
 									<div class="modal-footer row clearfix">
 										<div class="col-xs-6 col-xs-offset-3">
-										<button type="button" id="clear" data-dismiss="modal" class="colorBoton btn-block" onClick="limpiarDialogo();">Cerrar</button>
+										<button type="button btn-block" id="clear" data-dismiss="modal" class="colorBoton btn-block" onClick="limpiarDialogo();">Cerrar</button>
 									</div>
 									</div>
 								</div>
@@ -282,7 +270,7 @@ $(document).ready(function() {
  				    temasPendientes:[
  				      @if(empty($evento->reunion_temas_pendientes()))
  				      {
- 				        tem: 'esta reunion no tiene temas pendientes',
+ 				        tem: 'Esta reunión no tiene temas pendientes',
  				      },
  				      @else
  				      @foreach($evento->reunion_temas_pendientes() as $tema)
@@ -339,7 +327,7 @@ $(document).ready(function() {
  				    temasPendientes:[
  				      @if(empty($eventohs->reunion_temas_pendientes()))
  				      {
- 				        tem: 'esta reunion no tiene temas pendientes',
+ 				        tem: 'Esta reunión no tiene temas pendientes',
  				      },
  				      @else
  				      @foreach($eventohs->reunion_temas_pendientes() as $tema)
