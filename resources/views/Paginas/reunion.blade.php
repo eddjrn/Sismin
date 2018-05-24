@@ -27,6 +27,9 @@ Nueva reunión
 @stop
 
 @section('contenido')
+<?php
+  $id_usuario = Auth::user()->id_usuario;
+?>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
@@ -86,7 +89,7 @@ Nueva reunión
                             <div class="row">
                               <div class="col-lg-12">
                                 <p class="col-grey">Mi puesto en reunión: </p>
-                                <select id="puesto_seleccion_{{Auth::user()->id_usuario}}" onChange="actualizarPuesto({{Auth::user()->id_usuario}});" data-container="body" data-size="5" class="form-control show-tick" autocomplete="off" data-live-search="true">
+                                <select id="puesto_seleccion_{{$id_usuario}}" onChange="actualizarPuesto({{$id_usuario}});" data-container="body" data-size="5" class="form-control show-tick" autocomplete="off" data-live-search="true">
                                     @foreach($puestos as $puesto)
                                       <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
                                     @endforeach
@@ -128,7 +131,7 @@ Nueva reunión
                             </tfoot>
                             <tbody>
                                 @foreach($convocados as $convocado)
-                                @unless($convocado->id_usuario == Auth::user()->id_usuario)
+                                @unless($convocado->id_usuario == $id_usuario)
                                   <tr>
                                     <td id="nombre_convocado_tabla_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
                                     <td>
@@ -151,7 +154,7 @@ Nueva reunión
                                 @endforeach
                             </tbody>
                         </table>
-                        <div id="nombre_convocado_tabla_{{Auth::user()->id_usuario}}" class="hidden">{{Auth::user()}}</div>
+                        <div id="nombre_convocado_tabla_{{$id_usuario}}" class="hidden">{{Auth::user()}}</div>
                     </div>
                     <br/>
                     <div class="row">
@@ -208,10 +211,10 @@ Nueva reunión
                             <tbody id="lista_convocados_resumen">
                                 <tr>
                                     <td>{{Auth::user()}}</td>
-                                    <td id="puesto_resumen_{{Auth::user()->id_usuario}}">
+                                    <td id="puesto_resumen_{{$id_usuario}}">
                                       {{$puestos->first()->descripcion}}
                                     </td>
-                                    <td id="rol_resumen_{{Auth::user()->id_usuario}}">Moderador y secretario</td>
+                                    <td id="rol_resumen_{{$id_usuario}}">Moderador y secretario</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -264,7 +267,7 @@ Nueva reunión
               </div>
               <p class="col-grey">Responsable</p>
               <select id="responsable_nuevo_tema" class="form-control show-tick" data-live-search="true">
-                  <option id="convocado{{Auth::user()->id_usuario}}" value="{{Auth::user()->id_usuario}}">{{Auth::user()}}</option>
+                  <option id="convocado{{$id_usuario}}" value="{{$id_usuario}}">{{Auth::user()}}</option>
               </select>
             </div>
             <div class="modal-footer">
@@ -323,8 +326,8 @@ var colorSpinner = '#FF9800';
 var urlToCancelPage = "{{asset('/')}}";
 var url = "{{asset('/reunion')}}";
 var urlToRedirectPage = "{{asset('/')}}";
-var moderador = {{Auth::user()->id_usuario}};
-var secretario = {{Auth::user()->id_usuario}};
+var moderador = {{$id_usuario}};
+var secretario = {{$id_usuario}};
 var puesto = {{$puestos->first()->id_puesto}};
 
 $.ajaxSetup({
