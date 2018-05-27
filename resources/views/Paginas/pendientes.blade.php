@@ -60,7 +60,7 @@ Pendientes
                           <table class="table table-striped">
                               <thead>
                                   <tr>
-                                      <th>Fecha límite</th>
+                                      <th>Tiempo límite</th>
                                       <th>Descripción</th>
                                       <th>Tipo de reunión</th>
                                       <th>Responsable-Tarea</th>
