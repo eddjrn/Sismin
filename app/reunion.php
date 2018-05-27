@@ -61,7 +61,7 @@ class reunion extends Model
   }
 
   public function getLimite(){
-    $fecha = new Date($this->getOriginal('fecha_reunion'));
+    $fecha = new Date($this->fecha_reunion, 'America/Mexico_City');
     return $fecha->diffForHumans();
   }
 

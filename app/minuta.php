@@ -37,7 +37,7 @@ class minuta extends Model
   }
 
   public function getLimite(){
-    $fecha = new Date($this->getOriginal('fecha_elaboracion'));
+    $fecha = new Date($this->fecha_elaboracion, 'America/Mexico_City');
     return $fecha->diffForHumans();
   }
 

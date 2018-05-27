@@ -125,11 +125,10 @@ Página Principal
               <table class="table table-striped">
                   <thead>
                       <tr>
-                          <th>#</th>
                           <th>Motivo</th>
                           <th>Moderador</th>
                           <th>Tipo de reunion</th>
-                          <th>Fecha límite</th>
+                          <th>Tiempo de la reunión</th>
                           <th>Acción</th>
                       </tr>
                   </thead>
@@ -137,7 +136,6 @@ Página Principal
                     @foreach($reuniones_pendientes as $reunion)
                       @if($reunion->minuta->fecha_elaboracion == null)
                       <tr>
-                          <th scope="row">{{$reunion->id_reunion}}</th>
                           <td>{{$reunion->motivo}}</td>
                           <td>{{$reunion->moderador->__toString()}}</td>
                           <td>{{$reunion->tipo_reunion}}</td>
@@ -186,7 +184,7 @@ Página Principal
                         Moderador: <span id="moderador2"></span><br>
                         Secretario: <span id="secretario"></span><br>
                         Fecha de la reunion: <span id="fecha_reunion"></span><br>
-                        Motivo:<span id="motivo"></span><br>
+                        Motivo: <span id="motivo"></span><br>
                       </div>
                     </div>
                     <div class="row">

@@ -8,7 +8,7 @@
                 <li>De la reunión: {{$compromiso_responsable->compromisos->orden_dia->reunion->tipo_reunion->descripcion}}</li>
                 <li>Del motivo: {{$compromiso_responsable->compromisos->orden_dia->reunion->motivo}}</li>
                 <li>Tu tarea: {{$compromiso_responsable->tarea}}</li>
-                <li>Fecha limite: {{$compromiso_responsable->compromisos->getLimite()}}</li>
+                <li>Tiempo limite: {{$compromiso_responsable->compromisos->getLimite()}}</li>
             </ul>
             <br>
         @endforeach

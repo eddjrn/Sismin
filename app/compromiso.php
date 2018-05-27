@@ -47,7 +47,7 @@ class compromiso extends Model
   }
 
   public function getLimite(){
-    $fecha = new Date($this->getOriginal('fecha_limite'));
+    $fecha = new Date($this->fecha_limite, 'America/Mexico_City');
     return $fecha->diffForHumans();
   }
 
