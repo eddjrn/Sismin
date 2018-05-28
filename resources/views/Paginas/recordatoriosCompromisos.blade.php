@@ -1,5 +1,5 @@
 <h1>Hola {{$usuario->__toString()}}</h1>
-  <h2>  Tienes recordatorios pendientes:</h2>
+  <h2>  Tienes compromisos pendientes:</h2>
   <br>
     <ol>
         @foreach($compromisos as $compromiso_responsable)
