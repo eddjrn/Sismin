@@ -60,6 +60,7 @@ Pendientes
                           <table class="table table-striped">
                               <thead>
                                   <tr>
+                                      <th>Fecha límite</th>
                                       <th>Tiempo límite</th>
                                       <th>Descripción</th>
                                       <th>Tipo de reunión</th>
@@ -72,6 +73,7 @@ Pendientes
                                 @foreach($compromisos as $c=>$compromiso)
                                 <tr>
                                     <th scope="row">{{$compromiso->fecha_limite}}</th>
+                                    <th scope="row">{{$compromiso->getLimite()}}</th>
                                     <td>{{$compromiso->descripcion}}</td>
                                     <td>{{$compromiso->minuta->reunion->tipo_reunion->descripcion}}</td>
                                     <td>

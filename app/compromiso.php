@@ -19,6 +19,12 @@ class compromiso extends Model
     'finalizado',
   ];
 
+  protected $dates = [
+   'created_at', // Add if you're using timestamps on the model
+   'updated_at', // Add if you're using timestamps on the model
+   'fecha_limite',
+  ];
+
   public function __toString(){
     return $this->descripcion;
   }
@@ -47,7 +53,7 @@ class compromiso extends Model
   }
 
   public function getLimite(){
-    $fecha = new Date($this->fecha_limite, 'America/Mexico_City');
+    $fecha = new Date($this->getOriginal()['fecha_limite'], 'America/Mexico_City');
     return $fecha->diffForHumans();
   }
 
