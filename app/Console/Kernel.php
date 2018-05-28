@@ -52,7 +52,7 @@ class Kernel extends ConsoleKernel
                         'compromisos' => $compromisos,
                     ], function($mensaje) use ($correo, $usuario){
                         $mensaje->to($correo);
-                        $mensaje->subject("Hola $usuario->nombre tienes pendientes en el sistema SisMin");
+                        $mensaje->subject("Hola $usuario->nombre tienes compromisos pendientes en el sistema SisMin");
                     });
                 }
             }
