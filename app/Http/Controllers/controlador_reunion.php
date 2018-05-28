@@ -66,6 +66,13 @@ class controlador_reunion extends Controller
     $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
     $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
+    if($puestos->count() < 1){
+        abort(418, 'Debe de agregar por lo menos un puesto de reunión de trabajo');
+    }
+    if($tipos->count() < 1){
+        abort(418, 'Debe de agregar por lo menos un grupo de reunión');
+    }
+
     return view('Paginas.reunion', [
       'tipos'=>$tipos,
       'convocados'=>$convocados,
