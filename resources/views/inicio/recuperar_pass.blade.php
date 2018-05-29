@@ -35,7 +35,11 @@ Recuperar contraseña
                     </div>
                 </div>
             </div>
-              <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit" id="btnEnviar">Enviar</button>
+              <div class="row">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <button class="btn btn-block bg-pink waves-effect" type="submit" id="btnEnviar">Envíar</button>
+                </div>
+              </div>
               <div class="row m-t-15 m-b--20">
                   <div class="col-xs-6">
                       <a href="{{asset('/solicitud_registro')}}">Registrarse</a>
@@ -68,8 +72,12 @@ $(function () {
   $("#btnEnviar").click(function(event){
       var registro = $('#correo_electronico').val();
       if(registro != ""){
-        $('#btnEnviar').hide(200);
+        $('#btnEnviar').html('Cargando...');
+        $('#btnEnviar').prop('disabled', true);
       } else{
+        $('#btnEnviar').html('Envíar');
+        $('#btnEnviar').prop('disabled', false);
+        notificacionAjax('bg-red', 'El campo de correo electrónico no puede esta vacío', 2500,  'bottom', 'center', null, null);
         event.preventDefault();
       }
   });

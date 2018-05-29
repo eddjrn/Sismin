@@ -70,8 +70,14 @@ Registrar a un nuevo usuario
             </div>
           </div>
 
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#rubricaModal">Rúbrica</button>
-          <button type="button" class="btn btn-block btn-lg bg-pink waves-effect" onclick="guardar();">Registrarme</button>
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-3">
+              <button type="button" class="btn btn-block bg-pink waves-effect" data-toggle="modal" data-target="#rubricaModal">Rúbrica</button>
+            </div>
+            <div class="col-xs-6 col-xs-offset-3">
+              <button type="button" class="btn btn-block bg-pink waves-effect" onclick="guardar();" id="btnEnviar">Registrarme</button>
+            </div>
+          </div>
 
           <div class="m-t-25 m-b--5 align-center">
             <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
@@ -159,6 +165,8 @@ $.ajaxSetup({
 function guardar(){
   var url = "{{asset('/registro')}}/{{$correo}}/{{$codigo}}";
   var urlToRedirectPage = "{{asset('/')}}";
+  $('#btnEnviar').html('Cargando...');
+  $('#btnEnviar').prop('disabled', true);
 
   var nombre = document.getElementById('nombre').value;
   var apellido_paterno = document.getElementById('apellido_paterno').value;
@@ -193,6 +201,8 @@ function guardar(){
          });
          errores += '</ul>';
          notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+         $('#btnEnviar').html('Registrarme');
+         $('#btnEnviar').prop('disabled', false);
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
@@ -202,6 +212,8 @@ function guardar(){
       },
       error: function (jqXHR, status, error) {
        mensajeAjax('Error', error, 'error');
+       $('#btnEnviar').html('Registrarme');
+       $('#btnEnviar').prop('disabled', false);
       }
     })
   });

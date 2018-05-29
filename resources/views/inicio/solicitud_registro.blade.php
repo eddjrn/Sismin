@@ -36,7 +36,11 @@ Solicitud de registro
                     </div>
                 </div>
             </div>
-              <button class="btn btn-block btn-lg bg-pink waves-effect" type="button" onClick="enviar();" id="btnEnviar">Enviar</button>
+              <div class="row">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <button class="btn btn-block bg-pink waves-effect" type="button" onClick="enviar();" id="btnEnviar">Envíar</button>
+                </div>
+              </div>
               <div class="m-t-25 m-b--5 align-center">
                 <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
               </div>
@@ -75,7 +79,8 @@ function enviar(){
   var url = "{{asset('/solicitud_registro')}}";
   var urlToRedirectPage = "{{asset('/login')}}";
   $('#correo_electronico').prop('disabled', true);
-  $('#btnEnviar').hide(200);
+  $('#btnEnviar').html('Cargando...');
+  $('#btnEnviar').prop('disabled', true);
 
   var correo_electronico = document.getElementById('correo_electronico').value;
 
@@ -100,7 +105,8 @@ function enviar(){
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
        $('#correo_electronico').prop('disabled', false);
        $('#correo_electronico').val('');
-       $('#btnEnviar').show(200);
+       $('#btnEnviar').html('Envíar');
+       $('#btnEnviar').prop('disabled', false);
      } else{
        notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
        window.setTimeout(function(){
@@ -112,7 +118,8 @@ function enviar(){
      mensajeAjax('Error', error, 'error');
      $('#correo_electronico').prop('disabled', false);
      $('#correo_electronico').val('');
-     $('#btnEnviar').show(200);
+     $('#btnEnviar').html('Envíar');
+     $('#btnEnviar').prop('disabled', false);
     }
   });
 }

@@ -43,7 +43,7 @@ Inicio de sesión de usuarios
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3">
-                        <button class="btn btn-block bg-pink waves-effect" type="button" onclick="guardar();">Iniciar sesión</button>
+                        <button class="btn btn-block bg-pink waves-effect" type="button" onclick="guardar();" id="btnEnviar">Iniciar sesión</button>
                     </div>
                 </div>
                 <div class="row m-t-15 m-b--20">
@@ -87,6 +87,8 @@ $.ajaxSetup({
 function guardar(){
   var url = "{{asset('/login')}}";
   var urlToRedirectPage = "{{asset('/')}}";
+  $('#btnEnviar').html('Cargando...');
+  $('#btnEnviar').prop('disabled', true);
 
   var correo_electronico = document.getElementById('correo_electronico').value;
   var password = document.getElementById('password').value;
@@ -111,6 +113,8 @@ function guardar(){
        });
        errores += '</ul>';
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       $('#btnEnviar').html('Iniciar sesión');
+       $('#btnEnviar').prop('disabled', false);
      } else{
        notificacionAjax('bg-green',result.mensaje, 2500,  'bottom', 'center', null, null);
        //mensajeAjax('Registro correcto', result.mensaje,'success');
@@ -121,6 +125,8 @@ function guardar(){
     },
     error: function (jqXHR, status, error) {
      mensajeAjax('Error', error, 'error');
+     $('#btnEnviar').html('Iniciar sesión');
+     $('#btnEnviar').prop('disabled', false);
     }
   })
 }

@@ -187,7 +187,7 @@ class controlador_usuarios extends Controller
       $codigo = $clave->codigo;
     }
 
-    Mail::send('inicio.link_contraseña',[
+    Mail::send('inicio.link_contrasenia',[
       'usuario' => $usuario,
       'codigo' => $codigo
     ], function($mensaje) use ($usuario){

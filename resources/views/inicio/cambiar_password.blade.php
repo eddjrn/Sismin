@@ -44,7 +44,11 @@ Cambiar contraseña
                     <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirmar contraseña" data-toggle="tooltip" data-placement="top" title="Debe coincidir con el campo de contraseña">
                 </div>
               </div>
-              <button class="btn btn-block btn-lg bg-pink waves-effect" type="button" onclick="guardar()">Restablecer mi contraseña</button>
+              <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                  <button class="btn btn-block bg-pink waves-effect" type="button" onclick="guardar()" id="btnEnviar">Restablecer mi contraseña</button>
+                </div>
+              </div>
 
               <div class="row m-t-20 m-b--5 align-center">
                   <a href="{{asset('/login')}}">¿Ya estás registrado?</a>
@@ -71,6 +75,8 @@ $.ajaxSetup({
 function guardar(){
   var url = "{{asset('/cambiar_password')}}";
   var urlToRedirectPage = "{{asset('/')}}";
+  $('#btnEnviar').html('Cargando...');
+  $('#btnEnviar').prop('disabled', true);
 
   var correo_electronico = document.getElementById('correo_electronico').value;
   var password = document.getElementById('password').value;
@@ -97,6 +103,8 @@ function guardar(){
        });
        errores += '</ul>';
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       $('#btnEnviar').html('Restablecer mi contraseña');
+       $('#btnEnviar').prop('disabled', false);
      } else{
        mensajeAjax('Registro correcto', result.mensaje,'success');
        window.setTimeout(function(){
@@ -106,6 +114,8 @@ function guardar(){
     },
     error: function (jqXHR, status, error) {
      mensajeAjax('Error', error, 'error');
+     $('#btnEnviar').html('Restablecer mi contraseña');
+     $('#btnEnviar').prop('disabled', false);
     }
   })
 }
