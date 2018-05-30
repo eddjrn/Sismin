@@ -48,25 +48,24 @@ Acerca del sistema
               <h5>Crear nuevas reuniones</h5>
               <span>Al momento de crear una nueva reunión usted podrá realizar lo siguiente:</span>
               <lo><ul>
-                <li>Agregar los convocados y su respectivo puesto dentro de la reunión.</li>
+                <li>Agregar las personas convocadas y su respectiva función dentro de la reunión.</li>
                 <li>Crear la orden del día de la reunión.</li>
                 <li>Asignar responsables a la orden del día.</li>
-                <li>Asignar un secretario a la reunión.</li>
-                <li>Al finalizar se enviara una notificación con la convocatoria de dicha reunión a cada uno de los convocados.</li>
+                <li>Asignar la función de secretario de la reunión.</li>
+                <li>Al finalizar se enviará una notificación con la convocatoria de dicha reunión a cada una de las personas convocadas.</li>
               </ul></lo>
               <h5>Elaborar minutas de cada reunión.</h5>
               <lo><ul>
-                <li>Cree minutas de reunión.</li>
-                <li>Asigne compromisos.</li>
-                <li>Asigne responsables.</li>
-                <li>Temas pendientes.</li>
-                <li>Notas.</li>
-                <li>Comparta decisiones.</li>
+                <li>Crear minutas de la reunión.</li>
+                <li>Asignar los compromisos.</li>
+                <li>Asignar los responsables.</li>
+                <li>Asignar los temas pendientes.</li>
+                <li>Agregar las notas a la minuta de reunión.</li>
               </ul></lo>
               <h5>Seguimiento.</h5>
               <lo><ul>
-                <li>Da seguimiento a sus reuniones mediante el envio de correos electronicos.</li>
-                <li>Da seguimiento a los compromisos establecidos dentro de las minutas de la reunión mediante el envio de correos electronicos.</li>
+                <li>Dar seguimiento a sus reuniones mediante el envío de correos electrónicos.</li>
+                <li>Dar seguimiento a los compromisos establecidos dentro de las minutas de reunión mediante el envío de correos electrónicos.</li>
               </ul></lo>
         </div>
         </div>
