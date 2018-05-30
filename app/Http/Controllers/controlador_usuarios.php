@@ -154,6 +154,15 @@ class controlador_usuarios extends Controller
 
   public function cambiar_password(Request $request)
   {
+    $validacion = Validator::make($request->all(), [
+      'correo_electronico'=>'required|min:3|email',
+    ]);
+
+    if($validacion->fails()){
+      $colores = array("bg-red");
+      $tiempos = 1000;
+      return view('inicio.recuperar_pass',['mensaje'=> ['Correo electrónico no valído'], 'color'=>$colores, 'tiempo' => $tiempos]);
+    }
 
     $usuario = \App\usuario::wherecorreo_electronico($request->correo_electronico)->first();
 

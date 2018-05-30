@@ -68,19 +68,6 @@ $(function () {
   var $demoMaskedInput = $('.demo-masked-input');
   //Email
   $demoMaskedInput.find('.email').inputmask({ alias: "email" });
-
-  $("#btnEnviar").click(function(event){
-      var registro = $('#correo_electronico').val();
-      if(registro != ""){
-        $('#btnEnviar').html('Cargando...');
-        $('#btnEnviar').prop('disabled', true);
-      } else{
-        $('#btnEnviar').html('Envíar');
-        $('#btnEnviar').prop('disabled', false);
-        notificacionAjax('bg-red', 'El campo de correo electrónico no puede esta vacío', 2500,  'bottom', 'center', null, null);
-        event.preventDefault();
-      }
-  });
 });
 </script>
 @stop
