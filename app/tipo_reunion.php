@@ -54,4 +54,21 @@ class tipo_reunion extends Model
    return $arreglo_pendientes;
  }
 
+ public function administrador(){
+   return $this->hasOne(usuario::class,'id_usuario');
+ }
+
+ public function usuarios(){
+   return $this->hasMany(grupo_usuario::class,'id_tipo_reunion');
+ }
+
+ public function usuarios_grupo(){
+   $reg_usuarios= $this->usuarios;
+   $usuariosx= array();
+   foreach($reg_usuarios as $reg_usuario){
+     $usuario = $reg_usuario->usuario;
+     array_push($usuariosx,$usuario);
+   }
+   return $usuariosx;
+ }
 }

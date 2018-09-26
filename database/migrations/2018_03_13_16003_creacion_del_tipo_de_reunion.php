@@ -18,6 +18,8 @@ class CreacionDelTipoDeReunion extends Migration
             $table->timestamps();
             $table->string('descripcion',100)->unique();
             $table->binary('imagen_logo');
+            $table->integer('id_usuario')->unsigned()->index()->nullable();
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('set null');
         });
     }
 
@@ -28,6 +30,10 @@ class CreacionDelTipoDeReunion extends Migration
      */
     public function down()
     {
+
+      Schema::table('tipo_reunion', function(Blueprint $table){
+        $table->dropForeign(['id_usuario']);
+      });
         Schema::dropIfExists('tipo_reunion');
     }
 }
