@@ -25,25 +25,58 @@ class pruebas_usuario extends Seeder
         'password' => Hash::make('mayra1234'),
       ]);
 
-      for($i=0; $i<= config('variables.usuariosDB'); $i++){
-        DB::table('usuario')->insert([
-          'created_at'=> now(),
-          'updated_at' => now(),
-          'nombre' => str_random(7),
-          'apellido_paterno' =>str_random(15),
-          'apellido_materno' => str_random(15),
-          'correo_electronico' => str_random(20).'@gmail.com',
-          'rubrica' => '01010101',
-          'password' => Hash::make('mayra1234'),
-        ]);
-      }
+//       for($i=0; $i<= config('variables.usuariosDB'); $i++){
+//         DB::table('usuario')->insert([
+//           'created_at'=> now(),
+//           'updated_at' => now(),
+//           'nombre' => str_random(7),
+//           'apellido_paterno' =>str_random(15),
+//           'apellido_materno' => str_random(15),
+//           'correo_electronico' => str_random(20).'@gmail.com',
+//           'rubrica' => '01010101',
+//           'password' => Hash::make('mayra1234'),
+//         ]);
+//       }
 
       DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
-        'nombre' => 'Eduardo',
-        'apellido_paterno' =>'Reyes',
-        'apellido_materno' => 'Norman',
+        'nombre' => 'Pedro Pepe',
+        'apellido_paterno' =>'Pereira',
+        'apellido_materno' => 'Perez',
+        'correo_electronico' => 'pedro95@gmail.com',
+        'rubrica' => '01010101',
+        'password' => Hash::make('1234567'),
+      ]);
+      
+      DB::table('usuario')->insert([
+        'created_at'=> now(),
+        'updated_at' => now(),
+        'nombre' => 'Juan Jose',
+        'apellido_paterno' =>'Ramirez',
+        'apellido_materno' => 'Noriega',
+        'correo_electronico' => 'junaskdw_43@gmail.com',
+        'rubrica' => '01010101',
+        'password' => Hash::make('1234567'),
+      ]);
+      
+      DB::table('usuario')->insert([
+        'created_at'=> now(),
+        'updated_at' => now(),
+        'nombre' => 'María Luisa',
+        'apellido_paterno' =>'Del Rosario',
+        'apellido_materno' => 'Lugo',
+        'correo_electronico' => 'maria_bends@gmail.com',
+        'rubrica' => '01010101',
+        'password' => Hash::make('1234567'),
+      ]);
+      
+      DB::table('usuario')->insert([
+        'created_at'=> now(),
+        'updated_at' => now(),
+        'nombre' => 'María de los Angeles',
+        'apellido_paterno' =>'Villavicencio',
+        'apellido_materno' => 'Marquez',
         'correo_electronico' => 'eddjrn@gmail.com',
         'rubrica' => '01010101',
         'password' => Hash::make('1234567'),
