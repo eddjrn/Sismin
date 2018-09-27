@@ -12,16 +12,19 @@ class controlador_reunion extends Controller
 {
     //
     public function mostrar_vista_tipo_reunion(){
-      $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
+      $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
+      $usuarios = \App\usuario::orderBy('updated_at','desc')->get();
 
       return view('Paginas.tipo_reunion', [
         'tipos' => $tipos,
+        'usuarios'=>$usuarios,
       ]);
     }
 
     public function registrar_tipo_reunion(Request $request){
       $validacion = Validator::make($request->all(), [
         'descripcion'=>'required|min:3|unique:tipo_reunion,descripcion',
+        'id_usuario' =>'required',
       ]);
 
       if($validacion->fails()){
@@ -35,6 +38,7 @@ class controlador_reunion extends Controller
       $tipo = \App\tipo_reunion::create([
         'descripcion' => $request->descripcion,
         'imagen_logo' => $imagen,
+        'id_usuario'  => $request->id_usuario,
       ]);
 
       $msg = 'Se agregó: '.$request->descripcion;

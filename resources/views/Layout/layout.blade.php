@@ -134,18 +134,22 @@
                           <span>Nueva reunión</span>
                       </li>
                     </a>
+                  @if(Auth::user()->id_usuario == config('variables.admin'))
                    <a href="{{asset('/tipo_reunion')}}">
                       <li data-theme="red">
                           <i class="material-icons">note_add</i>
                           <span>Dar de alta un grupo de reunión</span>
                       </li>
                     </a>
+                    @endif
+                    @if(count(Auth::user()->usuario_grupos()) > 0)
                     <a href="{{asset('/puesto_usuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>
                            <span>Dar de alta un puesto de usuario</span>
                        </li>
                      </a>
+                     @endif
                       <a href="{{asset('/acercade')}}">
                         <li data-theme="red">
                           <i class="material-icons">help</i>

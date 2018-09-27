@@ -7,6 +7,8 @@ Registro del motivo de una reunión
 @section('estilos')
 <meta name="csrf-token" content="{{ csrf_token() }}" /> <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <link  href="{{asset('/css/cropper/cropper.css')}}" rel="stylesheet">
+<!-- Bootstrap Select Css -->
+<link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
 @stop
 
 @section('contenido')
@@ -44,7 +46,9 @@ Registro del motivo de una reunión
                                         <img class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
                                     </a>
                                 </div>
-                                <div class="media-body">{{$tipo->descripcion}}</div>
+                                <div class="media-body">
+                                <span class="font-bold">{{$tipo->descripcion}}</br>
+                                Administrador:</span>{{$tipo->administrador}}</div>
                             </div>
                           </button>
                         @endforeach
@@ -68,6 +72,15 @@ Registro del motivo de una reunión
                         <input type="text" id="descripcion" class="form-control" name="descripcion" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el grupo de reunión">
                     </div>
                 </div>
+                <div class="input-group">
+                  <select id="administrador_grupo" class="form-control show-tick" data-live-search="true" autocomplete="off">
+                      <option value="0">Seleccionar</option>
+                      @foreach($usuarios as $usuario)
+                        <option value="{{$usuario->id_usuario}}">{{$usuario->__toString()}}</option>
+                      @endforeach
+                  </select>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                       <a href="{{asset('/')}}" class="btn btn-block bg-pink waves-effect">Regresar</a>
@@ -143,6 +156,8 @@ Registro del motivo de una reunión
   var UrlToPostForm = "{{asset('/tipo_reunion')}}";
   var UrlToRedirectPage = "{{asset('/')}}";
 </script>
+<!-- Select Plugin Js -->
+<script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
 
 <script src="{{asset('/js/cropper/cropper.js')}}"></script>
 <script src="{{asset('/js/paginas/tipo_reunion.js')}}"></script>

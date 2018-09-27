@@ -20,6 +20,11 @@ Route::get('/t', function(){
   return view('/Layout/layout',['mensaje' => $mensajes, 'color'=> $colores, 'tiempo' => $tiempos]);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Usuario Normal
+|--------------------------------------------------------------------------
+*/
 Route::get('/login','controlador_usuarios@mostrar_login')->middleware('publica');
 Route::get('/registro/{correo}/{codigo}','controlador_usuarios@mostrar_registro')->middleware('publica');
 Route::post('/registro/{correo}/{codigo}','controlador_usuarios@crear')->middleware('publica');
@@ -64,3 +69,13 @@ Route::get('/agenda','controlador_agenda@mostrar_vista_agenda')->middleware('ses
 
 Route::get('/pendientes','controlador_pendientes@mostrar_vista_pendientes')->middleware('sesion');
 Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middleware('sesion');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Administrador del sistema
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin', 'controlador_administrador@mostrar_vista_principal_admin')->middleware('sesion');

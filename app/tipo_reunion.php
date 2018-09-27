@@ -15,6 +15,7 @@ class tipo_reunion extends Model
     'id_tipo_reunion',
     'descripcion',
     'imagen_logo',
+    'id_usuario',
   ];
 
   public function __toString(){
@@ -23,6 +24,14 @@ class tipo_reunion extends Model
 
   public function reuniones(){
     return $this->hasMany(reunion::class,'id_tipo_reunion')->orderBy('fecha_reunion', 'desc');
+  }
+
+  public function administrador(){
+    return $this->belongsTo(usuario::class,'id_usuario');
+  }
+
+  public function usuarios(){
+    return $this->hasMany(grupo_usuario::class,'id_tipo_reunion');
   }
 
   public function getFecha(){
@@ -54,13 +63,7 @@ class tipo_reunion extends Model
    return $arreglo_pendientes;
  }
 
- public function administrador(){
-   return $this->hasOne(usuario::class,'id_usuario');
- }
 
- public function usuarios(){
-   return $this->hasMany(grupo_usuario::class,'id_tipo_reunion');
- }
 
  public function usuarios_grupo(){
    $reg_usuarios= $this->usuarios;

@@ -135,7 +135,7 @@ class usuario extends Authenticatable
   }
 
   public function administrador_de(){
-    return $this->belongsTo(tipo_reunion::class,'id_usuario');
+    return $this->hasOne(tipo_reunion::class,'id_usuario');
   }
 
   public function grupos_pertenece(){

@@ -73,9 +73,14 @@ if (URL) {
       }).toBlob(function (blob) {
         var formData = new FormData();
         var descripcion = document.getElementById("descripcion").value;
-
+        var admin_grupo = $('#administrador_grupo').val();
+        if(admin_grupo == 0){
+            notificacionAjax('bg-red','Debes seleccionar un administador para éste grupo', 2500,  'bottom', 'center', null, null);
+            return false;
+        }
         formData.append('croppedImage', blob);
         formData.append('descripcion', descripcion);
+        formData.append('id_usuario', admin_grupo);
 
         $.ajax(UrlToPostForm, {
           method: "POST",
