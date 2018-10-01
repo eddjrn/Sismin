@@ -135,20 +135,10 @@ class usuario extends Authenticatable
   }
 
   public function administrador_de(){
-    return $this->belongsTo(tipo_reunion::class,'id_usuario');
+    return $this->hasMany(tipo_reunion::class,'id_usuario');
   }
 
-  public function grupos_pertenece(){
-    return $this->hasMany(grupo_usuario::class,'id_usuario');
-  }
-
-  public function usuario_grupos(){
-    $reg_grupos= $this->grupos_pertenece;
-    $gruposx= array();
-    foreach($reg_grupos as $reg_grupo){
-      $grupo = $reg_grupo->grupo;
-      array_push($gruposx,$grupo);
-    }
-    return $gruposx;
+  public function grupos_reunion(){
+    return $this->belongsToMany(tipo_reunion::class,'grupo_usuario', 'id_tipo_reunion', 'id_usuario');
   }
 }

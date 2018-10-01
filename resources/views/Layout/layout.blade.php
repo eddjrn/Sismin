@@ -142,7 +142,7 @@
                       </li>
                     </a>
                     @endif
-                    @if(count(Auth::user()->usuario_grupos()) > 0)
+                    @if(count(Auth::user()->grupos_reunion) > 0)
                     <a href="{{asset('/puesto_usuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>
