@@ -1,7 +1,10 @@
 //function to create cropper on modal dialog
 var archivo = false;
+var typo;
+var descripcion;
+
 $(function () {
-  var $image = $('#image');
+  var $image = $('.logotipo');
   var cropBoxData;
   var canvasData;
 
@@ -171,5 +174,46 @@ function alerts(opc){
             });
         break;
     }
+}
+
+function actualizarAdmin(){
+  var id_usuario = $('#Copc').val();
+  var des = $('#desc').val();
+
+  $.ajax({
+     type:'POST',
+     url: urlA,
+     data:
+     {
+       "id_tipo":typo,
+       "id_usuario": id_usuario,
+       "descripcion":des
+     },
+     success:function(result){
+       if(result.errores){
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           location.href = UrlToPostForm;
+         } ,1500);
+       }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  });
+}
+
+function aux(id,des)
+{
+  typo=id;
+  descripcion = des;
+  $("#desc").val(des);
 }
 //END function to show the SweetAlert

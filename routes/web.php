@@ -78,4 +78,5 @@ Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middlewar
 |--------------------------------------------------------------------------
 */
 
-Route::get('/admin', 'controlador_administrador@mostrar_vista_principal_admin')->middleware('sesion');
+Route::get('/admin', 'controlador_admin@mostrar_vista_principal_admin')->middleware('sesion');
+Route::post('/tipo_reunion_admin', 'controlador_admin@cambiarAdmin')->middleware('sesion');

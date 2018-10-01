@@ -20,7 +20,7 @@ class grupo_usuario extends Model
     }
 
     public function usuario(){
-      return $this->belongsTo(usuario::class,'id_usuario');
+      return $this->hasOne(usuario::class,'id_usuario');
     }
 
 }
