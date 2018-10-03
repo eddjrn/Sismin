@@ -19,7 +19,7 @@ class CreacionDeLaMinuta extends Migration
         $table->dateTime('fecha_elaboracion')->nullable();
         $table->integer('id_reunion')->unsigned()->index();
         $table->foreign('id_reunion')->references('id_reunion')->on('reunion')->onDelete('cascade');
-        $table->text('notas', 255)->nullable();
+        $table->text('notas', 10000)->nullable();
         $table->string('codigo',10)->nullable();
       });
     }

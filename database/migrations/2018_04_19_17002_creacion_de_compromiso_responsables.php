@@ -20,7 +20,7 @@ class CreacionDeCompromisoResponsables extends Migration
           $table->foreign('id_compromiso')->references('id_compromiso')->on('compromiso')->onDelete('cascade');
           $table->integer('id_usuario')->unsigned()->index();
           $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('cascade');
-          $table->text('tarea',100)->nullable();
+          $table->text('tarea',1000)->nullable();
           $table->boolean('realizado')->default(false);
       });
     }

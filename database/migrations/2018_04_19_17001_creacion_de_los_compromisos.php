@@ -21,7 +21,7 @@ class CreacionDeLosCompromisos extends Migration
           $table->foreign('id_minuta')->references('id_minuta')->on('minuta')->onDelete('cascade');
           $table->integer('id_orden_dia')->unsigned()->index();
           $table->foreign('id_orden_dia')->references('id_orden_dia')->on('orden_dia')->onDelete('cascade');
-          $table->text('descripcion',100);
+          $table->text('descripcion',5000);
           $table->dateTime('fecha_limite');
           $table->boolean('finalizado')->default(false);
       });

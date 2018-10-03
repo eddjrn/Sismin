@@ -142,13 +142,21 @@
                       </li>
                     </a>
                     @endif
-                    @if(count(Auth::user()->grupos_reunion) > 0)
+                    @if(Auth::user()->grupos_reunion->count() > 0)
                     <a href="{{asset('/puesto_usuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>
                            <span>Dar de alta un puesto de usuario</span>
                        </li>
                      </a>
+                     @endif
+                     @if(Auth::user()->administrador_de->count() > 0)
+                     <a href="{{asset('/puesto_usuario')}}">
+                        <li data-theme="red">
+                            <i class="material-icons">group</i>
+                            <span>Administrar grupos</span>
+                        </li>
+                      </a>
                      @endif
                       <a href="{{asset('/acercade')}}">
                         <li data-theme="red">

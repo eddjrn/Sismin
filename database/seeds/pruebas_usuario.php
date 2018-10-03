@@ -48,7 +48,7 @@ class pruebas_usuario extends Seeder
         'rubrica' => '01010101',
         'password' => Hash::make('1234567'),
       ]);
-      
+
       DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
@@ -59,7 +59,7 @@ class pruebas_usuario extends Seeder
         'rubrica' => '01010101',
         'password' => Hash::make('1234567'),
       ]);
-      
+
       DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
@@ -70,16 +70,27 @@ class pruebas_usuario extends Seeder
         'rubrica' => '01010101',
         'password' => Hash::make('1234567'),
       ]);
-      
+
       DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
         'nombre' => 'María de los Angeles',
         'apellido_paterno' =>'Villavicencio',
         'apellido_materno' => 'Marquez',
-        'correo_electronico' => 'eddjrn@gmail.com',
+        'correo_electronico' => 'villa_22@gmail.com',
         'rubrica' => '01010101',
         'password' => Hash::make('1234567'),
+      ]);
+
+      DB::table('usuario')->insert([
+        'created_at'=> now(),
+        'updated_at' => now(),
+        'nombre' => 'Eduardo Javier',
+        'apellido_paterno' =>'Reyes',
+        'apellido_materno' => 'Norman',
+        'correo_electronico' => 'eddjrn@gmail.com',
+        'rubrica' => '01010101',
+        'password' => Hash::make('123456'),
       ]);
     }
 }

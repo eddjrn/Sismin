@@ -22,7 +22,7 @@ class CreacionDelTemaPendiente extends Migration
             $table->foreign('id_orden_dia')->references('id_orden_dia')->on('orden_dia')->onDelete('cascade');
             $table->integer('id_usuario')->unsigned()->index();
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('cascade');
-            $table->text('descripcion',100);
+            $table->text('descripcion',1000);
             $table->boolean('expirado')->default(false);
         });
     }

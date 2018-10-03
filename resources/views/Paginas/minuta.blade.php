@@ -266,9 +266,9 @@ Nueva Minuta
                           </thead>
                           <tbody id="firmas_resumen">
                             <tr>
-                              <td id="firmas_resumen_convocado_{{$minuta->reunion->convocados->get(0)->id_convocado}}">{{Auth::user()}}</td>
+                              <td id="firmas_resumen_convocado_{{Auth::user()->convocado_en->where('id_reunion','=',$minuta->reunion->id_reunion)[0]->id_convocado}}">{{Auth::user()}}</td>
                               <td>
-                                <button id="usuario_{{$minuta->reunion->convocados->get(0)->id_convocado}}" type="button" onClick="firmarMinuta(1, this, 0);" class="colorBoton">Firmar</button>
+                                <button id="usuario_{{Auth::user()->convocado_en->where('id_reunion','=',$minuta->reunion->id_reunion)[0]->id_convocado}}" type="button" onClick="firmarMinuta(1, this, 0);" class="colorBoton">Firmar</button>
                               </td>
                             </tr>
                           </tbody>
@@ -346,7 +346,7 @@ Nueva Minuta
 </div>
 
 <div class="modal fade" id="hechosModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="hechosModalTitulo" class="modal-title"></h4>
@@ -357,22 +357,22 @@ Nueva Minuta
                       <i class="material-icons">subject</i>
                   </span>
                   <div class="form-line">
-                      <textarea id="hechosDescripcion" rows="4" class="form-control no-resize" placeholder="Descripción." data-toggle="tooltip" data-placement="bottom" title="Cada tema pendiente deberá de separarlo con el caracter de coma (,)"></textarea>
+                      <textarea id="hechosDescripcion" rows="7" class="form-control no-resize" placeholder="Descripción." data-toggle="tooltip" data-placement="bottom" title="Cada tema pendiente deberá de separarlo con el caracter de coma (,)"></textarea>
                   </div>
               </div>
             </div>
             <div class="modal-footer">
               <div class="row">
-                <div class="col-xs-6 text-center">
+                <div class="col-xs-3 col-xs-offset-3 text-center">
                   <button id="btnCancelarhechos" type="button" class="colorBoton btn-block" onClick="ocultarHechosDialogo();">Cancelar</button>
                 </div>
-                <div class="col-xs-6 text-center">
+                <div class="col-xs-3 text-center">
                   <button id="btnGuardarhechos" type="button" onClick="" class="colorBoton btn-block">Guardar</button>
                 </div>
               </div>
               <div id="filaEliminarHechos" class="row oculto">
                 <br/>
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-4 col-xs-offset-4 text-center">
                   <button id="btnEliminarHechos" type="button" onClick="" class="btn btn-danger waves-effect btn-block">Eliminar</button>
                 </div>
               </div>

@@ -20,8 +20,8 @@ class CreacionDeLaOrdenDelDia extends Migration
           $table->foreign('id_reunion')->references('id_reunion')->on('reunion')->onDelete('cascade');
           $table->integer('id_usuario')->unsigned()->index();
           $table->foreign('id_usuario')->references('id_usuario')->on('usuario')->onDelete('cascade');
-          $table->text('descripcion',200);
-          $table->text('descripcion_hechos',8000)->nullable();
+          $table->text('descripcion',1000);
+          $table->text('descripcion_hechos',10000)->nullable();
         });
     }
 
