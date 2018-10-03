@@ -188,7 +188,7 @@ Página Principal
                       </div>
                     </div>
                     <div class="row">
-                      <div id="btns">
+                      <div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                           <button class="btn bg-pink waves-effect" type="button" id="realizarMinuta" onclick="realizarMinuta(id,codigoMinuta)">Realizar minuta</button>
                         </div>

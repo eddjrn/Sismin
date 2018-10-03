@@ -26,11 +26,10 @@ function mostrar(id_reunion){
         $('#convocados3').html(result.datos[1].length);
         $('#imgReunion').attr('src',result.datos[3][4]);
         $('#secretario').html(result.datos[3][5]);
-        if(result.datos[3][6]==result.datos[3][7]){
-          $('#btns').show();
+        if(result.datos[3][6]==result.datos[3][7] || result.datos[3][7] == result.datos[3][11]){
           var id_convocados = [];
           id_convocados = result.datos[4];
-        if(result.datos[3][12]== 1){
+        if(result.datos[3][12]== 1 && result.datos[3][6]==result.datos[3][7]){
           $('#realizarMinuta').show();
           $('#realizarMinuta').attr('onClick',`realizarMinuta(${result.datos[3][10]},"${result.datos[3][9]}")`);
         }else{
@@ -42,7 +41,8 @@ function mostrar(id_reunion){
             [${id_convocados}])`);
               convocados = result.datos[1];
         }else {
-          $('#btns').hide();
+          $('#realizarMinuta').hide();
+          $('#delegarResp').hide();
         }
         if(result.datos[3][7] == result.datos[3][11]){
           $('#eliminarReunion').show();

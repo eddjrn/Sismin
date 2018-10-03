@@ -45,7 +45,7 @@ class controlador_vista_general extends Controller
       $datosReunion = array();
       $idConvocados = array();
       $idSecre= $reunion->secretario->id_usuario;
-      $idMod = Auth::user()->id_usuario;
+      $idAuth = Auth::user()->id_usuario;
       $fechaR = new Date($reunion->fecha_reunion);
       $fechaHoy = Date::now();
 
@@ -56,7 +56,7 @@ class controlador_vista_general extends Controller
       array_push($datosReunion,$reunion->tipo_reunion->imagen_logo);
       array_push($datosReunion,$reunion->secretario->__toString());
       array_push($datosReunion,$idSecre);
-      array_push($datosReunion,$idMod);
+      array_push($datosReunion,$idAuth);
       array_push($datosReunion,$reunion->tipo_reunion->descripcion);
       array_push($datosReunion,$reunion->minuta->codigo);
       array_push($datosReunion,$reunion->minuta->id_minuta);
