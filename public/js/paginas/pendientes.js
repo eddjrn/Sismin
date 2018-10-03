@@ -5,6 +5,7 @@ function actualizarEstatus(tarea,id){
  if(check && (tarea.length!=0)){
         $('#btnAsignarE').attr('onclick',`actualizarE(${id})`);
    }else{
+     $('#estatus_'+id).prop("checked",false);
      notificacionAjax('bg-red','No le ha asignado una tarea a éste compromiso ', 2500,  'bottom', 'center', null, null);
    }
 
