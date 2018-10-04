@@ -2,12 +2,13 @@
 var archivo = false;
 var typo;
 var descripcion;
+var image;
 $(function () {
-  var $image = $('.logotipo');
+  image = $('#image');
   var cropBoxData;
   var canvasData;
 
-  $('.fotoE').on('shown.bs.modal', function () {
+  $('#photoModalEdit').on('shown.bs.modal', function () {
     $image.cropper({
       autoCropArea: 0.5,
       aspectRatio: 1 / 1,
@@ -36,7 +37,7 @@ $(function () {
 var $inputImage = $('#inputImage');
 var URL = window.URL || window.webkitURL;
 var blobURL;
-var $image = $('.logotipo');
+var $image = $('#image');
 
 if (URL) {
   $inputImage.change(function () {
@@ -64,9 +65,9 @@ if (URL) {
     }
   });
 
-  $('.registrar').on('click', function(){
+  $('#registrar').on('click', function(){
     if(archivo){
-      $('.logotipo').cropper('getCroppedCanvas', {
+      $('#image').cropper('getCroppedCanvas', {
         width: 150,
         height: 150,
         fillColor: '#fff',
@@ -116,14 +117,62 @@ if (URL) {
     }
   });
 
-  $('.rotateRight').on('click', function(){
-    $('.logotipo').cropper('rotate', 45);
+  $('#editarG').on('click', function(){
+    if(archivo){
+      $('#image').cropper('getCroppedCanvas', {
+        width: 150,
+        height: 150,
+        fillColor: '#fff',
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'low',
+      }).toBlob(function (blob) {
+        var formData = new FormData();
+        var id_usuario = $('#Copc').val();
+        var des = $('#desc').val();
+        formData.append('croppedImage', blob);
+        formData.append('descripcion', des);
+        formData.append('id_usuario', id_usuario);
+        formData.append('id_tipo', typo);
+
+        $.ajax(urlA, {
+          method: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success:function(result){
+            if(result.errores){
+              mensajeAjax('Error', 'Verifique sus datos', 'error');
+              var errores = '<ul>';
+              $.each(result.errores,function(indice,valor){
+                //console.log(indice + ' - ' + valor);
+                errores += '<li>' + valor + '</li>';
+              });
+              errores += '</ul>';
+              notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+            } else{
+              mensajeAjax('Registro correcto', result.mensaje,'success');
+              window.setTimeout(function(){
+                location.href = UrlToRedirectPage;
+              } ,1500);
+            }
+           },
+           error: function (jqXHR, status, error) {
+            mensajeAjax('Error', error, 'error');
+           }
+        });
+      });
+    }
   });
-  $('.rotateLeft').on('click', function(){
-    $('.logotipo').cropper('rotate', -45);
+
+
+  $('#rotateRight').on('click', function(){
+    $('#image').cropper('rotate', 45);
   });
-  $('.reset').on('click', function(){
-    $('.logotipo').cropper('reset');
+  $('#rotateLeft').on('click', function(){
+    $('#image').cropper('rotate', -45);
+  });
+  $('#reset').on('click', function(){
+    $('#image').cropper('reset');
   });
 
 } else {
@@ -175,90 +224,13 @@ function alerts(opc){
     }
 }
 
-function actualizarAdmin(){
-  var id_usuario = $('#Copc').val();
-  var des = $('#desc').val();
-
-
-  $('.registrar').on('click', function(){
-    if(archivo){
-      $('.logotipo').cropper('getCroppedCanvas', {
-        width: 150,
-        height: 150,
-        fillColor: '#fff',
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'low',
-      }).toBlob(function (blob) {
-        var formData = new FormData();
-
-        formData.append('croppedImage', blob);
-
-        $.ajax(urlA, {
-          method: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success:function(result){
-            if(result.errores){
-              mensajeAjax('Error', 'Verifique sus datos', 'error');
-              var errores = '<ul>';
-              $.each(result.errores,function(indice,valor){
-                //console.log(indice + ' - ' + valor);
-                errores += '<li>' + valor + '</li>';
-              });
-              errores += '</ul>';
-              notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-            } else{
-              mensajeAjax('Registro correcto', result.mensaje,'success');
-              window.setTimeout(function(){
-                location.href = UrlToRedirectPage;
-              } ,1500);
-            }
-           },
-           error: function (jqXHR, status, error) {
-            mensajeAjax('Error', error, 'error');
-           }
-        });
-      });
-    } else{
-      notificacionAjax('bg-red', 'Escoja un archivo para el logotipo de la organización', 2500,  'bottom', 'center', null, null);
-    }
-  });
-  //
-  // $.ajax({
-  //    type:'POST',
-  //    url: urlA,
-  //    data:
-  //    {
-  //      "id_tipo":typo,
-  //      "id_usuario": id_usuario,
-  //      "descripcion":des
-  //    },
-  //    success:function(result){
-  //      if(result.errores){
-  //        var errores = '<ul>';
-  //        $.each(result.errores,function(indice,valor){
-  //          errores += '<li>' + valor + '</li>';
-  //        });
-  //        errores += '</ul>';
-  //        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-  //      } else{
-  //        mensajeAjax('Registro correcto', result.mensaje,'success');
-  //        window.setTimeout(function(){
-  //          location.href = UrlToPostForm;
-  //        } ,1500);
-  //      }
-  //   },
-  //   error: function (jqXHR, status, error) {
-  //    mensajeAjax('Error', error, 'error');
-  //   }
-  // });
-}
-
-function aux(id,des)
+function aux(id,des, img)
 {
+  image= img;
   typo=id;
   descripcion = des;
   $("#desc").val(des);
+  $("#nombreG").html(des);
 }
+
 //END function to show the SweetAlert

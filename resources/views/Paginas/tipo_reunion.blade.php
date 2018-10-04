@@ -39,7 +39,7 @@ Registro del motivo de una reunión
                     <div class="well bar" style="height: 200px; overflow-y: scroll;">
                       <div class="list-group">
                         @foreach($tipos as $tipo)
-                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}')"style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
+                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}',{{$tipo->imagen_logo}})"style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
                             <div class="media">
                                 <div class="media-left">
                                     <a href="javascript:void(0);">
@@ -64,7 +64,7 @@ Registro del motivo de una reunión
                     <span class="input-group-addon">
                         <i class="material-icons">camera_enhance</i>
                     </span>
-                    <button type="button" class="btn btn-lg bg-pink waves-effect fotoE" data-toggle="modal" data-target="#photoModalEdit">Logo de la organización/empresa</button>
+                    <button type="button" class="btn btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#photoModalEdit">Logo de la organización/empresa</button>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -91,7 +91,7 @@ Registro del motivo de una reunión
                       <button class="btn btn-block bg-pink waves-effect registrar" type="button" id="registrar" >Dar de alta</button>
                     </div>
                 </div>
-            </form>
+            </form>""
         </div>
     </div>
 
@@ -100,85 +100,21 @@ Registro del motivo de una reunión
     </div>
 </div>
 
-<div class="modal fade fotoE" id="photoModalEdit" tabindex="-1" role="dialog">
+    <!-- Small Size -->
+<div class="modal fade" id="adminModalEdit" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="largeModalLabel">Logo de la organización/empresa</h4>
+                <h4 class="modal-title" id="smallModalLabel2">Editar grupo <label id="nombreG" value=""></label></h4>
             </div>
             <div class="modal-body">
               <form>
-              <div class="row">
-                <div class="col-lg-12 text-center">
-                  <img id="image" class="logotipo" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">camera_enhance</i>
+                    </span>
+                    <button type="button" class="btn btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#photoModalEdit" >Logo de la organización/empresa</button>
                 </div>
-              </div>
-              <br/>
-              <div class="row">
-                <div class="text-center">
-                  <button id="reset" type="button" class="btn bg-pink waves-effect reset" data-toggle="tooltip" data-placement="top" title="Reiniciar">
-                      <i class="material-icons">undo</i>
-                  </button>
-                  <button id="rotateRight" type="button" class="btn bg-pink waves-effect rotateRight" data-toggle="tooltip" data-placement="top" title="Rotar a la derecha">
-                      <i class="material-icons">rotate_right</i>
-                  </button>
-                  <button id="rotateLeft" type="button" class="btn bg-pink waves-effect rotateLeft" data-toggle="tooltip" data-placement="top" title="Rotar a la izquierda">
-                      <i class="material-icons">rotate_left</i>
-                  </button>
-
-                   <label class="btn bg-pink waves-effect btn-upload" for="inputImage" data-toggle="tooltip" title="Subir imagen" data-placement="top">
-                     <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif">
-                     <i class="material-icons">cloud_upload</i>
-                   </label>
-                </div>
-              </div>
-
-              <div class="modal-footer row clearfix">
-                <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
-                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Aceptar</button>
-                </div>
-              </div>
-          </form>
-        </div>
-        </div>
-    </div>
-</div>
-
-<!------------------>
-<div class="modal fade fotoE" id="adminModalEdit" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="largeModalLabel">Administrador del grupo/nombre</h4>
-            </div>
-            <div class="modal-body">
-              <form>
-              <div class="row">
-                <div class="col-lg-12 text-center">
-                  <img id="image" class="logotipo" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
-                </div>
-              </div>
-              <br/>
-              <div class="row">
-                <div class="text-center">
-                  <button id="reset" type="button" class="btn bg-pink waves-effect reset" data-toggle="tooltip" data-placement="top" title="Reiniciar">
-                      <i class="material-icons">undo</i>
-                  </button>
-                  <button id="rotateRight" type="button" class="btn bg-pink waves-effect rotateRight" data-toggle="tooltip" data-placement="top" title="Rotar a la derecha">
-                      <i class="material-icons">rotate_right</i>
-                  </button>
-                  <button id="rotateLeft" type="button" class="btn bg-pink waves-effect rotateLeft" data-toggle="tooltip" data-placement="top" title="Rotar a la izquierda">
-                      <i class="material-icons">rotate_left</i>
-                  </button>
-
-                   <label class="btn bg-pink waves-effect btn-upload" for="inputImage" data-toggle="tooltip" title="Subir imagen" data-placement="top">
-                     <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif">
-                     <i class="material-icons">cloud_upload</i>
-                   </label>
-                </div>
-              </div>
-            </br>
-          </form>
                 <label>Cambiar nombre del grupo</label>
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -188,8 +124,7 @@ Registro del motivo de una reunión
                         <input type="text" id="desc" class="form-control" value="" name="descripcion2" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el nuevo nombre del grupo de reunión">
                     </div>
                 </div>
-              </br>
-                  <span>Nuevo administrador</span>
+                <label>Nuevo administrador</label>
                 <div class="input-group">
                   <select id="Copc" class="form-control show-tick" data-live-search="true" autocomplete="off">
                       <option value="0">Seleccionar</option>
@@ -198,15 +133,61 @@ Registro del motivo de una reunión
                       @endforeach
                   </select>
                 </div>
-              <div class="modal-footer row clearfix">
-                <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
-                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal" onclick="actualizarAdmin()">Aceptar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+              <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
+                <button type="button" class="btn btn-block bg-pink waves-effect registrar" data-dismiss="modal" id="editarG">Aceptar</button>
               </div>
-           </div>
-          </div>
+            </div>
+          </form>
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="photoModalEdit" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="smallModalLabel">Logo de la organización/empresa</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-lg-12 text-center">
+                  <img id="image" class="fotoE" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="text-center">
+                  <button id="reset" type="button" class="btn bg-pink waves-effect" data-toggle="tooltip" data-placement="top" title="Reiniciar">
+                      <i class="material-icons">undo</i>
+                  </button>
+                  <button id="rotateRight" type="button" class="btn bg-pink waves-effect " data-toggle="tooltip" data-placement="top" title="Rotar a la derecha">
+                      <i class="material-icons">rotate_right</i>
+                  </button>
+                  <button id="rotateLeft" type="button" class="btn bg-pink waves-effect " data-toggle="tooltip" data-placement="top" title="Rotar a la izquierda">
+                      <i class="material-icons">rotate_left</i>
+                  </button>
+
+                   <label class="btn bg-pink waves-effect btn-upload" for="inputImage" data-toggle="tooltip" title="Subir imagen" data-placement="top">
+                     <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif">
+                     <i class="material-icons">cloud_upload</i>
+                   </label>
+                </div>
+              </div>
+
+          </div>
+          <div class="modal-footer row clearfix">
+            <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
+              <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+            </form>
+      </div>
+  </div>
+</div>
 @stop
 
 @section('scripts')
@@ -216,7 +197,7 @@ Registro del motivo de una reunión
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-  });
+  });""
 
   var UrlToPostForm = "{{asset('/tipo_reunion')}}";
   var UrlToRedirectPage = "{{asset('/')}}";

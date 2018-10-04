@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class controlador_admin extends Controller
 {
@@ -28,6 +29,10 @@ class controlador_admin extends Controller
 
       $idU = \App\usuario::find($idC);
 
+      $archivo = $request->file('croppedImage');
+      $imagen = Image::make($archivo);
+      $imagen->encode('jpeg', 80);
+
       if($des == null){
         $reunion =\App\tipo_reunion::find($id);
         $reunion->update([
@@ -48,6 +53,7 @@ class controlador_admin extends Controller
       $reunion->update([
         'id_usuario' => $idC,
         'descripcion'=>$request->descripcion,
+        'imagen_logo' => $imagen,
       ]);
 
     return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
