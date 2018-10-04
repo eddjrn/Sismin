@@ -14,13 +14,4 @@ class grupo_usuario extends Model
       'id_usuario',
       'id_tipo_reunion',
     ];
-
-    // public function grupo(){
-    //   return $this->belongsToMany(tipo_reunion::class,'id_tipo_reunion');
-    // }
-    //
-    // public function usuario(){
-    //   return $this->belongsToMany(usuario::class,'id_usuario');
-    // }
-
 }

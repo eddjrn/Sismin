@@ -41,12 +41,6 @@ class compromiso extends Model
    return $this->hasMany(compromiso_responsable::class,'id_compromiso');
   }
 
-  public function setDescripcionAttribute($value){
-    $con = strtolower($value);
-    $descripcion = ucfirst($con);
-    $this->attributes['descripcion'] = $descripcion;
-  }
-
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');

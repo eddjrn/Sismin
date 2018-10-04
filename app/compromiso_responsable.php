@@ -30,12 +30,6 @@ class compromiso_responsable extends Model
    return $this->belongsTo(usuario::class,'id_usuario');
   }
 
-  public function setTareaAttribute($value){
-    $con = strtolower($value);
-    $descripcion = ucfirst($con);
-    $this->attributes['tarea'] = $descripcion;
-  }
-
   public function getFecha(){
    Date::setLocale('es');
    return Date::parse($this->created_at)->format('\\A l j \\d\\e F \\d\\e\\ Y ');

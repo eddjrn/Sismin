@@ -36,8 +36,7 @@ class tema_pendiente extends Model
   }
 
   public function setDescripcionAttribute($value){
-    $con = strtolower(trim($value, "\t\n"));
-    $descripcion = ucfirst($con);
+    $descripcion = trim($value, "\t\n");
     $this->attributes['descripcion'] = $descripcion;
   }
 

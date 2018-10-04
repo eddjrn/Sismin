@@ -74,18 +74,6 @@ class reunion extends Model
     $this->attributes['fecha_reunion'] = Date::createFromFormat('Y-m-d H:i', $value)->format('Y-m-d H:i:s');
   }
 
-  public function setMotivoAttribute($value){
-   $con = strtolower($value);
-   $Motivo = ucfirst($con);
-   $this->attributes['motivo'] = $Motivo;
-  }
-
-  public function setLugarAttribute($value){
-   $con = strtolower($value);
-   $lugar = ucfirst($con);
-   $this->attributes['lugar'] = $lugar;
-  }
-
   public function reunion_temas_pendientes(){
     $reunion =$this->tipo_reunion->reuniones->sortByDesc('fecha_reunion')->get(1);
     if ($reunion == null) {
