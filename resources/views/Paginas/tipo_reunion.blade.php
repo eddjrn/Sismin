@@ -39,7 +39,7 @@ Registro del motivo de una reunión
                     <div class="well bar" style="height: 200px; overflow-y: scroll;">
                       <div class="list-group">
                         @foreach($tipos as $tipo)
-                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}',{{$tipo->imagen_logo}})"style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
+                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}','{{$tipo->imagen_logo}}','{{$tipo->administrador}}')" style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
                             <div class="media">
                                 <div class="media-left">
                                     <a href="javascript:void(0);">
@@ -115,6 +115,7 @@ Registro del motivo de una reunión
                     </span>
                     <button type="button" class="btn btn-lg bg-pink waves-effect" data-toggle="modal" data-target="#photoModalEdit" >Logo de la organización/empresa</button>
                 </div>
+
                 <label>Cambiar nombre del grupo</label>
                 <div class="input-group">
                     <span class="input-group-addon">

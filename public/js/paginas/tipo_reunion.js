@@ -3,8 +3,10 @@ var archivo = false;
 var typo;
 var descripcion;
 var image;
+var imagen;
+
 $(function () {
-  image = $('#image');
+  image = $('.fotoE');
   var cropBoxData;
   var canvasData;
 
@@ -37,7 +39,7 @@ $(function () {
 var $inputImage = $('#inputImage');
 var URL = window.URL || window.webkitURL;
 var blobURL;
-var $image = $('#image');
+var $image = $('.fotoE');
 
 if (URL) {
   $inputImage.change(function () {
@@ -67,7 +69,7 @@ if (URL) {
 
   $('#registrar').on('click', function(){
     if(archivo){
-      $('#image').cropper('getCroppedCanvas', {
+      $('.fotoE').cropper('getCroppedCanvas', {
         width: 150,
         height: 150,
         fillColor: '#fff',
@@ -119,24 +121,25 @@ if (URL) {
 
   $('#editarG').on('click', function(){
     if(archivo){
-      $('#image').cropper('getCroppedCanvas', {
+      $('.fotoE').cropper('getCroppedCanvas', {
         width: 150,
         height: 150,
         fillColor: '#fff',
         imageSmoothingEnabled: true,
         imageSmoothingQuality: 'low',
       }).toBlob(function (blob) {
-        var formData = new FormData();
+        var formData2 = new FormData();
         var id_usuario = $('#Copc').val();
         var des = $('#desc').val();
-        formData.append('croppedImage', blob);
-        formData.append('descripcion', des);
-        formData.append('id_usuario', id_usuario);
-        formData.append('id_tipo', typo);
+
+        formData2.append('croppedImage', blob);
+        formData2.append('descripcion', des);
+        formData2.append('id_usuario', id_usuario);
+        formData2.append('id_tipo', typo);
 
         $.ajax(urlA, {
           method: "POST",
-          data: formData,
+          data: formData2,
           processData: false,
           contentType: false,
           success:function(result){
@@ -161,18 +164,20 @@ if (URL) {
            }
         });
       });
+    } else{
+      notificacionAjax('bg-red', 'Escoja un archivo para el logotipo de la organización', 2500,  'bottom', 'center', null, null);
     }
   });
 
 
   $('#rotateRight').on('click', function(){
-    $('#image').cropper('rotate', 45);
+    $('.fotoE').cropper('rotate', 45);
   });
   $('#rotateLeft').on('click', function(){
-    $('#image').cropper('rotate', -45);
+    $('.fotoE').cropper('rotate', -45);
   });
   $('#reset').on('click', function(){
-    $('#image').cropper('reset');
+    $('.fotoE').cropper('reset');
   });
 
 } else {
@@ -224,13 +229,15 @@ function alerts(opc){
     }
 }
 
-function aux(id,des, img)
+function aux(id,des,img,admin)
 {
-  image= img;
   typo=id;
   descripcion = des;
+  $(".fotoE").attr("src",imagen);
+  $("#Copc").val("Seleccionar2");
   $("#desc").val(des);
   $("#nombreG").html(des);
+
 }
 
 //END function to show the SweetAlert

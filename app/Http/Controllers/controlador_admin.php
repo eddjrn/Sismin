@@ -33,22 +33,23 @@ class controlador_admin extends Controller
       $imagen = Image::make($archivo);
       $imagen->encode('jpeg', 80);
 
-      if($des == null){
-        $reunion =\App\tipo_reunion::find($id);
-        $reunion->update([
-          'id_usuario' => $idC,
-        ]);
-
-        return response()->json(['mensaje' => "Se asigno como administrador del grupo a ".$idU->__toString()]);
-
-      }else if($idC == 0){
-        $reunion =\App\tipo_reunion::find($id);
-        $reunion->update([
-          'descripcion'=>$request->descripcion,
-        ]);
-
-      return response()->json(['mensaje' => "Se cambió el nombre del grupo a".$des]);
-    }else{
+    // 
+    //   if($des == null){
+    //     $reunion =\App\tipo_reunion::find($id);
+    //     $reunion->update([
+    //       'id_usuario' => $idC,
+    //     ]);
+    //
+    //     return response()->json(['mensaje' => "Se asigno como administrador del grupo a ".$idU->__toString()]);
+    //
+    //   }else if($idC == 0){
+    //     $reunion =\App\tipo_reunion::find($id);
+    //     $reunion->update([
+    //       'descripcion'=>$request->descripcion,
+    //     ]);
+    //
+    //   return response()->json(['mensaje' => "Se cambió el nombre del grupo a".$des]);
+    // }else{
       $reunion =\App\tipo_reunion::find($id);
       $reunion->update([
         'id_usuario' => $idC,
@@ -57,6 +58,6 @@ class controlador_admin extends Controller
       ]);
 
     return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
-    }
+
     }
 }
