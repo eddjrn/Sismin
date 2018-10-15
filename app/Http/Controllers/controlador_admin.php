@@ -33,7 +33,7 @@ class controlador_admin extends Controller
       $imagen = Image::make($archivo);
       $imagen->encode('jpeg', 80);
 
-    // 
+    //
     //   if($des == null){
     //     $reunion =\App\tipo_reunion::find($id);
     //     $reunion->update([
@@ -59,5 +59,13 @@ class controlador_admin extends Controller
 
     return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
 
+    }
+
+    public function mostrar_vista_DB(){
+      return view('Paginas.Admin_DB');
+    }
+
+    public function crearRespaldo(Request $request){
+      return 
     }
 }

@@ -141,6 +141,12 @@
                           <span>Dar de alta un grupo de reunión</span>
                       </li>
                     </a>
+                   <a href="{{asset('/base_datos')}}">
+                      <li data-theme="red">
+                          <i class="material-icons">dns</i>
+                          <span>Base de datos</span>
+                      </li>
+                    </a>
                     @endif
                     @if(Auth::user()->grupos_reunion->count() > 0)
                     <a href="{{asset('/puesto_usuario')}}">
