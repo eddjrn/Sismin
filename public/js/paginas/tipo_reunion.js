@@ -233,8 +233,9 @@ function aux(id,des,img,admin)
 {
   typo=id;
   descripcion = des;
-  $(".fotoE").attr("src",imagen);
-  $("#Copc").val("Seleccionar2");
+  $(".fotoE").attr("src",img);
+  $("#Copc").val(admin);
+  $("#Copc").selectpicker("refresh");
   $("#desc").val(des);
   $("#nombreG").html(des);
 

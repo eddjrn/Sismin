@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Image;
 
 class controlador_admin extends Controller
@@ -66,6 +67,9 @@ class controlador_admin extends Controller
     }
 
     public function crearRespaldo(Request $request){
-      return 
+    //  $usuarios=\App\Usuario::All()->toJson();
+    $Sismin= json_encode(DB::select('SHOW TABLES')->get()->toArray());
+
+      return response()->json(['mensaje' => "correcto",'datos' => $Sismin]);
     }
 }

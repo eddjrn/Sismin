@@ -1,7 +1,7 @@
 @extends('Layout.layout')
 
 @section('titulo')
-Pendientes
+Respaldos
 @stop
 
 @section('estilos')
@@ -49,7 +49,6 @@ Base de datos
   </div>
 </div>
 
-
 <div class="modal fade" id="modalRespaldo" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" >
@@ -57,19 +56,19 @@ Base de datos
                 <h4 class="modal-title" id="smallModalLabel2">Realizar respaldo</label></h4>
             </div>
             <div class="modal-body" >
-              <p aling="justify">
-                Al realizar éste tipo de respaldo, los datos existentes en el sistema (Toda información relacionada con las minutas y convocatorias de reunión) serán limpiados y pasados a un respaldo.
-                <br>
-                ¿Desea continuar?
-                <br>
-              </p>
+              <blockquote class="font-15">
+                <p class="align-justify">
+                  Al realizar éste tipo de respaldo, los datos existentes en el sistema (Toda información relacionada con las minutas y convocatorias de reunión) serán limpiados y pasados a un respaldo.
+               </p>
+             </blockquote>
+                <p class="font-bold col-pink align-center"> ¿Desea continuar?</p>
             <div class="modal-footer">
               <div class="row">
                 <div class="col-md-6">
                   <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
                 </div>
                 <div class="col-md-6">
-                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal" id="realizarR">Aceptar</button>
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal" id="realizarR" onclick="respaldo()">Aceptar</button>
                 </div>
               </div>
             </div>
@@ -87,6 +86,27 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+var colorSpinner = '#8BC34A';
+var datos= null;
+
+function archivo(datos, nombre_archivo, tipo){
+
+  var archivo = new Blob([datos],{ type: "text/plain"});
+  var a = document.createElement("a"),url = URL.createObjectURL(archivo);
+  var date = Date.now();
+  a.href=url;
+  a.download = nombre_archivo + date + tipo;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  },0);
+}
+
+function respaldo(){
+
+ inicioSpinner();
 
 $.ajax({
    type:'POST',
@@ -106,9 +126,10 @@ $.ajax({
        notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
      } else{
        mensajeAjax('Registro correcto', result.mensaje,'success');
-       window.setTimeout(function(){
-         location.href = urlToRedirectPage;
-       } ,1500);
+       notificacionAjax('bg-green',"Por favor guarde el archivo en un lugar seguro", 10000,  'bottom', 'center', null, null);
+       datos= result.datos;
+       archivo(datos,"usuarios",".SisMin");
+       finSpinner();
      }
     },
     error: function (jqXHR, status, error) {
@@ -116,5 +137,8 @@ $.ajax({
       mensajeAjax('Error', error, 'error');
     }
 });
+}
+
+
 </script>
 @stop
