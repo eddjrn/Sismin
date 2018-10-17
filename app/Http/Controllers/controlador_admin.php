@@ -66,10 +66,24 @@ class controlador_admin extends Controller
       return view('Paginas.Admin_DB');
     }
 
-    public function crearRespaldo(Request $request){
+    public function crearRespaldo(){
     //  $usuarios=\App\Usuario::All()->toJson();
-    $Sismin= json_encode(DB::select('SHOW TABLES')->get()->toArray());
 
-      return response()->json(['mensaje' => "correcto",'datos' => $Sismin]);
+    $Sismin= DB::select('SHOW TABLES');
+    $dbSismin= array();
+     // $x= DB::select(DB::raw('select * from usuario'));
+     $x=DB::table('usuario')->get();
+    //$x= DB::table('usuario')->first()->toArray();
+
+    //   foreach ($Sismin as  $db) {
+    //    array_push($dbSismin,DB::table('usuario'));
+    //    //array_push($dbSismin,DB::select(DB::raw('select * from usuario'))->get());
+    //   //array_push($dbSismin,DB::query('select * from usuario')->get());
+    //   // code...
+    // }
+       //array_push($dbSismin,DB::table('usuario')->select(' * ')->get());
+
+       return base64_encode($x);
+      //return response()->json([ => "correcto",'datos' =>  json_encode($dbSismin)]);
     }
 }

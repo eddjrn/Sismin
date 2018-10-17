@@ -80,4 +80,4 @@ Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middlewar
 
 Route::get('/base_datos', 'controlador_admin@mostrar_vista_DB')->middleware('admin');
 Route::post('/tipo_reunion_admin', 'controlador_admin@cambiarAdmin')->middleware('admin');
-Route::post('/crear_respaldo', 'controlador_admin@crearRespaldo')->middleware('admin');
+Route::get('/crear_respaldo', 'controlador_admin@crearRespaldo')->middleware('admin');
