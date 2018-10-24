@@ -86,11 +86,10 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-var colorSpinner = '#8BC34A';
+var colorSpinner = '#E91E63';
 var datos= null;
 
 function archivo(datos, nombre_archivo, tipo){
-
   var archivo = new Blob([datos],{ type: "text/plain"});
   var a = document.createElement("a"),url = URL.createObjectURL(archivo);
   var date = Date.now();
@@ -105,38 +104,38 @@ function archivo(datos, nombre_archivo, tipo){
 }
 
 function respaldo(){
-
- inicioSpinner();
-
-$.ajax({
-   type:'POST',
-   url: "{{asset('/crear_respaldo')}}",
-   data: true,
-   processData:false,
-   contentType:false,
-   success:function(result){
-     if(result.errores){
-       finSpinner();
-       mensajeAjax('Error', 'Verifique sus datos', 'error');
-       var errores = '<ul>';
-       $.each(result.errores,function(indice,valor){
-         errores += '<li>' + valor + '</li>';
-       });
-       errores += '</ul>';
-       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-     } else{
-       mensajeAjax('Registro correcto', result.mensaje,'success');
-       notificacionAjax('bg-green',"Por favor guarde el archivo en un lugar seguro", 10000,  'bottom', 'center', null, null);
-       datos= result.datos;
-       archivo(datos,"usuarios",".SisMin");
-       finSpinner();
-     }
-    },
-    error: function (jqXHR, status, error) {
-      finSpinner();
-      mensajeAjax('Error', error, 'error');
-    }
-});
+  inicioSpinner();
+  $.ajax({
+     type:'GET',
+     url: "{{asset('/crear_respaldo')}}",
+     data: true,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errores){
+         finSpinner();
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         notificacionAjax('bg-green',"Por favor guarde el archivo en un lugar seguro", 10000,  'bottom', 'center', null, null);
+         window.setTimeout(function(){
+           location.href = "{{asset('/descargar_respaldo')}}/" + result.nombre;
+         } ,3000);
+         // archivo(result.datos,"usuarios",".sql");
+         finSpinner();
+       }
+      },
+      error: function (jqXHR, status, error) {
+        finSpinner();
+        mensajeAjax('Error', error, 'error');
+      }
+  });
 }
 
 

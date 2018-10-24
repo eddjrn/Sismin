@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Image;
 
 class controlador_admin extends Controller
@@ -58,8 +60,7 @@ class controlador_admin extends Controller
         'imagen_logo' => $imagen,
       ]);
 
-    return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
-
+      return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
     }
 
     public function mostrar_vista_DB(){
@@ -67,23 +68,15 @@ class controlador_admin extends Controller
     }
 
     public function crearRespaldo(){
-    //  $usuarios=\App\Usuario::All()->toJson();
+      Artisan::call('backup:mysql-dump');
+      $archivos = Storage::allFiles('/');
+      // return $archivos[2];
+      // $datos = Storage::get($archivos[2]);
+      return response()->json(['mensaje' => 'Archivo creado', 'nombre' => $archivos[2]]);
+      // return response()->json(['mensaje' => 'Archivo creado', 'datos' => $datos]);
+    }
 
-    $Sismin= DB::select('SHOW TABLES');
-    $dbSismin= array();
-     // $x= DB::select(DB::raw('select * from usuario'));
-     $x=DB::table('usuario')->get();
-    //$x= DB::table('usuario')->first()->toArray();
-
-    //   foreach ($Sismin as  $db) {
-    //    array_push($dbSismin,DB::table('usuario'));
-    //    //array_push($dbSismin,DB::select(DB::raw('select * from usuario'))->get());
-    //   //array_push($dbSismin,DB::query('select * from usuario')->get());
-    //   // code...
-    // }
-       //array_push($dbSismin,DB::table('usuario')->select(' * ')->get());
-
-       return base64_encode($x);
-      //return response()->json([ => "correcto",'datos' =>  json_encode($dbSismin)]);
+    public function descargarRespaldo($archivo){
+      return Storage::download($archivo);
     }
 }

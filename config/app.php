@@ -182,6 +182,7 @@ return [
         Laraveles\Spanish\SpanishServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Backup\BackupServiceProvider::class,
 
     ],
 
