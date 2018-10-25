@@ -8,5 +8,7 @@ return [
   'puesto_usuarioDB' => 4,
   'reunion_convocadoDB' => 30,
   'tema_pendienteDB' => 20,
+
   'admin' => 1,
+  'backup' => 'null',
 ];

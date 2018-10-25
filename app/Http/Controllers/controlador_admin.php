@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Config;
 use Image;
 
 class controlador_admin extends Controller
@@ -90,5 +91,13 @@ class controlador_admin extends Controller
     public function eliminarRespaldo($archivo){
       Storage::delete($archivo);
       return back();
+    }
+
+    public function activarRespaldo($archivo){
+      // config('variables.backup', 'backups/'.$archivo);
+      // config('variables.backup', 'backups/SisMin_20181024033404.sql');
+      config(['variables.backup' => 'backups/SisMin_20181024033404.sql']);
+      Artisan::call('config:cache');
+      return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
     }
 }

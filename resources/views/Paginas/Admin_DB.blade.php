@@ -14,7 +14,7 @@ Respaldos
 @stop
 
 @section('cabecera')
-Respaldos
+Respaldos {{config('variables.backup')}}
 @stop
 
 @section('contenido')
@@ -48,6 +48,7 @@ Respaldos
                       </button>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                      {{config('variables.backup')}}
                       <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
                           <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                               <thead>
@@ -70,9 +71,14 @@ Respaldos
                                       <td id="">{{$archivo}}</td>
                                       <td>fecha</td>
                                       <td>
-                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal">
-                                          <i class="material-icons">present_to_all</i>
-                                          <span>Activar</span>
+                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal" onclick="activar('{{$archivo}}')" @if(config('variables.backup') == $archivo)disabled="disabled"@endif>
+                                          @if(config('variables.backup') == $archivo)
+                                            <i class="material-icons">lock</i>
+                                            <span>Activado</span>
+                                          @else
+                                            <i class="material-icons">present_to_all</i>
+                                            <span>Activar</span>
+                                          @endif
                                         </button>
                                         <br class="hidden-lg hidden-md hidden-sm">
                                         <br class="hidden-lg hidden-md hidden-sm">

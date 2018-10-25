@@ -59,6 +59,38 @@ function descargar(archivo){
   } ,3000);
 }
 
+function activar(archivo){
+  inicioSpinner();
+  $.ajax({
+     type:'GET',
+     url: url + "activar_respaldo/" + archivo,
+     data: true,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errores){
+         finSpinner();
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           location.href = url + "base_datos/";
+         } ,2000);
+       }
+      },
+      error: function (jqXHR, status, error) {
+        finSpinner();
+        mensajeAjax('Error', error, 'error');
+      }
+  });
+}
+
 // Función al recargar la página, cambia estilos e inicaliza scripts en español
 $(function () {
   // Data table plugin
