@@ -64,19 +64,31 @@ class controlador_admin extends Controller
     }
 
     public function mostrar_vista_DB(){
-      return view('Paginas.Admin_DB');
+      $archivos = Storage::files('/backups');
+      return view('Paginas.Admin_DB', [
+        'archivos' => $archivos,
+      ]);
     }
 
     public function crearRespaldo(){
       Artisan::call('backup:mysql-dump');
-      $archivos = Storage::allFiles('/');
-      // return $archivos[2];
+      $archivos = Storage::files('/');
+      // return $archivos;
       // $datos = Storage::get($archivos[2]);
-      return response()->json(['mensaje' => 'Archivo creado', 'nombre' => $archivos[2]]);
+      return response()->json(['mensaje' => 'Archivo creado', 'nombre' => $archivos[1]]);
       // return response()->json(['mensaje' => 'Archivo creado', 'datos' => $datos]);
     }
 
     public function descargarRespaldo($archivo){
       return Storage::download($archivo);
+    }
+
+    public function descargarRespaldoBackup($archivo){
+      return Storage::download('/backups/'.$archivo);
+    }
+
+    public function eliminarRespaldo($archivo){
+      Storage::delete($archivo);
+      return back();
     }
 }

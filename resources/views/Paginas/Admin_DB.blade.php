@@ -7,10 +7,14 @@ Respaldos
 @section('estilos')
 <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<!-- Bootstrap Select Css -->
+<link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet"/>
+<!-- JQuery DataTable Css -->
+<link href="{{asset('/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
 @stop
 
 @section('cabecera')
-Base de datos
+Respaldos
 @stop
 
 @section('contenido')
@@ -24,7 +28,7 @@ Base de datos
                 <ul class="nav nav-tabs tab-col-pink" role="tablist">
                   <li role="presentation">
                         <a href="#home_with_icon_title" data-toggle="tab">
-                            <i class="material-icons">schedule</i> Respaldos.
+                            <i class="material-icons">schedule</i> Realización de respaldos.
                         </a>
                     </li>
                     <li role="presentation">
@@ -38,10 +42,50 @@ Base de datos
                     <div role="tabpanel" class="tab-pane fade" id="home_with_icon_title">
                       <strong>Para realizar un respaldo de toda la base de datos de las minutas y reuniones presione el botón realizar respaldo.</strong>
                       <br>
-                      <button type="button" id="btnRespaldo" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#modalRespaldo">Realizar respaldo</button>
+                      <button type="button" id="btnRespaldo" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#modalRespaldo">
+                        <i class="material-icons">file_download</i>
+                        <span>Realizar respaldo</span>
+                      </button>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-
+                      <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
+                          <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th style="width: 400px !important">Fecha</th>
+                                      <th style="width: 400px !important">Acción</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th style="width: 100px !important">Fecha</th>
+                                      <th style="width: 100px !important">Acción</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  @foreach($archivos as $archivo)
+                                    <tr>
+                                      <td id="">{{$archivo}}</td>
+                                      <td>fecha</td>
+                                      <td>
+                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal">
+                                          <i class="material-icons">present_to_all</i>
+                                          <span>Activar</span>
+                                        </button>
+                                        <br class="hidden-lg hidden-md hidden-sm">
+                                        <br class="hidden-lg hidden-md hidden-sm">
+                                        <button type="button" class="btn bg-pink waves-effect" onclick="descargar('{{$archivo}}')">
+                                          <i class="material-icons">file_download</i>
+                                          <span>Descargar</span>
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
                     </div>
                </div>
             </div>
@@ -80,6 +124,15 @@ Base de datos
 
 @section('scripts')
 <script src="{{asset('/js/treeview/easyTree.js')}}"></script>
+<!-- Select Plugin Js -->
+<script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+<!-- Multi Select Plugin Js -->
+<script src="{{asset('/plugins/multi-select/js/jquery.multi-select.js')}}"></script>
+<!-- Jquery DataTable Plugin Js -->
+<script src="{{asset('/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+<script src="{{asset('/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
+
+
 <script>
 $.ajaxSetup({
     headers: {
@@ -87,57 +140,8 @@ $.ajaxSetup({
     }
 });
 var colorSpinner = '#E91E63';
-var datos= null;
-
-function archivo(datos, nombre_archivo, tipo){
-  var archivo = new Blob([datos],{ type: "text/plain"});
-  var a = document.createElement("a"),url = URL.createObjectURL(archivo);
-  var date = Date.now();
-  a.href=url;
-  a.download = nombre_archivo + date + tipo;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function(){
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  },0);
-}
-
-function respaldo(){
-  inicioSpinner();
-  $.ajax({
-     type:'GET',
-     url: "{{asset('/crear_respaldo')}}",
-     data: true,
-     processData:false,
-     contentType:false,
-     success:function(result){
-       if(result.errores){
-         finSpinner();
-         mensajeAjax('Error', 'Verifique sus datos', 'error');
-         var errores = '<ul>';
-         $.each(result.errores,function(indice,valor){
-           errores += '<li>' + valor + '</li>';
-         });
-         errores += '</ul>';
-         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
-       } else{
-         mensajeAjax('Registro correcto', result.mensaje,'success');
-         notificacionAjax('bg-green',"Por favor guarde el archivo en un lugar seguro", 10000,  'bottom', 'center', null, null);
-         window.setTimeout(function(){
-           location.href = "{{asset('/descargar_respaldo')}}/" + result.nombre;
-         } ,3000);
-         // archivo(result.datos,"usuarios",".sql");
-         finSpinner();
-       }
-      },
-      error: function (jqXHR, status, error) {
-        finSpinner();
-        mensajeAjax('Error', error, 'error');
-      }
-  });
-}
-
-
+var url = "{{asset('/')}}";
 </script>
+
+<script src="{{asset('/js/paginas/admin_DB.js')}}"></script>
 @stop
