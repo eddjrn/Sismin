@@ -65,7 +65,7 @@ class controlador_admin extends Controller
     }
 
     public function mostrar_vista_DB(){
-      $archivos = Storage::files('/backups');
+      $archivos = Storage::files('/recuperacion');
       return view('Paginas.Admin_DB', [
         'archivos' => $archivos,
       ]);
@@ -73,30 +73,28 @@ class controlador_admin extends Controller
 
     public function crearRespaldo(){
       Artisan::call('backup:mysql-dump');
-      $archivos = Storage::files('/');
-      // return $archivos;
+      $archivos = Storage::files('/backups');
+      // return $archivos[0];
       // $datos = Storage::get($archivos[2]);
-      return response()->json(['mensaje' => 'Archivo creado', 'nombre' => $archivos[1]]);
+      return response()->json(['mensaje' => 'Archivo creado', 'nombre' => $archivos[0]]);
       // return response()->json(['mensaje' => 'Archivo creado', 'datos' => $datos]);
     }
 
     public function descargarRespaldo($archivo){
-      return Storage::download($archivo);
-    }
-
-    public function descargarRespaldoBackup($archivo){
       return Storage::download('/backups/'.$archivo);
     }
 
     public function eliminarRespaldo($archivo){
-      Storage::delete($archivo);
+      Storage::delete('/backups/'.$archivo);
       return back();
     }
 
+    public function descargarRespaldoRecuperacion($archivo){
+      return Storage::download('/recuperacion/'.$archivo);
+    }
+
     public function activarRespaldo($archivo){
-      // config('variables.backup', 'backups/'.$archivo);
-      // config('variables.backup', 'backups/SisMin_20181024033404.sql');
-      config(['variables.backup' => 'backups/SisMin_20181024033404.sql']);
+      config(['variables.recuperacion' => 'recuperacion/'.$archivo]);
       Artisan::call('config:cache');
       return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
     }

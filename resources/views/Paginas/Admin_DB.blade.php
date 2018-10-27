@@ -14,12 +14,12 @@ Respaldos
 @stop
 
 @section('cabecera')
-Respaldos {{config('variables.backup')}}
+Respaldos
 @stop
 
 @section('contenido')
 <!-- Tabs With Icon Title -->
-
+<h6>El archivo: {{config('variables.recuperacion')}} esta activado.</h6>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
@@ -48,7 +48,6 @@ Respaldos {{config('variables.backup')}}
                       </button>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                      {{config('variables.backup')}}
                       <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
                           <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                               <thead>
@@ -71,8 +70,8 @@ Respaldos {{config('variables.backup')}}
                                       <td id="">{{$archivo}}</td>
                                       <td>fecha</td>
                                       <td>
-                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal" onclick="activar('{{$archivo}}')" @if(config('variables.backup') == $archivo)disabled="disabled"@endif>
-                                          @if(config('variables.backup') == $archivo)
+                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal" onclick="activar('{{$archivo}}')" @if(config('variables.recuperacion') == $archivo)disabled="disabled"@endif>
+                                          @if(config('variables.recuperacion') == $archivo)
                                             <i class="material-icons">lock</i>
                                             <span>Activado</span>
                                           @else

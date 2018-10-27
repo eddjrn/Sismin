@@ -10,5 +10,5 @@ return [
   'tema_pendienteDB' => 20,
 
   'admin' => 1,
-  'backup' => 'null',
+  'recuperacion' => 'recu1.sql',
 ];

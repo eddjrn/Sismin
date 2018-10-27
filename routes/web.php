@@ -81,7 +81,7 @@ Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middlewar
 Route::get('/base_datos', 'controlador_admin@mostrar_vista_DB')->middleware('admin');
 Route::post('/tipo_reunion_admin', 'controlador_admin@cambiarAdmin')->middleware('admin');
 Route::get('/crear_respaldo', 'controlador_admin@crearRespaldo')->middleware('admin');
-Route::get('/descargar_respaldo/{archivo}', 'controlador_admin@descargarRespaldo')->middleware('admin');
-Route::get('/descargar_respaldo/backups/{archivo}', 'controlador_admin@descargarRespaldoBackup')->middleware('admin');
-Route::get('/eliminar_respaldo/{archivo}', 'controlador_admin@eliminarRespaldo')->middleware('admin');
-Route::get('/activar_respaldo/backups/{archivo}', 'controlador_admin@activarRespaldo')->middleware('admin');
+Route::get('/descargar_respaldo/backups/{archivo}', 'controlador_admin@descargarRespaldo')->middleware('admin');
+Route::get('/eliminar_respaldo/backups/{archivo}', 'controlador_admin@eliminarRespaldo')->middleware('admin');
+Route::get('/descargar_respaldo/recuperacion/{archivo}', 'controlador_admin@descargarRespaldoRecuperacion')->middleware('admin');
+Route::get('/activar_respaldo/recuperacion/{archivo}', 'controlador_admin@activarRespaldo')->middleware('admin');
