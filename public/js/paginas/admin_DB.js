@@ -40,6 +40,8 @@ function respaldo(){
          window.setTimeout(function(){
            location.href = url + "eliminar_respaldo/" + result.nombre;
          } ,4000);
+
+
          // archivo(result.datos,"usuarios",".sql");
          finSpinner();
        }
@@ -80,8 +82,10 @@ function activar(archivo){
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
-           location.href = url + "base_datos/";
+           location.href = url;
          } ,2000);
+
+
        }
       },
       error: function (jqXHR, status, error) {

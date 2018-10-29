@@ -7,6 +7,7 @@ Respaldos
 @section('estilos')
 <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta http-equiv="Pragma" content="no-cache">
 <!-- Bootstrap Select Css -->
 <link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet"/>
 <!-- JQuery DataTable Css -->
@@ -14,12 +15,12 @@ Respaldos
 @stop
 
 @section('cabecera')
-Respaldos
+Respaldos {{config('variables.recuperacion')}}
 @stop
 
 @section('contenido')
 <!-- Tabs With Icon Title -->
-<h6>El archivo: {{config('variables.recuperacion')}} esta activado.</h6>
+
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
@@ -48,6 +49,7 @@ Respaldos
                       </button>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                      {{config('variables.backup')}}
                       <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
                           <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                               <thead>
@@ -67,11 +69,11 @@ Respaldos
                               <tbody>
                                   @foreach($archivos as $archivo)
                                     <tr>
-                                      <td id="">{{$archivo}}</td>
-                                      <td>fecha</td>
+                                      <td id="">{{$archivo[0]}}</td>
+                                      <td>{{$archivo[1]}}</td>
                                       <td>
-                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal" onclick="activar('{{$archivo}}')" @if(config('variables.recuperacion') == $archivo)disabled="disabled"@endif>
-                                          @if(config('variables.recuperacion') == $archivo)
+                                        <button type="button" class="btn bg-red waves-effect" data-dismiss="modal" onclick="activar('{{$archivo[2]}}')" @if(config('variables.recuperacion') == $archivo[0])disabled="disabled"@endif>
+                                          @if(config('variables.recuperacion') == $archivo[0])
                                             <i class="material-icons">lock</i>
                                             <span>Activado</span>
                                           @else
@@ -81,7 +83,7 @@ Respaldos
                                         </button>
                                         <br class="hidden-lg hidden-md hidden-sm">
                                         <br class="hidden-lg hidden-md hidden-sm">
-                                        <button type="button" class="btn bg-pink waves-effect" onclick="descargar('{{$archivo}}')">
+                                        <button type="button" class="btn bg-pink waves-effect" onclick="descargar('{{$archivo[2]}}')">
                                           <i class="material-icons">file_download</i>
                                           <span>Descargar</span>
                                         </button>

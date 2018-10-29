@@ -1,6 +1,5 @@
 <?php
-
-return [
+ return array (
   'usuariosDB' => 50,
   'tipos_de_reunionDB' => 5,
   'reunionDB' => 10,
@@ -8,7 +7,6 @@ return [
   'puesto_usuarioDB' => 4,
   'reunion_convocadoDB' => 30,
   'tema_pendienteDB' => 20,
-
   'admin' => 1,
-  'recuperacion' => 'recu1.sql',
-];
+  'recuperacion' => 'Sismin_20181029115201.sql',
+);
