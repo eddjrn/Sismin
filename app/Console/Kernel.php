@@ -6,6 +6,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mail;
 use Jenssegers\Date\Date;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 
 class Kernel extends ConsoleKernel
 {
@@ -57,6 +59,13 @@ class Kernel extends ConsoleKernel
                 }
             }
          })->daily();
+
+           $schedule->call(function(){
+             Artisan::call('backup:mysql-dump');
+             $archivos = Storage::files('/backups');
+             Storage::move(end($archivos), 'recuperacion/'.basename(end($archivos)));
+           })->Montly();
+
     }
 
     /**
