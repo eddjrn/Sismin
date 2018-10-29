@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Image;
+use Jenssegers\Date\Date;
 
 class controlador_admin extends Controller
 {
@@ -53,7 +55,7 @@ class controlador_admin extends Controller
     //     ]);
     //
     //   return response()->json(['mensaje' => "Se cambió el nombre del grupo a".$des]);
-    // }else{
+    // }else{'recuperacion/'.
       $reunion =\App\tipo_reunion::find($id);
       $reunion->update([
         'id_usuario' => $idC,
@@ -66,8 +68,23 @@ class controlador_admin extends Controller
 
     public function mostrar_vista_DB(){
       $archivos = Storage::files('/recuperacion');
+      Date::setLocale('es');
+
+      $todo= array();
+      foreach ($archivos as $archivo) {
+        $fecha_nombre= array();
+        $nombre = basename($archivo);
+        $directorio = $archivo;
+        $fecha_extencion = basename(explode("_",basename($archivo))[1],".sql");
+        $fecha = Date::parse($fecha_extencion)->format(' l j \\d\\e F \\d\\e\\ Y \\a \\l\\a\\s H:i:s  ');
+        array_push($fecha_nombre,$nombre);
+        array_push($fecha_nombre,$fecha);
+        array_push($fecha_nombre,$directorio);
+        array_push($todo,$fecha_nombre);
+      }
+
       return view('Paginas.Admin_DB', [
-        'archivos' => $archivos,
+        'archivos' => $todo,
       ]);
     }
 
@@ -94,8 +111,17 @@ class controlador_admin extends Controller
     }
 
     public function activarRespaldo($archivo){
-      config(['variables.recuperacion' => 'recuperacion/'.$archivo]);
-      Artisan::call('config:cache');
-      return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
+    //  config(['variables.recuperacion' => 5]);
+
+      // Config::set('variables.recuperacion', 5);
+      // Artisan::call('config:cache');
+      // return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
+      $arrayx = Config::get('variables');
+      $arrayx ['recuperacion']= $archivo;
+      $datos = var_export($arrayx,1);
+      if(File::put(base_path().'/config/variables.php',"<?php\n return $datos;")){
+        Artisan::call('config:cache');
+         return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
+      }
     }
 }
