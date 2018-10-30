@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "bb13a262047ccbd632e9b7366adbaa28",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.69.13",
+            "version": "3.69.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "58af8e248aa2ae0709a009502407533a5f13a443"
+                "reference": "148a3b363fe630b4e14dda00363713265d2bf092"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/58af8e248aa2ae0709a009502407533a5f13a443",
-                "reference": "58af8e248aa2ae0709a009502407533a5f13a443",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/148a3b363fe630b4e14dda00363713265d2bf092",
+                "reference": "148a3b363fe630b4e14dda00363713265d2bf092",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-10-23T20:04:06+00:00"
+            "time": "2018-10-25T18:34:08+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
