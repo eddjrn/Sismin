@@ -64,7 +64,7 @@ class Kernel extends ConsoleKernel
              Artisan::call('backup:mysql-dump');
              $archivos = Storage::files('/backups');
              Storage::move(end($archivos), 'recuperacion/'.basename(end($archivos)));
-           })->Montly();
+           })->quarterly();
 
     }
 

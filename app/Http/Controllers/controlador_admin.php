@@ -124,4 +124,22 @@ class controlador_admin extends Controller
          return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
       }
     }
+
+    public function subirRespaldo(Request $request){
+      $archivo = $request->file('archivo');
+
+      Storage::putFileAs('/backups',$archivo,$archivo->getClientOriginalName());
+      //realizar respaldo en la base de datos de Sismin
+      Artisan::call('backup:mysql-restore',['--filename' => $archivo->getClientOriginalName()]);
+      Storage::delete('/backups/'.$archivo->getClientOriginalName());
+
+      $arrayx = Config::get('variables');
+      $arrayx ['recuperacion']= $archivo->getClientOriginalName();
+      $datos = var_export($arrayx,1);
+      if(File::put(base_path().'/config/variables.php',"<?php\n return $datos;"))
+      {
+        Artisan::call('config:cache');
+         return response()->json(['mensaje' => 'Archivo: '.$archivo->getClientOriginalName().' activado.']);
+      }
+    }
 }

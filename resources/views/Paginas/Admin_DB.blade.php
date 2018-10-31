@@ -42,10 +42,15 @@ Respaldos {{config('variables.recuperacion')}}
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade" id="home_with_icon_title">
                       <strong>Para realizar un respaldo de toda la base de datos de las minutas y reuniones presione el botón realizar respaldo.</strong>
-                      <br>
+                      <br><strong>Para subir un respaldo de toda la base de datos de las minutas y reuniones presione el botón subir respaldo.</strong>
+                      <br><br>
                       <button type="button" id="btnRespaldo" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#modalRespaldo">
                         <i class="material-icons">file_download</i>
                         <span>Realizar respaldo</span>
+                      </button>
+                      <button type="button" id="btnSubirRespaldo" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#modalSubirRespaldo">
+                        <i class="material-icons">file_upload</i>
+                        <span>Subir respaldo</span>
                       </button>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
@@ -125,6 +130,45 @@ Respaldos {{config('variables.recuperacion')}}
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalSubirRespaldo" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel2">Subir respaldo</label></h4>
+            </div>
+            <div class="modal-body" >
+              <blockquote class="font-15">
+                <p class="align-justify">
+                  Al subir un respaldo, el respaldo existente en el sistema (Toda información relacionada con las minutas y convocatorias de reunión) serán reemplazados por los datos del respaldo seleccionado.
+                  Si desea subir un respaldo, dé clic en el botón de subir respaldo que se encuentra a continuación.
+               </p>
+             </blockquote>
+
+             <label class="btn bg-pink waves-effect btn-upload m-l-60 " for="inputArch" data-toggle="tooltip" title="Subir respaldo" data-placement="top">
+               <input type="file" class="sr-only" id="inputArch" name="file" accept=".sql" onchange="SeleccionarArch();">
+               <i class="material-icons">cloud_upload</i>
+              <span>Subir respaldo</span>
+            </label></br></br>
+            <center> <label id="nombreArch" class="align-center">Ningún archivo seleccionado</label></center>
+           </br>
+                <p class="font-bold col-pink align-center"> ¿Desea continuar?</p>
+
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal" id="subirR" onclick="SubirRespaldo()">Subir</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 @stop

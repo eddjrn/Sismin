@@ -116,3 +116,46 @@ $(function () {
       "autoWidth": false,
   });
 });
+
+function SeleccionarArch(){
+  var nArch = document.getElementById('inputArch');
+  $('#nombreArch').html(nArch.files[0].name);
+}
+
+function SubirRespaldo(){
+  var formData = new FormData();
+  var archivo = document.getElementById('inputArch');
+  formData.append('archivo',archivo.files[0]);
+  inicioSpinner();
+  $.ajax({
+     type:'POST',
+     url: url + "subir_respaldo",
+     data: formData,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errores){
+         finSpinner();
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           // alert(url + "descargar_respaldo/" + result.nombre);
+           location.href = url + "base_datos";
+         } ,3000);
+         // archivo(result.datos,"usuarios",".sql");
+         finSpinner();
+       }
+      },
+      error: function (jqXHR, status, error) {
+        finSpinner();
+        mensajeAjax('Error', error, 'error');
+      }
+  });
+}

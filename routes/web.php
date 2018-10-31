@@ -85,3 +85,4 @@ Route::get('/descargar_respaldo/backups/{archivo}', 'controlador_admin@descargar
 Route::get('/eliminar_respaldo/backups/{archivo}', 'controlador_admin@eliminarRespaldo')->middleware('admin');
 Route::get('/descargar_respaldo/recuperacion/{archivo}', 'controlador_admin@descargarRespaldoRecuperacion')->middleware('admin');
 Route::get('/activar_respaldo/recuperacion/{archivo}', 'controlador_admin@activarRespaldo')->middleware('admin');
+Route::post('/subir_respaldo', 'controlador_admin@subirRespaldo')->middleware('admin');
