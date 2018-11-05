@@ -120,7 +120,12 @@ class controlador_admin extends Controller
       $arrayx ['recuperacion']= $archivo;
       $datos = var_export($arrayx,1);
       if(File::put(base_path().'/config/variables.php',"<?php\n return $datos;")){
+        config(['database.connections.mysql.database'=>'Sismin_recuperacion']);
+        Storage::copy('recuperacion/'.$archivo, 'backups/'.$archivo);
+        Artisan::call('backup:mysql-restore',['--filename' => $archivo,'--yes'=>true]);
+        Storage::delete('/backups/'.$archivo);
         Artisan::call('config:cache');
+
          return response()->json(['mensaje' => 'Archivo: '.$archivo.' activado.']);
       }
     }
@@ -130,7 +135,8 @@ class controlador_admin extends Controller
 
       Storage::putFileAs('/backups',$archivo,$archivo->getClientOriginalName());
       //realizar respaldo en la base de datos de Sismin
-      Artisan::call('backup:mysql-restore',['--filename' => $archivo->getClientOriginalName()]);
+      config(['database.connections.mysql.database'=>'Sismin_recuperacion']);
+      Artisan::call('backup:mysql-restore',['--filename' => $archivo->getClientOriginalName(),'--yes'=>true]);
       Storage::delete('/backups/'.$archivo->getClientOriginalName());
 
       $arrayx = Config::get('variables');

@@ -70,6 +70,9 @@ Route::get('/agenda','controlador_agenda@mostrar_vista_agenda')->middleware('ses
 Route::get('/pendientes','controlador_pendientes@mostrar_vista_pendientes')->middleware('sesion');
 Route::post('/pendientes','controlador_pendientes@actualizarEstatus')->middleware('sesion');
 
+Route::get('/recuperacion','controlador_respaldo@mostrar_vista_respaldo')->middleware('sesion');
+Route::get('/pdf_respaldo/{id}/{codigo}','controlador_respaldo@pdf');
+Route::get('/pdf_minuta_respaldo/{id}/{codigo}','controlador_respaldo@pdf_minuta');
 
 
 /*

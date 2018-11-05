@@ -62,9 +62,13 @@ class Kernel extends ConsoleKernel
 
            $schedule->call(function(){
              Artisan::call('backup:mysql-dump');
+             $reuniones=\App\reunion::All();
+             foreach ($reuniones as $reunion) {
+               $reunion->delete();
+             }
              $archivos = Storage::files('/backups');
              Storage::move(end($archivos), 'recuperacion/'.basename(end($archivos)));
-           })->quarterly();
+           })->yearly();
 
     }
 

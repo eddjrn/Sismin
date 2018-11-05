@@ -70,7 +70,6 @@ CREATE TABLE `compromiso` (
 
 LOCK TABLES `compromiso` WRITE;
 /*!40000 ALTER TABLE `compromiso` DISABLE KEYS */;
-INSERT INTO `compromiso` VALUES (1,'2018-10-03 08:00:16','2018-10-03 08:05:09',1,2,'Hacer pruebas','2018-10-03 21:51:00',0),(2,'2018-10-03 08:00:16','2018-10-03 08:03:23',1,2,'Compromisos sin tarea ','2018-10-03 21:57:00',0),(3,'2018-10-03 08:00:16','2018-10-03 08:00:16',1,2,'Compromiso con tarea','2018-10-03 21:58:00',0);
 /*!40000 ALTER TABLE `compromiso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +102,6 @@ CREATE TABLE `compromiso_responsable` (
 
 LOCK TABLES `compromiso_responsable` WRITE;
 /*!40000 ALTER TABLE `compromiso_responsable` DISABLE KEYS */;
-INSERT INTO `compromiso_responsable` VALUES (1,'2018-10-03 08:00:16','2018-10-03 16:22:31',1,6,'Fdvdvdbgbdbd',1),(2,'2018-10-03 08:00:16','2018-10-03 15:36:36',1,1,NULL,0),(3,'2018-10-03 08:00:16','2018-10-03 08:03:23',2,6,NULL,0),(4,'2018-10-03 08:00:16','2018-10-03 08:00:16',3,6,NULL,0),(5,'2018-10-03 08:00:16','2018-10-03 15:46:16',3,1,NULL,0);
 /*!40000 ALTER TABLE `compromiso_responsable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +179,7 @@ CREATE TABLE `minuta` (
   PRIMARY KEY (`id_minuta`),
   KEY `minuta_id_reunion_index` (`id_reunion`),
   CONSTRAINT `minuta_id_reunion_foreign` FOREIGN KEY (`id_reunion`) REFERENCES `reunion` (`id_reunion`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +188,7 @@ CREATE TABLE `minuta` (
 
 LOCK TABLES `minuta` WRITE;
 /*!40000 ALTER TABLE `minuta` DISABLE KEYS */;
-INSERT INTO `minuta` VALUES (1,'2018-10-03 07:49:23','2018-10-03 08:00:15','2018-10-02 22:00:00',1,'','Kto8m1Wure');
+INSERT INTO `minuta` VALUES (2,'2018-11-05 19:01:44','2018-11-05 19:06:38','2018-11-05 13:06:00',2,'fdsafdasf','VkyNz5soYd'),(3,'2018-11-05 19:13:06','2018-11-05 19:22:57','2018-11-05 13:22:00',3,'','4WbtKaHv8i');
 /*!40000 ALTER TABLE `minuta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +212,7 @@ CREATE TABLE `orden_dia` (
   KEY `orden_dia_id_usuario_index` (`id_usuario`),
   CONSTRAINT `orden_dia_id_reunion_foreign` FOREIGN KEY (`id_reunion`) REFERENCES `reunion` (`id_reunion`) ON DELETE CASCADE,
   CONSTRAINT `orden_dia_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +221,7 @@ CREATE TABLE `orden_dia` (
 
 LOCK TABLES `orden_dia` WRITE;
 /*!40000 ALTER TABLE `orden_dia` DISABLE KEYS */;
-INSERT INTO `orden_dia` VALUES (1,'2018-10-03 07:49:23','2018-10-03 08:00:16',1,6,'Pasar lista','Se paso lista'),(2,'2018-10-03 07:49:23','2018-10-03 08:00:16',1,1,'Revisar temas pendietes','No hay temas pendientes');
+INSERT INTO `orden_dia` VALUES (3,'2018-11-05 19:01:44','2018-11-05 19:04:54',2,1,'klksafdaskñ','fdfdaf'),(4,'2018-11-05 19:01:44','2018-11-05 19:01:44',2,3,'dfsafdsa',NULL),(5,'2018-11-05 19:01:44','2018-11-05 19:04:54',2,4,'fdsafdsafdsafd','fdsafdsaf'),(6,'2018-11-05 19:13:06','2018-11-05 19:16:37',3,1,'hkjlkh','jhklh'),(7,'2018-11-05 19:13:07','2018-11-05 19:13:07',3,1,'hjkhlkh',NULL);
 /*!40000 ALTER TABLE `orden_dia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +277,7 @@ CREATE TABLE `reunion` (
   CONSTRAINT `reunion_id_moderador_foreign` FOREIGN KEY (`id_moderador`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
   CONSTRAINT `reunion_id_secretario_foreign` FOREIGN KEY (`id_secretario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
   CONSTRAINT `reunion_id_tipo_reunion_foreign` FOREIGN KEY (`id_tipo_reunion`) REFERENCES `tipo_reunion` (`id_tipo_reunion`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,7 +286,7 @@ CREATE TABLE `reunion` (
 
 LOCK TABLES `reunion` WRITE;
 /*!40000 ALTER TABLE `reunion` DISABLE KEYS */;
-INSERT INTO `reunion` VALUES (1,'2018-10-03 07:49:23','2018-10-03 07:49:23','2018-10-02 21:46:00',10,'Prueba1234','Cds','59XsCTQMDM',1,6);
+INSERT INTO `reunion` VALUES (2,'2018-11-05 19:01:44','2018-11-05 19:01:44','2018-11-05 13:06:00',9,'prueba 123','aqui','MFNil63KEC',1,1),(3,'2018-11-05 19:13:06','2018-11-05 19:13:06','2018-11-05 13:13:00',13,'jhlhjhkjlhjhkjl','jhljhkhj','JC9OTGv4GA',1,1);
 /*!40000 ALTER TABLE `reunion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,7 +313,7 @@ CREATE TABLE `reunion_convocado` (
   CONSTRAINT `reunion_convocado_id_puesto_foreign` FOREIGN KEY (`id_puesto`) REFERENCES `puesto_usuario` (`id_puesto`) ON DELETE CASCADE,
   CONSTRAINT `reunion_convocado_id_reunion_foreign` FOREIGN KEY (`id_reunion`) REFERENCES `reunion` (`id_reunion`) ON DELETE CASCADE,
   CONSTRAINT `reunion_convocado_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -324,7 +322,7 @@ CREATE TABLE `reunion_convocado` (
 
 LOCK TABLES `reunion_convocado` WRITE;
 /*!40000 ALTER TABLE `reunion_convocado` DISABLE KEYS */;
-INSERT INTO `reunion_convocado` VALUES (1,'2018-10-03 07:49:23','2018-10-03 08:00:15',1,6,1,1,1),(2,'2018-10-03 07:49:23','2018-10-03 08:00:15',1,3,1,3,1),(3,'2018-10-03 07:49:23','2018-10-03 08:00:15',1,5,1,3,1),(4,'2018-10-03 07:49:23','2018-10-03 08:00:16',1,4,1,2,1),(5,'2018-10-03 07:49:23','2018-10-03 08:00:16',1,1,1,3,1),(6,'2018-10-03 07:49:23','2018-10-03 08:00:16',1,2,1,2,1);
+INSERT INTO `reunion_convocado` VALUES (7,'2018-11-05 19:01:44','2018-11-05 19:06:38',2,1,1,1,1),(8,'2018-11-05 19:01:44','2018-11-05 19:06:39',2,3,1,2,1),(9,'2018-11-05 19:01:44','2018-11-05 19:06:39',2,5,1,3,1),(10,'2018-11-05 19:01:44','2018-11-05 19:06:39',2,4,1,3,1),(11,'2018-11-05 19:01:45','2018-11-05 19:06:39',2,6,1,2,0),(12,'2018-11-05 19:01:45','2018-11-05 19:06:39',2,2,1,2,1),(13,'2018-11-05 19:13:07','2018-11-05 19:22:57',3,1,1,2,1),(14,'2018-11-05 19:13:07','2018-11-05 19:22:57',3,3,1,1,1),(15,'2018-11-05 19:13:07','2018-11-05 19:22:57',3,5,1,1,1),(16,'2018-11-05 19:13:07','2018-11-05 19:22:57',3,4,1,1,1);
 /*!40000 ALTER TABLE `reunion_convocado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +349,7 @@ CREATE TABLE `tema_pendiente` (
   CONSTRAINT `tema_pendiente_id_minuta_foreign` FOREIGN KEY (`id_minuta`) REFERENCES `minuta` (`id_minuta`) ON DELETE CASCADE,
   CONSTRAINT `tema_pendiente_id_orden_dia_foreign` FOREIGN KEY (`id_orden_dia`) REFERENCES `orden_dia` (`id_orden_dia`) ON DELETE CASCADE,
   CONSTRAINT `tema_pendiente_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +358,7 @@ CREATE TABLE `tema_pendiente` (
 
 LOCK TABLES `tema_pendiente` WRITE;
 /*!40000 ALTER TABLE `tema_pendiente` DISABLE KEYS */;
-INSERT INTO `tema_pendiente` VALUES (1,'2018-10-03 08:00:16','2018-10-03 08:00:16',1,2,1,'Continuar con la sesion de pruebas de los compromisos',0);
+INSERT INTO `tema_pendiente` VALUES (2,'2018-11-05 19:04:54','2018-11-05 19:04:54',2,4,3,'fdsafdsafdsa',0),(3,'2018-11-05 19:06:39','2018-11-05 19:06:39',2,4,3,'fdsafdsafdsa',0);
 /*!40000 ALTER TABLE `tema_pendiente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-31 12:28:11
+-- Dump completed on 2018-11-05 13:25:56

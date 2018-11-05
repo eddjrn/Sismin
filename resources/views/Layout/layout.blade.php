@@ -88,6 +88,15 @@
                           @endif
                       </a>
                   </li>
+                  <li class="dropdown">
+                      <a href="{{asset('/recuperacion')}}" class="dropdown-toggle" role="button" data-toggle="tooltip" data-placement="bottom" title="Respaldo">
+                          <i class="material-icons">restore</i>
+                          <?php $num4 = 0;?>
+                          @if($num4 > 0)
+                          <span class="label-count">7</span>
+                          @endif
+                      </a>
+                  </li>
                   <li class="pull-right">
                     <a href="javascript:void(0);" class="js-right-sidebar" data-close="true" data-toggle="tooltip" data-placement="bottom" title="Menú">
                       <i class="material-icons">chrome_reader_mode</i>
