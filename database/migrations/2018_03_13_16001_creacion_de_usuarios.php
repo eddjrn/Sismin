@@ -23,7 +23,7 @@ class CreacionDeUsuarios extends Migration
           $table->string('correo_electronico',50)->unique();
           $table->binary('rubrica');
           $table->string('password',60);
-          $table->boolean('estatus')->default(false);
+          $table->boolean('estatus')->default(true);
           $table->rememberToken();
         });
     }

@@ -1,17 +1,3 @@
-// function archivo(datos, nombre_archivo, tipo){
-//   var archivo = new Blob([datos],{ type: "text/plain"});
-//   var a = document.createElement("a"),url = URL.createObjectURL(archivo);
-//   var date = Date.now();
-//   a.href=url;
-//   a.download = nombre_archivo + date + tipo;
-//   document.body.appendChild(a);
-//   a.click();
-//   setTimeout(function(){
-//     document.body.removeChild(a);
-//     window.URL.revokeObjectURL(url);
-//   },0);
-// }
-
 function respaldo(){
   inicioSpinner();
   $.ajax({
@@ -82,7 +68,7 @@ function activar(archivo){
        } else{
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
-           location.href = url;
+           location.href = url+'recuperacion';
          } ,2000);
 
 
@@ -147,7 +133,63 @@ function SubirRespaldo(){
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
            // alert(url + "descargar_respaldo/" + result.nombre);
-           location.href = url + "base_datos";
+           location.href = url + "recuperacion";
+         } ,3000);
+         // archivo(result.datos,"usuarios",".sql");
+         finSpinner();
+       }
+      },
+      error: function (jqXHR, status, error) {
+        finSpinner();
+        mensajeAjax('Error', error, 'error');
+      }
+  });
+}
+
+function editar(id){
+
+  var nombre = document.getElementById('Nombre_'+id).innerHTML;
+  var a_paterno = document.getElementById('apellido_p_'+id).innerHTML;
+  var a_materno = document.getElementById('apellido_m_'+id).innerHTML;
+  var correo = document.getElementById('correo_electronico_'+id).innerHTML;
+  $('#usr').html(nombre+' '+a_paterno+' '+ a_materno);
+  $('#nombre').val(nombre);
+  $('#a_paterno').val(a_paterno);
+  $('#a_materno').val(a_materno);
+  $('#correo_electronico').val(correo);
+  $('#guardar').attr('onclick','guardarC('+id+')');
+}
+
+function guardarC(id){
+  var formData = new FormData();
+  alert($('#nombre').val());
+  formData.append('nombre',$('#nombre').val());
+  formData.append('a_paterno',$('#a_paterno').val());
+  formData.append('a_materno',$('#a_materno').val());
+  formData.append('correo',$('#correo_electronico').val());
+  formData.append('id_usuario',id);
+  inicioSpinner();
+  $.ajax({
+     type:'POST',
+     url: url + "actualizar_usuario",
+     data: formData,
+     processData:false,
+     contentType:false,
+     success:function(result){
+       if(result.errores){
+         finSpinner();
+         mensajeAjax('Error', 'Verifique sus datos', 'error');
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           // alert(url + "descargar_respaldo/" + result.nombre);
+           location.href = url;
          } ,3000);
          // archivo(result.datos,"usuarios",".sql");
          finSpinner();

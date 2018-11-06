@@ -37,6 +37,11 @@ Respaldos {{config('variables.recuperacion')}}
                             <i class="material-icons">restore</i> Recuperación de respaldos.
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="#usuarios" data-toggle="tab">
+                            <i class="material-icons">account_circle</i> Administrar usuarios
+                        </a>
+                    </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -94,6 +99,64 @@ Respaldos {{config('variables.recuperacion')}}
                                         </button>
                                       </td>
                                     </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="usuarios">
+                      <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
+                          <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Correo</th>
+                                      <th>Estatus</th>
+                                      <th>Acción</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Correo</th>
+                                      <th>Estatus</th>
+                                      <th>Acción</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  @foreach($usuarios as $usuario)
+                                  @unless($usuario->id_usuario == Config('variables.admin'))
+                                    <tr>
+                                      <td>
+                                        <span  id="Nombre_{{$usuario->id_usuario}}">{{$usuario->nombre}}</span>
+                                        <span  id="apellido_p_{{$usuario->id_usuario}}">{{$usuario->apellido_paterno}}</span>
+                                        <span  id="apellido_m_{{$usuario->id_usuario}}">{{$usuario->apellido_materno}}</span>
+                                      </td>
+                                      <td>
+                                        <span id='correo_electronico_{{$usuario->id_usuario}}'>{{$usuario->correo_electronico}}</span>
+                                      </td>
+                                      <td>
+                                        <div class="col-sm-3">
+                                          @if($usuario->estatus == 1)
+                                        <div class="demo-switch-title">Activo</div>
+                                        <div class="switch">
+                                            <label><input type="checkbox" checked><span class="lever switch-col-pink"></span></label>
+                                        </div>
+                                        @else
+                                        <div class="demo-switch-title">Desactivado</div>
+                                        <div class="switch">
+                                            <label><input type="checkbox" ><span class="lever switch-col-pink"></span></label>
+                                        </div>
+                                        @endif
+                                    </div>
+                                      </td>
+                                      <td>
+                                        <button type="button" id="btnUsr_{{$usuario->id_usuario}}" class="btn bg-pink waves-effect" data-toggle="modal" data-target="#modalUsr" onclick="editar({{$usuario->id_usuario}})">
+                                          <i class="material-icons">mode_edit</i>
+                                          <span>Actualizar datos</span>
+                                        </button></td>
+                                    </tr>
+                                    @endunless
                                   @endforeach
                               </tbody>
                           </table>
@@ -171,6 +234,59 @@ Respaldos {{config('variables.recuperacion')}}
 </div>
 </div>
 
+<div class="modal fade" id="modalUsr" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel2">Actualizar información de <span id='usr'> </span></h4>
+            </div>
+            <div class="modal-body" >
+              <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">person</i>
+                </span>
+                  <div class="form-line">
+                    <input type="text" id="nombre"  class="form-control" placeholder="Nombre"/>
+                  </div>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">person</i>
+                </span>
+                  <div class="form-line">
+                    <input type="text" id="a_paterno"  class="form-control" placeholder="Apellido paterno"/>
+                  </div>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">person</i>
+                </span>
+                  <div class="form-line">
+                    <input type="text" id="a_materno"  class="form-control" placeholder="Apellido materno"/>
+                  </div>
+              </div>
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">email</i>
+                  </span>
+                  <div class="form-line">
+                      <input type="text" class="form-control email" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico">
+                  </div>
+              </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal" id="guardar" onclick="guardarC()">Aceptar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 @stop
 
 @section('scripts')

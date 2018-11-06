@@ -61,7 +61,7 @@ CREATE TABLE `compromiso` (
   KEY `compromiso_id_orden_dia_index` (`id_orden_dia`),
   CONSTRAINT `compromiso_id_minuta_foreign` FOREIGN KEY (`id_minuta`) REFERENCES `minuta` (`id_minuta`) ON DELETE CASCADE,
   CONSTRAINT `compromiso_id_orden_dia_foreign` FOREIGN KEY (`id_orden_dia`) REFERENCES `orden_dia` (`id_orden_dia`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `compromiso_responsable` (
   KEY `compromiso_responsable_id_usuario_index` (`id_usuario`),
   CONSTRAINT `compromiso_responsable_id_compromiso_foreign` FOREIGN KEY (`id_compromiso`) REFERENCES `compromiso` (`id_compromiso`) ON DELETE CASCADE,
   CONSTRAINT `compromiso_responsable_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -436,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-05 13:25:56
+-- Dump completed on 2018-11-06 10:31:01

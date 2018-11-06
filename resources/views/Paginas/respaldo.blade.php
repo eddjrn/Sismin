@@ -1,7 +1,7 @@
 @extends('Layout.layout')
 
 @section('titulo')
-
+Respaldo
 @stop
 
 @section('estilos')
@@ -10,13 +10,15 @@
 @stop
 
 @section('cabecera')
-
+Respaldo
 @stop
 
 @section('contenido')
+@if(count($reuniones) > 0)
+<?php $icono_vacio = false; ?>
 <div class="card">
     <div class="body">
-        <b>A continuación se enlistanm todas las reuniones del respaldo activo con sus respectivas minutas y convocatorias.</b>
+        <b>A continuación se enlistan todas las reuniones del respaldo activo con sus respectivas minutas y convocatorias.</b>
         <ul class="treeview">
         @foreach($reuniones as $reunion)
         <li><a class="col-black label bg-pink">Reunión:</a><span> {{$reunion->tipo_reunion->descripcion}}</span>
@@ -31,8 +33,17 @@
         </li>
         @endforeach
         </ul>
+        @else
+        <?php $icono_vacio = true; ?>
+        @endif
     </div>
 </div>
+
+@if($icono_vacio)
+  <img src="{{asset('/images/iconoFull_gris.svg')}}" style="display: block; margin: auto;" width="250" height="250"/>
+  <h2 class="align-center col-blue-grey">No hay respaldo activo en esta sección</h2>
+  <h2 class="align-center col-blue-grey"><i class="material-icons">tag_faces</i></h2>
+@endif
 @stop
 
 @section('scripts')

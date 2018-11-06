@@ -68,6 +68,7 @@ class controlador_admin extends Controller
 
     public function mostrar_vista_DB(){
       $archivos = Storage::files('/recuperacion');
+      $usuarios = \App\usuario::All();
       Date::setLocale('es');
 
       $todo= array();
@@ -85,6 +86,7 @@ class controlador_admin extends Controller
 
       return view('Paginas.Admin_DB', [
         'archivos' => $todo,
+        'usuarios' => $usuarios,
       ]);
     }
 
@@ -147,5 +149,31 @@ class controlador_admin extends Controller
         Artisan::call('config:cache');
          return response()->json(['mensaje' => 'Archivo: '.$archivo->getClientOriginalName().' activado.']);
       }
+    }
+
+    public function Usuario_datos(Request $request){
+      $validacion = Validator::make($request->all(), [
+        'nombre'=>'required|min:3',
+        'a_paterno'=>'required|min:3',
+        'a_materno'=>'required|min:3',
+        'correo'=>'required|min:3|email',
+      ]);
+
+      //'id_usuario'=>'not_in:0',
+      if($validacion->fails()){
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+
+      $usuario = \App\usuario::find($request->id_usuario);
+
+        $usuario->update([
+        'nombre'=>$request->nombre,
+        'apellido_paterno' => $request->a_paterno,
+        'apellido_materno' => $request->a_materno,
+        'correo_electronico' => $request->correo,
+      ]);
+
+      return response()->json(['mensaje' => 'Se actualizó al usuario: '.$usuario->nombre.' correctamente.']);
+
     }
 }
