@@ -166,7 +166,7 @@
                      </a>
                      @endif
                      @if(Auth::user()->administrador_de->count() > 0)
-                     <a href="{{asset('/puesto_usuario')}}">
+                     <a href="{{asset('/administrar_grupos')}}">
                         <li data-theme="red">
                             <i class="material-icons">group</i>
                             <span>Administrar grupos</span>
