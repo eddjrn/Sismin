@@ -9,6 +9,7 @@ Registro del motivo de una reunión
 <link  href="{{asset('/css/cropper/cropper.css')}}" rel="stylesheet">
 <!-- Bootstrap Select Css -->
 <link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
+
 @stop
 
 @section('contenido')

@@ -25,7 +25,7 @@ class usuario extends Authenticatable
       'correo_electronico',
       'rubrica',
       'password',
-      'estaus',
+      'estatus',
     ];
 
     protected $hidden = [

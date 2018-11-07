@@ -176,4 +176,24 @@ class controlador_admin extends Controller
       return response()->json(['mensaje' => 'Se actualizó al usuario: '.$usuario->nombre.' correctamente.']);
 
     }
+
+    public function activarUsr(Request $request){
+      $validacion=Validator::make($request->all(),[
+        'id_usuario'=>'required',
+        'activado'=>'required',
+      ]);
+
+      if ($validacion->fails()) {
+        return response()->json(['errores' => $validacion->errors()]);
+      }
+        $bandera ='hola';
+        if($request->activado == 1){
+            $bandera = 'activó';
+        }else{
+          $bandera = 'desactivó';
+        }
+        $usuario = \App\usuario::find($request->id_usuario);
+        $usuario->update(['estatus'=> $request->activado]);
+      return response()->json(['mensaje' => 'Se '.$bandera.' al usuario: '.$usuario.' correctamente.']);
+    }
 }

@@ -18,6 +18,15 @@ Respaldo
 <?php $icono_vacio = false; ?>
 <div class="card">
     <div class="body">
+      <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active">
+              <a href="#home_with_icon_title" data-toggle="tab">
+                  <i class="material-icons">schedule</i> Respaldo activo: <b>{{config('variables.recuperacion')}} </b>
+              </a>
+          </li>
+      </ul>
+      <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
         <b>A continuación se enlistan todas las reuniones del respaldo activo con sus respectivas minutas y convocatorias.</b>
         <ul class="treeview">
         @foreach($reuniones as $reunion)
@@ -36,7 +45,9 @@ Respaldo
         @else
         <?php $icono_vacio = true; ?>
         @endif
+      </div>
     </div>
+  </div>
 </div>
 
 @if($icono_vacio)

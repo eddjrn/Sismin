@@ -147,7 +147,6 @@ function SubirRespaldo(){
 }
 
 function editar(id){
-
   var nombre = document.getElementById('Nombre_'+id).innerHTML;
   var a_paterno = document.getElementById('apellido_p_'+id).innerHTML;
   var a_materno = document.getElementById('apellido_m_'+id).innerHTML;
@@ -162,7 +161,6 @@ function editar(id){
 
 function guardarC(id){
   var formData = new FormData();
-  alert($('#nombre').val());
   formData.append('nombre',$('#nombre').val());
   formData.append('a_paterno',$('#a_paterno').val());
   formData.append('a_materno',$('#a_materno').val());
@@ -189,7 +187,7 @@ function guardarC(id){
          mensajeAjax('Registro correcto', result.mensaje,'success');
          window.setTimeout(function(){
            // alert(url + "descargar_respaldo/" + result.nombre);
-           location.href = url;
+           location.href = url + "base_datos";
          } ,3000);
          // archivo(result.datos,"usuarios",".sql");
          finSpinner();
@@ -199,5 +197,43 @@ function guardarC(id){
         finSpinner();
         mensajeAjax('Error', error, 'error');
       }
+  });
+}
+
+function activarEstatus(id){
+   var f = 0;
+  var check = $("#estatus_"+id).is(':checked');
+  if(check){
+    f = 1;
+  } else{
+    f=0;
+  }
+
+  $.ajax({
+     type:'POST',
+     url:  url + "activar_estatus",
+     data:
+     {
+       "id_usuario":id,
+       "activado":f
+     },
+     success:function(result){
+       if(result.errores){
+         var errores = '<ul>';
+         $.each(result.errores,function(indice,valor){
+           errores += '<li>' + valor + '</li>';
+         });
+         errores += '</ul>';
+         notificacionAjax('bg-red',errores, 2500,  'bottom', 'center', null, null);
+       } else{
+         mensajeAjax('Registro correcto', result.mensaje,'success');
+         window.setTimeout(function(){
+           location.href = url + "base_datos";
+         } ,3000);
+       }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
   });
 }

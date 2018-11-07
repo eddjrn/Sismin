@@ -140,12 +140,12 @@ Respaldos {{config('variables.recuperacion')}}
                                           @if($usuario->estatus == 1)
                                         <div class="demo-switch-title">Activo</div>
                                         <div class="switch">
-                                            <label><input type="checkbox" checked><span class="lever switch-col-pink"></span></label>
+                                            <label><input type="checkbox" id="estatus_{{$usuario->id_usuario}}" onclick="activarEstatus({{$usuario->id_usuario}});" checked><span class="lever switch-col-pink"></span></label>
                                         </div>
                                         @else
                                         <div class="demo-switch-title">Desactivado</div>
                                         <div class="switch">
-                                            <label><input type="checkbox" ><span class="lever switch-col-pink"></span></label>
+                                            <label><input type="checkbox" id="estatus_{{$usuario->id_usuario}}" onclick="activarEstatus({{$usuario->id_usuario}});"><span class="lever switch-col-pink"></span></label>
                                         </div>
                                         @endif
                                     </div>
