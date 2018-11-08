@@ -61,12 +61,9 @@ function actualizarChek(chek){
   }
 }
 function guardarC(){
-  // alert(individuos.length);
-  //  checkFalse();
   inicioSpinner();
 
   formulario.append('usuarios', JSON.stringify(individuos));
-  // Se hace la petición al servidor
   $.ajax({
      type:'POST',
      url: url+'agregar_usrs',

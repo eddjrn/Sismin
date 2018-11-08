@@ -40,7 +40,7 @@ Registro de un puesto de usuario
                     <div class="well bar" style="height: 200px; overflow-y: scroll;">
                       <div class="list-group">
                         @foreach($tipos as $tipo)
-                          <button type="button" class="list-group-item" style="word-wrap: break-word;">{{$tipo->descripcion}}</button>
+                          <button type="button" class="list-group-item" id="puesto_{{$tipo->id_puesto}}" style="word-wrap: break-word;" onclick="aux({{$tipo->id_puesto}})" data-toggle="modal" data-target="#modalEdit">{{$tipo->descripcion}}</button>
                         @endforeach
                       </div>
                     </div>
@@ -72,6 +72,36 @@ Registro de un puesto de usuario
       <small>Sistema auxiliar en la elaboración y seguimiento de las minutas de reuniones de trabajo.</small>
     </div>
 </div>
+
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel2">Editar puesto de la reunión <label id="nombreG" value=""></label></h4>
+            </div>
+            <div class="modal-body">
+              <form>
+
+                <label>Cambiar nombre del puesto</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">description</i>
+                    </span>
+                    <div class="form-line">
+                        <input type="text" id="desc" class="form-control" value="" name="descripcion2" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el nuevo nombre del puesto de reunión">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
+                <button type="button" class="btn btn-block bg-pink waves-effect registrar" data-dismiss="modal" id="btnG" onclick="editarG()">Aceptar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
 @stop
 
 @section('scripts')
@@ -82,9 +112,55 @@ $.ajaxSetup({
     }
 });
 
+var url = "{{asset('/puesto_usuario')}}";
+var urlToRedirectPage = "{{asset('/puesto_usuario')}}";
+
+function aux(id)
+{
+  var des = $('#puesto_'+id).html();
+  $("#desc").val(des);
+  $('#btnG').attr('onclick','editarG('+id+')');
+
+}
+function editarG(id){
+
+  var descripcion = document.getElementById('desc').value;
+  alert(descripcion);
+  var formdata = new FormData();
+  formdata.append('descripcion', descripcion);
+  formdata.append('id_puesto',id);
+
+  $.ajax({
+   type:'POST',
+   url: url+'/editar_puesto',
+   data:formdata,
+   processData:false,
+   contentType:false,
+   success:function(result){
+     if(result.errores){
+       mensajeAjax('Error', 'Verifique sus datos', 'error');
+       var errores = '<ul>';
+       $.each(result.errores,function(indice,valor){
+         //console.log(indice + ' - ' + valor);
+         errores += '<li>' + valor + '</li>';
+       });
+       errores += '</ul>';
+       notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+     } else{
+       mensajeAjax('Registro correcto', result.mensaje,'success');
+       window.setTimeout(function(){
+         location.href = urlToRedirectPage;
+       } ,1500);
+     }
+    },
+    error: function (jqXHR, status, error) {
+     mensajeAjax('Error', error, 'error');
+    }
+  })
+}
+
 function guardar(){
-  var url = "{{asset('/puesto_usuario')}}";
-  var urlToRedirectPage = "{{asset('/puesto_usuario')}}";
+
   var descripcion = document.getElementById('descripcion').value;
   var formdata = new FormData();
   formdata.append('descripcion', descripcion);

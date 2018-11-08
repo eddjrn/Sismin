@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Auth;
 
 class controlador_respaldo extends Controller
 {
     public function mostrar_vista_respaldo(){
-      $reunionesM = new \App\reunion;
-      $reunionesM->setConnection('mysql2');
-      $reuniones = $reunionesM->get();
+    //  $reunionesM = new \App\reunion;
+    //  $reunionesM->setConnection('mysql2');
+      //$reuniones = $reunionesM->get();
+      $usrLog= Auth::user()->id_usuario;
+      $usuarioM = new \App\usuario;
+      $usuarioM->setConnection('mysql2');
+      $usuarioL = $usuarioM->find($usrLog);
+
       //return $reuniones->minuta->id_minuta;
-      return view('Paginas.respaldo',['reuniones'=>$reuniones]);
+      return view('Paginas.respaldo',['reuniones'=>$usuarioL->reuniones_historial()]);
     }
 
     public function pdf($id,$codigo){

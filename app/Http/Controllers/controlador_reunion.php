@@ -214,4 +214,23 @@ class controlador_reunion extends Controller
   }
 
 
+  public function actualizar_puesto(Request $request){
+    $validacion = Validator::make($request->all(), [
+      'id_puesto'=>'required',
+      'descripcion'=>'required|min:3',
+    ]);
+
+    if($validacion->fails()){
+      return response()->json(['errores' => $validacion->errors()]);
+    }
+
+    $puesto= \App\puesto_usuario::find($request->id_puesto);
+    $puesto->update([
+      'descripcion' => $request->descripcion,
+    ]);
+
+    return response()->json(['mensaje' => 'Se actualizo correctamente el puesto: '.$request->descripcion]);
+
+  }
+
 }
