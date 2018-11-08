@@ -76,6 +76,7 @@ Route::get('/pdf_minuta_respaldo/{id}/{codigo}','controlador_respaldo@pdf_minuta
 
 
 Route::get('/administrar_grupos','controlador_grupos@mostrar_vista_grupos')->middleware('sesion');
+Route::post('/agregar_usrs','controlador_grupos@actualizar_grupos')->middleware('sesion');
 
 
 /*

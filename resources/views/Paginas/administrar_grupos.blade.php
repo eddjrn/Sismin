@@ -1,7 +1,7 @@
 @extends('Layout.layout')
 
 @section('titulo')
-
+Administrar grupos
 @stop
 
 @section('estilos')
@@ -35,7 +35,7 @@
         <div class="panel-body">
           <ol id='usuarios_{{$grupo->id_tipo_reunion}}'>
             @foreach($grupo->usuarios as $usuario)
-            <li>
+            <li id="usr_{{$usuario->id_usuario}}">
              {{$usuario->__toString()}}
             </li>
             @endforeach
@@ -52,7 +52,7 @@
 @endforeach
 </div>
 
-<div class="modal fade" id="modalUsr" tabindex="-1" role="dialog">
+<div class="modal fade" id="modalUsr" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" >
             <div class="modal-header">
@@ -77,12 +77,12 @@
                         @foreach($usuarios as $usuario)
                         @unless($usuario->id_usuario == Auth::user()->id_usuario)
                         <tr>
-                          <td id="nmd_checkbox_{{$usuario->id_usuario}}">{{$usuario->__toString()}}</td>
+                          <td id="nombre_{{$usuario->id_usuario}}">{{$usuario->__toString()}}</td>
                           <td>
                             <div class="row">
                               <div class="col-lg-12">
-                                <input type="checkbox"  id="checkbox_{{$usuario->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
-                                <label for="checkbox_{{$usuario->id_usuario}}">Agregar usuario</label>
+                                <input type="checkbox" onClick="actualizarChek(this);" id="usr2_{{$usuario->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
+                                <label for="usr2_{{$usuario->id_usuario}}" id="ckek_usr2_{{$usuario->id_usuario}}">Agregar usuario</label>
                               </div>
                             </div>
                           </td>
@@ -96,7 +96,7 @@
             <div class="modal-footer">
               <div class="row">
                 <center>
-                  <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal" onclick="checkFalse()">Cancelar</button>
                   <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal" id="guardar" onclick="guardarC()">Aceptar</button>
                 </center>
 

@@ -44,7 +44,7 @@ Registro del motivo de una reunión
                             <div class="media">
                                 <div class="media-left">
                                     <a href="javascript:void(0);">
-                                        <img class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
+                                        <img id="logo_{{$tipo->imagen_logo}}" class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
                                     </a>
                                 </div>
                                 <div class="media-body">
