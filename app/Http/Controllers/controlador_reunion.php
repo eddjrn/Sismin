@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Image;
 use Mail;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -12,8 +13,7 @@ class controlador_reunion extends Controller
 {
     //
     public function mostrar_vista_tipo_reunion(){
-      // $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
-      $tipos = Auth::user()->grupos_reunion->orderBy('updated_at','desc')->get();
+      $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
       $usuarios = \App\usuario::orderBy('updated_at','desc')->get();
 
       return view('Paginas.tipo_reunion', [
@@ -68,6 +68,7 @@ class controlador_reunion extends Controller
 
   public function mostrar_vista_reunion(){
     $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
+    // $tipos = Auth::user()->grupos_reunion;
     $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
     $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
