@@ -8,5 +8,5 @@
   'reunion_convocadoDB' => 30,
   'tema_pendienteDB' => 20,
   'admin' => 1,
-  'recuperacion' => 'Sismin_20181108103201.sql',
+  'recuperacion' => 'Sismin_20181106103101.sql',
 );
