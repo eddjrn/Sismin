@@ -132,7 +132,7 @@ Nueva reunión
                             <tbody>
                                 @foreach($convocados as $convocado)
                                 @unless($convocado->id_usuario == $id_usuario)
-                                  <tr>
+                                  <tr class="listaO" id="usr_{{$convocado->id_usuario}}">
                                     <td id="nombre_convocado_tabla_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
                                     <td>
                                       <div class="row">

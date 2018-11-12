@@ -310,6 +310,11 @@ function actualizarTipo(opcion){
          } else{
            notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
          }
+         //Falta arreglar los convocadoes en los arrays y en la descripcion final
+         $('.listaO').hide();
+         for(var i = 0; i < result.lista.length; i++){
+           $('#usr_' + result.lista[i]).show();
+         }
        }
     },
     error: function (jqXHR, status, error) {

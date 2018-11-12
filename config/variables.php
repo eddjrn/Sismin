@@ -7,6 +7,6 @@
   'puesto_usuarioDB' => 4,
   'reunion_convocadoDB' => 30,
   'tema_pendienteDB' => 20,
-  'admin' => '6',
+  'admin' => '1',
   'recuperacion' => 'SisMin_20181112112332.sql',
 );

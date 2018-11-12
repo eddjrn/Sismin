@@ -12,7 +12,8 @@ class controlador_reunion extends Controller
 {
     //
     public function mostrar_vista_tipo_reunion(){
-      $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
+      // $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
+      $tipos = Auth::user()->grupos_reunion->orderBy('updated_at','desc')->get();
       $usuarios = \App\usuario::orderBy('updated_at','desc')->get();
 
       return view('Paginas.tipo_reunion', [
@@ -87,6 +88,13 @@ class controlador_reunion extends Controller
   public function actualizar_vista(Request $request){
       $tipo_reunion = \App\tipo_reunion::find($request->id);
       $reuniones = $tipo_reunion->temas_pendientes();
+      $usuarios = $tipo_reunion->usuarios;
+      $lista = array();
+
+      foreach($usuarios as $usuario){
+        array_push($lista, $usuario->id_usuario);
+      }
+
       $temas = null;
       if($reuniones != null){
 
@@ -94,6 +102,7 @@ class controlador_reunion extends Controller
       return response()->json([
         'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
         'datos' => $reuniones,
+        'lista' => $lista,
       ]);
   }
 
