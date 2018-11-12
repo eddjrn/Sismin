@@ -237,3 +237,39 @@ function activarEstatus(id){
     }
   });
 }
+
+function delegarResponsabilidad(opc, id){
+  switch(opc){
+    case 1:
+      $('#delegarResp').attr('onclick', `delegarResponsabilidad(2, ${id})`);
+      break;
+    case 2:
+      $.ajax({
+         type:'POST',
+         url:  url + "delegar_responsabilidad",
+         data:
+         {
+           "id_usuario":id,
+         },
+         success:function(result){
+           if(result.errores){
+             var errores = '<ul>';
+             $.each(result.errores,function(indice,valor){
+               errores += '<li>' + valor + '</li>';
+             });
+             errores += '</ul>';
+             notificacionAjax('bg-red',errores, 2500,  'bottom', 'center', null, null);
+           } else{
+             mensajeAjax('Registro correcto', result.mensaje,'success');
+             window.setTimeout(function(){
+               location.href = url + "base_datos";
+             } ,3000);
+           }
+        },
+        error: function (jqXHR, status, error) {
+         mensajeAjax('Error', error, 'error');
+        }
+      });
+      break;
+  }
+}

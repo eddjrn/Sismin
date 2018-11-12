@@ -96,3 +96,4 @@ Route::get('/activar_respaldo/recuperacion/{archivo}', 'controlador_admin@activa
 Route::post('/subir_respaldo', 'controlador_admin@subirRespaldo')->middleware('admin');
 Route::post('/actualizar_usuario', 'controlador_admin@Usuario_datos')->middleware('admin');
 Route::post('/activar_estatus', 'controlador_admin@activarUsr')->middleware('admin');
+Route::post('/delegar_responsabilidad', 'controlador_admin@delegarAdmin')->middleware('admin');

@@ -42,6 +42,11 @@ Respaldos {{config('variables.recuperacion')}}
                             <i class="material-icons">account_circle</i> Administrar usuarios
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="#admin" data-toggle="tab">
+                            <i class="material-icons">vpn_key</i> Cambiar administrador del sistema
+                        </a>
+                    </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -155,6 +160,49 @@ Respaldos {{config('variables.recuperacion')}}
                                           <i class="material-icons">mode_edit</i>
                                           <span>Actualizar datos</span>
                                         </button></td>
+                                    </tr>
+                                    @endunless
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="admin">
+                      <strong>Para delegar la función de administrador general de sistema a otro usuario seleccionelo en la siguiente tabla.</strong>
+                      <div class="table-responsive bar" style="height: 350px; overflow-y: scroll;">
+                          <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Correo</th>
+                                      <th>Acción</th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Correo</th>
+                                      <th>Acción</th>
+                                  </tr>
+                              </tfoot>
+                              <tbody>
+                                  @foreach($usuarios as $usuario)
+                                  @unless($usuario->id_usuario == Config('variables.admin'))
+                                    <tr>
+                                      <td>
+                                        <span  id="Nombre_{{$usuario->id_usuario}}">{{$usuario->nombre}}</span>
+                                        <span  id="apellido_p_{{$usuario->id_usuario}}">{{$usuario->apellido_paterno}}</span>
+                                        <span  id="apellido_m_{{$usuario->id_usuario}}">{{$usuario->apellido_materno}}</span>
+                                      </td>
+                                      <td>
+                                        <span id='correo_electronico_{{$usuario->id_usuario}}'>{{$usuario->correo_electronico}}</span>
+                                      </td>
+                                      <td>
+                                        <button type="button" id="btnAdmin_{{$usuario->id_usuario}}" class="btn bg-red waves-effect" data-toggle="modal" data-target="#modalAdmin" onclick="delegarResponsabilidad(1,{{$usuario->id_usuario}})">
+                                          <i class="material-icons">warning</i>
+                                          <span>Asignar como administrador</span>
+                                        </button>
+                                      </td>
                                     </tr>
                                     @endunless
                                   @endforeach
@@ -287,6 +335,35 @@ Respaldos {{config('variables.recuperacion')}}
     </div>
 </div>
 </div>
+
+<div class="modal fade" id="modalAdmin" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h4 class="modal-title" id="smallModalLabel2">Realizar respaldo</label></h4>
+            </div>
+            <div class="modal-body">
+              <blockquote class="font-15">
+                <p class="align-justify">
+                  Al delegar la responsabilidad de administrador del sistema usted no podrá realizar los respaldos ni administrar usuarios. Esas operaciones solamente las podrá realizar el nuevo administrador.
+               </p>
+             </blockquote>
+                <p class="font-bold col-pink align-center"> ¿Desea continuar?</p>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-block bg-red waves-effect" data-dismiss="modal" id="delegarResp" onclick="delegarResponsabilidad()">Aceptar</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 @stop
 
 @section('scripts')

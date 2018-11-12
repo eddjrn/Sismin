@@ -196,4 +196,21 @@ class controlador_admin extends Controller
         $usuario->update(['estatus'=> $request->activado]);
       return response()->json(['mensaje' => 'Se '.$bandera.' al usuario: '.$usuario.' correctamente.']);
     }
+
+    public function delegarAdmin(Request $request){
+      $usuario = \App\usuario::find($request->id_usuario);
+
+      if($usuario != null){
+        $arrayx = Config::get('variables');
+        $arrayx ['admin']= $request->id_usuario;
+        $datos = var_export($arrayx,1);
+        if(File::put(base_path().'/config/variables.php',"<?php\n return $datos;"))
+        {
+          Artisan::call('config:cache');
+          return response()->json(['mensaje' => 'El usuario '.$usuario->__toString().' ahora es administrador del sistema']);
+        }
+      } else{
+        return response()->json(['errores' => ['Error del usuario.']]);
+      }
+    }
 }
