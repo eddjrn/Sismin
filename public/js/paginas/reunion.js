@@ -463,6 +463,8 @@ $(function () {
     $('.fondo').addClass(fondo);
     $('.oculto').hide();
 
+    $('.listaO').hide();
+
     //Datetimepicker plugin
     moment.updateLocale('en', {
       months : [
