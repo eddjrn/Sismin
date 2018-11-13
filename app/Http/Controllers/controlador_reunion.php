@@ -67,8 +67,8 @@ class controlador_reunion extends Controller
   }
 
   public function mostrar_vista_reunion(){
-    $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
-    // $tipos = Auth::user()->grupos_reunion;
+    // $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
+    $tipos = Auth::user()->grupos_reunion;
     $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
     $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
