@@ -139,6 +139,6 @@ class usuario extends Authenticatable
   }
 
   public function grupos_reunion(){
-    return $this->belongsToMany(tipo_reunion::class,'grupo_usuario', 'id_tipo_reunion', 'id_usuario');
+    return $this->belongsToMany(tipo_reunion::class,'grupo_usuario', 'id_usuario', 'id_tipo_reunion');
   }
 }
