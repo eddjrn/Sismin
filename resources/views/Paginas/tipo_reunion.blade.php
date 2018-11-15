@@ -40,11 +40,11 @@ Registro del motivo de una reunión
                     <div class="well bar" style="height: 200px; overflow-y: scroll;">
                       <div class="list-group">
                         @foreach($tipos as $tipo)
-                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}','{{$tipo->imagen_logo}}',{{$tipo->administrador->id_usuario}})" style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
+                          <button type="button" class="list-group-item" onclick="aux({{$tipo->id_tipo_reunion}},'{{$tipo->descripcion}}',{{$tipo->administrador->id_usuario}})" style="word-wrap: break-word;" data-toggle="modal" data-target="#adminModalEdit">
                             <div class="media">
                                 <div class="media-left">
                                     <a href="javascript:void(0);">
-                                        <img id="logo_{{$tipo->imagen_logo}}" class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
+                                        <img id="logo_{{$tipo->id_tipo_reunion}}" class="media-object" src="{{$tipo->imagen_logo}}" width="64" height="64">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -136,9 +136,10 @@ Registro del motivo de una reunión
                 </div>
             </div>
             <div class="modal-footer">
-              <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
-                <button type="button" class="btn btn-block bg-pink waves-effect registrar" data-dismiss="modal" id="editarG">Aceptar</button>
-              </div>
+              <center>
+                <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal" onclick="limpiar()">Cancelar</button>
+                <button type="button" class="btn bg-pink waves-effect registrar" data-dismiss="modal" id="editarG">Aceptar</button>
+              </center>
             </div>
           </form>
         </div>
@@ -146,17 +147,18 @@ Registro del motivo de una reunión
 </div>
 
 
-<div class="modal fade" id="photoModalEdit" tabindex="-1" role="dialog">
+<div class="modal fade" id="photoModalEdit" tabindex="-1" role="dialog" data-backdrop="static">
   <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
           <div class="modal-header">
               <h4 class="modal-title" id="smallModalLabel">Logo de la organización/empresa</h4>
           </div>
           <div class="modal-body">
+
             <form>
               <div class="row">
                 <div class="col-lg-12 text-center">
-                  <img id="image" class="fotoE" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
+                  <img id="logo" class="fotoE" src="{{asset('/images/imagen.svg')}}" alt="Picture" width="150" height="150"/>
                 </div>
               </div>
               <br>
@@ -181,9 +183,10 @@ Registro del motivo de una reunión
 
           </div>
           <div class="modal-footer row clearfix">
-            <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
-              <button type="button" class="btn btn-block bg-pink waves-effect" data-dismiss="modal">Aceptar</button>
-            </div>
+            <center>
+              <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal" onclick="limpiar()">Cancelar</button>
+              <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal">Aceptar</button>
+            </center>
         </div>
             </form>
       </div>

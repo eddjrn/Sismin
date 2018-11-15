@@ -20,51 +20,67 @@ class controlador_admin extends Controller
     }
 
     public function cambiarAdmin(Request $request){
-      $validacion = Validator::make($request->all(), [
-        'id_tipo'=>'required',
-      ]);
+          $validacion = Validator::make($request->all(), [
+            'id_tipo'=>'required',
+            'id_usuario'=>'required',
+            'descripcion' => 'required|min:3',
+            'existe'=>'required',
+          ]);
 
-      //'id_usuario'=>'not_in:0',
-      if($validacion->fails()){
-        return response()->json(['errores' => $validacion->errors()]);
+          //'id_usuario'=>'not_in:0',
+          if($validacion->fails()){
+            return response()->json(['errores' => $validacion->errors()]);
+          }
+
+
+          $id= $request->id_tipo;
+          $idC = $request->id_usuario;
+          $des = $request->descripcion;
+
+          $idU = \App\usuario::find($idC);
+          $archivo = $request->file('croppedImage');
+          $imagen = Image::make($archivo);
+          $imagen->encode('jpeg', 80);
+          $reunion =\App\tipo_reunion::find($id);
+          $descripciones = array();
+
+          $descripcion_reunion = \App\tipo_reunion::All();
+
+          foreach ($descripcion_reunion as $reunionx) {
+            array_push($descripciones,strtoupper($reunionx->descripcion));
+          }
+
+          if($archivo && $request->existe=='true'){
+            if(strtoupper($reunion->descripcion) == strtoupper($request->descripcion)){
+              $reunion->update([
+                'id_usuario' => $idC,
+                'imagen_logo' => $imagen,
+              ]);
+            }else if (in_array(strtoupper($request->descripcion), $descripciones)) {
+                return response()->json(['errores' => $request->descripcion.' ya existe']);
+             }else{
+               $reunion->update([
+                 'id_usuario' => $idC,
+                 'descripcion'=>$request->descripcion,
+                 'imagen_logo' => $imagen,
+               ]);
+            }
+        }else {
+        if(strtoupper($reunion->descripcion) == strtoupper($request->descripcion)){
+            $reunion->update([
+              'id_usuario' => $idC,
+            ]);
+          }else if (in_array( strtoupper($request->descripcion), $descripciones)) {
+            return response()->json(['errores' => $request->descripcion.' ya existe']);
+         }else{
+           $reunion->update([
+             'id_usuario' => $idC,
+             'descripcion'=>$request->descripcion,
+           ]);
+        }
       }
-
-      $id= $request->id_tipo;
-      $idC = $request->id_usuario;
-      $des = $request->descripcion;
-
-      $idU = \App\usuario::find($idC);
-
-      $archivo = $request->file('croppedImage');
-      $imagen = Image::make($archivo);
-      $imagen->encode('jpeg', 80);
-
-    //
-    //   if($des == null){
-    //     $reunion =\App\tipo_reunion::find($id);
-    //     $reunion->update([
-    //       'id_usuario' => $idC,
-    //     ]);
-    //
-    //     return response()->json(['mensaje' => "Se asigno como administrador del grupo a ".$idU->__toString()]);
-    //
-    //   }else if($idC == 0){
-    //     $reunion =\App\tipo_reunion::find($id);
-    //     $reunion->update([
-    //       'descripcion'=>$request->descripcion,
-    //     ]);
-    //
-    //   return response()->json(['mensaje' => "Se cambió el nombre del grupo a".$des]);
-    // }else{'recuperacion/'.
-      $reunion =\App\tipo_reunion::find($id);
-      $reunion->update([
-        'id_usuario' => $idC,
-        'descripcion'=>$request->descripcion,
-        'imagen_logo' => $imagen,
-      ]);
-
       return response()->json(['mensaje' => "Se asigno como administrador  a ".$idU->__toString().", se cambió el nombre del grupo a".$des]);
-    }
+      }
 
     public function mostrar_vista_DB(){
       $archivos = Storage::files('/recuperacion');

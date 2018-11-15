@@ -2,14 +2,12 @@
 var archivo = false;
 var typo;
 var descripcion;
-var image;
-var imagen;
+var image = $('#logo');
+var cropBoxData;
+var canvasData;
+var bandera = 'no';
 
 $(function () {
-  image = $('.fotoE');
-  var cropBoxData;
-  var canvasData;
-
   $('#photoModalEdit').on('shown.bs.modal', function () {
     $image.cropper({
       autoCropArea: 0.5,
@@ -39,7 +37,7 @@ $(function () {
 var $inputImage = $('#inputImage');
 var URL = window.URL || window.webkitURL;
 var blobURL;
-var $image = $('.fotoE');
+ $image = $('#logo');
 
 if (URL) {
   $inputImage.change(function () {
@@ -69,7 +67,7 @@ if (URL) {
 
   $('#registrar').on('click', function(){
     if(archivo){
-      $('.fotoE').cropper('getCroppedCanvas', {
+      $('#logo').cropper('getCroppedCanvas', {
         width: 150,
         height: 150,
         fillColor: '#fff',
@@ -86,6 +84,7 @@ if (URL) {
         formData.append('croppedImage', blob);
         formData.append('descripcion', descripcion);
         formData.append('id_usuario', admin_grupo);
+
 
         $.ajax(UrlToPostForm, {
           method: "POST",
@@ -120,8 +119,8 @@ if (URL) {
   });
 
   $('#editarG').on('click', function(){
-    if(archivo){
-      $('.fotoE').cropper('getCroppedCanvas', {
+    // if(archivo){
+      $('#logo').cropper('getCroppedCanvas', {
         width: 150,
         height: 150,
         fillColor: '#fff',
@@ -136,6 +135,7 @@ if (URL) {
         formData2.append('descripcion', des);
         formData2.append('id_usuario', id_usuario);
         formData2.append('id_tipo', typo);
+        formData2.append('existe', archivo);
 
         $.ajax(urlA, {
           method: "POST",
@@ -144,14 +144,15 @@ if (URL) {
           contentType: false,
           success:function(result){
             if(result.errores){
-              mensajeAjax('Error', 'Verifique sus datos', 'error');
+              limpiar();
+              mensajeAjax('Error','Verifique sus datos', 'error');
               var errores = '<ul>';
               $.each(result.errores,function(indice,valor){
                 //console.log(indice + ' - ' + valor);
                 errores += '<li>' + valor + '</li>';
               });
               errores += '</ul>';
-              notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
+               notificacionAjax('bg-red', errores, 2500,  'bottom', 'center', null, null);
             } else{
               mensajeAjax('Registro correcto', result.mensaje,'success');
               window.setTimeout(function(){
@@ -164,20 +165,20 @@ if (URL) {
            }
         });
       });
-    } else{
-      notificacionAjax('bg-red', 'Escoja un archivo para el logotipo de la organización', 2500,  'bottom', 'center', null, null);
-    }
+    // } else{
+    //   notificacionAjax('bg-red', 'Escoja un archivo para el logotipo de la organización', 2500,  'bottom', 'center', null, null);
+    // }
   });
 
 
   $('#rotateRight').on('click', function(){
-    $('.fotoE').cropper('rotate', 45);
+    $('#logo').cropper('rotate', 45);
   });
   $('#rotateLeft').on('click', function(){
-    $('.fotoE').cropper('rotate', -45);
+    $('#logo').cropper('rotate', -45);
   });
   $('#reset').on('click', function(){
-    $('.fotoE').cropper('reset');
+    $('#logo').cropper('reset');
   });
 
 } else {
@@ -229,16 +230,19 @@ function alerts(opc){
     }
 }
 
-function aux(id,des,img,admin)
+function aux(id,des,admin)
 {
   typo=id;
   descripcion = des;
-  $(".fotoE").attr("src",img);
+  var imagen = $('#logo_'+id).attr("src");
+  $('#logo').attr("src",imagen);
   $("#Copc").val(admin);
   $("#Copc").selectpicker("refresh");
   $("#desc").val(des);
   $("#nombreG").html(des);
-
 }
 
-//END function to show the SweetAlert
+function limpiar(){
+   $('#logo').cropper('destroy');
+   archivo = false;
+}
