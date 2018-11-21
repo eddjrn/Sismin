@@ -1,5 +1,6 @@
    <title>Convocatoria de la reunión {{$tipo}} </title>
-   <div align="right"><img src="{{$imagen}}" class="logo" width="100" height="100"></div>
+   <img src="{{$imagen}}" class="logo" width="100" height="100" align="right">
+   <br><br><br><br><br><br>
    <div class="DR"><center><h1>"{{$tipo}}"</h1></center>
     <b>Por medio de la presente, se le convoca a {{$motivo}} para el día {{$reunion->getFechaReunionLegible()}}, en {{$lugar}}.</b><br><br>
 <b>Convocados:</b><hr>

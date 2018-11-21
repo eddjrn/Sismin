@@ -119,7 +119,7 @@
 
 @if(($minuta->notas)!="")
 <b>Notas:</b><hr>
-<label class="notas">{{$minuta->notas}}</label><br><br>
+<p class="notas">{{$minuta->notas}}</p><br><br>
 @endif
 
   <table>
@@ -213,6 +213,9 @@ caption {
     padding: 0px;
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
-.notas {background-color:yellow;}
+.notas {
+  background-color:yellow;
+  text-align: justify;
+}
 
 </style>

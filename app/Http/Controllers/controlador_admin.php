@@ -46,9 +46,11 @@ class controlador_admin extends Controller
           $descripciones = array();
           $descripcion_reunion = \App\tipo_reunion::All();
 
-          $grupoUsr=\App\grupo_usuario::where('id_tipo_reunion',$reunion->id_tipo_reunion)
-                                   ->where('id_usuario',$admin)
-                                   ->delete();
+
+
+         $grupoUs=\App\grupo_usuario::where('id_tipo_reunion',$reunion->id_tipo_reunion)
+                                  ->where('id_usuario',$idC)
+                                  ->delete();
 
           foreach ($descripcion_reunion as $reunionx) {
             array_push($descripciones,strtoupper($reunionx->descripcion));
@@ -60,6 +62,15 @@ class controlador_admin extends Controller
                 'id_usuario' => $idC,
                 'imagen_logo' => $imagen,
               ]);
+              $grupoUsr=\App\grupo_usuario::where('id_tipo_reunion',$reunion->id_tipo_reunion)
+                                       ->where('id_usuario',$admin)
+                                       ->update([
+                                         'id_usuario'=>$idC
+                                       ]);
+             $grupoUsr=\App\grupo_usuario::where('id_tipo_reunion',$reunion->id_tipo_reunion)
+                                      ->where('id_usuario',$admin)
+                                      ->delete();
+
             }else if (in_array(strtoupper($request->descripcion), $descripciones)) {
                 return response()->json(['errores' => $request->descripcion.' ya existe']);
              }else{
@@ -68,11 +79,20 @@ class controlador_admin extends Controller
                  'descripcion'=>$request->descripcion,
                  'imagen_logo' => $imagen,
                ]);
+               $grupoUsr=\App\grupo_usuario::create([
+                 'id_tipo_reunion'=>$reunion->id_tipo_reunion,
+                 'id_usuario'=>$idC,
+               ]);
+
             }
         }else {
         if(strtoupper($reunion->descripcion) == strtoupper($request->descripcion)){
             $reunion->update([
               'id_usuario' => $idC,
+            ]);
+            $grupoUsr=\App\grupo_usuario::create([
+              'id_tipo_reunion'=>$reunion->id_tipo_reunion,
+              'id_usuario'=>$idC,
             ]);
           }else if (in_array( strtoupper($request->descripcion), $descripciones)) {
             return response()->json(['errores' => $request->descripcion.' ya existe']);
@@ -80,6 +100,10 @@ class controlador_admin extends Controller
            $reunion->update([
              'id_usuario' => $idC,
              'descripcion'=>$request->descripcion,
+           ]);
+           $grupoUsr=\App\grupo_usuario::create([
+             'id_tipo_reunion'=>$reunion->id_tipo_reunion,
+             'id_usuario'=>$idC,
            ]);
         }
       }

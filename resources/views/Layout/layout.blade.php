@@ -157,7 +157,7 @@
                       </li>
                     </a>
                     @endif
-                    @if(Auth::user()->grupos_reunion->count() > 0)
+                  @if(Auth::user()->id_usuario == config('variables.admin'))
                     <a href="{{asset('/puesto_usuario')}}">
                        <li data-theme="red">
                            <i class="material-icons">assistant</i>

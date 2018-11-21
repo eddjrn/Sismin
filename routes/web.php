@@ -86,14 +86,14 @@ Route::post('/puesto_usuario/editar_puesto','controlador_reunion@actualizar_pues
 |--------------------------------------------------------------------------
 */
 
-Route::get('/base_datos', 'controlador_admin@mostrar_vista_DB')->middleware('admin');
-Route::post('/tipo_reunion_admin', 'controlador_admin@cambiarAdmin')->middleware('admin');
-Route::get('/crear_respaldo', 'controlador_admin@crearRespaldo')->middleware('admin');
-Route::get('/descargar_respaldo/backups/{archivo}', 'controlador_admin@descargarRespaldo')->middleware('admin');
-Route::get('/eliminar_respaldo/backups/{archivo}', 'controlador_admin@eliminarRespaldo')->middleware('admin');
-Route::get('/descargar_respaldo/recuperacion/{archivo}', 'controlador_admin@descargarRespaldoRecuperacion')->middleware('admin');
-Route::get('/activar_respaldo/recuperacion/{archivo}', 'controlador_admin@activarRespaldo')->middleware('admin');
-Route::post('/subir_respaldo', 'controlador_admin@subirRespaldo')->middleware('admin');
-Route::post('/actualizar_usuario', 'controlador_admin@Usuario_datos')->middleware('admin');
-Route::post('/activar_estatus', 'controlador_admin@activarUsr')->middleware('admin');
-Route::post('/delegar_responsabilidad', 'controlador_admin@delegarAdmin')->middleware('admin');
+Route::get('/base_datos', 'controlador_admin@mostrar_vista_DB')->middleware('sesion','admin');
+Route::post('/tipo_reunion_admin', 'controlador_admin@cambiarAdmin')->middleware('sesion','admin');
+Route::get('/crear_respaldo', 'controlador_admin@crearRespaldo')->middleware('sesion','admin');
+Route::get('/descargar_respaldo/backups/{archivo}', 'controlador_admin@descargarRespaldo')->middleware('sesion','admin');
+Route::get('/eliminar_respaldo/backups/{archivo}', 'controlador_admin@eliminarRespaldo')->middleware('sesion','admin');
+Route::get('/descargar_respaldo/recuperacion/{archivo}', 'controlador_admin@descargarRespaldoRecuperacion')->middleware('sesion','admin');
+Route::get('/activar_respaldo/recuperacion/{archivo}', 'controlador_admin@activarRespaldo')->middleware('sesion','admin');
+Route::post('/subir_respaldo', 'controlador_admin@subirRespaldo')->middleware('sesion','admin');
+Route::post('/actualizar_usuario', 'controlador_admin@Usuario_datos')->middleware('sesion','admin');
+Route::post('/activar_estatus', 'controlador_admin@activarUsr')->middleware('sesion','admin');
+Route::post('/delegar_responsabilidad', 'controlador_admin@delegarAdmin')->middleware('sesion','admin');
