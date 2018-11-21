@@ -109,6 +109,8 @@ Nueva reunión
                           <br/>
                           <br/>
                           <img id="imagen_tipo_reunion" class="img-responsive thumbnail" src="{{asset('/images/imagen.svg')}}" width="150" height="150" style="margin: auto;">
+                          </br>
+                          <center><button id="recargarGr" type="button" class="colorBoton disabled" disabled onClick="recargarGrupo();">Cambiar grupo</button></center>
                         </div>
                     </div>
                   </div>

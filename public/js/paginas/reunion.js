@@ -310,11 +310,14 @@ function actualizarTipo(opcion){
          } else{
            notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
          }
-         //Falta arreglar los convocadoes en los arrays y en la descripcion final
          $('.listaO').hide();
          for(var i = 0; i < result.lista.length; i++){
            $('#usr_' + result.lista[i]).show();
          }
+         $('#tipo_reunion').prop("disabled", true);
+         $('#tipo_reunion').selectpicker('refresh');
+         $('#recargarGr').prop("disabled", false);
+         $('#recargarGr').attr("class", colorBtn);
        }
     },
     error: function (jqXHR, status, error) {
@@ -322,6 +325,14 @@ function actualizarTipo(opcion){
     }
   });
 }
+
+function recargarGrupo(){
+  mensajeAjax('Recargando la página.', 'Limpiando registros','warning');
+  window.setTimeout(function(){
+    location.href = url;
+  } ,2500);
+}
+
 // Al hacer click sobre el tema pendiente
 function agregarTemaPendiente(id_tema, descripcion){
   var idRand = Math.floor(Math.random() * 99);
