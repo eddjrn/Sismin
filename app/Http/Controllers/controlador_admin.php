@@ -42,9 +42,13 @@ class controlador_admin extends Controller
           $imagen = Image::make($archivo);
           $imagen->encode('jpeg', 80);
           $reunion =\App\tipo_reunion::find($id);
+          $admin = $reunion->id_usuario;
           $descripciones = array();
-
           $descripcion_reunion = \App\tipo_reunion::All();
+
+          $grupoUsr=\App\grupo_usuario::where('id_tipo_reunion',$reunion->id_tipo_reunion)
+                                   ->where('id_usuario',$admin)
+                                   ->delete();
 
           foreach ($descripcion_reunion as $reunionx) {
             array_push($descripciones,strtoupper($reunionx->descripcion));

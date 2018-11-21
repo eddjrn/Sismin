@@ -42,6 +42,10 @@ class controlador_reunion extends Controller
         'id_usuario'  => $request->id_usuario,
       ]);
 
+      $grupoUsr = \App\grupo_usuario::create([
+        'id_tipo_reunion' =>$tipo->id_tipo_reunion,
+        'id_usuario'      =>$request->id_usuario,
+      ]);
       $msg = 'Se agregó: '.$request->descripcion;
       return response()->json(['mensaje' => $msg]);
     }
