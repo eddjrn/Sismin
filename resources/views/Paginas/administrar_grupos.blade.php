@@ -35,9 +35,15 @@ Administrar grupos
         <div class="panel-body">
           <ol id='usuarios_{{$grupo->id_tipo_reunion}}'>
             @foreach($grupo->usuarios as $usuario)
+            @if($usuario->estatus == '1')
             <li id="usr_{{$usuario->id_usuario}}">
              {{$usuario->__toString()}}
             </li>
+            @else
+            <li id="usr_{{$usuario->id_usuario}}">
+             {{$usuario->__toString()}} <label class="font-bold col-pink">-> inactivo</label>
+            </li>
+            @endif
             @endforeach
           </ol>
         <center>

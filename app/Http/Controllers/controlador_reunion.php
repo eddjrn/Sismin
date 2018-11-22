@@ -14,7 +14,7 @@ class controlador_reunion extends Controller
     //
     public function mostrar_vista_tipo_reunion(){
       $tipos = \App\tipo_reunion::orderBy('updated_at','desc')->get();
-      $usuarios = \App\usuario::orderBy('updated_at','desc')->get();
+      $usuarios = \App\usuario::orderBy('updated_at','desc')->get()->where('estatus','=','1');
 
       return view('Paginas.tipo_reunion', [
         'tipos' => $tipos,
@@ -46,7 +46,7 @@ class controlador_reunion extends Controller
         'id_tipo_reunion' =>$tipo->id_tipo_reunion,
         'id_usuario'      =>$request->id_usuario,
       ]);
-      
+
       $msg = 'Se agregó: '.$request->descripcion;
       return response()->json(['mensaje' => $msg]);
     }
@@ -74,7 +74,7 @@ class controlador_reunion extends Controller
   public function mostrar_vista_reunion(){
     // $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
     $tipos = Auth::user()->grupos_reunion;
-    $convocados = \App\usuario::orderBy('updated_at', 'desc')->get();
+    $convocados = \App\usuario::orderBy('updated_at', 'desc')->get()->where('estatus','=','1');
     $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
     if($puestos->count() < 1){

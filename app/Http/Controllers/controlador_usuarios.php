@@ -134,12 +134,20 @@ class controlador_usuarios extends Controller
 
     $correo = $request->correo_electronico;
     $pass = $request->password;
-
-    if(Auth::attempt(['correo_electronico' => $correo, 'password' => $pass],false)){
-      $msg = 'Iniciando sesión.';
-      return response()->json(['mensaje' => $msg]);
-    } else{
-      return response()->json(['errores' => ['Datos incorrectos.']]);
+    $usuario= \App\usuario::wherecorreo_electronico($correo)->first();
+    if($usuario->estatus == '1')
+    {
+      if(Auth::attempt(['correo_electronico' => $correo, 'password' => $pass],false))
+      {
+        $msg = 'Iniciando sesión.';
+        return response()->json(['mensaje' => $msg]);
+      } else
+      {
+        return response()->json(['errores' => ['Datos incorrectos.']]);
+      }
+    }else
+    {
+      return response()->json(['errores'=> ['su usuario se encuentra inactivo, contacte al administrador del sistema.']]);
     }
   }
 

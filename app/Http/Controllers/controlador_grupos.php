@@ -10,7 +10,7 @@ class controlador_grupos extends Controller
 {
     public function mostrar_vista_grupos(){
       $grupos = Auth::user()->administrador_de;
-      $usuaros = \App\usuario::All();
+      $usuaros = \App\usuario::All()->where('estatus','=','1');
       return view('Paginas.administrar_grupos',[
         'grupos' => $grupos,
         'usuarios' => $usuaros
