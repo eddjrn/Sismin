@@ -17,9 +17,14 @@ class controlador_respaldo extends Controller
       $usuarioM = new \App\usuario;
       $usuarioM->setConnection('mysql2');
       $usuarioL = $usuarioM->find($usrLog);
+      if($usuarioL == NULL){
+         return view('Paginas.respaldo',['reuniones'=> []]);
+      }else{
+        return view('Paginas.respaldo',['reuniones'=>$usuarioL->reuniones_historial()]);
+      }
 
       //return $reuniones->minuta->id_minuta;
-      return view('Paginas.respaldo',['reuniones'=>$usuarioL->reuniones_historial()]);
+     // return view('Paginas.respaldo',['reuniones'=>$usuarioL->reuniones_historial()]);
     }
 
     public function pdf($id,$codigo){
