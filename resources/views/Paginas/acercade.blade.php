@@ -67,7 +67,7 @@ Acerca del sistema
                 <li>Dar seguimiento a sus reuniones mediante el envío de correos electrónicos.</li>
                 <li>Dar seguimiento a los compromisos establecidos dentro de las minutas de reunión mediante el envío de correos electrónicos.</li>
               </ul></lo>
-              <h5>Versión del sistema. 1.0</h5>
+              <h5>Versión del sistema. 2.0</h5>
         </div>
         </div>
     </div>
