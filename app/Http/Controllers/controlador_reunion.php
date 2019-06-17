@@ -72,9 +72,7 @@ class controlador_reunion extends Controller
   }
 
   public function mostrar_vista_reunion(){
-    // $tipos = \App\tipo_reunion::orderBy('updated_at', 'desc')->get();
     $tipos = Auth::user()->grupos_reunion;
-    $convocados = \App\usuario::orderBy('updated_at', 'desc')->get()->where('estatus','=','1');
     $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
 
     if($puestos->count() < 1){
@@ -86,29 +84,39 @@ class controlador_reunion extends Controller
 
     return view('Paginas.reunion', [
       'tipos'=>$tipos,
-      'convocados'=>$convocados,
       'puestos'=>$puestos,
     ]);
   }
 
   public function actualizar_vista(Request $request){
       $tipo_reunion = \App\tipo_reunion::find($request->id);
-      $reuniones = $tipo_reunion->temas_pendientes();
+      $pendientes = $tipo_reunion->temas_pendientes();
       $usuarios = $tipo_reunion->usuarios;
+      $puestos = \App\puesto_usuario::orderBy('updated_at', 'asc')->get();
+
+      $nombres = array();
       $lista = array();
+      $responsables = array();
 
       foreach($usuarios as $usuario){
         array_push($lista, $usuario->id_usuario);
+        array_push($nombres, $usuario->__toString());
+      }
+
+      foreach($pendientes as $pendiente){
+        array_push($responsables, $pendiente->usuario->nombre);
       }
 
       $temas = null;
-      if($reuniones != null){
+      if($pendientes != null){
 
       }
       return response()->json([
         'mensaje' => 'No hay temas pendientes de: '.$tipo_reunion->descripcion,
-        'datos' => $reuniones,
+        'datos' => $pendientes,
+        'responsables' => $responsables,
         'lista' => $lista,
+        'nombres' => $nombres,
       ]);
   }
 

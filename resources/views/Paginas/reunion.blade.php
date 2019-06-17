@@ -131,29 +131,7 @@ Nueva reunión
                                     <th style="width: 400px !important">Puesto dentro de la reunión</th>
                                 </tr>
                             </tfoot>
-                            <tbody>
-                                @foreach($convocados as $convocado)
-                                @unless($convocado->id_usuario == $id_usuario)
-                                  <tr class="listaO" id="usr_{{$convocado->id_usuario}}">
-                                    <td id="nombre_convocado_tabla_{{$convocado->id_usuario}}">{{$convocado->__toString()}}</td>
-                                    <td>
-                                      <div class="row">
-                                        <div class="col-lg-2 col-md-2">
-                                          <input type="checkbox" onClick="actualizarLista({{$convocado->id_usuario}});" id="md_checkbox_{{$convocado->id_usuario}}" class="chk-col-teal" autocomplete="off"/>
-                                          <label for="md_checkbox_{{$convocado->id_usuario}}">Agregar</label>
-                                        </div>
-                                        <div id="area_puesto_{{$convocado->id_usuario}}" class="col-lg-10 col-md-10 oculto">
-                                          <select id="puesto_seleccion_{{$convocado->id_usuario}}" onChange="actualizarPuesto({{$convocado->id_usuario}});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off" data-live-search="true">
-                                              @foreach($puestos as $puesto)
-                                                <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>
-                                              @endforeach
-                                          </select>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                @endunless
-                                @endforeach
+                            <tbody id="tablaDinamica">
                             </tbody>
                         </table>
                         <div id="nombre_convocado_tabla_{{$id_usuario}}" class="hidden">{{Auth::user()}}</div>
@@ -331,6 +309,13 @@ var urlToRedirectPage = "{{asset('/')}}";
 var moderador = {{$id_usuario}};
 var secretario = {{$id_usuario}};
 var puesto = {{$puestos->first()->id_puesto}};
+
+var listaPuestos = [];
+var nombrePuestos = [];
+@foreach($puestos as $puestoGlobal)
+  listaPuestos.push("{{$puestoGlobal->id_puesto}}");
+  nombrePuestos.push("{{$puestoGlobal->descripcion}}");
+@endforeach
 
 $.ajaxSetup({
     headers: {

@@ -73,9 +73,23 @@ function actualizarLista(id){
   // Checa si esta palomeado el usuario
   var boton = $(`#md_checkbox_${id}`);
   if(boton.prop('checked')){
+    //crea la lista de puestos al palomear el usuario
+    $(`#area_puesto_${id}`).html(`\
+      <select id="puesto_seleccion_${id}" onChange="actualizarPuesto(${id});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off" data-live-search="true">\
+      </select>\
+    `);
+
+    for(var i = 0; i < listaPuestos.length; i++){
+      $(`#puesto_seleccion_${id}`).html($(`#puesto_seleccion_${id}`).html() + `\
+          <option value="${listaPuestos[i]}" class="control_puesto_${listaPuestos[i]}">${nombrePuestos[i]}</option>\
+      `);
+    }
+
     var nombre = $(`#nombre_convocado_tabla_${id}`).html();
     var descripcion_puesto = $(`#puesto_seleccion_${id} option:eq(0)`).html();
     var id_puesto = $(`#puesto_seleccion_${id} option:eq(0)`).val();
+
+    $(`#puesto_seleccion_${id}`).selectpicker();
 
     convocados.push(id);
     puestos.push(id_puesto);
@@ -131,11 +145,11 @@ function actualizarOrdenDia(opc, boton){
       orden_dia_control.push(idRand);
       // Se genera el codigo HTML correspondiente de los botones
       $('#lista_orden').html($('#lista_orden').html() + `\
-      <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item tooltips" \
-      style="word-wrap: break-word;" data-usuario="${seleccion}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body" data-trigger="hover">${descripcion}</button>`);
-      $(`#${boton_id}`).tooltip();
+      <button id="cuadro_${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
+      style="word-wrap: break-word;" data-usuario="${seleccion}"\
+      data-container="body" data-trigger="hover"><span id="${boton_id}">${descripcion}</span> <br/><b id="resp_${boton_id}">Responsable: ${nombres}</b></button>`);
       $('#lista_texto').html($('#lista_texto').html() + `\
-        <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
+        <li id="${lista_texto_id}">${descripcion} <br/><i>Responsable: ${nombre[0]} ${nombre[1]}</i></li>`);
       ocultarDialogo();
       break;
     // editar tema existente
@@ -161,10 +175,9 @@ function actualizarOrdenDia(opc, boton){
       }
       // limpia los campos, los datos y hace los cambios
       $(`#ordenDia${boton}`).html(descripcion);
-      $(`#ordenDia${boton}`).attr('data-original-title', 'Responsable: ' + nombres);
-      $(`#ordenDia${boton}`).tooltip();
+      $(`#resp_ordenDia${boton}`).html('Responsable: ' + nombres);
       $(`#ordenDia${boton}`).attr("data-usuario", `${seleccion}`);
-      $(`#ordenDia_texto${boton}`).html(descripcion + " => " + nombre[0] + " " + nombre[1]);
+      $(`#ordenDia_texto${boton}`).html(descripcion + " <br/><i>Responsable: " + nombre[0] + " " + nombre[1] + " </i>");
 
       ocultarDialogo();
       break;
@@ -196,8 +209,7 @@ function actualizarOrdenDia(opc, boton){
     case 6:
       mensajeAjax('Eliminando', 'Borrando registro','warning');
       $(`#ordenDia_texto${boton}`).remove();
-      $(`#ordenDia${boton}`).tooltip('destroy');
-      $(`#ordenDia${boton}`).remove();
+      $(`#cuadro_ordenDia${boton}`).remove();
       // Busca el valor en un indice y lo elimina de la lista
       var indice = convocados.indexOf(boton);
       if(indice!=-1){
@@ -301,19 +313,63 @@ function actualizarTipo(opcion){
          $('#lista_pendientes').html('');
          if(result.datos.length > 0){
            for(var i = 0; i < result.datos.length; i++){
-             var nombre_usuario = $(`#nombre_convocado_tabla_${result.datos[i]['id_usuario']}`).html();
+             var nombre_usuario = result.responsables[i];
              $('#lista_pendientes').html($('#lista_pendientes').html() + `\
-             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item tooltips" \
-             style="word-wrap: break-word;" data-usuario="" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombre_usuario}" data-container="body" data-trigger="hover">${result.datos[i]['descripcion']}</button>`);
+             <button id="pendiente_${result.datos[i]['id_tema_pendiente']}" type="button" onClick="agregarTemaPendiente(${result.datos[i]['id_tema_pendiente']}, '${result.datos[i]['descripcion']}');" class="list-group-item" \
+             style="word-wrap: break-word;" data-usuario="">${result.datos[i]['descripcion']} <br/><b>Responsable: ${nombre_usuario}</b></button>`);
            }
            $('.tooltips').tooltip();
          } else{
            notificacionAjax('bg-blue-grey',result.mensaje, 2500,  'bottom', 'center', null, null);
          }
-         $('.listaO').hide();
+
+         // $('.listaO').hide();
          for(var i = 0; i < result.lista.length; i++){
-           $('#usr_' + result.lista[i]).show();
-         }
+           // $('#usr_' + result.lista[i]).show();
+           if(result.lista[i] != moderador){
+             $('#tablaDinamica').html($('#tablaDinamica').html() + `\
+              <tr id="usr_${result.lista[i]}">\
+                 <td id="nombre_convocado_tabla_${result.lista[i]}">${result.nombres[i]}</td>\
+                 <td>\
+                   <div class="row">\
+                     <div class="col-lg-2 col-md-2">\
+                       <input type="checkbox" onClick="actualizarLista(${result.lista[i]});" id="md_checkbox_${result.lista[i]}" class="chk-col-teal" autocomplete="off"/>\
+                       <label for="md_checkbox_${result.lista[i]}">Agregar</label>\
+                     </div>\
+                     <div id="area_puesto_${result.lista[i]}" class="col-lg-10 col-md-10 oculto">\
+                       <select id="puesto_seleccion_${result.lista[i]}" onChange="actualizarPuesto(${result.lista[i]});" data-container="body" data-width="300px" data-size="5" class="show-tick" autocomplete="off" data-live-search="true">\
+                           @foreach($puestos as $puesto)\
+                             <option value="{{$puesto->id_puesto}}" class="control_puesto_{{$puesto->id_puesto}}">{{$puesto->descripcion}}</option>\
+                           @endforeach\
+                       </select>\
+                     </div>\
+                   </div>\
+                 </td>\
+              </tr>\
+             `);
+           }
+         } //Fin del ciclo para listar usuarios del grupo
+         $('.oculto').hide();
+
+         // Data table plugin
+         $('.js-basic-example').DataTable({
+             responsive: true,
+             "language": {
+                 "lengthMenu": "Mostrar _MENU_ registros por página",
+                 "zeroRecords": "No encontrado - lo siento",
+                 "info": "Página _PAGE_ de _PAGES_",
+                 "infoEmpty": "No hay registros disponibles",
+                 "infoFiltered": "(Se filtró de _MAX_ registros totales)",
+                 "search": "Buscar",
+                 "paginate": {
+                     "previous": "<",
+                     "next": ">"
+                   }
+             },
+             "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
+             "autoWidth": false,
+         });
+
          $('#tipo_reunion').prop("disabled", true);
          $('#tipo_reunion').selectpicker('refresh');
          $('#recargarGr').prop("disabled", false);
@@ -336,27 +392,12 @@ function recargarGrupo(){
 // Al hacer click sobre el tema pendiente
 function agregarTemaPendiente(id_tema, descripcion){
   var idRand = Math.floor(Math.random() * 99);
-  var lista_texto_id = 'ordenDia_texto' + idRand;
-  var boton_id = 'ordenDia' + idRand;
-  var nombres = $('#responsable_nuevo_tema option:eq(0)').html();
-  var nombre = nombres.split(" ");
-
-  orden_dia.push(descripcion);
-  responsables.push(moderador);
-  orden_dia_control.push(idRand);
-  pendientes.push(id_tema);
+  $('#descripcion_nuevo_tema').val(descripcion);
+  actualizarOrdenDia(1);
 
   notificacionAjax('bg-blue-grey', "Debe seleccionar un responsable.", 2500,  'bottom', 'center', null, null);
   // Se elimina de temas pendientes
-  $(`#pendiente_${id_tema}`).tooltip('destroy');
   $(`#pendiente_${id_tema}`).remove();
-  // Se genera el codigo HTML correspondiente de los botones
-  $('#lista_orden').html($('#lista_orden').html() + `\
-  <button id="${boton_id}" type="button" onClick="actualizarOrdenDia(3, ${idRand});" class="list-group-item" \
-  style="word-wrap: break-word;" data-usuario="${moderador}" data-toggle="tooltip" data-placement="top" title="Responsable: ${nombres}" data-container="body" data-trigger="hover">${descripcion}</button>`);
-  $(`#${boton_id}`).tooltip();
-  $('#lista_texto').html($('#lista_texto').html() + `\
-    <li id="${lista_texto_id}">${descripcion} => ${nombre[0]} ${nombre[1]}</li>`);
 }
 
 // Botones de navegación
@@ -516,24 +557,24 @@ $(function () {
       formulario.set('fecha', date.format("YYYY-MM-DD HH:mm"));
   	});
 
-    // Data table plugin
-    $('.js-basic-example').DataTable({
-        responsive: true,
-        "language": {
-            "lengthMenu": "Mostrar _MENU_ registros por página",
-            "zeroRecords": "No encontrado - lo siento",
-            "info": "Página _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay registros disponibles",
-            "infoFiltered": "(Se filtró de _MAX_ registros totales)",
-            "search": "Buscar",
-            "paginate": {
-                "previous": "<",
-                "next": ">"
-              }
-        },
-        "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
-        "autoWidth": false,
-    });
+    // // Data table plugin --NO NECESARIO DESDE QUE LA TABLA SE CONSTRYE EN LA FUNCION "ACTUALIZARTIPO"
+    // $('.js-basic-example').DataTable({
+    //     responsive: true,
+    //     "language": {
+    //         "lengthMenu": "Mostrar _MENU_ registros por página",
+    //         "zeroRecords": "No encontrado - lo siento",
+    //         "info": "Página _PAGE_ de _PAGES_",
+    //         "infoEmpty": "No hay registros disponibles",
+    //         "infoFiltered": "(Se filtró de _MAX_ registros totales)",
+    //         "search": "Buscar",
+    //         "paginate": {
+    //             "previous": "<",
+    //             "next": ">"
+    //           }
+    //     },
+    //     "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
+    //     "autoWidth": false,
+    // });
 
     $('#icono').animateCss('bounceIn');
 });

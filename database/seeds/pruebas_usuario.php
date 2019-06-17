@@ -25,18 +25,18 @@ class pruebas_usuario extends Seeder
         'password' => Hash::make('mayra1234'),
       ]);
 
-//       for($i=0; $i<= config('variables.usuariosDB'); $i++){
-//         DB::table('usuario')->insert([
-//           'created_at'=> now(),
-//           'updated_at' => now(),
-//           'nombre' => str_random(7),
-//           'apellido_paterno' =>str_random(15),
-//           'apellido_materno' => str_random(15),
-//           'correo_electronico' => str_random(20).'@gmail.com',
-//           'rubrica' => '01010101',
-//           'password' => Hash::make('mayra1234'),
-//         ]);
-//       }
+      for($i=0; $i<= config('variables.usuariosDB'); $i++){
+        DB::table('usuario')->insert([
+          'created_at'=> now(),
+          'updated_at' => now(),
+          'nombre' => str_random(7),
+          'apellido_paterno' =>str_random(15),
+          'apellido_materno' => str_random(15),
+          'correo_electronico' => str_random(20).'@gmail.com',
+          'rubrica' => '01010101',
+          'password' => Hash::make('mayra1234'),
+        ]);
+      }
 
       DB::table('usuario')->insert([
         'created_at'=> now(),
@@ -85,10 +85,10 @@ class pruebas_usuario extends Seeder
       DB::table('usuario')->insert([
         'created_at'=> now(),
         'updated_at' => now(),
-        'nombre' => 'Eduardo Javier',
-        'apellido_paterno' =>'Reyes',
-        'apellido_materno' => 'Norman',
-        'correo_electronico' => 'eddjrn@gmail.com',
+        'nombre' => 'Edd',
+        'apellido_paterno' =>'Rey',
+        'apellido_materno' => 'Nor',
+        'correo_electronico' => 'eddsdrn@gmail.com',
         'rubrica' => '01010101',
         'password' => Hash::make('123456'),
       ]);
