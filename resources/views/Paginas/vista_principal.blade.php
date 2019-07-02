@@ -8,9 +8,6 @@ Página principal
 <!--cabecera para que se puedan enviar peticiones POST desde javascript-->
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-<!-- Bootstrap Select Css -->
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-
 <link href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
 @stop
 

@@ -20,23 +20,23 @@ class pruebas_usuario extends Seeder
         'nombre' => 'Mayra',
         'apellido_paterno' =>'Villavicencio',
         'apellido_materno' => 'Marquez',
-        'correo_electronico' => 'mayra29109@gmail.com',
+        'correo_electronico' => 'mayra291@gmail.com',
         'rubrica' => '1010',
         'password' => Hash::make('mayra1234'),
       ]);
 
-      for($i=0; $i<= config('variables.usuariosDB'); $i++){
-        DB::table('usuario')->insert([
-          'created_at'=> now(),
-          'updated_at' => now(),
-          'nombre' => str_random(7),
-          'apellido_paterno' =>str_random(15),
-          'apellido_materno' => str_random(15),
-          'correo_electronico' => str_random(20).'@gmail.com',
-          'rubrica' => '01010101',
-          'password' => Hash::make('mayra1234'),
-        ]);
-      }
+      // for($i=0; $i<= config('variables.usuariosDB'); $i++){
+      //   DB::table('usuario')->insert([
+      //     'created_at'=> now(),
+      //     'updated_at' => now(),
+      //     'nombre' => str_random(7),
+      //     'apellido_paterno' =>str_random(15),
+      //     'apellido_materno' => str_random(15),
+      //     'correo_electronico' => str_random(20).'@gmail.com',
+      //     'rubrica' => '01010101',
+      //     'password' => Hash::make('mayra1234'),
+      //   ]);
+      // }
 
       DB::table('usuario')->insert([
         'created_at'=> now(),

@@ -48,9 +48,8 @@ Registro del motivo de una reunión
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                <span class="font-bold">
-                                {{$tipo->descripcion}}</br>
-                                Administrador:</span>{{$tipo->administrador}}</div>
+                                <span class="font-bold">Nombre: </span>{{$tipo->descripcion}}</br>
+                                <span class="font-bold">Administrador: </span>{{$tipo->administrador}}</div>
                             </div>
 
                           </button>
@@ -75,6 +74,7 @@ Registro del motivo de una reunión
                         <input type="text" id="descripcion" class="form-control" name="descripcion" placeholder="Descripción" data-toggle="tooltip" data-placement="top" title="Ingrese el grupo de reunión">
                     </div>
                 </div>
+                <span class="font-bold">Seleccione el administrador del grupo:</span><br/>
                 <div class="input-group">
                   <select id="administrador_grupo" class="form-control show-tick" data-live-search="true" autocomplete="off">
                       <option value="0">Seleccionar</option>
@@ -92,7 +92,7 @@ Registro del motivo de una reunión
                       <button class="btn btn-block bg-pink waves-effect registrar" type="button" id="registrar" >Dar de alta</button>
                     </div>
                 </div>
-            </form>""
+            </form>
         </div>
     </div>
 
@@ -136,10 +136,14 @@ Registro del motivo de una reunión
                 </div>
             </div>
             <div class="modal-footer">
-              <center>
-                <button type="button" class="btn bg-pink waves-effect" data-dismiss="modal" onclick="limpiar()">Cancelar</button>
-                <button type="button" class="btn bg-pink waves-effect registrar" data-dismiss="modal" id="editarG">Aceptar</button>
-              </center>
+              <div class="row">
+                <div class="col-xs-6 text-center">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" onclick="limpiar()" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-xs-6 text-center">
+                  <button id="editarG" type="button" onclick="" class="btn btn-block bg-pink waves-effect">Guardar</button>
+                </div>
+              </div>
             </div>
           </form>
         </div>

@@ -93,8 +93,13 @@ Registro de un puesto de usuario
                 </div>
             </div>
             <div class="modal-footer">
-              <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
-                <button type="button" class="btn btn-block bg-pink waves-effect registrar" data-dismiss="modal" id="btnG" onclick="editarG()">Aceptar</button>
+              <div class="row">
+                <div class="col-xs-6 text-center">
+                  <button type="button" class="btn btn-block bg-pink waves-effect" onclick="" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-xs-6 text-center">
+                  <button id="btnGuardar" type="button" onclick="" class="btn btn-block bg-pink waves-effect">Guardar</button>
+                </div>
               </div>
             </div>
           </form>
@@ -115,17 +120,15 @@ $.ajaxSetup({
 var url = "{{asset('/puesto_usuario')}}";
 var urlToRedirectPage = "{{asset('/puesto_usuario')}}";
 
-function aux(id)
-{
+function aux(id){
   var des = $('#puesto_'+id).html();
   $("#desc").val(des);
-  $('#btnG').attr('onclick','editarG('+id+')');
-
+  $('#btnGuardar').attr('onclick','editarG('+id+')');
 }
+
 function editarG(id){
 
   var descripcion = document.getElementById('desc').value;
-  alert(descripcion);
   var formdata = new FormData();
   formdata.append('descripcion', descripcion);
   formdata.append('id_puesto',id);
